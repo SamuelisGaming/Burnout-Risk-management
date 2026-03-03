@@ -6597,23 +6597,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\samuo\\.nuget\\packages\\": {},
+    "C:\\Users\\doman\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\samuo\\source\\repos\\Burnout-Risk-management\\Hamburgerz\\Hamburgerz.csproj",
+      "projectUniqueName": "C:\\Users\\doman\\Desktop\\Githubbbz\\Burnout-Risk-management\\Hamburgerz\\Hamburgerz.csproj",
       "projectName": "Hamburgerz",
-      "projectPath": "C:\\Users\\samuo\\source\\repos\\Burnout-Risk-management\\Hamburgerz\\Hamburgerz.csproj",
-      "packagesPath": "C:\\Users\\samuo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\samuo\\source\\repos\\Burnout-Risk-management\\Hamburgerz\\obj\\",
+      "projectPath": "C:\\Users\\doman\\Desktop\\Githubbbz\\Burnout-Risk-management\\Hamburgerz\\Hamburgerz.csproj",
+      "packagesPath": "C:\\Users\\doman\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\doman\\Desktop\\Githubbbz\\Burnout-Risk-management\\Hamburgerz\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\samuo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\doman\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -6670,7 +6670,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
