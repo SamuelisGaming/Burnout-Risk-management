@@ -16,9 +16,12 @@
                 <input type="password" name="password" placeholder="Slaptažodis" required />
             </div>
 
-            <button type="submit" class="btn btn-outline-primary btn-lg" onclick="document.location='Login'">
+            @* <button type="submit" class="btn btn-outline-primary btn-lg" onclick="document.location='Login'">
                 Prisijungti
-            </button>
+            </button> *@
+            <a asp-controller="Data" asp-action="DataEntry" class="btn btn-outline-primary btn-lg">
+                Prisijungti
+            </a>
 
             <button type="submit" class="btn btn-outline-primary btn-lg" onclick="document.location='Register'">
                 Registruotis

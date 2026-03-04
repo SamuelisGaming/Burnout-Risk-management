@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Hamburgerz")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aa97c27feba9c8a871b3c81bcc7d86f18552c96c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Hamburgerz")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Hamburgerz")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
