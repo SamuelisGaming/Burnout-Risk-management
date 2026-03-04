@@ -1,0 +1,33 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Prisijungimas";
+}
+
+<body>
+    <div class="container py-5">
+        <h1>Prisijungimas</h1>
+        <form method="post">
+            <div>
+                <a>Elektroninis paštas arba slapyvardis:</a>
+                <input name="loginmethod" placeholder="El. paštas/Slapyvardis" required />
+            </div>
+            <div>
+                <a>Slaptažodis:</a>
+                <input type="password" name="password" placeholder="Slaptažodis" required />
+            </div>
+
+            <button type="submit" class="btn btn-outline-primary btn-lg" onclick="document.location='Login'">
+                Prisijungti
+            </button>
+
+            <button type="submit" class="btn btn-outline-primary btn-lg" onclick="document.location='Register'">
+                Registruotis
+            </button>
+
+            <button type="button" class="btn btn-outline-primary btn-lg" onclick="document.location='Home'">
+                Atgal
+            </button>
+
+        </form>
+    </div>
+</body>

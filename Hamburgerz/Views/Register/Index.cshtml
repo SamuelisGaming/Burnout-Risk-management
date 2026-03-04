@@ -1,0 +1,53 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Registracija";
+}
+
+<body>
+    <div class="container py-5">
+        <h1>Registracijos forma</h1>
+        <form method="post">
+            <div>
+                <a>Elektroninis paštas:</a>
+                <input name="elpastas" placeholder="Elektroninis paštas" required />
+            </div>
+            <div>
+                <a>Slapyvardis:</a>
+                <input name="username" placeholder="Slapyvardis" required />
+            </div>
+            <div>
+                <a>Slaptažodis:</a>
+                <input type="password" name="password" placeholder="Slaptažodis" required />
+                <input type="password" name="password" placeholder="Pakartoti slaptažodį" required />
+            </div>
+            <div>
+                <label for="gender_id">Lytis:</label>
+                <select name="gender" id="gender_id" required>
+                    <option value="">Pasirinkite lytį</option>
+                    <option value="male">Lytis</option>
+                    <option value="female">Lytienė</option>
+                    <option value="unknown">Lytne</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-outline-primary btn-lg" onclick="document.location='Register'">
+                Registruotis
+            </button>
+
+            <button type="button" class="btn btn-outline-primary btn-lg" onclick="document.location='Home'">
+                Atgal
+            </button>
+
+        </form>
+
+        <!--
+        <div>
+            <div>@ViewData["Email"]</div>
+        </div>
+
+        <div>
+            <div>@ViewBag.User</div>
+        </div>
+        -->
+    </div>
+</body>

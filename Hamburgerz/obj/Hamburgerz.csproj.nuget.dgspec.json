@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\samuo\\source\\repos\\Burnout-Risk-management\\Hamburgerz\\Hamburgerz.csproj": {}
+    "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Hamburgerz.csproj": {}
   },
   "projects": {
-    "C:\\Users\\samuo\\source\\repos\\Burnout-Risk-management\\Hamburgerz\\Hamburgerz.csproj": {
+    "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Hamburgerz.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\samuo\\source\\repos\\Burnout-Risk-management\\Hamburgerz\\Hamburgerz.csproj",
+        "projectUniqueName": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Hamburgerz.csproj",
         "projectName": "Hamburgerz",
-        "projectPath": "C:\\Users\\samuo\\source\\repos\\Burnout-Risk-management\\Hamburgerz\\Hamburgerz.csproj",
-        "packagesPath": "C:\\Users\\samuo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\samuo\\source\\repos\\Burnout-Risk-management\\Hamburgerz\\obj\\",
+        "projectPath": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Hamburgerz.csproj",
+        "packagesPath": "C:\\Users\\aislu\\.nuget\\packages\\",
+        "outputPath": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\samuo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\aislu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -74,7 +74,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.309/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
