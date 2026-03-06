@@ -6597,23 +6597,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\samuo\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\emili\\.nuget\\packages\\": {},
+    "D:\\Programs\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\samuo\\Documents\\GitHub\\Tikiuos sito nesupisiu\\Burnout-Risk-management\\Hamburgerz\\Hamburgerz.csproj",
+      "projectUniqueName": "C:\\Users\\emili\\Desktop\\Burnout-Risk-management\\Hamburgerz\\Hamburgerz.csproj",
       "projectName": "Hamburgerz",
-      "projectPath": "C:\\Users\\samuo\\Documents\\GitHub\\Tikiuos sito nesupisiu\\Burnout-Risk-management\\Hamburgerz\\Hamburgerz.csproj",
-      "packagesPath": "C:\\Users\\samuo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\samuo\\Documents\\GitHub\\Tikiuos sito nesupisiu\\Burnout-Risk-management\\Hamburgerz\\obj\\",
+      "projectPath": "C:\\Users\\emili\\Desktop\\Burnout-Risk-management\\Hamburgerz\\Hamburgerz.csproj",
+      "packagesPath": "C:\\Users\\emili\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\emili\\Desktop\\Burnout-Risk-management\\Hamburgerz\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "D:\\Programs\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\samuo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\emili\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -6622,6 +6622,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -6640,7 +6641,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.200"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net9.0": {
@@ -6670,7 +6671,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
