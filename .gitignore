@@ -1,6 +1,6 @@
 # Build output
-[Bb]in/
-[Oo]bj/
+**/[Bb]in/
+**/[Oo]bj/
 
 # Visual Studio
 .vs/
@@ -41,11 +41,11 @@ TestResults/
 publish/
 
 # Local app secrets / env-specific config
-appsettings.Development.json
+**/appsettings.Development.json
 
 # Generated static assets caches
 wwwroot/dist/
 wwwroot/build/
 
-# Node modules, jei kada naudosit frontendo tooling
+# Node modules
 node_modules/
