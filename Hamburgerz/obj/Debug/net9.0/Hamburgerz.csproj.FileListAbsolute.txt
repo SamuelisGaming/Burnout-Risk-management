@@ -319,7 +319,6 @@ C:\Users\samuo\source\repos\Hamburgerz\Hamburgerz\bin\Debug\net9.0\zh-Hant\Micro
 C:\Users\samuo\source\repos\Hamburgerz\Hamburgerz\bin\Debug\net9.0\runtimes\win\lib\net8.0\System.Windows.Extensions.dll
 C:\Users\samuo\source\repos\Hamburgerz\Hamburgerz\obj\Debug\net9.0\Hamburgerz.csproj.AssemblyReference.cache
 C:\Users\samuo\source\repos\Hamburgerz\Hamburgerz\obj\Debug\net9.0\Hamburgerz.csproj.Up2Date
-C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\bin\Debug\net9.0\appsettings.json
 C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\bin\Debug\net9.0\Hamburgerz.staticwebassets.runtime.json
 C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\bin\Debug\net9.0\Hamburgerz.staticwebassets.endpoints.json
@@ -566,7 +565,6 @@ C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\obj\Debug\ne
 C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\obj\Debug\net9.0\scopedcss\bundle\Hamburgerz.styles.css
 C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\obj\Debug\net9.0\scopedcss\projectbundle\Hamburgerz.bundle.scp.css
-C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\obj\Debug\net9.0\compressed\im87eyxcqe-b9sayid5wm.gz
 C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\obj\Debug\net9.0\compressed\p80uez97g7-61n19gt1b8.gz
 C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\obj\Debug\net9.0\compressed\6n35n1qy4t-xtxxf3hu2r.gz
 C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\obj\Debug\net9.0\compressed\0n7mjssmii-t1cqhe9u97.gz
@@ -640,3 +638,6 @@ C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\obj\Debug\ne
 C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\obj\Debug\net9.0\Hamburgerz.pdb
 C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\obj\Debug\net9.0\Hamburgerz.genruntimeconfig.cache
 C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\obj\Debug\net9.0\ref\Hamburgerz.dll
+C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\obj\Debug\net9.0\compressed\im87eyxcqe-ho7lmbzuqn.gz
+C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\obj\Debug\net9.0\compressed\bi2ty86aif-h4tpi1coxl.gz
+C:\Users\doman\Desktop\Githubbbz\Burnout-Risk-management\Hamburgerz\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
