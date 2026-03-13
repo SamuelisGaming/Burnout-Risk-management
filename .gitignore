@@ -1,4 +1,6 @@
 # Build output
+[Bb]in/
+[Oo]bj/
 **/[Bb]in/
 **/[Oo]bj/
 
@@ -41,6 +43,7 @@ TestResults/
 publish/
 
 # Local app secrets / env-specific config
+appsettings.Development.json
 **/appsettings.Development.json
 
 # Generated static assets caches

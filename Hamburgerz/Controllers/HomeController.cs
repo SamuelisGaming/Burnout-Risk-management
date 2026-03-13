@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Hamburgerz.Helpers;
 using Hamburgerz.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,10 @@ namespace Hamburgerz.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.IsLoggedIn = HttpContext.Session.IsLoggedIn();
+            ViewBag.Username = HttpContext.Session.GetUsername();
+            ViewBag.UserType = HttpContext.Session.GetUserType();
+
             return View();
         }
 

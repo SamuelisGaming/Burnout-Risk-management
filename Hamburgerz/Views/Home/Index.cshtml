@@ -1,5 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Pagrindinis";
+    bool isLoggedIn = ViewBag.IsLoggedIn ?? false;
+    string? username = ViewBag.Username as string;
+    string? userType = ViewBag.UserType as string;
 }
 
 <div class="container py-5">
@@ -7,27 +10,46 @@
         <div class="col-lg-8">
             <div class="p-5 border rounded-3 text-center shadow-sm">
 
-                <h1 class="display-5 fw-bold mb-4">
-                    Rizikos valdymas
-                </h1>
+                @if (!isLoggedIn)
+                {
+                    <h1 class="display-5 fw-bold mb-4">
+                        Rizikos valdymas
+                    </h1>
 
-                <div class="d-flex justify-content-center gap-3">
-<<<<<<< HEAD
-                    <button type="button" class="btn btn-primary btn-lg">
-                        Prisijungti
-                    </button>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a asp-controller="Login" asp-action="Index" class="btn btn-primary btn-lg">
+                            Prisijungti
+                        </a>
 
-                    <button type="button" class="btn btn-outline-primary btn-lg">
-=======
-                    <button type="button" class="btn btn-primary btn-lg" onclick="document.location='Login'">
-                        Prisijungti
-                    </button>
+                        <a asp-controller="Register" asp-action="Index" class="btn btn-outline-primary btn-lg">
+                            Registruotis
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <h1 class="display-5 fw-bold mb-3">
+                        Sveikas, @(username ?? "vartotojau")
+                    </h1>
 
-                    <button type="button" class="btn btn-outline-primary btn-lg" onclick="document.location='Register'">
->>>>>>> main
-                        Registruotis
-                    </button>
-                </div>
+                    <p class="lead mb-4">
+                        Tu esi prisijungęs prie sistemos.
+                    </p>
+
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a asp-controller="Data" asp-action="DataEntry" class="btn btn-primary btn-lg">
+                        Naujas matavimas
+                    </a>
+
+                        <a asp-controller="Profile" asp-action="History" class="btn btn-outline-secondary btn-lg">
+                            Peržiūrėti istoriją
+                        </a>
+
+                        <a asp-controller="Login" asp-action="Logout" class="btn btn-outline-danger btn-lg">
+                            Atsijungti
+                        </a>
+                    </div>
+                }
 
             </div>
         </div>

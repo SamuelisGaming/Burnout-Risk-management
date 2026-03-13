@@ -4,14 +4,16 @@ namespace Hamburgerz.Controllers
 {
     public class DataController : Controller
     {
+        [HttpGet]
         public IActionResult DataEntry()
         {
             return View();
         }
 
+        [HttpPost]
         public IActionResult SubmitData()
         {
-            return View();
+            return RedirectToAction("Index", "Risk");
         }
     }
 }
