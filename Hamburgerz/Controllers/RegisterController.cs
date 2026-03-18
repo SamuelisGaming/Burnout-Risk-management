@@ -48,9 +48,9 @@ namespace Hamburgerz.Controllers
 
             var normalizedGender = model.Gender switch
             {
-                "male" => "Male",
-                "female" => "Female",
-                "other" => "Other",
+                "male" => "Vyras",
+                "female" => "Moteris",
+                "other" => "Kita",
                 _ => string.Empty
             };
 
