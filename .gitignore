@@ -52,3 +52,4 @@ wwwroot/build/
 
 # Node modules
 node_modules/
+/Hamburgerz/bin

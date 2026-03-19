@@ -1,56 +1,122 @@
-﻿@{
-    ViewData["Title"] = "DataEntry";
+﻿@model Hamburgerz.Models.RiskData
+
+@{
+    ViewData["Title"] = "Burnout Risk Assessment";
 }
 
-<div class="container mt-5">
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h2 class="mb-0">Burnout Risk Tracker</h2>
+<div class="container mt-4">
+    <h2>Burnout Risk Assessment</h2>
+    <p class="text-muted">Please fill out the details below to calculate your productivity and risk scores.</p>
+    <hr />
+
+    <form asp-controller="Data" asp-action="DataEntry" method="post" class="row g-3">
+
+        <div class="col-md-4">
+            <label asp-for="Age" class="form-label">Amžius</label>
+            <input asp-for="Age" class="form-control" type="number" />
+            <span asp-validation-for="Age" class="text-danger"></span>
         </div>
-        <div class="card-body">
-            <p class="text-muted">Enter your weekly averages to see your balance.</p>
-            <hr />
 
-            <form asp-controller="Data" asp-action="SubmitData" method="post">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label font-weight-bold">Daily Sleep (Hours)</label>
-                        <input type="number" class="form-control" name="DailySleep" placeholder="e.g. 7" step="0.5" required>
-                        <small class="text-muted">Average hours per night.</small>
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label font-weight-bold">Weekly Work (Hours)</label>
-                        <input type="number" class="form-control" name="WeeklyWork" placeholder="e.g. 40" required>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label font-weight-bold">Social/Family Time (Weekly Hours)</label>
-                        <input type="number" class="form-control" name="SocialTime" placeholder="e.g. 15" required>
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label font-weight-bold">Weekly Commute (Hours)</label>
-                        <input type="number" class="form-control" name="CommuteTime" placeholder="e.g. 5">
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label font-weight-bold">Current Stress Level (1-10)</label>
-                    <input type="range" class="form-range" min="1" max="10" name="StressLevel" id="stressRange">
-                    <div class="d-flex justify-content-between">
-                        <span>Low</span>
-                        <span>High</span>
-                    </div>
-                </div>
-
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-success btn-lg">Analyze My Risk</button>
-                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Back to Dashboard</a>
-                </div>
-            </form>
+        <div class="col-md-4">
+            <label asp-for="Country" class="form-label">Šalis</label>
+            <input asp-for="Country" class="form-control" />
+            <span asp-validation-for="Country" class="text-danger"></span>
         </div>
-    </div>
+
+        <div class="col-md-6">
+            <label asp-for="JobRole" class="form-label">Darbo pozicija</label>
+            <input asp-for="JobRole" class="form-control" />
+            <span asp-validation-for="JobRole" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="ExperienceYears" class="form-label">Patirties metai</label>
+            <input asp-for="ExperienceYears" class="form-control" type="number" />
+            <span asp-validation-for="ExperienceYears" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="CompanySize" class="form-label">Kompanijos dydis</label>
+            <select asp-for="CompanySize" class="form-select">
+                <option value="">Pasirinkite...</option>
+                <option value="Maža">Maža (1-50)</option>
+                <option value="Vidutinė">Vidutinė (51-250)</option>
+                <option value="Didelė">Didelė (250+)</option>
+            </select>
+            <span asp-validation-for="CompanySize" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="WorkHours" class="form-label">Darbo valandos/dieną</label>
+            <input asp-for="WorkHours" class="form-control" />
+            <span asp-validation-for="WorkHours" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="MeetingsPerDay" class="form-label">Susirinkimai/dieną</label>
+            <input asp-for="MeetingsPerDay" class="form-control" />
+            <span asp-validation-for="MeetingsPerDay" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="InternetSpeed" class="form-label">Interneto greitis (Mbps)</label>
+            <input asp-for="InternetSpeed" class="form-control" />
+            <span asp-validation-for="InternetSpeed" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="WorkEnvironment" class="form-label">Darbo pobūdis</label>
+            <select asp-for="WorkEnvironment" class="form-select">
+                <option value="">Pasirinkite...</option>
+                <option value="Remote">Nuotolinis</option>
+                <option value="Office">Biuras</option>
+                <option value="Hybrid">Hibridinis</option>
+            </select>
+            <span asp-validation-for="WorkEnvironment" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="SleepHours" class="form-label">Miego valandos</label>
+            <input asp-for="SleepHours" class="form-control" step="0.5" />
+            <span asp-validation-for="SleepHours" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="ExerciseHours" class="form-label">Sporto valandos</label>
+            <input asp-for="ExerciseHours" class="form-control" step="0.5" />
+            <span asp-validation-for="ExerciseHours" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="ScreenTime" class="form-label">Ekrano valandos</label>
+            <input asp-for="ScreenTime" class="form-control" step="0.5" />
+            <span asp-validation-for="ScreenTime" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="StressLevel" class="form-label">Streso lygis</label>
+            <select asp-for="StressLevel" class="form-select">
+                <option value="">Pasirinkite...</option>
+                <option value="Žemas">Žemas</option>
+                <option value="Vidutinis">Vidutinis</option>
+                <option value="Aukštas">Aukštas</option>
+            </select>
+            <span asp-validation-for="StressLevel" class="text-danger"></span>
+        </div>
+
+        
+        @{
+            var userId = Context.Session.GetInt32("UserId");
+        }
+        <input type="hidden" name="UserId" value="@userId" />
+        <div class="col-12 mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">Išsaugoti duomenis</button>
+        </div>
+    </form>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
