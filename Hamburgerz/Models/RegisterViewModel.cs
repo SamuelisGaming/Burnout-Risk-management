@@ -1,28 +1,38 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Hamburgerz.Models
 {
-    public class RegisterViewModel
+    public class RegisterViewModel : IValidatableObject
     {
-        [Required(ErrorMessage = "Įveskite el. paštą")]
-        [EmailAddress(ErrorMessage = "Neteisingas el. pašto formatas")]
+        [Required(ErrorMessage = "Iveskite el. pasta")]
+        [EmailAddress(ErrorMessage = "Neteisingas el. pasto formatas")]
         public string Email { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Įveskite slapyvardį")]
-        [StringLength(20, MinimumLength = 3, ErrorMessage = "Slapyvardis turi būti 3-20 simbolių")]
+        [Required(ErrorMessage = "Iveskite slapyvardi")]
+        [StringLength(20, MinimumLength = 3, ErrorMessage = "Slapyvardis turi buti 3-20 simboliu")]
         public string Username { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Pasirinkite lytį")]
+        [Required(ErrorMessage = "Pasirinkite lyti")]
         public string Gender { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Įveskite slaptažodį")]
+        [Required(ErrorMessage = "Iveskite slaptazodi")]
         [DataType(DataType.Password)]
-        [MinLength(6, ErrorMessage = "Slaptažodis turi būti bent 6 simbolių")]
         public string Password { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Pakartokite slaptažodį")]
+        [Required(ErrorMessage = "Pakartokite slaptazodi")]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Slaptažodžiai nesutampa")]
+        [Compare("Password", ErrorMessage = "Slaptazodziai nesutampa")]
         public string PasswordRepeat { get; set; } = string.Empty;
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (!string.IsNullOrWhiteSpace(Password) && !PasswordRules.IsStrong(Password))
+            {
+                yield return new ValidationResult(
+                    PasswordRules.RequirementsMessage,
+                    new[] { nameof(Password) });
+            }
+        }
     }
 }
