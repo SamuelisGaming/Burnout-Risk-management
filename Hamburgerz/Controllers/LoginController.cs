@@ -1,94 +1,76 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Hamburgerz.Data;
+using Hamburgerz.Helpers;
+using Hamburgerz.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hamburgerz.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly string tempMail = "vardenis.pavardenis@ktu.edu";
-        private readonly string tempUser = "varpav";
+        private readonly AppDbContext _context;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
-        // GET: LoginController
-        //public ActionResult Index()
-        public ActionResult Index()
+        public LoginController(AppDbContext context, IPasswordHasher<User> passwordHasher)
         {
-            return View();
+            _context = context;
+            _passwordHasher = passwordHasher;
         }
 
-        public ActionResult Registracija()
+        [HttpGet]
+        public IActionResult Index()
         {
-            ViewData["Email"] = tempMail;
-            ViewBag.User = tempUser;
-            return View();
+            if (HttpContext.Session.IsLoggedIn())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(new LoginViewModel());
         }
 
-        // GET: LoginController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: LoginController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: LoginController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Index(LoginViewModel model)
         {
-            try
+            if (HttpContext.Session.IsLoggedIn())
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
-            catch
+
+            if (!ModelState.IsValid)
             {
-                return View();
+                return View(model);
             }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Neteisingas el. paštas arba slaptažodis");
+                return View(model);
+            }
+
+            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHashed, model.Password);
+
+            if (result == PasswordVerificationResult.Failed)
+            {
+                ModelState.AddModelError(string.Empty, "Neteisingas el. paštas arba slaptažodis");
+                return View(model);
+            }
+
+            HttpContext.Session.SetInt32("UserId", user.Id);
+            HttpContext.Session.SetString("Username", user.Username);
+            HttpContext.Session.SetString("UserType", user.UserType);
+            HttpContext.Session.SetString("Email", user.Email);
+
+            return RedirectToAction("Index", "Home");
         }
 
-        // GET: LoginController/Edit/5
-        public ActionResult Edit(int id)
+        public IActionResult Logout()
         {
-            return View();
-        }
-
-        // POST: LoginController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: LoginController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: LoginController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

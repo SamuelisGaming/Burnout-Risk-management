@@ -1,53 +1,193 @@
-﻿@model LoginViewModel
+﻿@model Hamburgerz.Models.RegisterViewModel
 @{
     ViewData["Title"] = "Registracija";
 }
 
-<body>
-    <div class="container py-5">
-        <h1>Registracijos forma</h1>
-        <form method="post">
-            <div>
-                <a>Elektroninis paštas:</a>
-                <input name="elpastas" placeholder="Elektroninis paštas" required />
-            </div>
-            <div>
-                <a>Slapyvardis:</a>
-                <input name="username" placeholder="Slapyvardis" required />
-            </div>
-            <div>
-                <a>Slaptažodis:</a>
-                <input type="password" name="password" placeholder="Slaptažodis" required />
-                <input type="password" name="password" placeholder="Pakartoti slaptažodį" required />
-            </div>
-            <div>
-                <label for="gender_id">Lytis:</label>
-                <select name="gender" id="gender_id" required>
-                    <option value="">Pasirinkite lytį</option>
-                    <option value="male">Lytis</option>
-                    <option value="female">Lytienė</option>
-                    <option value="unknown">Lytne</option>
-                </select>
-            </div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="app-surface p-4 p-md-5">
+                <h1 class="page-title h2 mb-4">Registracijos forma</h1>
 
-            <button type="submit" class="btn btn-outline-primary btn-lg" onclick="document.location='Register'">
-                Registruotis
-            </button>
+                <form asp-action="Index" method="post">
+                    @Html.AntiForgeryToken()
 
-            <button type="button" class="btn btn-outline-primary btn-lg" onclick="document.location='Home'">
-                Atgal
-            </button>
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-        </form>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">Elektroninis paštas</label>
+                        <input asp-for="Email" class="form-control" placeholder="Elektroninis paštas" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
 
-        <!--
-        <div>
-            <div>@ViewData["Email"]</div>
+                    <div class="mb-3">
+                        <label asp-for="Username" class="form-label">Slapyvardis</label>
+                        <input asp-for="Username" class="form-control" placeholder="Slapyvardis" />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label">Slaptažodis (turi turėti didžiąją, mažąją raidę, skaičių ir spec. simbolį)</label>
+                        
+                        <div class="input-group">
+                            <input asp-for="Password" class="form-control" id="passwordInput" placeholder="Slaptažodis" />
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                👁️
+                            </button>                       
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <div class="mt-2">
+                            <div id="passwordStrengthBar" class="progress" style="height: 6px;">
+                                <div id="passwordStrengthFill" class="progress-bar"></div>
+                            </div>
+                            <small id="passwordStrengthText" class="text-muted"></small>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="PasswordRepeat" class="form-label">Pakartoti slaptažodį</label>
+
+                        <div class="input-group">
+                            <input asp-for="PasswordRepeat" class="form-control" id="passwordRepeatInput" placeholder="Pakartoti slaptažodį" />
+                            <button class="btn btn-outline-secondary" type="button" id="togglePasswordRepeat">
+                                👁️
+                            </button>
+                        </div>
+
+                        <span asp-validation-for="PasswordRepeat" class="text-danger"></span>
+
+                        <small id="passwordMatchText" class="text-muted"></small>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Gender" class="form-label">Lytis</label>
+                        <select asp-for="Gender" class="form-select">
+                            <option value="">Pasirinkite lytį</option>
+                            <option value="male">Vyras</option>
+                            <option value="female">Moteris</option>
+                            <option value="other">Kita</option>
+                        </select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="CountryID" class="form-label">Šalis</label>
+                        <select asp-for="CountryID" asp-items="Model.Countries"
+                                class="form-select selectpicker"
+                                data-live-search="true">
+                            <option value="">Pasirinkite šalį</option>
+                        </select>
+                        <span asp-validation-for="CountryID" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="d-flex flex-wrap gap-3">
+                        <button type="submit" class="btn btn-secondary btn-lg">
+                            Registruotis
+                        </button>
+
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary btn-lg">
+                            Atgal
+                        </a>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <div>
-            <div>@ViewBag.User</div>
-        </div>
-        -->
     </div>
-</body>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    
+    <script>
+        // INITIALIZING COUNTRIES LIST
+        $('.selectpicker').selectpicker();
+    </script>
+
+
+    <script>
+        const passwordInput = document.getElementById("passwordInput");
+        const passwordRepeatInput = document.getElementById("passwordRepeatInput");
+
+        const bar = document.getElementById("passwordStrengthFill");
+        const text = document.getElementById("passwordStrengthText");
+        const matchText = document.getElementById("passwordMatchText");
+
+        const togglePassword = document.getElementById("togglePassword");
+        const togglePasswordRepeat = document.getElementById("togglePasswordRepeat");
+
+        // PASSWORD STRENGTH METER
+        function updateStrength() {
+            const pwd = passwordInput.value;
+
+            let score = 0;
+            if (pwd.length >= 6) score++;
+            if (/[a-z]/.test(pwd)) score++;
+            if (/[A-Z]/.test(pwd)) score++;
+            if (/[0-9]/.test(pwd)) score++;
+            if (/[^a-zA-Z0-9]/.test(pwd)) score++;
+
+            const percent = (score / 5) * 100;
+            bar.style.width = percent + "%";
+
+            if (score <= 1) {
+                bar.className = "progress-bar bg-danger";
+                text.textContent = "Labai silpnas slaptažodis";
+            } else if (score === 2) {
+                bar.className = "progress-bar bg-warning";
+                text.textContent = "Silpnas slaptažodis";
+            } else if (score === 3) {
+                bar.className = "progress-bar bg-info";
+                text.textContent = "Vidutinis slaptažodis";
+            } else if (score === 4) {
+                bar.className = "progress-bar bg-primary";
+                text.textContent = "Stiprus slaptažodis";
+            } else {
+                bar.className = "progress-bar bg-success";
+                text.textContent = "Labai stiprus slaptažodis";
+            }
+        }
+
+        // PASSWORD MATCH INDICATOR
+        function updateMatch() {
+            if (!passwordRepeatInput.value) {
+                matchText.textContent = "";
+                return;
+            }
+
+            if (passwordInput.value === passwordRepeatInput.value) {
+                matchText.textContent = "Slaptažodžiai sutampa";
+                matchText.className = "text-success";
+            }             
+            else {
+                matchText.textContent = "Slaptažodžiai nesutampa";
+                matchText.className = "text-danger";
+            }
+            
+        }
+
+        // SHOW/HIDE PASSWORD TOGGLES
+        togglePassword.addEventListener("click", () => {
+            const type = passwordInput.type === "password" ? "text" : "password";
+            passwordInput.type = type;
+        });
+
+        togglePasswordRepeat.addEventListener("click", () => {
+            const type = passwordRepeatInput.type === "password" ? "text" : "password";
+            passwordRepeatInput.type = type;
+        });
+
+        // EVENT LISTENERS
+        passwordInput.addEventListener("input", () => {
+            updateStrength();
+            updateMatch();
+        });
+
+        passwordRepeatInput.addEventListener("input", updateMatch);
+
+        // Run once on load (useful after validation errors)
+        updateStrength();
+        updateMatch();
+    </script>
+}

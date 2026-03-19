@@ -1,38 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\",
+  "WorkspaceRootPath": "E:\\Darbai\\pvp\\Burnout-Risk-management-DB_thingies\\Burnout-Risk-management-DB_thingies\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|e:\\darbai\\pvp\\burnout-risk-management-main\\hamburgerz\\controllers\\registercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|e:\\darbai\\pvp\\burnout-risk-management-db_thingies\\burnout-risk-management-db_thingies\\hamburgerz\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|solutionrelative:hamburgerz\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|e:\\darbai\\pvp\\burnout-risk-management-db_thingies\\burnout-risk-management-db_thingies\\hamburgerz\\controllers\\registercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|solutionrelative:hamburgerz\\controllers\\registercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|e:\\darbai\\pvp\\burnout-risk-management-main\\hamburgerz\\views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|solutionrelative:hamburgerz\\views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|e:\\darbai\\pvp\\burnout-risk-management-main\\hamburgerz\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|solutionrelative:hamburgerz\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|e:\\darbai\\pvp\\burnout-risk-management-main\\hamburgerz\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|solutionrelative:hamburgerz\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|e:\\darbai\\pvp\\burnout-risk-management-main\\hamburgerz\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|solutionrelative:hamburgerz\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|e:\\darbai\\pvp\\burnout-risk-management-main\\hamburgerz\\views\\register\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|e:\\darbai\\pvp\\burnout-risk-management-db_thingies\\burnout-risk-management-db_thingies\\hamburgerz\\views\\register\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|solutionrelative:hamburgerz\\views\\register\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|e:\\darbai\\pvp\\burnout-risk-management-main\\hamburgerz\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|solutionrelative:hamburgerz\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|e:\\darbai\\pvp\\burnout-risk-management-db_thingies\\burnout-risk-management-db_thingies\\hamburgerz\\views\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|solutionrelative:hamburgerz\\views\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|e:\\darbai\\pvp\\burnout-risk-management-main\\hamburgerz\\models\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|solutionrelative:hamburgerz\\models\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|e:\\darbai\\pvp\\burnout-risk-management-db_thingies\\burnout-risk-management-db_thingies\\hamburgerz\\models\\country.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|solutionrelative:hamburgerz\\models\\country.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|e:\\darbai\\pvp\\burnout-risk-management-db_thingies\\burnout-risk-management-db_thingies\\hamburgerz\\models\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{025B5F29-C4A5-47AB-A889-2176BA898B0D}|Hamburgerz\\Hamburgerz.csproj|solutionrelative:hamburgerz\\models\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,106 +42,81 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "RegisterController.cs",
-              "DocumentMoniker": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Controllers\\RegisterController.cs",
-              "RelativeDocumentMoniker": "Hamburgerz\\Controllers\\RegisterController.cs",
-              "ToolTip": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Controllers\\RegisterController.cs",
-              "RelativeToolTip": "Hamburgerz\\Controllers\\RegisterController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAApAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "E:\\Darbai\\pvp\\Burnout-Risk-management-DB_thingies\\Burnout-Risk-management-DB_thingies\\Hamburgerz\\Views\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Hamburgerz\\Views\\Data\\AppDbContext.cs",
+              "ToolTip": "E:\\Darbai\\pvp\\Burnout-Risk-management-DB_thingies\\Burnout-Risk-management-DB_thingies\\Hamburgerz\\Views\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "Hamburgerz\\Views\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-04T13:07:26.651Z",
+              "WhenOpened": "2026-03-18T23:59:54.551Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Country.cs",
+              "DocumentMoniker": "E:\\Darbai\\pvp\\Burnout-Risk-management-DB_thingies\\Burnout-Risk-management-DB_thingies\\Hamburgerz\\Models\\Country.cs",
+              "RelativeDocumentMoniker": "Hamburgerz\\Models\\Country.cs",
+              "ToolTip": "E:\\Darbai\\pvp\\Burnout-Risk-management-DB_thingies\\Burnout-Risk-management-DB_thingies\\Hamburgerz\\Models\\Country.cs",
+              "RelativeToolTip": "Hamburgerz\\Models\\Country.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T23:59:30.768Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "User.cs",
+              "DocumentMoniker": "E:\\Darbai\\pvp\\Burnout-Risk-management-DB_thingies\\Burnout-Risk-management-DB_thingies\\Hamburgerz\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Hamburgerz\\Models\\User.cs",
+              "ToolTip": "E:\\Darbai\\pvp\\Burnout-Risk-management-DB_thingies\\Burnout-Risk-management-DB_thingies\\Hamburgerz\\Models\\User.cs",
+              "RelativeToolTip": "Hamburgerz\\Models\\User.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAYwBsAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T23:55:13.794Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RegisterController.cs",
+              "DocumentMoniker": "E:\\Darbai\\pvp\\Burnout-Risk-management-DB_thingies\\Burnout-Risk-management-DB_thingies\\Hamburgerz\\Controllers\\RegisterController.cs",
+              "RelativeDocumentMoniker": "Hamburgerz\\Controllers\\RegisterController.cs",
+              "ToolTip": "E:\\Darbai\\pvp\\Burnout-Risk-management-DB_thingies\\Burnout-Risk-management-DB_thingies\\Hamburgerz\\Controllers\\RegisterController.cs",
+              "RelativeToolTip": "Hamburgerz\\Controllers\\RegisterController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAvwCYAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T23:19:22.721Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "Hamburgerz\\Views\\Home\\Index.cshtml",
-              "ToolTip": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "Hamburgerz\\Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAeAAAAAAAAAA==",
+              "DocumentMoniker": "E:\\Darbai\\pvp\\Burnout-Risk-management-DB_thingies\\Burnout-Risk-management-DB_thingies\\Hamburgerz\\Views\\Register\\Index.cshtml",
+              "RelativeDocumentMoniker": "Hamburgerz\\Views\\Register\\Index.cshtml",
+              "ToolTip": "E:\\Darbai\\pvp\\Burnout-Risk-management-DB_thingies\\Burnout-Risk-management-DB_thingies\\Hamburgerz\\Views\\Register\\Index.cshtml",
+              "RelativeToolTip": "Hamburgerz\\Views\\Register\\Index.cshtml",
+              "ViewState": "AgIAAIcAAAAAAAAAAAAAAJUAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-04T13:05:16.381Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Views\\Login\\Index.cshtml",
-              "RelativeDocumentMoniker": "Hamburgerz\\Views\\Login\\Index.cshtml",
-              "ToolTip": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Views\\Login\\Index.cshtml",
-              "RelativeToolTip": "Hamburgerz\\Views\\Login\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-04T13:04:58.768Z",
+              "WhenOpened": "2026-03-18T21:39:18.615Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Views\\Register\\Index.cshtml",
-              "RelativeDocumentMoniker": "Hamburgerz\\Views\\Register\\Index.cshtml",
-              "ToolTip": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Views\\Register\\Index.cshtml",
-              "RelativeToolTip": "Hamburgerz\\Views\\Register\\Index.cshtml",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAACAAAABtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-04T13:04:31.486Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "LoginController.cs",
-              "DocumentMoniker": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Controllers\\LoginController.cs",
-              "RelativeDocumentMoniker": "Hamburgerz\\Controllers\\LoginController.cs",
-              "ToolTip": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Controllers\\LoginController.cs",
-              "RelativeToolTip": "Hamburgerz\\Controllers\\LoginController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAAJAAAAAAAAAA==",
+              "Title": "RegisterViewModel.cs",
+              "DocumentMoniker": "E:\\Darbai\\pvp\\Burnout-Risk-management-DB_thingies\\Burnout-Risk-management-DB_thingies\\Hamburgerz\\Models\\RegisterViewModel.cs",
+              "RelativeDocumentMoniker": "Hamburgerz\\Models\\RegisterViewModel.cs",
+              "ToolTip": "E:\\Darbai\\pvp\\Burnout-Risk-management-DB_thingies\\Burnout-Risk-management-DB_thingies\\Hamburgerz\\Models\\RegisterViewModel.cs",
+              "RelativeToolTip": "Hamburgerz\\Models\\RegisterViewModel.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAA3wCMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-03T18:38:25.328Z",
+              "WhenOpened": "2026-03-18T21:39:07.547Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Program.cs",
-              "DocumentMoniker": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Program.cs",
-              "RelativeDocumentMoniker": "Hamburgerz\\Program.cs",
-              "ToolTip": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Program.cs",
-              "RelativeToolTip": "Hamburgerz\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-20T12:38:17.81Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Hamburgerz\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Hamburgerz\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAACMAAAB7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-03T18:42:00.109Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "LoginViewModel.cs",
-              "DocumentMoniker": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Models\\LoginViewModel.cs",
-              "RelativeDocumentMoniker": "Hamburgerz\\Models\\LoginViewModel.cs",
-              "ToolTip": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Models\\LoginViewModel.cs",
-              "RelativeToolTip": "Hamburgerz\\Models\\LoginViewModel.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwA8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-03T18:30:05.772Z"
             }
           ]
         }

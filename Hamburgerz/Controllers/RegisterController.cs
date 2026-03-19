@@ -1,94 +1,107 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Hamburgerz.Data;
+using Hamburgerz.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hamburgerz.Controllers
 {
     public class RegisterController : Controller
     {
-        private readonly string tempMail = "vardenis.pavardenis@ktu.edu";
-        private readonly string tempUser = "varpav";
+        private readonly AppDbContext _context;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
-        // GET: LoginController
-        //public ActionResult Index()
-        public ActionResult Index()
+        public RegisterController(AppDbContext context, IPasswordHasher<User> passwordHasher)
         {
-            return View();
+            _context = context;
+            _passwordHasher = passwordHasher;
+        }
+        /*
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View(new RegisterViewModel());
+        }*/
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var model = new RegisterViewModel
+            {
+                Countries = await _context.Countries
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.Id.ToString(),
+                        Text = c.Name
+                    })
+                    .ToListAsync()
+            };
+
+            return View(model);
         }
 
-        public ActionResult Registracija()
-        {
-            ViewData["Email"] = tempMail;
-            ViewBag.User = tempUser;
-            return View();
-        }
-
-        // GET: LoginController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: LoginController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: LoginController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Index(RegisterViewModel model)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                model.Countries = await _context.Countries
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.Id.ToString(),
+                        Text = c.Name
+                    })
+                    .ToListAsync();
+                return View(model);
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: LoginController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+            var emailExists = await _context.Users.AnyAsync(u => u.Email == model.Email);
+            if (emailExists)
+            {
+                ModelState.AddModelError("Email", "Toks el. paštas jau naudojamas");
+                return View(model);
+            }
 
-        // POST: LoginController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
+            var usernameExists = await _context.Users.AnyAsync(u => u.Username == model.Username);
+            if (usernameExists)
             {
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("Username", "Toks slapyvardis jau naudojamas");
+                return View(model);
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: LoginController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+            var normalizedGender = model.Gender switch
+            {
+                "male" => "Male",
+                "female" => "Female",
+                "other" => "Other",
+                _ => string.Empty
+            };
 
-        // POST: LoginController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+            if (string.IsNullOrEmpty(normalizedGender))
             {
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("Gender", "Pasirinkite tinkamą lytį");
+                return View(model);
             }
-            catch
+
+            var user = new User
             {
-                return View();
-            }
+                Username = model.Username,
+                Email = model.Email,
+                Gender = normalizedGender,
+                CountryID = model.CountryID,
+                IsEmailVerified = false,
+                UserType = "user"
+            };
+
+            user.PasswordHashed = _passwordHasher.HashPassword(user, model.Password);
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Registracija sėkminga. Dabar galite prisijungti.";
+            return RedirectToAction("Index", "Login");
         }
     }
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+klRGrWkluw=",
+  "dgSpecHash": "MAJfRprMje8=",
   "success": true,
-  "projectFilePath": "E:\\Darbai\\pvp\\Burnout-Risk-management-main\\Hamburgerz\\Hamburgerz.csproj",
+  "projectFilePath": "E:\\Darbai\\pvp\\Burnout-Risk-management-DB_thingies\\Burnout-Risk-management-DB_thingies\\Hamburgerz\\Hamburgerz.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\aislu\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\aislu\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
@@ -99,6 +99,7 @@
     "C:\\Users\\aislu\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.utils\\9.0.12\\microsoft.visualstudio.web.codegeneration.utils.9.0.12.nupkg.sha512",
     "C:\\Users\\aislu\\.nuget\\packages\\microsoft.visualstudio.web.codegenerators.mvc\\9.0.12\\microsoft.visualstudio.web.codegenerators.mvc.9.0.12.nupkg.sha512",
     "C:\\Users\\aislu\\.nuget\\packages\\mono.texttemplating\\3.0.0\\mono.texttemplating.3.0.0.nupkg.sha512",
+    "C:\\Users\\aislu\\.nuget\\packages\\mysqlconnector\\2.4.0\\mysqlconnector.2.4.0.nupkg.sha512",
     "C:\\Users\\aislu\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\aislu\\.nuget\\packages\\nuget.common\\6.12.1\\nuget.common.6.12.1.nupkg.sha512",
     "C:\\Users\\aislu\\.nuget\\packages\\nuget.configuration\\6.12.1\\nuget.configuration.6.12.1.nupkg.sha512",
@@ -109,6 +110,7 @@
     "C:\\Users\\aislu\\.nuget\\packages\\nuget.projectmodel\\6.12.1\\nuget.projectmodel.6.12.1.nupkg.sha512",
     "C:\\Users\\aislu\\.nuget\\packages\\nuget.protocol\\6.12.1\\nuget.protocol.6.12.1.nupkg.sha512",
     "C:\\Users\\aislu\\.nuget\\packages\\nuget.versioning\\6.12.1\\nuget.versioning.6.12.1.nupkg.sha512",
+    "C:\\Users\\aislu\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\9.0.0\\pomelo.entityframeworkcore.mysql.9.0.0.nupkg.sha512",
     "C:\\Users\\aislu\\.nuget\\packages\\system.codedom\\7.0.0\\system.codedom.7.0.0.nupkg.sha512",
     "C:\\Users\\aislu\\.nuget\\packages\\system.collections.immutable\\8.0.0\\system.collections.immutable.8.0.0.nupkg.sha512",
     "C:\\Users\\aislu\\.nuget\\packages\\system.composition\\8.0.0\\system.composition.8.0.0.nupkg.sha512",
