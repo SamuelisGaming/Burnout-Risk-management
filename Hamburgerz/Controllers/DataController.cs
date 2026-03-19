@@ -48,7 +48,7 @@ namespace Hamburgerz.Controllers
                 riskData.TimeStamp = DateTime.Now;
                 _context.Add(riskData);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Risk");
+                return RedirectToAction("Result", "Profile", new { id = riskData.ID });
             }
             return View(riskData);
         }

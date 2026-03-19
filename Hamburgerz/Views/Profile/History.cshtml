@@ -1,7 +1,403 @@
-﻿
+@model List<Hamburgerz.Models.RiskMeasurement>
+
 @{
     ViewData["Title"] = "History";
+    var currentPage = ViewBag.CurrentPage != null ? (int)ViewBag.CurrentPage : 1;
+    var totalPages = ViewBag.TotalPages != null ? (int)ViewBag.TotalPages : 1;
+    var totalCount = ViewBag.TotalCount != null ? (int)ViewBag.TotalCount : (Model?.Count ?? 0);
 }
 
-<h1>History</h1>
+<div class="history-wrapper">
+    <div class="history-header">
+        <div>
+            <h1 class="history-title">History</h1>
+            <p class="history-subtitle">All your burnout measurements in one place.</p>
+        </div>
 
+        @if (totalCount > 0)
+        {
+            <div class="history-count">@totalCount measurements</div>
+        }
+    </div>
+
+    @if (TempData["MeasurementSuccess"] is string successMessage && !string.IsNullOrWhiteSpace(successMessage))
+    {
+        <div class="alert alert-success history-alert" role="alert">
+            @successMessage
+        </div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="empty-history-card">
+            <div class="empty-history-icon">+</div>
+            <div>
+                <h3>No measurements yet</h3>
+                <p>You do not have any saved measurements yet.</p>
+                <a asp-controller="Data" asp-action="DataEntry" class="history-btn">Add first measurement</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="history-list">
+            @foreach (var item in Model)
+            {
+                var metaParts = new List<string> { item.TimeStamp.ToString("HH:mm") };
+                var country = item.Country?.Trim();
+                var workEnvironment = item.WorkEnvironment?.Trim();
+
+                if (!string.IsNullOrWhiteSpace(country) && country != "." && country != ",")
+                {
+                    metaParts.Add(country);
+                }
+
+                if (!string.IsNullOrWhiteSpace(workEnvironment) && workEnvironment != "." && workEnvironment != ",")
+                {
+                    metaParts.Add(workEnvironment);
+                }
+
+                <a asp-controller="Profile"
+                   asp-action="Result"
+                   asp-route-id="@item.ID"
+                   class="history-card-link">
+                    <article class="history-card">
+                        <div class="history-card-top">
+                            <div class="history-main-info">
+                                <div class="history-date-main">@item.TimeStamp.ToString("yyyy-MM-dd")</div>
+                                <div class="history-meta">@string.Join(", ", metaParts)</div>
+                            </div>
+
+                            <div class="history-risk risk-low">
+                                Low risk
+                            </div>
+                        </div>
+
+                        <div class="history-footer">
+                            <div class="history-chip">Stress: @item.StressLevel</div>
+                            <div class="history-chip">Sleep: @item.SleepHours.ToString("0.0")h</div>
+                            <div class="history-chip">Work: @item.WorkHours.ToString("0.0")h</div>
+                        </div>
+                    </article>
+                </a>
+            }
+        </div>
+
+        @if (totalPages > 1)
+        {
+            <nav class="history-pagination" aria-label="History pages">
+                <div class="history-page-summary">Page @currentPage of @totalPages</div>
+
+                <div class="history-page-controls">
+                    @if (currentPage > 1)
+                    {
+                        <a asp-controller="Profile"
+                           asp-action="History"
+                           asp-route-page="@(currentPage - 1)"
+                           class="history-page-btn">
+                            Previous
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="history-page-btn is-disabled">Previous</span>
+                    }
+
+                    @for (var pageNumber = 1; pageNumber <= totalPages; pageNumber++)
+                    {
+                        if (pageNumber == currentPage)
+                        {
+                            <span class="history-page-number is-current">@pageNumber</span>
+                        }
+                        else
+                        {
+                            <a asp-controller="Profile"
+                               asp-action="History"
+                               asp-route-page="@pageNumber"
+                               class="history-page-number">
+                                @pageNumber
+                            </a>
+                        }
+                    }
+
+                    @if (currentPage < totalPages)
+                    {
+                        <a asp-controller="Profile"
+                           asp-action="History"
+                           asp-route-page="@(currentPage + 1)"
+                           class="history-page-btn">
+                            Next
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="history-page-btn is-disabled">Next</span>
+                    }
+                </div>
+            </nav>
+        }
+    }
+</div>
+
+<style>
+    .history-wrapper {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 32px 20px 48px;
+    }
+
+    .history-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 18px;
+        margin-bottom: 24px;
+    }
+
+    .history-title {
+        margin: 0 0 8px 0;
+        font-size: 34px;
+        font-weight: 800;
+        color: var(--color-text);
+    }
+
+    .history-subtitle {
+        margin: 0;
+        color: var(--color-text-muted);
+        font-size: 15px;
+    }
+
+    .history-count {
+        flex-shrink: 0;
+        padding: 9px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--color-border);
+        background: var(--color-surface);
+        color: var(--color-text-muted);
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .history-list {
+        display: grid;
+        gap: 14px;
+    }
+
+    .history-alert {
+        border-radius: 14px;
+        margin-bottom: 18px;
+    }
+
+    .history-card-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .history-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 20px;
+        padding: 15px 18px;
+        box-shadow: var(--shadow-sm);
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        display: grid;
+        gap: 10px;
+    }
+
+    .history-card:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+        border-color: rgba(var(--color-primary-rgb), 0.32);
+    }
+
+    .history-card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .history-main-info {
+        min-width: 0;
+    }
+
+    .history-date-main {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--color-text);
+        line-height: 1.2;
+    }
+
+    .history-meta {
+        color: var(--color-text-muted);
+        font-size: 13px;
+        line-height: 1.3;
+        margin-top: 4px;
+    }
+
+    .history-risk {
+        min-width: 84px;
+        text-align: center;
+        padding: 7px 11px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .history-footer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .history-chip {
+        background: var(--color-surface-2);
+        color: var(--color-text);
+        border: 1px solid var(--color-border);
+        border-radius: 999px;
+        padding: 6px 11px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .risk-high {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+    .risk-medium {
+        background: #fef3c7;
+        color: #b45309;
+    }
+
+    .risk-low {
+        background: rgba(34, 197, 94, 0.14);
+        border: 1px solid rgba(34, 197, 94, 0.22);
+        color: #15803d;
+    }
+
+    .empty-history-card {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 22px;
+        padding: 28px;
+        box-shadow: var(--shadow-md);
+    }
+
+    .empty-history-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 18px;
+        background: var(--color-primary);
+        color: var(--color-button-primary-text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .history-btn {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 12px 18px;
+        background: var(--color-primary);
+        color: var(--color-button-primary-text);
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    .history-btn:hover {
+        color: var(--color-button-primary-text);
+        background: var(--color-button-primary-hover);
+    }
+
+    .history-pagination {
+        display: grid;
+        gap: 12px;
+        justify-items: center;
+        margin-top: 22px;
+    }
+
+    .history-page-summary {
+        color: var(--color-text-muted);
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .history-page-controls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .history-page-btn,
+    .history-page-number {
+        min-width: 42px;
+        padding: 9px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--color-border);
+        background: var(--color-surface);
+        color: var(--color-text);
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+        text-align: center;
+        transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    a.history-page-btn:hover,
+    a.history-page-number:hover {
+        transform: translateY(-1px);
+        border-color: rgba(var(--color-primary-rgb), 0.32);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .history-page-number.is-current {
+        background: var(--color-primary);
+        border-color: var(--color-primary);
+        color: var(--color-button-primary-text);
+    }
+
+    .is-disabled {
+        opacity: 0.45;
+        pointer-events: none;
+    }
+
+    @@media (max-width: 768px) {
+        .history-wrapper {
+            padding: 20px 14px 40px;
+        }
+
+        .history-title {
+            font-size: 28px;
+        }
+
+        .history-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .history-card-top {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .history-pagination {
+            justify-items: stretch;
+        }
+
+        .history-page-controls {
+            justify-content: flex-start;
+        }
+    }
+</style>
