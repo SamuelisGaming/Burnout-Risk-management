@@ -15,6 +15,52 @@ namespace Hamburgerz.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+            var sessionUsername = HttpContext.Session.GetString("Username") ?? string.Empty;
+            var sessionEmail = HttpContext.Session.GetString("Email") ?? string.Empty;
+
+            var user = await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == userId.Value);
+
+            var measurementsQuery = _context.RiskData
+                .AsNoTracking()
+                .Where(r => r.UserId == userId.Value);
+
+            var latestMeasurement = await measurementsQuery
+                .OrderByDescending(r => r.TimeStamp)
+                .FirstOrDefaultAsync();
+
+            var measurementCount = await measurementsQuery.CountAsync();
+
+            var model = new ProfilePageViewModel
+            {
+                Username = !string.IsNullOrWhiteSpace(user?.Username) ? user.Username : sessionUsername,
+                Email = !string.IsNullOrWhiteSpace(user?.Email) ? user.Email : sessionEmail,
+                Gender = !string.IsNullOrWhiteSpace(user?.Gender) ? user.Gender : (latestMeasurement?.Gender ?? string.Empty),
+                Age = latestMeasurement?.Age,
+                Country = latestMeasurement?.Country ?? string.Empty,
+                JobRole = latestMeasurement?.JobRole ?? string.Empty,
+                ExperienceYears = latestMeasurement?.ExperienceYears,
+                CompanySize = latestMeasurement?.CompanySize ?? string.Empty,
+                WorkEnvironment = latestMeasurement?.WorkEnvironment ?? string.Empty,
+                InternetSpeed = latestMeasurement?.InternetSpeed,
+                MeasurementCount = measurementCount,
+                LastMeasurementDate = latestMeasurement?.TimeStamp
+            };
+
+            return View(model);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> History(int page = 1)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
