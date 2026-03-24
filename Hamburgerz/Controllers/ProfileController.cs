@@ -31,6 +31,14 @@ namespace Hamburgerz.Controllers
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == userId.Value);
 
+            var userCountry = user?.CountryID is int countryId
+                ? await _context.Countries
+                    .AsNoTracking()
+                    .Where(country => country.Id == countryId)
+                    .Select(country => country.Name)
+                    .FirstOrDefaultAsync()
+                : null;
+
             var measurementsQuery = _context.RiskData
                 .AsNoTracking()
                 .Where(r => r.UserId == userId.Value);
@@ -47,7 +55,7 @@ namespace Hamburgerz.Controllers
                 Email = !string.IsNullOrWhiteSpace(user?.Email) ? user.Email : sessionEmail,
                 Gender = !string.IsNullOrWhiteSpace(user?.Gender) ? user.Gender : (latestMeasurement?.Gender ?? string.Empty),
                 Age = latestMeasurement?.Age,
-                Country = latestMeasurement?.Country ?? string.Empty,
+                Country = !string.IsNullOrWhiteSpace(userCountry) ? userCountry : (latestMeasurement?.Country ?? string.Empty),
                 JobRole = latestMeasurement?.JobRole ?? string.Empty,
                 ExperienceYears = latestMeasurement?.ExperienceYears,
                 CompanySize = latestMeasurement?.CompanySize ?? string.Empty,
