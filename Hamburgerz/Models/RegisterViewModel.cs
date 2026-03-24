@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,6 +16,11 @@ namespace Hamburgerz.Models
 
         [Required(ErrorMessage = "Pasirinkite lyti")]
         public string Gender { get; set; } = string.Empty;
+
+        [Range(1, int.MaxValue, ErrorMessage = "Pasirinkite sali")]
+        public int CountryID { get; set; }
+
+        public List<SelectListItem> Countries { get; set; } = new();
 
         [Required(ErrorMessage = "Iveskite slaptazodi")]
         [DataType(DataType.Password)]

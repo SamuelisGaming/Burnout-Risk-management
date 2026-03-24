@@ -11,6 +11,8 @@ namespace Hamburgerz.Data
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Country> Countries { get; set; }
+
         public DbSet<RiskData> RiskData { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,10 +25,15 @@ namespace Hamburgerz.Data
                 entity.HasIndex(u => u.Username).IsUnique();
             });
 
+            modelBuilder.Entity<Country>(entity =>
+            {
+                entity.HasIndex(c => c.Name).IsUnique();
+            });
+
             modelBuilder.Entity<RiskData>()
-            .HasOne<User>() 
+            .HasOne<User>()
             .WithMany()
-    .       HasForeignKey(r => r.UserId); // Use the UserId property as the FK
+            .HasForeignKey(r => r.UserId); // Use the UserId property as the FK
         }
     }
 }

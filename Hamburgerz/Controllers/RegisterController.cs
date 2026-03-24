@@ -2,6 +2,7 @@
 using Hamburgerz.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hamburgerz.Controllers
@@ -18,17 +19,29 @@ namespace Hamburgerz.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(new RegisterViewModel());
+            var model = new RegisterViewModel();
+            await PopulateCountriesAsync(model);
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(RegisterViewModel model)
         {
+            await PopulateCountriesAsync(model);
+
             if (!ModelState.IsValid)
             {
+                return View(model);
+            }
+
+            var countryExists = await _context.Countries.AnyAsync(country => country.Id == model.CountryID);
+            if (!countryExists)
+            {
+                ModelState.AddModelError(nameof(model.CountryID), "Pasirinkite tinkama sali");
                 return View(model);
             }
 
@@ -65,6 +78,7 @@ namespace Hamburgerz.Controllers
                 Username = model.Username,
                 Email = model.Email,
                 Gender = normalizedGender,
+                CountryID = model.CountryID,
                 IsEmailVerified = false,
                 UserType = "user"
             };
@@ -76,6 +90,19 @@ namespace Hamburgerz.Controllers
 
             TempData["SuccessMessage"] = "Registracija sėkminga. Dabar galite prisijungti.";
             return RedirectToAction("Index", "Login");
+        }
+
+        private async Task PopulateCountriesAsync(RegisterViewModel model)
+        {
+            model.Countries = await _context.Countries
+                .AsNoTracking()
+                .OrderBy(country => country.Name)
+                .Select(country => new SelectListItem
+                {
+                    Value = country.Id.ToString(),
+                    Text = country.Name
+                })
+                .ToListAsync();
         }
     }
 }

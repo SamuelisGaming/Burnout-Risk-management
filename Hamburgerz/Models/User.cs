@@ -10,6 +10,9 @@ namespace Hamburgerz.Models
         [Column("id")]
         public int Id { get; set; }
 
+        [Column("countryid")]
+        public int? CountryID { get; set; }
+
         [Required]
         [MaxLength(20)]
         [Column("username")]
