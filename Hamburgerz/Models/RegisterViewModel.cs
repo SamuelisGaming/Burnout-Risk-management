@@ -5,24 +5,24 @@ namespace Hamburgerz.Models
 {
     public class RegisterViewModel : IValidatableObject
     {
-        [Required(ErrorMessage = "Iveskite el. pasta")]
-        [EmailAddress(ErrorMessage = "Neteisingas el. pasto formatas")]
+        [Required(ErrorMessage = "Iveskite el. paštą")]
+        [EmailAddress(ErrorMessage = "Neteisingas el. pašto formatas")]
         public string Email { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Iveskite slapyvardi")]
-        [StringLength(20, MinimumLength = 3, ErrorMessage = "Slapyvardis turi buti 3-20 simboliu")]
+        [Required(ErrorMessage = "Iveskite slapyvardį")]
+        [StringLength(20, MinimumLength = 3, ErrorMessage = "Slapyvardis turi būti 3-20 simbolių")]
         public string Username { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Pasirinkite lyti")]
+        [Required(ErrorMessage = "Pasirinkite lytį")]
         public string Gender { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Iveskite slaptazodi")]
+        [Required(ErrorMessage = "Įveskite slaptažodį")]
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Pakartokite slaptazodi")]
+        [Required(ErrorMessage = "Pakartokite slaptažodį")]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Slaptazodziai nesutampa")]
+        [Compare("Password", ErrorMessage = "Slaptažodžiai nesutampa")]
         public string PasswordRepeat { get; set; } = string.Empty;
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
