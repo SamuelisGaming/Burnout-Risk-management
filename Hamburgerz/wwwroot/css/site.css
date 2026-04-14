@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  margin-bottom: 0;
 }
 
 .border-top {
@@ -32,11 +32,11 @@ button.accept-policy {
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
+  position: static;
   width: 100%;
   white-space: nowrap;
-  line-height: 60px;
+  line-height: 1.5;
+  padding: 1rem 0;
 }
 
 .form-floating > .form-control-plaintext::placeholder,

@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
+
 namespace Hamburgerz.Models
 {
     public class ProfilePageViewModel
@@ -8,7 +11,11 @@ namespace Hamburgerz.Models
 
         public string Gender { get; set; } = string.Empty;
 
-        public int? Age { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? BirthDate { get; set; }
+
+        public int? CountryID { get; set; }
 
         public string Country { get; set; } = string.Empty;
 
@@ -20,11 +27,11 @@ namespace Hamburgerz.Models
 
         public string WorkEnvironment { get; set; } = string.Empty;
 
-        public int? InternetSpeed { get; set; }
-
         public int MeasurementCount { get; set; }
 
         public DateTime? LastMeasurementDate { get; set; }
+
+        public List<SelectListItem> Countries { get; set; } = new();
 
         public string AvatarInitial =>
             !string.IsNullOrWhiteSpace(Username)

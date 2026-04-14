@@ -78,7 +78,12 @@ namespace Hamburgerz.Controllers
                 Username = model.Username,
                 Email = model.Email,
                 Gender = normalizedGender,
+                BirthDate = model.BirthDate?.Date,
                 CountryID = model.CountryID,
+                JobRole = NormalizeOptionalText(model.JobRole),
+                ExperienceYears = model.ExperienceYears,
+                CompanySize = NormalizeOptionalText(model.CompanySize),
+                WorkEnvironment = NormalizeOptionalText(model.WorkEnvironment),
                 IsEmailVerified = false,
                 UserType = "user"
             };
@@ -103,6 +108,16 @@ namespace Hamburgerz.Controllers
                     Text = country.Name
                 })
                 .ToListAsync();
+        }
+
+        private static string? NormalizeOptionalText(string? value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return null;
+            }
+
+            return value.Trim();
         }
     }
 }

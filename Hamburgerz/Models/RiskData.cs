@@ -10,28 +10,17 @@ namespace Hamburgerz.Models
         [Column("ID")]
         public int ID { get; set; }
 
-        [Required(ErrorMessage = "Įveskite amžių")]
-        [Column("age")]
-        public int Age { get; set; }
-
         [Column("gender")]
-        public string Gender { get; set; } = string.Empty;
+        public string? Gender { get; set; }
 
-        [Required(ErrorMessage = "Pasirinkite šalį")]
-        [Column("country")]
-        public string Country { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Parašykite darbo poziciją")]
         [Column("job_role")]
-        public string JobRole { get; set; } = string.Empty;
+        public string? JobRole { get; set; }
 
-        [Required(ErrorMessage = "Įrašykite patirties metus")]
         [Column("experience_years")]
-        public int ExperienceYears { get; set; }
+        public int? ExperienceYears { get; set; }
 
-        [Required(ErrorMessage = "Pažymėkite kompanijos dydį")]
         [Column("company_size")]
-        public string CompanySize { get; set; } = string.Empty;
+        public string? CompanySize { get; set; }
 
         [Required(ErrorMessage = "Įrašykite darbo valandas")]
         [Column("work_hours")]
@@ -45,9 +34,8 @@ namespace Hamburgerz.Models
         [Column("internet_speed")]
         public int InternetSpeed { get; set; }
 
-        [Required(ErrorMessage = "Pažymėkite darbo pobūdį")]
         [Column("work_environment")]
-        public string WorkEnvironment { get; set; } = string.Empty;
+        public string? WorkEnvironment { get; set; }
 
         [Required(ErrorMessage = "Įrašykite miego valandas")]
         [Column("sleep_hours")]
@@ -71,7 +59,7 @@ namespace Hamburgerz.Models
         [Column("burnout_risk")]
         public float BurnoutRisk { get; set; }
 
-        [Column("Time_Stamp")]
+        [Column("Time_stamp")]
         public DateTime TimeStamp { get; set; } = DateTime.Now;
 
         [Column("fk_userID")]

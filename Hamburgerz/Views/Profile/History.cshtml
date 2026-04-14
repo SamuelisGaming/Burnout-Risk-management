@@ -44,12 +44,12 @@
             @foreach (var item in Model)
             {
                 var metaParts = new List<string> { item.TimeStamp.ToString("HH:mm") };
-                var country = item.Country?.Trim();
+                var jobRole = item.JobRole?.Trim();
                 var workEnvironment = item.WorkEnvironment?.Trim();
 
-                if (!string.IsNullOrWhiteSpace(country) && country != "." && country != ",")
+                if (!string.IsNullOrWhiteSpace(jobRole) && jobRole != "." && jobRole != ",")
                 {
-                    metaParts.Add(country);
+                    metaParts.Add(jobRole);
                 }
 
                 if (!string.IsNullOrWhiteSpace(workEnvironment) && workEnvironment != "." && workEnvironment != ",")
@@ -62,15 +62,15 @@
                    asp-route-id="@item.ID"
                    class="history-card-link">
                     <article class="history-card">
-                        <div class="history-card-top">
-                            <div class="history-main-info">
-                                <div class="history-date-main">@item.TimeStamp.ToString("yyyy-MM-dd")</div>
-                                <div class="history-meta">@string.Join(", ", metaParts)</div>
-                            </div>
+                            <div class="history-card-top">
+                                <div class="history-main-info">
+                                    <div class="history-date-main">@item.TimeStamp.ToString("yyyy-MM-dd")</div>
+                                    <div class="history-meta">@string.Join(", ", metaParts)</div>
+                                </div>
 
-                            <div class="history-risk risk-low">
-                                Low risk
-                            </div>
+                                <div class="history-risk @item.RiskClass">
+                                    @item.RiskText risk
+                                </div>
                         </div>
 
                         <div class="history-footer">

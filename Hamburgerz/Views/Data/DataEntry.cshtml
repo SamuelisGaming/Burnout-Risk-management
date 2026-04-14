@@ -1,117 +1,565 @@
-﻿@model Hamburgerz.Models.RiskData
+@model Hamburgerz.Models.MeasurementEntryViewModel
 
 @{
-    ViewData["Title"] = "Burnout Risk Assessment";
+    ViewData["Title"] = "Naujas matavimas";
 }
 
-<div class="container mt-4">
-    <h2>Burnout Risk Assessment</h2>
-    <p class="text-muted">Please fill out the details below to calculate your productivity and risk scores.</p>
-    <hr />
+<style>
+    .mq-shell { padding: 1.25rem 0 3rem; }
 
-    <form asp-controller="Data" asp-action="DataEntry" method="post" class="row g-3">
+    .mq-form {
+        position: relative;
+        overflow: hidden;
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 1.75rem;
+        border-radius: 28px;
+        border: 1px solid rgba(var(--color-border-rgb), .78);
+        background: linear-gradient(180deg, rgba(var(--color-surface-rgb), .95), rgba(255,255,255,.88));
+        box-shadow: 0 28px 64px rgba(15,23,42,.12);
+        backdrop-filter: blur(18px) saturate(145%);
+        -webkit-backdrop-filter: blur(18px) saturate(145%);
+    }
+    .mq-form::before {
+        content: "";
+        position: absolute;
+        right: -6rem;
+        bottom: -6rem;
+        width: 14rem;
+        height: 14rem;
+        border-radius: 999px;
+        background: radial-gradient(circle, rgba(var(--color-secondary-rgb), .18), transparent 72%);
+        pointer-events: none;
+        animation: mqFloat 9s ease-in-out infinite;
+    }
+    .mq-form::after {
+        content: "";
+        position: absolute;
+        left: -5rem;
+        top: -5rem;
+        width: 11rem;
+        height: 11rem;
+        border-radius: 999px;
+        background: radial-gradient(circle, rgba(var(--color-primary-rgb), .12), transparent 72%);
+        pointer-events: none;
+        animation: mqFloat 11s ease-in-out infinite reverse;
+    }
+    .mq-form > * { position: relative; }
 
-        <div class="col-md-4">
-            <label asp-for="Age" class="form-label">Amžius</label>
-            <input asp-for="Age" class="form-control" type="number" />
-            <span asp-validation-for="Age" class="text-danger"></span>
+    .mq-head { margin-bottom: 1rem; }
+    .mq-head h2 { margin: .3rem 0 0; font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.1; }
+    .mq-head p { margin: .4rem 0 0; color: var(--color-text-muted); line-height: 1.6; }
+    .mq-indicator { color: var(--color-primary); font-size: .82rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+    .mq-summary { margin-bottom: 1rem; padding: .9rem 1rem; border-radius: 18px; background: rgba(220,53,69,.08); border: 1px solid rgba(220,53,69,.16); }
+
+    .mq-progress { height: 8px; border-radius: 999px; background: rgba(var(--color-border-rgb), .7); overflow: hidden; margin-bottom: 0; }
+    .mq-progress-fill {
+        height: 100%;
+        width: calc(100% / 6);
+        background: linear-gradient(90deg, var(--color-primary), var(--color-tertiary), var(--color-secondary));
+        transition: width .45s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .mq-markers { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .45rem; margin: .9rem 0 1.35rem; }
+    .mq-marker {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 36px;
+        padding: .35rem;
+        border-radius: 999px;
+        background: rgba(var(--color-border-rgb), .34);
+        color: var(--color-text-muted);
+        font-size: .82rem;
+        font-weight: 700;
+        transition: background .25s ease, color .25s ease, transform .25s ease, box-shadow .25s ease;
+    }
+    .mq-marker.is-done {
+        color: var(--color-primary);
+        background: rgba(var(--color-primary-rgb), .12);
+    }
+    .mq-marker.is-active {
+        color: var(--color-primary);
+        background: linear-gradient(135deg, rgba(var(--color-primary-rgb), .18), rgba(var(--color-tertiary-rgb), .16));
+        box-shadow: 0 6px 20px rgba(var(--color-primary-rgb), .2);
+        transform: translateY(-2px);
+        animation: mqMarkerPulse 2.2s ease-in-out infinite;
+    }
+
+    .mq-panel { display: none; }
+    .mq-panel.is-active { display: block; animation: mqReveal .38s cubic-bezier(.2, .8, .2, 1); }
+    .mq-panel.is-back { display: block; animation: mqRevealBack .34s cubic-bezier(.2, .8, .2, 1); }
+
+    .mq-step-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        padding: .42rem .82rem;
+        border-radius: 999px;
+        font-size: .78rem;
+        font-weight: 700;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        background: rgba(var(--color-primary-rgb), .08);
+        color: var(--color-primary);
+        margin-bottom: .75rem;
+    }
+
+    .mq-question { margin: 0 0 .5rem; font-size: clamp(1.45rem, 3.5vw, 2rem); line-height: 1.1; }
+    .mq-subcopy { margin: 0 0 .25rem; color: var(--color-text-muted); line-height: 1.65; font-size: .95rem; }
+
+    .mq-card {
+        margin-top: 1.2rem;
+        padding: 1.25rem;
+        border-radius: 24px;
+        background: rgba(255,255,255,.68);
+        border: 1px solid rgba(var(--color-border-rgb), .78);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
+    }
+
+    .mq-label { display: block; margin-bottom: .65rem; font-size: .93rem; font-weight: 700; color: var(--color-text); }
+
+    .mq-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .mq-field { display: flex; flex-direction: column; }
+
+    .mq-input-wrap { position: relative; }
+    .mq-input { min-height: 60px; padding-right: 5rem !important; border-radius: 18px !important; font-size: clamp(1.15rem, 2.5vw, 1.7rem) !important; font-weight: 700 !important; }
+    .mq-suffix {
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        padding: .28rem .6rem;
+        border-radius: 999px;
+        background: rgba(var(--color-primary-rgb), .08);
+        color: var(--color-primary);
+        font-size: .8rem;
+        font-weight: 700;
+        pointer-events: none;
+    }
+
+    .mq-chips { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: .85rem; }
+    .mq-chip {
+        border: 1px solid rgba(var(--color-primary-rgb), .16);
+        background: rgba(var(--color-primary-rgb), .06);
+        color: var(--color-text);
+        border-radius: 999px;
+        padding: .55rem .88rem;
+        font-size: .88rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform .14s ease, background .14s ease, color .14s ease, box-shadow .14s ease;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    .mq-chip:hover, .mq-chip:focus-visible {
+        transform: translateY(-1px);
+        background: rgba(var(--color-primary-rgb), .12);
+        color: var(--color-primary);
+        box-shadow: 0 6px 16px rgba(var(--color-primary-rgb), .1);
+        outline: none;
+    }
+    .mq-chip:active { transform: scale(.95); }
+    .mq-chip.is-active {
+        background: linear-gradient(135deg, rgba(var(--color-primary-rgb), .18), rgba(var(--color-tertiary-rgb), .12));
+        color: var(--color-primary);
+        border-color: rgba(var(--color-primary-rgb), .32);
+        box-shadow: 0 8px 20px rgba(var(--color-primary-rgb), .14);
+        transform: translateY(-1px);
+    }
+
+    .mq-note { margin-top: .75rem; color: var(--color-text-muted); font-size: .86rem; }
+    .mq-error { display: block; margin-top: .55rem; font-size: .86rem; }
+
+    .mq-mood { display: grid; gap: .8rem; }
+    .mq-mood-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .mq-mood-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .mq-mood input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
+    .mq-mood label {
+        display: flex;
+        flex-direction: column;
+        gap: .45rem;
+        padding: 1rem;
+        border-radius: 20px;
+        border: 2px solid rgba(var(--color-border-rgb), .9);
+        background: rgba(255,255,255,.84);
+        cursor: pointer;
+        transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    .mq-mood label:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 28px rgba(15,23,42,.08);
+        border-color: rgba(var(--color-primary-rgb), .3);
+    }
+    .mq-mood input[type="radio"]:checked + label {
+        transform: translateY(-2px);
+        background: linear-gradient(160deg, rgba(var(--color-primary-rgb), .07), rgba(var(--color-tertiary-rgb), .08));
+        border-color: rgba(var(--color-primary-rgb), .52);
+        box-shadow: 0 16px 34px rgba(var(--color-primary-rgb), .14);
+    }
+    .mq-smiley {
+        width: 44px;
+        height: 44px;
+        color: var(--color-text-muted);
+        transition: color .22s ease, transform .22s ease;
+        flex-shrink: 0;
+    }
+    .mq-mood label:hover .mq-smiley { color: var(--color-primary); }
+    .mq-mood input[type="radio"]:checked + label .mq-smiley {
+        color: var(--color-primary);
+        animation: mqSmileyPop .42s cubic-bezier(.34, 1.56, .64, 1) forwards;
+    }
+    .mq-mood-title { font-size: .98rem; font-weight: 700; line-height: 1.2; }
+    .mq-mood-copy { color: var(--color-text-muted); font-size: .83rem; line-height: 1.5; }
+
+    .mq-double { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 1.2rem; }
+    .mq-double-label { font-size: .9rem; font-weight: 700; color: var(--color-text); margin-bottom: .65rem; line-height: 1.4; }
+    .mq-double .mq-mood { gap: .6rem; }
+    .mq-double .mq-mood label { padding: .75rem .8rem; border-radius: 16px; }
+    .mq-double .mq-smiley { width: 36px; height: 36px; }
+    .mq-double .mq-mood-title { font-size: .88rem; }
+
+    .mq-actions { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1.4rem; }
+    .mq-actions-end { justify-content: flex-end; }
+
+    @@keyframes mqSmileyPop {
+        0%   { transform: scale(1); }
+        40%  { transform: scale(1.28) rotate(-6deg); }
+        70%  { transform: scale(0.97) rotate(3deg); }
+        100% { transform: scale(1.1); }
+    }
+    @@keyframes mqReveal {
+        from { opacity: 0; transform: translateY(18px) scale(.984); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @@keyframes mqRevealBack {
+        from { opacity: 0; transform: translateY(-14px) scale(.984); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @@keyframes mqFloat {
+        0%, 100% { transform: translate3d(0, 0, 0); }
+        50% { transform: translate3d(0, 14px, 0); }
+    }
+    @@keyframes mqMarkerPulse {
+        0%, 100% { box-shadow: 0 6px 20px rgba(var(--color-primary-rgb), .2); }
+        50% { box-shadow: 0 6px 28px rgba(var(--color-primary-rgb), .38), 0 0 0 5px rgba(var(--color-primary-rgb), .07); }
+    }
+
+    @@media (max-width: 767.98px) {
+        .mq-shell { padding-top: .75rem; }
+        .mq-form { padding: 1.15rem; border-radius: 22px; }
+        .mq-markers { gap: .32rem; }
+        .mq-marker { min-height: 30px; font-size: .72rem; }
+        .mq-grid, .mq-mood-3, .mq-double { grid-template-columns: 1fr; }
+        .mq-mood-4 { grid-template-columns: 1fr 1fr; }
+        .mq-actions { flex-direction: column-reverse; align-items: stretch; }
+        .mq-actions .btn { width: 100%; }
+        .mq-submit { align-items: stretch; }
+        .mq-question { font-size: 1.35rem; }
+        .mq-double .mq-mood { grid-template-columns: 1fr 1fr 1fr; }
+    }
+</style>
+
+<div class="container mq-shell">
+    <form asp-controller="Data" asp-action="DataEntry" method="post" class="mq-form" data-measurement-wizard>
+        @Html.AntiForgeryToken()
+
+        <div class="mq-head">
+            <div class="mq-indicator" data-step-caption>1 / 6</div>
+            <h2>Naujas matavimas</h2>
+            <p>Keletas klausimų apie šiandieninę dieną — greita ir paprasta.</p>
         </div>
 
-        <div class="col-md-4">
-            <label asp-for="Country" class="form-label">Šalis</label>
-            <input asp-for="Country" class="form-control" />
-            <span asp-validation-for="Country" class="text-danger"></span>
+        <div asp-validation-summary="ModelOnly" class="text-danger mq-summary"></div>
+
+        <div class="mq-progress">
+            <div class="mq-progress-fill" data-progress-fill></div>
         </div>
 
-        <div class="col-md-6">
-            <label asp-for="JobRole" class="form-label">Darbo pozicija</label>
-            <input asp-for="JobRole" class="form-control" />
-            <span asp-validation-for="JobRole" class="text-danger"></span>
+        <div class="mq-markers" aria-hidden="true">
+            <div class="mq-marker is-active" data-step-marker="0">1</div>
+            <div class="mq-marker" data-step-marker="1">2</div>
+            <div class="mq-marker" data-step-marker="2">3</div>
+            <div class="mq-marker" data-step-marker="3">4</div>
+            <div class="mq-marker" data-step-marker="4">5</div>
+            <div class="mq-marker" data-step-marker="5">6</div>
         </div>
 
-        <div class="col-md-3">
-            <label asp-for="ExperienceYears" class="form-label">Patirties metai</label>
-            <input asp-for="ExperienceYears" class="form-control" type="number" />
-            <span asp-validation-for="ExperienceYears" class="text-danger"></span>
-        </div>
+        <!-- Step 1: UI-only — dienos nuotaika -->
+        <section class="mq-panel is-active" data-step-panel="0" data-ui-only>
+            <div class="mq-step-kicker">Pradžia</div>
+            <h3 class="mq-question">Kaip jautėsi šiandien?</h3>
+            <p class="mq-subcopy">Pasirink, kuri nuotaika geriausiai apibūdina tavo dieną.</p>
 
-        <div class="col-md-3">
-            <label asp-for="CompanySize" class="form-label">Kompanijos dydis</label>
-            <select asp-for="CompanySize" class="form-select">
-                <option value="">Pasirinkite...</option>
-                <option value="Maža">Maža (1-50)</option>
-                <option value="Vidutinė">Vidutinė (51-250)</option>
-                <option value="Didelė">Didelė (250+)</option>
-            </select>
-            <span asp-validation-for="CompanySize" class="text-danger"></span>
-        </div>
+            <div class="mq-mood mq-mood-4" style="margin-top:1.2rem;">
+                <input type="radio" name="day-mood" id="mood-great" value="great" />
+                <label for="mood-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><path d="M14.5 21 Q17 17.5 19.5 21" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/><path d="M28.5 21 Q31 17.5 33.5 21" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/><path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                    <span class="mq-mood-title">Puikiai</span>
+                    <span class="mq-mood-copy">Jautiausi žvaliai ir motyvuotai</span>
+                </label>
 
-        <div class="col-md-3">
-            <label asp-for="WorkHours" class="form-label">Darbo valandos/dieną</label>
-            <input asp-for="WorkHours" class="form-control" />
-            <span asp-validation-for="WorkHours" class="text-danger"></span>
-        </div>
+                <input type="radio" name="day-mood" id="mood-ok" value="ok" />
+                <label for="mood-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                    <span class="mq-mood-title">Normaliai</span>
+                    <span class="mq-mood-copy">Nieko ypatingo — diena praėjo kaip paprastai</span>
+                </label>
 
-        <div class="col-md-3">
-            <label asp-for="MeetingsPerDay" class="form-label">Susirinkimai/dieną</label>
-            <input asp-for="MeetingsPerDay" class="form-control" />
-            <span asp-validation-for="MeetingsPerDay" class="text-danger"></span>
-        </div>
+                <input type="radio" name="day-mood" id="mood-tired" value="tired" />
+                <label for="mood-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                    <span class="mq-mood-title">Pavargęs</span>
+                    <span class="mq-mood-copy">Jautiausi pavargęs — energijos aiškiai trūko</span>
+                </label>
 
-        <div class="col-md-3">
-            <label asp-for="InternetSpeed" class="form-label">Interneto greitis (Mbps)</label>
-            <input asp-for="InternetSpeed" class="form-control" />
-            <span asp-validation-for="InternetSpeed" class="text-danger"></span>
-        </div>
+                <input type="radio" name="day-mood" id="mood-rough" value="rough" />
+                <label for="mood-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                    <span class="mq-mood-title">Tikrai sunkiai</span>
+                    <span class="mq-mood-copy">Buvo sunku tiek fiziškai, tiek emociškai</span>
+                </label>
+            </div>
 
-        <div class="col-md-3">
-            <label asp-for="WorkEnvironment" class="form-label">Darbo pobūdis</label>
-            <select asp-for="WorkEnvironment" class="form-select">
-                <option value="">Pasirinkite...</option>
-                <option value="Remote">Nuotolinis</option>
-                <option value="Office">Biuras</option>
-                <option value="Hybrid">Hibridinis</option>
-            </select>
-            <span asp-validation-for="WorkEnvironment" class="text-danger"></span>
-        </div>
+            <div class="mq-actions mq-actions-end">
+                <button type="button" class="btn btn-primary btn-lg" data-step-next>Toliau</button>
+            </div>
+        </section>
 
-        <div class="col-md-4">
-            <label asp-for="SleepHours" class="form-label">Miego valandos</label>
-            <input asp-for="SleepHours" class="form-control" step="0.5" />
-            <span asp-validation-for="SleepHours" class="text-danger"></span>
-        </div>
+        <!-- Step 2: Darbo valandos (DB) -->
+        <section class="mq-panel" data-step-panel="1">
+            <div class="mq-step-kicker">Darbas</div>
+            <h3 class="mq-question">Kiek valandų šiandien dirbai?</h3>
+            <p class="mq-subcopy">Apytikslis skaičius visiškai tinka.</p>
 
-        <div class="col-md-4">
-            <label asp-for="ExerciseHours" class="form-label">Sporto valandos</label>
-            <input asp-for="ExerciseHours" class="form-control" step="0.5" />
-            <span asp-validation-for="ExerciseHours" class="text-danger"></span>
-        </div>
+            <div class="mq-card">
+                <label asp-for="WorkHours" class="mq-label">Darbo valandos</label>
+                <div class="mq-input-wrap">
+                    <input asp-for="WorkHours" class="form-control mq-input" type="number" min="0" max="24" step="0.5" inputmode="decimal" placeholder="Pvz. 8" required />
+                    <span class="mq-suffix">val.</span>
+                </div>
+                <span asp-validation-for="WorkHours" class="text-danger mq-error"></span>
+                <div class="mq-chips">
+                    <button type="button" class="mq-chip" data-chip-target="WorkHours" data-chip-value="4">4 val.</button>
+                    <button type="button" class="mq-chip" data-chip-target="WorkHours" data-chip-value="6">6 val.</button>
+                    <button type="button" class="mq-chip" data-chip-target="WorkHours" data-chip-value="8">8 val.</button>
+                    <button type="button" class="mq-chip" data-chip-target="WorkHours" data-chip-value="10">10 val.</button>
+                    <button type="button" class="mq-chip" data-chip-target="WorkHours" data-chip-value="12">12 val.</button>
+                </div>
+            </div>
 
-        <div class="col-md-4">
-            <label asp-for="ScreenTime" class="form-label">Ekrano valandos</label>
-            <input asp-for="ScreenTime" class="form-control" step="0.5" />
-            <span asp-validation-for="ScreenTime" class="text-danger"></span>
-        </div>
+            <div class="mq-actions">
+                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>Atgal</button>
+                <button type="button" class="btn btn-primary btn-lg" data-step-next>Toliau</button>
+            </div>
+        </section>
 
-        <div class="col-md-6">
-            <label asp-for="StressLevel" class="form-label">Streso lygis</label>
-            <select asp-for="StressLevel" class="form-select">
-                <option value="">Pasirinkite...</option>
-                <option value="Žemas">Žemas</option>
-                <option value="Vidutinis">Vidutinis</option>
-                <option value="Aukštas">Aukštas</option>
-            </select>
-            <span asp-validation-for="StressLevel" class="text-danger"></span>
-        </div>
+        <!-- Step 3: Miegas + judėjimas (DB) -->
+        <section class="mq-panel" data-step-panel="2">
+            <div class="mq-step-kicker">Poilsis</div>
+            <h3 class="mq-question">Kaip atrodė tavo poilsis ir judėjimas?</h3>
+            <p class="mq-subcopy">Apytikslės reikšmės pilnai tinka.</p>
 
-        
-        @{
-            var userId = Context.Session.GetInt32("UserId");
-        }
-        <input type="hidden" name="UserId" value="@userId" />
-        <div class="col-12 mt-4">
-            <button type="submit" class="btn btn-primary btn-lg">Išsaugoti duomenis</button>
-        </div>
+            <div class="mq-card">
+                <div class="mq-grid">
+                    <div class="mq-field">
+                        <label asp-for="SleepHours" class="mq-label">Miego valandos</label>
+                        <div class="mq-input-wrap">
+                            <input asp-for="SleepHours" class="form-control mq-input" type="number" min="0" max="24" step="0.5" inputmode="decimal" placeholder="Pvz. 7.5" required />
+                            <span class="mq-suffix">val.</span>
+                        </div>
+                        <span asp-validation-for="SleepHours" class="text-danger mq-error"></span>
+                        <div class="mq-chips">
+                            <button type="button" class="mq-chip" data-chip-target="SleepHours" data-chip-value="5">5 val.</button>
+                            <button type="button" class="mq-chip" data-chip-target="SleepHours" data-chip-value="6.5">6.5 val.</button>
+                            <button type="button" class="mq-chip" data-chip-target="SleepHours" data-chip-value="8">8 val.</button>
+                            <button type="button" class="mq-chip" data-chip-target="SleepHours" data-chip-value="9">9 val.</button>
+                        </div>
+                    </div>
+
+                    <div class="mq-field">
+                        <label asp-for="ExerciseHours" class="mq-label">Judėjimo laikas</label>
+                        <div class="mq-input-wrap">
+                            <input asp-for="ExerciseHours" class="form-control mq-input" type="number" min="0" max="12" step="0.5" inputmode="decimal" placeholder="Pvz. 1" required />
+                            <span class="mq-suffix">val.</span>
+                        </div>
+                        <span asp-validation-for="ExerciseHours" class="text-danger mq-error"></span>
+                        <div class="mq-chips">
+                            <button type="button" class="mq-chip" data-chip-target="ExerciseHours" data-chip-value="0">0</button>
+                            <button type="button" class="mq-chip" data-chip-target="ExerciseHours" data-chip-value="0.5">0.5 val.</button>
+                            <button type="button" class="mq-chip" data-chip-target="ExerciseHours" data-chip-value="1">1 val.</button>
+                            <button type="button" class="mq-chip" data-chip-target="ExerciseHours" data-chip-value="2">2 val.</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mq-actions">
+                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>Atgal</button>
+                <button type="button" class="btn btn-primary btn-lg" data-step-next>Toliau</button>
+            </div>
+        </section>
+
+        <!-- Step 4: UI-only — atsijungimas + fokusas -->
+        <section class="mq-panel" data-step-panel="3" data-ui-only>
+            <div class="mq-step-kicker">Energija</div>
+            <h3 class="mq-question">Du greiti klausimai apie tavo baterijos lygį</h3>
+            <p class="mq-subcopy">Nėra teisingo atsakymo — tiesiog pasirink, kas artimiausiai atitinka šiandieną.</p>
+
+            <div class="mq-double">
+                <div>
+                    <p class="mq-double-label">Ar po darbo pavyko atsijungti nuo minčių apie darbą?</p>
+                    <div class="mq-mood" style="grid-template-columns:1fr; gap:.55rem;">
+                        <input type="radio" name="disconnect" id="disc-yes" value="yes" />
+                        <label for="disc-yes">
+                            <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><path d="M14.5 21 Q17 17.5 19.5 21" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/><path d="M28.5 21 Q31 17.5 33.5 21" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/><path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                            <span class="mq-mood-title">Taip, atsijungiau</span>
+                        </label>
+                        <input type="radio" name="disconnect" id="disc-partial" value="partial" />
+                        <label for="disc-partial">
+                            <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                            <span class="mq-mood-title">Iš dalies</span>
+                        </label>
+                        <input type="radio" name="disconnect" id="disc-no" value="no" />
+                        <label for="disc-no">
+                            <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 33 Q24 27 31 33" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                            <span class="mq-mood-title">Sunkiai pavyko</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="mq-double-label">Kaip lengva šiandien buvo susikaupti ties viena užduotimi?</p>
+                    <div class="mq-mood" style="grid-template-columns:1fr; gap:.55rem;">
+                        <input type="radio" name="focus" id="focus-easy" value="easy" />
+                        <label for="focus-easy">
+                            <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><path d="M14.5 21 Q17 17.5 19.5 21" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/><path d="M28.5 21 Q31 17.5 33.5 21" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/><path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                            <span class="mq-mood-title">Lengvai</span>
+                        </label>
+                        <input type="radio" name="focus" id="focus-ok" value="ok" />
+                        <label for="focus-ok">
+                            <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                            <span class="mq-mood-title">Šiaip taip</span>
+                        </label>
+                        <input type="radio" name="focus" id="focus-hard" value="hard" />
+                        <label for="focus-hard">
+                            <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 33 Q24 27 31 33" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                            <span class="mq-mood-title">Labai sunkiai</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mq-actions">
+                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>Atgal</button>
+                <button type="button" class="btn btn-primary btn-lg" data-step-next>Toliau</button>
+            </div>
+        </section>
+
+        <!-- Step 5: Ekranas + susitikimai + internetas (DB) -->
+        <section class="mq-panel" data-step-panel="4">
+            <div class="mq-step-kicker">Skaitmeninė aplinka</div>
+            <h3 class="mq-question">Kiek laiko praleidai prie ekranų ir susitikimų?</h3>
+            <p class="mq-subcopy">Jei tikslaus interneto greičio nežinai, apytikslė reikšmė tinka.</p>
+
+            <div class="mq-card">
+                <div class="mq-grid">
+                    <div class="mq-field">
+                        <label asp-for="ScreenTime" class="mq-label">Ekrano laikas</label>
+                        <div class="mq-input-wrap">
+                            <input asp-for="ScreenTime" class="form-control mq-input" type="number" min="0" max="24" step="0.5" inputmode="decimal" placeholder="Pvz. 9" required />
+                            <span class="mq-suffix">val.</span>
+                        </div>
+                        <span asp-validation-for="ScreenTime" class="text-danger mq-error"></span>
+                        <div class="mq-chips">
+                            <button type="button" class="mq-chip" data-chip-target="ScreenTime" data-chip-value="4">4 val.</button>
+                            <button type="button" class="mq-chip" data-chip-target="ScreenTime" data-chip-value="6">6 val.</button>
+                            <button type="button" class="mq-chip" data-chip-target="ScreenTime" data-chip-value="8">8 val.</button>
+                            <button type="button" class="mq-chip" data-chip-target="ScreenTime" data-chip-value="10">10 val.</button>
+                        </div>
+                    </div>
+
+                    <div class="mq-field">
+                        <label asp-for="MeetingsPerDay" class="mq-label">Susitikimai per dieną</label>
+                        <div class="mq-input-wrap">
+                            <input asp-for="MeetingsPerDay" class="form-control mq-input" type="number" min="0" max="30" step="1" inputmode="numeric" placeholder="Pvz. 4" required />
+                            <span class="mq-suffix">vnt.</span>
+                        </div>
+                        <span asp-validation-for="MeetingsPerDay" class="text-danger mq-error"></span>
+                        <div class="mq-chips">
+                            <button type="button" class="mq-chip" data-chip-target="MeetingsPerDay" data-chip-value="0">0</button>
+                            <button type="button" class="mq-chip" data-chip-target="MeetingsPerDay" data-chip-value="2">2</button>
+                            <button type="button" class="mq-chip" data-chip-target="MeetingsPerDay" data-chip-value="4">4</button>
+                            <button type="button" class="mq-chip" data-chip-target="MeetingsPerDay" data-chip-value="6">6</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mq-field" style="margin-top:1rem;">
+                    <label asp-for="InternetSpeed" class="mq-label">Interneto greitis</label>
+                    <div class="mq-input-wrap">
+                        <input asp-for="InternetSpeed" class="form-control mq-input" type="number" min="1" max="5000" step="1" inputmode="numeric" placeholder="Pvz. 100" required />
+                        <span class="mq-suffix">Mbps</span>
+                    </div>
+                    <span asp-validation-for="InternetSpeed" class="text-danger mq-error"></span>
+                    <div class="mq-chips">
+                        <button type="button" class="mq-chip" data-chip-target="InternetSpeed" data-chip-value="30">30</button>
+                        <button type="button" class="mq-chip" data-chip-target="InternetSpeed" data-chip-value="100">100</button>
+                        <button type="button" class="mq-chip" data-chip-target="InternetSpeed" data-chip-value="300">300</button>
+                        <button type="button" class="mq-chip" data-chip-target="InternetSpeed" data-chip-value="500">500</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mq-actions">
+                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>Atgal</button>
+                <button type="button" class="btn btn-primary btn-lg" data-step-next>Toliau</button>
+            </div>
+        </section>
+
+        <!-- Step 6: Streso lygis (DB) -->
+        <section class="mq-panel" data-step-panel="5">
+            <div class="mq-step-kicker">Paskutinis žingsnis</div>
+            <h3 class="mq-question">Kaip vertini šiandieninį streso lygį?</h3>
+            <p class="mq-subcopy">Pasirink tą, kuri geriausiai apibūdina visos dienos savijautą.</p>
+
+            <div class="mq-card">
+                <div class="mq-mood mq-mood-3">
+                    <input asp-for="StressLevel" type="radio" value="Žemas" id="StressLevelLow" required />
+                    <label for="StressLevelLow">
+                        <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                        <span class="mq-mood-title">Žemas</span>
+                        <span class="mq-mood-copy">Ramu ir valdoma — streso beveik nejauciau</span>
+                    </label>
+
+                    <input asp-for="StressLevel" type="radio" value="Vidutinis" id="StressLevelMedium" required />
+                    <label for="StressLevelMedium">
+                        <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                        <span class="mq-mood-title">Vidutinis</span>
+                        <span class="mq-mood-copy">Jauciau įtampą, bet situacija buvo valdoma</span>
+                    </label>
+
+                    <input asp-for="StressLevel" type="radio" value="Aukštas" id="StressLevelHigh" required />
+                    <label for="StressLevelHigh">
+                        <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                        <span class="mq-mood-title">Aukštas</span>
+                        <span class="mq-mood-copy">Didžiąją dalį dienos jauciau stiprią įtampą ir išsekimą</span>
+                    </label>
+                </div>
+
+                <span asp-validation-for="StressLevel" class="text-danger mq-error"></span>
+            </div>
+
+            <div class="mq-actions">
+                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>Atgal</button>
+                <button type="submit" class="btn btn-primary btn-lg">Išsaugoti matavimą</button>
+            </div>
+        </section>
+
     </form>
 </div>
 
@@ -119,4 +567,138 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("[data-measurement-wizard]");
+            if (!form) return;
+
+            const panels = Array.from(form.querySelectorAll("[data-step-panel]"));
+            const markers = Array.from(form.querySelectorAll("[data-step-marker]"));
+            const progressFill = form.querySelector("[data-progress-fill]");
+            const stepCaption = form.querySelector("[data-step-caption]");
+            const chipTargets = ["WorkHours", "MeetingsPerDay", "InternetSpeed", "SleepHours", "ExerciseHours", "ScreenTime"];
+            let currentStep = 0;
+
+            const updateChips = function (fieldId) {
+                const input = document.getElementById(fieldId);
+                if (!input) return;
+                const value = (input.value || "").trim();
+                form.querySelectorAll('[data-chip-target="' + fieldId + '"]').forEach(function (chip) {
+                    chip.classList.toggle("is-active", chip.getAttribute("data-chip-value") === value);
+                });
+            };
+
+            const isUiOnly = function (index) {
+                const panel = panels[index];
+                return panel ? panel.hasAttribute("data-ui-only") : false;
+            };
+
+            const validateStep = function (index, report) {
+                if (isUiOnly(index)) return true;
+                const panel = panels[index];
+                if (!panel) return true;
+                const fields = Array.from(panel.querySelectorAll("input, select, textarea"));
+                for (const field of fields) {
+                    if (!(field instanceof HTMLElement)) continue;
+                    if (field.hasAttribute("disabled") || field.getAttribute("type") === "hidden") continue;
+                    if (!field.name) continue;
+                    if (typeof field.checkValidity === "function" && !field.checkValidity()) {
+                        if (report && typeof field.reportValidity === "function") field.reportValidity();
+                        return false;
+                    }
+                }
+                return true;
+            };
+
+            const getServerErrorStep = function () {
+                const invalidField = form.querySelector(".input-validation-error, [aria-invalid='true']");
+                if (!invalidField) return -1;
+                const panel = invalidField.closest("[data-step-panel]");
+                if (!(panel instanceof HTMLElement)) return -1;
+                return parseInt(panel.dataset.stepPanel || "-1", 10);
+            };
+
+            const goToStep = function (index, dir) {
+                const prev = currentStep;
+                currentStep = Math.max(0, Math.min(index, panels.length - 1));
+                const goingBack = dir === "back" || (dir === undefined && index < prev);
+
+                panels.forEach(function (panel, i) {
+                    panel.classList.remove("is-active", "is-back");
+                    if (i === currentStep) {
+                        panel.classList.add(goingBack ? "is-back" : "is-active");
+                    }
+                });
+
+                markers.forEach(function (marker, i) {
+                    marker.classList.remove("is-active", "is-done");
+                    if (i === currentStep) marker.classList.add("is-active");
+                    else if (i < currentStep) marker.classList.add("is-done");
+                });
+
+                if (stepCaption) stepCaption.textContent = (currentStep + 1) + " / " + panels.length;
+                if (progressFill) progressFill.style.width = (((currentStep + 1) / panels.length) * 100) + "%";
+
+                form.scrollIntoView({ behavior: "smooth", block: "start" });
+            };
+
+            form.querySelectorAll("[data-step-next]").forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    if (validateStep(currentStep, true)) goToStep(currentStep + 1, "forward");
+                });
+            });
+
+            form.querySelectorAll("[data-step-prev]").forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    goToStep(currentStep - 1, "back");
+                });
+            });
+
+            form.querySelectorAll("[data-chip-target]").forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    const fieldId = btn.getAttribute("data-chip-target");
+                    const value = btn.getAttribute("data-chip-value");
+                    const input = fieldId ? document.getElementById(fieldId) : null;
+                    if (!input) return;
+                    input.value = value || "";
+                    input.dispatchEvent(new Event("input", { bubbles: true }));
+                    input.dispatchEvent(new Event("change", { bubbles: true }));
+                    updateChips(fieldId);
+                });
+            });
+
+            chipTargets.forEach(function (fieldId) {
+                const input = document.getElementById(fieldId);
+                if (!input) return;
+                input.addEventListener("input", function () { updateChips(fieldId); });
+                input.addEventListener("change", function () { updateChips(fieldId); });
+                updateChips(fieldId);
+            });
+
+            form.addEventListener("keydown", function (event) {
+                if (event.key !== "Enter") return;
+                const target = event.target;
+                if (!(target instanceof HTMLElement) || target.tagName === "TEXTAREA") return;
+                if (currentStep < panels.length - 1) {
+                    event.preventDefault();
+                    if (validateStep(currentStep, true)) goToStep(currentStep + 1, "forward");
+                }
+            });
+
+            form.addEventListener("submit", function (event) {
+                for (let i = 0; i < panels.length; i++) {
+                    if (!validateStep(i, false)) {
+                        event.preventDefault();
+                        goToStep(i, "forward");
+                        window.setTimeout(function () { validateStep(i, true); }, 0);
+                        return;
+                    }
+                }
+            });
+
+            const serverErrorStep = getServerErrorStep();
+            goToStep(serverErrorStep >= 0 ? serverErrorStep : 0, "forward");
+        });
+    </script>
 }

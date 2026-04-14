@@ -7,16 +7,15 @@ namespace Hamburgerz.Models
         public int ID { get; set; }
         public DateTime TimeStamp { get; set; }
 
-        public int Age { get; set; }
-        public string Gender { get; set; } = string.Empty;
-        public string Country { get; set; } = string.Empty;
-        public string JobRole { get; set; } = string.Empty;
-        public int ExperienceYears { get; set; }
-        public string CompanySize { get; set; } = string.Empty;
+        public DateTime? BirthDate { get; set; }
+        public string? Gender { get; set; }
+        public string? JobRole { get; set; }
+        public int? ExperienceYears { get; set; }
+        public string? CompanySize { get; set; }
         public float WorkHours { get; set; }
         public int MeetingsPerDay { get; set; }
         public int InternetSpeed { get; set; }
-        public string WorkEnvironment { get; set; } = string.Empty;
+        public string? WorkEnvironment { get; set; }
         public float SleepHours { get; set; }
         public float ExerciseHours { get; set; }
         public float ScreenTime { get; set; }

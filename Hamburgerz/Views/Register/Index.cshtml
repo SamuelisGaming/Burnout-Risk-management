@@ -2,165 +2,739 @@
 @{
     ViewData["Title"] = "Registracija";
     var minPasswordLength = Hamburgerz.Models.PasswordRules.MinLength;
+    var minimumAcceptedScore = Hamburgerz.Models.PasswordRules.MinimumAcceptedScore;
     var hasCountries = Model.Countries.Count > 0;
+    var minBirthDate = DateTime.Today.AddYears(-100).ToString("yyyy-MM-dd");
+    var maxBirthDate = DateTime.Today.AddYears(-14).ToString("yyyy-MM-dd");
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-7">
-            <div class="app-surface p-4 p-md-5">
-                <h1 class="page-title h2 mb-4">Registracijos forma</h1>
+<div class="register-shell">
+    <div class="register-layout">
+        <aside class="register-story">
+            <div class="register-story-panel">
+                <div class="register-kicker">Registracija</div>
+                <h1 class="register-title">Susikurk paskyrą.</h1>
+                <p class="register-copy">
+                    Registracija suskirstyta į kelis trumpus žingsnius, kad būtų paprasčiau užpildyti tiek paskyros, tiek pagrindinę informaciją apie tave ir tavo darbą.
+                </p>
 
-                <form asp-action="Index" method="post">
+                <div class="register-journey" data-step-markers>
+                    <div class="journey-step is-active" data-step-marker="0">
+                        <div class="journey-step-index">1</div>
+                        <div>
+                            <div class="journey-step-title">Paskyra</div>
+                            <div class="journey-step-copy">Prisijungimo duomenys tavo paskyrai.</div>
+                        </div>
+                    </div>
+
+                    <div class="journey-step" data-step-marker="1">
+                        <div class="journey-step-index">2</div>
+                        <div>
+                            <div class="journey-step-title">Apie tave</div>
+                            <div class="journey-step-copy">Pagrindinė informacija apie tave.</div>
+                        </div>
+                    </div>
+
+                    <div class="journey-step" data-step-marker="2">
+                        <div class="journey-step-index">3</div>
+                        <div>
+                            <div class="journey-step-title">Darbo profilis</div>
+                            <div class="journey-step-copy">Informacija apie tavo darbą ir aplinką.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="register-note-card">
+                    <div class="register-note-label">Kodėl prašome šių duomenų</div>
+                    <p class="register-note-text">
+                        Ši informacija padės vėliau pateikti tikslesnę, aiškesnę ir labiau tau pritaikytą analizę.
+                    </p>
+                </div>
+            </div>
+        </aside>
+
+        <section class="register-form-zone">
+            <div class="register-card">
+                <div class="register-progress">
+                    <div class="register-progress-bar" data-progress-fill></div>
+                </div>
+
+                <div class="register-card-top">
+                    <div>
+                        <div class="register-step-label" data-step-caption>1 / 3 · Paskyra</div>
+                        <h2 class="register-card-title" data-step-title>Sukurk paskyrą</h2>
+                    </div>
+
+                    <a asp-controller="Home" asp-action="Index" class="register-back-link">
+                        Atgal
+                    </a>
+                </div>
+
+                <form asp-action="Index" method="post" class="register-wizard" data-register-wizard>
                     @Html.AntiForgeryToken()
 
-                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger register-summary"></div>
 
-                    <div class="mb-3">
-                        <label asp-for="Email" class="form-label">Elektroninis pastas</label>
-                        <input asp-for="Email" class="form-control" placeholder="Elektroninis pastas" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
+                    <div class="register-stage" data-step-stage>
+                        <section class="register-step-panel is-active" data-step-panel="0" data-step-name="Paskyra">
+                            <div class="step-section-header">
+                                <div class="step-kicker">1 žingsnis</div>
+                                <h3 class="step-title">Prisijungimo duomenys</h3>
+                                <p class="step-copy">Įvesk duomenis, kurių reikės prisijungti prie paskyros.</p>
+                            </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Username" class="form-label">Slapyvardis</label>
-                        <input asp-for="Username" class="form-control" placeholder="Slapyvardis" />
-                        <span asp-validation-for="Username" class="text-danger"></span>
-                    </div>
+                            <div class="register-field-grid">
+                                <label class="register-field register-field-wide">
+                                    <span class="register-field-label">Elektroninis paštas</span>
+                                    <input asp-for="Email"
+                                           class="form-control form-control-lg"
+                                           placeholder="vardas@pastas.lt"
+                                           autocomplete="email"
+                                           required />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </label>
 
-                    <div class="mb-3">
-                        <label asp-for="Password" class="form-label">Slaptazodis</label>
-                        <div class="password-field">
-                            <input asp-for="Password"
-                                   class="form-control"
-                                   placeholder="Slaptazodis"
-                                   autocomplete="new-password" />
-                            <button type="button"
-                                    class="password-toggle"
-                                    data-password-toggle="Password"
-                                    aria-label="Rodyti slaptazodi"
-                                    aria-pressed="false">
-                                <span class="password-toggle-icon" aria-hidden="true">
-                                    <svg class="password-toggle-svg password-toggle-svg-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M2.5 12s3.6-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.6 6.5-9.5 6.5S2.5 12 2.5 12Z" />
-                                        <circle cx="12" cy="12" r="3" />
-                                    </svg>
-                                    <svg class="password-toggle-svg password-toggle-svg-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M3 3l18 18" />
-                                        <path d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" />
-                                        <path d="M6.71 6.72C4.47 8.23 3 10.68 2.5 12c.83 2.2 4.1 6.5 9.5 6.5 2.24 0 4.18-.74 5.76-1.76" />
-                                        <path d="M9.88 4.68A10.7 10.7 0 0 1 12 4.5c5.9 0 9.5 6.5 9.5 6.5a15.3 15.3 0 0 1-2.17 3.19" />
-                                    </svg>
-                                </span>
-                                <span class="visually-hidden password-toggle-label">Rodyti</span>
-                            </button>
-                        </div>
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                        <div class="password-inline-feedback" data-password-summary aria-live="polite"></div>
+                                <label class="register-field register-field-wide">
+                                    <span class="register-field-label">Slapyvardis</span>
+                                    <input asp-for="Username"
+                                           class="form-control form-control-lg"
+                                           placeholder="Tavo vardas sistemoje"
+                                           autocomplete="username"
+                                           required />
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                </label>
 
-                        <div class="password-guidance" data-password-guidance aria-live="polite">
-                            <div class="password-strength">
-                                <div class="password-strength-bar">
-                                    <div class="password-strength-fill" data-password-strength-fill></div>
+                                <div class="register-field register-field-wide">
+                                    <label asp-for="Password" class="register-field-label">Slaptažodis</label>
+                                    <div class="password-field">
+                                        <input asp-for="Password"
+                                               class="form-control form-control-lg"
+                                               placeholder="Sukurk stiprų slaptažodį"
+                                               autocomplete="new-password"
+                                               required />
+                                        <button type="button"
+                                                class="password-toggle"
+                                                data-password-toggle="Password"
+                                                aria-label="Rodyti slaptažodį"
+                                                aria-pressed="false">
+                                            <span class="password-toggle-icon" aria-hidden="true">
+                                                <svg class="password-toggle-svg password-toggle-svg-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M2.5 12s3.6-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.6 6.5-9.5 6.5S2.5 12 2.5 12Z" />
+                                                    <circle cx="12" cy="12" r="3" />
+                                                </svg>
+                                                <svg class="password-toggle-svg password-toggle-svg-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M3 3l18 18" />
+                                                    <path d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" />
+                                                    <path d="M6.71 6.72C4.47 8.23 3 10.68 2.5 12c.83 2.2 4.1 6.5 9.5 6.5 2.24 0 4.18-.74 5.76-1.76" />
+                                                    <path d="M9.88 4.68A10.7 10.7 0 0 1 12 4.5c5.9 0 9.5 6.5 9.5 6.5a15.3 15.3 0 0 1-2.17 3.19" />
+                                                </svg>
+                                            </span>
+                                            <span class="visually-hidden password-toggle-label">Rodyti</span>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                    <div class="password-inline-feedback" data-password-summary aria-live="polite"></div>
+
+                                    <div class="password-guidance" data-password-guidance aria-live="polite">
+                                        <div class="password-strength">
+                                            <div class="password-strength-bar">
+                                                <div class="password-strength-fill" data-password-strength-fill></div>
+                                            </div>
+                                            <div class="password-strength-text" data-password-strength-text>
+                                                Slaptažodžio stiprumas pasimatys rašant.
+                                            </div>
+                                        </div>
+
+                                        <div class="password-rule-list">
+                                            <div class="password-rule" data-password-rule="length">Bent @minPasswordLength simboliai</div>
+                                            <div class="password-rule" data-password-rule="lowercase">Bent viena mažoji raidė</div>
+                                            <div class="password-rule" data-password-rule="uppercase">Bent viena didžioji raidė</div>
+                                            <div class="password-rule" data-password-rule="digit">Bent vienas skaičius</div>
+                                            <div class="password-rule" data-password-rule="symbol">Bent vienas specialus simbolis</div>
+                                            <div class="password-rule password-rule-note is-note">Nebūtina atitikti visų punktų, pakanka vidutinio stiprumo slaptažodžio.</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="password-strength-text" data-password-strength-text>
-                                    Slaptazodzio stiprumas pasimatys rasant.
+
+                                <div class="register-field register-field-wide">
+                                    <label asp-for="PasswordRepeat" class="register-field-label">Pakartok slaptažodį</label>
+                                    <div class="password-field">
+                                        <input asp-for="PasswordRepeat"
+                                               class="form-control form-control-lg"
+                                               placeholder="Pakartok dar kartą"
+                                               autocomplete="new-password"
+                                               required />
+                                        <button type="button"
+                                                class="password-toggle"
+                                                data-password-toggle="PasswordRepeat"
+                                                aria-label="Rodyti slaptažodį"
+                                                aria-pressed="false">
+                                            <span class="password-toggle-icon" aria-hidden="true">
+                                                <svg class="password-toggle-svg password-toggle-svg-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M2.5 12s3.6-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.6 6.5-9.5 6.5S2.5 12 2.5 12Z" />
+                                                    <circle cx="12" cy="12" r="3" />
+                                                </svg>
+                                                <svg class="password-toggle-svg password-toggle-svg-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M3 3l18 18" />
+                                                    <path d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" />
+                                                    <path d="M6.71 6.72C4.47 8.23 3 10.68 2.5 12c.83 2.2 4.1 6.5 9.5 6.5 2.24 0 4.18-.74 5.76-1.76" />
+                                                    <path d="M9.88 4.68A10.7 10.7 0 0 1 12 4.5c5.9 0 9.5 6.5 9.5 6.5a15.3 15.3 0 0 1-2.17 3.19" />
+                                                </svg>
+                                            </span>
+                                            <span class="visually-hidden password-toggle-label">Rodyti</span>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="PasswordRepeat" class="text-danger"></span>
+                                    <div class="password-inline-feedback" data-repeat-summary aria-live="polite"></div>
                                 </div>
                             </div>
 
-                            <div class="password-rule-list">
-                                <div class="password-rule" data-password-rule="length">Bent @minPasswordLength simboliai</div>
-                                <div class="password-rule" data-password-rule="letters">Bent viena mazoji ir viena didzioji raide</div>
-                                <div class="password-rule" data-password-rule="digit">Bent vienas skaicius</div>
-                                <div class="password-rule" data-password-rule="symbol">Bent vienas specialus simbolis</div>
+                            <div class="register-actions">
+                                <span></span>
+                                <button type="button" class="btn btn-primary btn-lg register-next" data-step-next>
+                                    Toliau
+                                </button>
                             </div>
-                        </div>
-                    </div>
+                        </section>
 
-                    <div class="mb-3">
-                        <label asp-for="PasswordRepeat" class="form-label">Pakartoti slaptazodi</label>
-                        <div class="password-field">
-                            <input asp-for="PasswordRepeat"
-                                   class="form-control"
-                                   placeholder="Pakartoti slaptazodi"
-                                   autocomplete="new-password" />
-                            <button type="button"
-                                    class="password-toggle"
-                                    data-password-toggle="PasswordRepeat"
-                                    aria-label="Rodyti slaptazodi"
-                                    aria-pressed="false">
-                                <span class="password-toggle-icon" aria-hidden="true">
-                                    <svg class="password-toggle-svg password-toggle-svg-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M2.5 12s3.6-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.6 6.5-9.5 6.5S2.5 12 2.5 12Z" />
-                                        <circle cx="12" cy="12" r="3" />
-                                    </svg>
-                                    <svg class="password-toggle-svg password-toggle-svg-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M3 3l18 18" />
-                                        <path d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" />
-                                        <path d="M6.71 6.72C4.47 8.23 3 10.68 2.5 12c.83 2.2 4.1 6.5 9.5 6.5 2.24 0 4.18-.74 5.76-1.76" />
-                                        <path d="M9.88 4.68A10.7 10.7 0 0 1 12 4.5c5.9 0 9.5 6.5 9.5 6.5a15.3 15.3 0 0 1-2.17 3.19" />
-                                    </svg>
-                                </span>
-                                <span class="visually-hidden password-toggle-label">Rodyti</span>
-                            </button>
-                        </div>
-                        <span asp-validation-for="PasswordRepeat" class="text-danger"></span>
-                        <div class="password-inline-feedback" data-repeat-summary aria-live="polite"></div>
-                    </div>
-
-                    <div class="mb-4">
-                        <label asp-for="Gender" class="form-label">Lytis</label>
-                        <select asp-for="Gender" class="form-select">
-                            <option value="">Pasirinkite lyti</option>
-                            <option value="male">Vyras</option>
-                            <option value="female">Moteris</option>
-                            <option value="other">Kita</option>
-                        </select>
-                        <span asp-validation-for="Gender" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-4">
-                        <label asp-for="CountryID" class="form-label">Salis</label>
-                        <div class="country-picker">
-                            <input type="text"
-                                   class="form-control country-search"
-                                   data-country-search
-                                   placeholder="Ieskoti salies"
-                                   autocomplete="off"
-                                   aria-expanded="true" />
-                            <select asp-for="CountryID"
-                                    asp-items="Model.Countries"
-                                    class="form-select country-select"
-                                    data-country-select
-                                    size="8">
-                            </select>
-                        </div>
-                        <span asp-validation-for="CountryID" class="text-danger"></span>
-
-                        @if (!hasCountries)
-                        {
-                            <div class="country-empty-note">
-                                Saliu sarasas tuscias. Reikes uzpildyti countries lentele, kad sis laukas veiktu pilnai.
+                        <section class="register-step-panel" data-step-panel="1" data-step-name="Apie tave">
+                            <div class="step-section-header">
+                                <div class="step-kicker">2 žingsnis</div>
+                                <h3 class="step-title">Pagrindinė informacija</h3>
+                                <p class="step-copy">Ši informacija padės geriau suprasti tavo bendrą situaciją.</p>
                             </div>
-                        }
-                    </div>
 
-                    <div class="d-flex flex-wrap gap-3">
-                        <button type="submit" class="btn btn-secondary btn-lg">
-                            Registruotis
-                        </button>
+                            <div class="register-field-grid">
+                                <div class="register-field register-field-wide">
+                                    <span class="register-field-label">Lytis</span>
+                                    <div class="choice-grid choice-grid-three">
+                                        <input asp-for="Gender" type="radio" value="male" id="GenderMale" class="choice-input" required />
+                                        <label for="GenderMale" class="choice-card">
+                                            <span class="choice-title">Vyras</span>
+                                            <span class="choice-copy">Naudosime profilio informacijai.</span>
+                                        </label>
 
-                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary btn-lg">
-                            Atgal
-                        </a>
+                                        <input asp-for="Gender" type="radio" value="female" id="GenderFemale" class="choice-input" required />
+                                        <label for="GenderFemale" class="choice-card">
+                                            <span class="choice-title">Moteris</span>
+                                            <span class="choice-copy">Bus išsaugota tavo profilyje.</span>
+                                        </label>
+
+                                        <input asp-for="Gender" type="radio" value="other" id="GenderOther" class="choice-input" required />
+                                        <label for="GenderOther" class="choice-card">
+                                            <span class="choice-title">Kita</span>
+                                            <span class="choice-copy">Pasirinkimas profilio informacijai.</span>
+                                        </label>
+                                    </div>
+                                    <span asp-validation-for="Gender" class="text-danger"></span>
+                                </div>
+
+                                <label class="register-field">
+                                    <span class="register-field-label">Gimimo data</span>
+                                    <input asp-for="BirthDate"
+                                           class="form-control form-control-lg"
+                                           type="date"
+                                           min="@minBirthDate"
+                                           max="@maxBirthDate"
+                                           required />
+                                    <span asp-validation-for="BirthDate" class="text-danger"></span>
+                                </label>
+
+                                <div class="register-field register-field-wide">
+                                    <label asp-for="CountryID" class="register-field-label">Šalis</label>
+                                    <div class="country-picker">
+                                        <input type="text"
+                                               class="form-control form-control-lg country-search"
+                                               data-country-search
+                                               placeholder="Ieškoti šalies"
+                                               autocomplete="off"
+                                               aria-expanded="true" />
+                                        <select asp-for="CountryID"
+                                                asp-items="Model.Countries"
+                                                class="form-select country-select"
+                                                data-country-select
+                                                size="8"
+                                                required>
+                                            <option value="">Pasirinkite šalį</option>
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="CountryID" class="text-danger"></span>
+
+                                    @if (!hasCountries)
+                                    {
+                                        <div class="country-empty-note">
+                                            Šalių sąrašas tuščias. Reikės užpildyti `countries` lentelę, kad šis laukas veiktų pilnai.
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="register-actions">
+                                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>
+                                    Atgal
+                                </button>
+                                <button type="button" class="btn btn-primary btn-lg register-next" data-step-next>
+                                    Toliau
+                                </button>
+                            </div>
+                        </section>
+
+                        <section class="register-step-panel" data-step-panel="2" data-step-name="Darbas">
+                            <div class="step-section-header">
+                                <div class="step-kicker">3 žingsnis</div>
+                                <h3 class="step-title">Darbo informacija</h3>
+                                <p class="step-copy">Kuo tiksliau užpildysi informaciją apie darbą, tuo naudingesnė bus analizė.</p>
+                            </div>
+
+                            <div class="register-field-grid">
+                                <label class="register-field register-field-wide">
+                                    <span class="register-field-label">Darbo pozicija</span>
+                                    <input asp-for="JobRole"
+                                           class="form-control form-control-lg"
+                                           placeholder="Frontend developer, projektų vadovas, QA..."
+                                           maxlength="30"
+                                           required />
+                                    <span asp-validation-for="JobRole" class="text-danger"></span>
+                                </label>
+
+                                <label class="register-field">
+                                    <span class="register-field-label">Patirties metai</span>
+                                    <input asp-for="ExperienceYears"
+                                           class="form-control form-control-lg"
+                                           type="number"
+                                           placeholder="3"
+                                           min="0"
+                                           max="80"
+                                           required />
+                                    <span asp-validation-for="ExperienceYears" class="text-danger"></span>
+                                </label>
+
+                                <div class="register-field register-field-wide">
+                                    <span class="register-field-label">Kompanijos dydis</span>
+                                    <div class="choice-grid choice-grid-three">
+                                        <input asp-for="CompanySize" type="radio" value="Maža" id="CompanySmall" class="choice-input" required />
+                                        <label for="CompanySmall" class="choice-card">
+                                            <span class="choice-title">Maža</span>
+                                            <span class="choice-copy">1–50 žmonių komanda.</span>
+                                        </label>
+
+                                        <input asp-for="CompanySize" type="radio" value="Vidutinė" id="CompanyMedium" class="choice-input" required />
+                                        <label for="CompanyMedium" class="choice-card">
+                                            <span class="choice-title">Vidutinė</span>
+                                            <span class="choice-copy">51–250 žmonių komanda.</span>
+                                        </label>
+
+                                        <input asp-for="CompanySize" type="radio" value="Didelė" id="CompanyLarge" class="choice-input" required />
+                                        <label for="CompanyLarge" class="choice-card">
+                                            <span class="choice-title">Didelė</span>
+                                            <span class="choice-copy">250+ žmonių organizacija.</span>
+                                        </label>
+                                    </div>
+                                    <span asp-validation-for="CompanySize" class="text-danger"></span>
+                                </div>
+
+                                <div class="register-field register-field-wide">
+                                    <span class="register-field-label">Darbo pobūdis</span>
+                                    <div class="choice-grid choice-grid-three">
+                                        <input asp-for="WorkEnvironment" type="radio" value="Nuotolinis" id="WorkRemote" class="choice-input" required />
+                                        <label for="WorkRemote" class="choice-card">
+                                            <span class="choice-title">Nuotolinis</span>
+                                            <span class="choice-copy">Kasdienis darbas daugiausia internetu.</span>
+                                        </label>
+
+                                        <input asp-for="WorkEnvironment" type="radio" value="Ofisinis" id="WorkOffice" class="choice-input" required />
+                                        <label for="WorkOffice" class="choice-card">
+                                            <span class="choice-title">Ofisinis</span>
+                                            <span class="choice-copy">Pagrindinė vieta yra ofisas.</span>
+                                        </label>
+
+                                        <input asp-for="WorkEnvironment" type="radio" value="Hibridinis" id="WorkHybrid" class="choice-input" required />
+                                        <label for="WorkHybrid" class="choice-card">
+                                            <span class="choice-title">Hibridinis</span>
+                                            <span class="choice-copy">Mišrus ritmas tarp namų ir ofiso.</span>
+                                        </label>
+                                    </div>
+                                    <span asp-validation-for="WorkEnvironment" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="register-actions">
+                                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>
+                                    Atgal
+                                </button>
+                                <button type="submit" class="btn btn-secondary btn-lg">
+                                    Užbaigti registraciją
+                                </button>
+                            </div>
+                        </section>
                     </div>
                 </form>
             </div>
-        </div>
+        </section>
     </div>
 </div>
 
 <style>
+    .register-shell {
+        max-width: 1260px;
+        margin: 0 auto;
+        padding: 24px 0 52px;
+    }
+
+    .register-layout {
+        display: grid;
+        grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.1fr);
+        gap: 22px;
+        align-items: stretch;
+    }
+
+    .register-story-panel,
+    .register-card {
+        border: 1px solid var(--color-border);
+        border-radius: 28px;
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+    }
+
+    .register-story-panel {
+        height: 100%;
+        padding: 30px;
+        color: #f8fafc;
+        background:
+            radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.16), transparent 24%),
+            radial-gradient(circle at 82% 20%, rgba(255, 255, 255, 0.12), transparent 18%),
+            linear-gradient(150deg, #0f172a 0%, #12233d 48%, #183b5b 100%);
+    }
+
+    .register-kicker,
+    .step-kicker {
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 800;
+    }
+
+    .register-kicker {
+        color: rgba(255, 255, 255, 0.74);
+        margin-bottom: 12px;
+    }
+
+    .register-title {
+        margin: 0;
+        font-size: clamp(36px, 5vw, 56px);
+        line-height: 0.98;
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        color: #fff;
+    }
+
+    .register-copy {
+        margin: 18px 0 0;
+        font-size: 16px;
+        line-height: 1.75;
+        color: rgba(241, 245, 249, 0.82);
+        max-width: 34rem;
+    }
+
+    .register-journey {
+        display: grid;
+        gap: 12px;
+        margin-top: 28px;
+    }
+
+    .journey-step {
+        display: grid;
+        grid-template-columns: 44px 1fr;
+        gap: 14px;
+        align-items: start;
+        padding: 16px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+    }
+
+    .journey-step.is-active {
+        transform: translateX(4px);
+        background: rgba(255, 255, 255, 0.13);
+        border-color: rgba(255, 255, 255, 0.24);
+    }
+
+    .journey-step-index {
+        width: 44px;
+        height: 44px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        font-size: 15px;
+        font-weight: 900;
+        color: #fff;
+    }
+
+    .journey-step-title {
+        font-size: 16px;
+        font-weight: 800;
+        color: #fff;
+    }
+
+    .journey-step-copy {
+        margin-top: 4px;
+        color: rgba(241, 245, 249, 0.72);
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .register-note-card {
+        margin-top: 26px;
+        padding: 18px 18px 20px;
+        border-radius: 22px;
+        background: rgba(15, 23, 42, 0.34);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(14px);
+    }
+
+    .register-note-label {
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.68);
+    }
+
+    .register-note-text {
+        margin: 10px 0 0;
+        color: rgba(241, 245, 249, 0.82);
+        line-height: 1.7;
+        font-size: 14px;
+    }
+
+    .register-card {
+        background:
+            radial-gradient(circle at top right, rgba(var(--color-secondary-rgb), 0.12), transparent 24%),
+            linear-gradient(180deg, var(--color-surface) 0%, rgba(255, 255, 255, 0.96) 100%);
+        padding: 0;
+    }
+
+    .register-progress {
+        height: 8px;
+        background: rgba(var(--color-secondary-rgb), 0.08);
+    }
+
+    .register-progress-bar {
+        height: 100%;
+        width: 33.333%;
+        background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+        transition: width 0.28s ease;
+    }
+
+    .register-card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 26px 28px 0;
+    }
+
+    .register-step-label {
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        margin-bottom: 10px;
+    }
+
+    .register-card-title {
+        margin: 0;
+        font-size: clamp(28px, 3vw, 38px);
+        font-weight: 900;
+        line-height: 1.02;
+        letter-spacing: -0.03em;
+        color: var(--color-text);
+    }
+
+    .register-back-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 16px;
+        border-radius: 999px;
+        border: 1px solid var(--color-border);
+        background: rgba(255, 255, 255, 0.74);
+        text-decoration: none;
+        font-weight: 700;
+        color: var(--color-text);
+        white-space: nowrap;
+    }
+
+    .register-back-link:hover {
+        color: var(--color-text);
+        border-color: rgba(var(--color-primary-rgb), 0.25);
+    }
+
+    .register-wizard {
+        padding: 18px 28px 28px;
+    }
+
+    .register-summary {
+        min-height: 18px;
+        margin-bottom: 10px;
+    }
+
+    .register-stage {
+        position: relative;
+    }
+
+    .register-step-panel {
+        border-radius: 24px;
+        border: 1px solid rgba(var(--color-secondary-rgb), 0.12);
+        background: rgba(255, 255, 255, 0.84);
+        padding: 24px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+
+    .register-wizard.is-enhanced .register-step-panel {
+        display: none;
+    }
+
+    .register-wizard.is-enhanced .register-step-panel.is-active {
+        display: block;
+        animation: registerStepFade 0.3s ease;
+    }
+
+    @@keyframes registerStepFade {
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .step-section-header {
+        margin-bottom: 20px;
+    }
+
+    .step-kicker {
+        color: var(--color-primary);
+        margin-bottom: 8px;
+    }
+
+    .step-title {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 900;
+        color: var(--color-text);
+        letter-spacing: -0.03em;
+    }
+
+    .step-copy {
+        margin: 10px 0 0;
+        color: var(--color-text-muted);
+        line-height: 1.65;
+        max-width: 42rem;
+    }
+
+    .register-field-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .register-field {
+        display: grid;
+        gap: 8px;
+    }
+
+    .register-field-wide {
+        grid-column: 1 / -1;
+    }
+
+    .register-field-label {
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--color-text-muted);
+        letter-spacing: 0.02em;
+    }
+
+    .register-field .form-control,
+    .register-field .form-select {
+        min-height: 58px;
+        border-radius: 18px;
+        border-color: rgba(var(--color-secondary-rgb), 0.16);
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .register-field .form-control:focus,
+    .register-field .form-select:focus {
+        border-color: rgba(var(--color-primary-rgb), 0.42);
+        box-shadow: 0 0 0 0.28rem rgba(var(--color-secondary-rgb), 0.14);
+    }
+
+    .choice-grid {
+        display: grid;
+        gap: 12px;
+    }
+
+    .choice-grid-three {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .choice-input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .choice-card {
+        min-height: 128px;
+        padding: 18px 16px;
+        border-radius: 20px;
+        border: 1px solid rgba(var(--color-secondary-rgb), 0.18);
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.92));
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 12px;
+        cursor: pointer;
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .choice-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(var(--color-primary-rgb), 0.28);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .choice-title {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--color-text);
+    }
+
+    .choice-copy {
+        font-size: 13px;
+        line-height: 1.55;
+        color: var(--color-text-muted);
+    }
+
+    .choice-input:checked + .choice-card {
+        border-color: rgba(var(--color-primary-rgb), 0.44);
+        background:
+            radial-gradient(circle at top right, rgba(var(--color-secondary-rgb), 0.14), transparent 36%),
+            linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(var(--color-secondary-rgb), 0.06));
+        box-shadow: 0 0 0 0.26rem rgba(var(--color-secondary-rgb), 0.12);
+        transform: translateY(-2px);
+    }
+
     .password-guidance {
         margin-top: 0;
         max-height: 0;
@@ -252,6 +826,15 @@
         border-color: var(--color-button-secondary-bg);
         color: var(--color-button-secondary-text);
         transform: scale(1.05);
+    }
+
+    .password-rule-note {
+        color: var(--color-text-muted);
+        font-style: italic;
+    }
+
+    .password-rule-note::before {
+        display: none;
     }
 
     .password-inline-feedback {
@@ -364,7 +947,12 @@
     }
 
     .country-search {
-        border-radius: 14px;
+        border-radius: 18px;
+    }
+
+    .country-select {
+        min-height: 220px;
+        padding: 10px;
     }
 
     .country-select.is-collapsed {
@@ -377,6 +965,70 @@
         font-size: 12px;
         font-weight: 700;
     }
+
+    .register-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-top: 24px;
+        padding-top: 22px;
+        border-top: 1px solid rgba(var(--color-secondary-rgb), 0.12);
+    }
+
+    .register-actions .btn {
+        min-width: 150px;
+        border-radius: 16px;
+        font-weight: 800;
+    }
+
+    @@media (max-width: 1100px) {
+        .register-layout {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .register-shell {
+            padding-top: 10px;
+        }
+
+        .register-story-panel,
+        .register-card {
+            border-radius: 24px;
+        }
+
+        .register-story-panel,
+        .register-card-top,
+        .register-wizard {
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+
+        .register-card-top {
+            padding-top: 22px;
+        }
+
+        .register-step-panel {
+            padding: 18px;
+        }
+
+        .register-field-grid,
+        .choice-grid-three {
+            grid-template-columns: 1fr;
+        }
+
+        .register-card-top,
+        .register-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .register-actions .btn,
+        .register-back-link {
+            width: 100%;
+        }
+    }
 </style>
 
 @section Scripts {
@@ -384,6 +1036,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("[data-register-wizard]");
             const passwordInput = document.getElementById("Password");
             const repeatInput = document.getElementById("PasswordRepeat");
             const guidance = document.querySelector("[data-password-guidance]");
@@ -394,8 +1047,211 @@
             const toggleButtons = document.querySelectorAll("[data-password-toggle]");
             const countrySearch = document.querySelector("[data-country-search]");
             const countrySelect = document.getElementById("CountryID");
+            const stepPanels = Array.from(document.querySelectorAll("[data-step-panel]"));
+            const stepMarkers = Array.from(document.querySelectorAll("[data-step-marker]"));
+            const nextButtons = Array.from(document.querySelectorAll("[data-step-next]"));
+            const prevButtons = Array.from(document.querySelectorAll("[data-step-prev]"));
+            const progressFill = document.querySelector("[data-progress-fill]");
+            const stepCaption = document.querySelector("[data-step-caption]");
+            const stepTitle = document.querySelector("[data-step-title]");
             let suppressGuidanceChanges = false;
             let guidanceWasVisibleBeforeToggle = false;
+            let currentStep = 0;
+
+            if (form) {
+                form.classList.add("is-enhanced");
+            }
+
+            const updateStepMeta = function () {
+                if (!stepCaption || !stepTitle || !progressFill || !stepPanels.length) {
+                    return;
+                }
+
+                const currentPanel = stepPanels[currentStep];
+                const stepName = currentPanel && currentPanel.dataset.stepName
+                    ? currentPanel.dataset.stepName
+                    : "Registracija";
+
+                stepCaption.textContent = (currentStep + 1) + " / " + stepPanels.length + " · " + stepName;
+
+                const titles = [
+                    "Sukurk paskyrą",
+                    "Papasakok apie save",
+                    "Papasakok apie savo darbą"
+                ];
+
+                stepTitle.textContent = titles[currentStep] || "Registracija";
+                progressFill.style.width = (((currentStep + 1) / stepPanels.length) * 100) + "%";
+            };
+
+            const goToStep = function (stepIndex) {
+                if (!stepPanels.length) {
+                    return;
+                }
+
+                currentStep = Math.max(0, Math.min(stepIndex, stepPanels.length - 1));
+
+                stepPanels.forEach(function (panel, index) {
+                    panel.classList.toggle("is-active", index === currentStep);
+                });
+
+                stepMarkers.forEach(function (marker, index) {
+                    marker.classList.toggle("is-active", index === currentStep);
+                });
+
+                updateStepMeta();
+            };
+
+            const getPasswordState = function () {
+                const password = passwordInput ? passwordInput.value || "" : "";
+                const repeat = repeatInput ? repeatInput.value || "" : "";
+
+                return {
+                    password,
+                    repeat,
+                    hasMinLength: password.length >= @minPasswordLength,
+                    hasLowercase: /[a-z]/.test(password),
+                    hasUppercase: /[A-Z]/.test(password),
+                    hasDigit: /\d/.test(password),
+                    hasSymbol: /[^A-Za-z0-9]/.test(password)
+                };
+            };
+
+            const getPasswordScore = function (state) {
+                return [
+                    state.hasMinLength,
+                    state.hasLowercase,
+                    state.hasUppercase,
+                    state.hasDigit,
+                    state.hasSymbol
+                ].filter(Boolean).length;
+            };
+
+            const isPasswordStrongEnough = function (state) {
+                return state.password.length > 0
+                    && state.hasMinLength
+                    && getPasswordScore(state) >= @minimumAcceptedScore;
+            };
+
+            const refreshPasswordCustomValidity = function () {
+                if (!passwordInput || !repeatInput) {
+                    return;
+                }
+
+                const state = getPasswordState();
+                const passwordIsStrongEnough = isPasswordStrongEnough(state);
+                let passwordError = "";
+
+                if (state.password.length > 0 && !state.hasMinLength) {
+                    passwordError = "Slaptazodis turi buti bent @minPasswordLength simboliu.";
+                } else if (state.password.length > 0 && !passwordIsStrongEnough) {
+                    passwordError = "Slaptazodis turi buti bent vidutinio stiprumo.";
+                }
+
+                passwordInput.setCustomValidity(passwordError);
+
+                repeatInput.setCustomValidity(
+                    state.repeat.length > 0 && state.password !== state.repeat
+                        ? "Slaptazodziai nesutampa."
+                        : ""
+                );
+            };
+
+            const validateStep = function (stepIndex) {
+                if (!stepPanels[stepIndex]) {
+                    return true;
+                }
+
+                refreshPasswordCustomValidity();
+
+                const fields = Array.from(stepPanels[stepIndex].querySelectorAll("input, select, textarea"));
+
+                for (const field of fields) {
+                    if (!(field instanceof HTMLElement)) {
+                        continue;
+                    }
+
+                    if (field.hasAttribute("disabled") || field.getAttribute("type") === "hidden") {
+                        continue;
+                    }
+
+                    if (typeof field.checkValidity === "function" && !field.checkValidity()) {
+                        if (typeof field.reportValidity === "function") {
+                            field.reportValidity();
+                        }
+
+                        return false;
+                    }
+                }
+
+                return true;
+            };
+
+            const getFirstInvalidStepIndex = function () {
+                for (let index = 0; index < stepPanels.length; index += 1) {
+                    if (!validateStep(index)) {
+                        return index;
+                    }
+                }
+
+                return -1;
+            };
+
+            const getServerErrorStepIndex = function () {
+                if (!form) {
+                    return 0;
+                }
+
+                const invalidField = form.querySelector(".input-validation-error, [aria-invalid='true']");
+                if (invalidField) {
+                    const panel = invalidField.closest("[data-step-panel]");
+                    if (panel && panel instanceof HTMLElement && panel.dataset.stepPanel) {
+                        return parseInt(panel.dataset.stepPanel, 10) || 0;
+                    }
+                }
+
+                const errorMessage = Array.from(form.querySelectorAll(".field-validation-error, .validation-summary-errors"))
+                    .find(function (element) {
+                        return !!(element.textContent || "").trim();
+                    });
+
+                if (errorMessage) {
+                    const panel = errorMessage.closest("[data-step-panel]");
+                    if (panel && panel instanceof HTMLElement && panel.dataset.stepPanel) {
+                        return parseInt(panel.dataset.stepPanel, 10) || 0;
+                    }
+                }
+
+                return 0;
+            };
+
+            nextButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    if (validateStep(currentStep)) {
+                        goToStep(currentStep + 1);
+                    }
+                });
+            });
+
+            prevButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    goToStep(currentStep - 1);
+                });
+            });
+
+            if (form) {
+                form.addEventListener("submit", function (event) {
+                    const invalidStepIndex = getFirstInvalidStepIndex();
+
+                    if (invalidStepIndex >= 0) {
+                        event.preventDefault();
+                        goToStep(invalidStepIndex);
+                        window.setTimeout(function () {
+                            validateStep(invalidStepIndex);
+                        }, 0);
+                    }
+                });
+            }
 
             if (countrySearch && countrySelect) {
                 const countryPicker = countrySelect.closest(".country-picker");
@@ -502,239 +1358,233 @@
                 }
             }
 
-            if (!passwordInput || !repeatInput) {
-                return;
-            }
-
-            const ruleElements = {
-                length: document.querySelector('[data-password-rule="length"]'),
-                letters: document.querySelector('[data-password-rule="letters"]'),
-                digit: document.querySelector('[data-password-rule="digit"]'),
-                symbol: document.querySelector('[data-password-rule="symbol"]')
-            };
-
-            const updateRule = function (element, isMet) {
-                if (!element) {
-                    return;
-                }
-
-                element.classList.toggle("is-met", isMet);
-            };
-
-            const getPasswordState = function () {
-                const password = passwordInput.value || "";
-                const repeat = repeatInput.value || "";
-
-                return {
-                    password,
-                    repeat,
-                    hasMinLength: password.length >= @minPasswordLength,
-                    hasLowercase: /[a-z]/.test(password),
-                    hasUppercase: /[A-Z]/.test(password),
-                    hasDigit: /\d/.test(password),
-                    hasSymbol: /[^A-Za-z0-9]/.test(password)
+            if (passwordInput && repeatInput) {
+                const ruleElements = {
+                    length: document.querySelector('[data-password-rule="length"]'),
+                    lowercase: document.querySelector('[data-password-rule="lowercase"]'),
+                    uppercase: document.querySelector('[data-password-rule="uppercase"]'),
+                    digit: document.querySelector('[data-password-rule="digit"]'),
+                    symbol: document.querySelector('[data-password-rule="symbol"]')
                 };
-            };
 
-            const getStrengthDetails = function (state) {
-                if (state.password.length === 0) {
-                    return {
-                        width: "0%",
-                        color: "#dc3545",
-                        label: "Slaptazodzio stiprumas pasimatys rasant."
+                const updateRule = function (element, isMet) {
+                    if (!element) {
+                        return;
+                    }
+
+                    element.classList.toggle("is-met", isMet);
+                };
+
+                const getStrengthDetails = function (state) {
+                    if (state.password.length === 0) {
+                        return {
+                            width: "0%",
+                            color: "#dc3545",
+                            label: "Slaptažodžio stiprumas pasimatys rašant."
+                        };
+                    }
+
+                    const score = getPasswordScore(state);
+
+                    if (!state.hasMinLength) {
+                        return {
+                            width: ((Math.max(score, 1) / 5) * 100) + "%",
+                            color: "#f59e0b",
+                            label: "Per trumpas slaptažodis"
+                        };
+                    }
+
+                    const strengthMap = {
+                        1: { color: "#dc3545", label: "Labai silpnas slaptažodis" },
+                        2: { color: "#f59e0b", label: "Silpnas slaptažodis" },
+                        3: { color: "#0ea5e9", label: "Vidutinis slaptažodis, pakanka registracijai" },
+                        4: { color: "#2563eb", label: "Stiprus slaptažodis" },
+                        5: { color: "#15803d", label: "Labai stiprus slaptažodis" }
                     };
-                }
 
-                const score = [
-                    state.hasMinLength,
-                    state.hasLowercase,
-                    state.hasUppercase,
-                    state.hasDigit,
-                    state.hasSymbol
-                ].filter(Boolean).length;
-
-                const strengthMap = {
-                    1: { color: "#dc3545", label: "Labai silpnas slaptazodis" },
-                    2: { color: "#f59e0b", label: "Silpnas slaptazodis" },
-                    3: { color: "#0ea5e9", label: "Vidutinis slaptazodis" },
-                    4: { color: "#2563eb", label: "Stiprus slaptazodis" },
-                    5: { color: "#15803d", label: "Labai stiprus slaptazodis" }
+                    const details = strengthMap[score] || strengthMap[1];
+                    return {
+                        width: ((score / 5) * 100) + "%",
+                        color: details.color,
+                        label: details.label
+                    };
                 };
 
-                const details = strengthMap[score] || strengthMap[1];
-                return {
-                    width: ((score / 5) * 100) + "%",
-                    color: details.color,
-                    label: details.label
+                const updatePasswordRules = function () {
+                    const state = getPasswordState();
+
+                    updateRule(ruleElements.length, state.hasMinLength);
+                    updateRule(ruleElements.lowercase, state.hasLowercase);
+                    updateRule(ruleElements.uppercase, state.hasUppercase);
+                    updateRule(ruleElements.digit, state.hasDigit);
+                    updateRule(ruleElements.symbol, state.hasSymbol);
                 };
-            };
 
-            const updatePasswordRules = function () {
-                const state = getPasswordState();
+                const updateStrength = function () {
+                    if (!strengthFill || !strengthText) {
+                        return;
+                    }
 
-                updateRule(ruleElements.length, state.hasMinLength);
-                updateRule(ruleElements.letters, state.hasLowercase && state.hasUppercase);
-                updateRule(ruleElements.digit, state.hasDigit);
-                updateRule(ruleElements.symbol, state.hasSymbol);
-            };
+                    const details = getStrengthDetails(getPasswordState());
+                    strengthFill.style.width = details.width;
+                    strengthFill.style.background = details.color;
+                    strengthText.textContent = details.label;
+                };
 
-            const updateStrength = function () {
-                if (!strengthFill || !strengthText) {
-                    return;
-                }
-
-                const details = getStrengthDetails(getPasswordState());
-                strengthFill.style.width = details.width;
-                strengthFill.style.background = details.color;
-                strengthText.textContent = details.label;
-            };
-
-            const showGuidance = function () {
-                if (suppressGuidanceChanges) {
-                    return;
-                }
-
-                if (guidance) {
-                    guidance.classList.add("is-visible");
-                }
-
-                if (passwordSummary) {
-                    passwordSummary.textContent = "";
-                }
-            };
-
-            const hideGuidanceIfNeeded = function () {
-                if (suppressGuidanceChanges) {
-                    return;
-                }
-
-                window.setTimeout(function () {
-                    const activeElement = document.activeElement;
-                    const stillEditing = activeElement === passwordInput || activeElement === repeatInput;
-
-                    if (stillEditing) {
+                const showGuidance = function () {
+                    if (suppressGuidanceChanges) {
                         return;
                     }
 
                     if (guidance) {
-                        guidance.classList.remove("is-visible");
+                        guidance.classList.add("is-visible");
                     }
-
-                    const state = getPasswordState();
-                    const passwordIsValid =
-                        state.password.length === 0
-                            || (state.hasMinLength && state.hasLowercase && state.hasUppercase && state.hasDigit && state.hasSymbol);
 
                     if (passwordSummary) {
-                        passwordSummary.textContent =
-                            !passwordIsValid && state.password.length > 0
-                                ? "Neispildyti slaptazodzio reikalavimai."
-                                : "";
+                        passwordSummary.textContent = "";
                     }
-
-                    if (repeatSummary) {
-                        repeatSummary.textContent =
-                            state.repeat.length > 0 && state.password !== state.repeat
-                                ? "Slaptazodziai nesutampa."
-                                : "";
-                    }
-                }, 0);
-            };
-
-            const updateRepeatSummary = function () {
-                const state = getPasswordState();
-
-                if (repeatSummary) {
-                    const passwordsMatch = state.repeat.length > 0 && state.password === state.repeat;
-                    const passwordsDiffer = state.repeat.length > 0 && state.password !== state.repeat;
-
-                    repeatSummary.textContent = passwordsMatch
-                        ? "Slaptazodziai sutampa."
-                        : passwordsDiffer
-                            ? "Slaptazodziai nesutampa."
-                            : "";
-
-                    repeatSummary.classList.toggle("is-valid", passwordsMatch);
-                }
-            };
-
-            toggleButtons.forEach(function (button) {
-                const prepareToggleInteraction = function () {
-                    suppressGuidanceChanges = true;
-                    guidanceWasVisibleBeforeToggle = guidance ? guidance.classList.contains("is-visible") : false;
                 };
 
-                button.addEventListener("pointerdown", function () {
-                    prepareToggleInteraction();
-                });
-
-                button.addEventListener("mousedown", function (event) {
-                    event.preventDefault();
-                    prepareToggleInteraction();
-                });
-
-                button.addEventListener("click", function () {
-                    const targetId = button.getAttribute("data-password-toggle");
-                    const input = targetId ? document.getElementById(targetId) : null;
-                    const label = button.querySelector(".password-toggle-label");
-
-                    if (!input) {
+                const hideGuidanceIfNeeded = function () {
+                    if (suppressGuidanceChanges) {
                         return;
                     }
 
-                    const isHidden = input.type === "password";
-                    input.type = isHidden ? "text" : "password";
-                    if (label) {
-                        label.textContent = isHidden ? "Slepti" : "Rodyti";
-                    }
-
-                    button.classList.toggle("is-active", isHidden);
-                    button.setAttribute("aria-pressed", isHidden ? "true" : "false");
-                    button.setAttribute("aria-label", isHidden ? "Slepti slaptazodi" : "Rodyti slaptazodi");
-                    button.classList.remove("is-animating");
-                    void button.offsetWidth;
-                    button.classList.add("is-animating");
-
-                    if (guidance) {
-                        guidance.classList.toggle("is-visible", guidanceWasVisibleBeforeToggle);
-                    }
-
                     window.setTimeout(function () {
-                        suppressGuidanceChanges = false;
+                        const activeElement = document.activeElement;
+                        const stillEditing = activeElement === passwordInput || activeElement === repeatInput;
+
+                        if (stillEditing) {
+                            return;
+                        }
+
+                        if (guidance) {
+                            guidance.classList.remove("is-visible");
+                        }
+
+                        const state = getPasswordState();
+                        const passwordIsValid =
+                            state.password.length === 0
+                                || isPasswordStrongEnough(state);
+
+                        if (passwordSummary) {
+                            passwordSummary.textContent =
+                                state.password.length > 0 && !state.hasMinLength
+                                    ? "Slaptažodis per trumpas."
+                                    : !passwordIsValid && state.password.length > 0
+                                        ? "Slaptažodis per silpnas registracijai."
+                                    : "";
+                        }
+
+                        if (repeatSummary) {
+                            repeatSummary.textContent =
+                                state.repeat.length > 0 && state.password !== state.repeat
+                                    ? "Slaptažodžiai nesutampa."
+                                    : "";
+                        }
                     }, 0);
+                };
+
+                const updateRepeatSummary = function () {
+                    const state = getPasswordState();
+
+                    if (repeatSummary) {
+                        const passwordsMatch = state.repeat.length > 0 && state.password === state.repeat;
+                        const passwordsDiffer = state.repeat.length > 0 && state.password !== state.repeat;
+
+                        repeatSummary.textContent = passwordsMatch
+                            ? "Slaptažodžiai sutampa."
+                            : passwordsDiffer
+                                ? "Slaptažodžiai nesutampa."
+                                : "";
+
+                        repeatSummary.classList.toggle("is-valid", passwordsMatch);
+                    }
+                };
+
+                toggleButtons.forEach(function (button) {
+                    const prepareToggleInteraction = function () {
+                        suppressGuidanceChanges = true;
+                        guidanceWasVisibleBeforeToggle = guidance ? guidance.classList.contains("is-visible") : false;
+                    };
+
+                    button.addEventListener("pointerdown", function () {
+                        prepareToggleInteraction();
+                    });
+
+                    button.addEventListener("mousedown", function (event) {
+                        event.preventDefault();
+                        prepareToggleInteraction();
+                    });
+
+                    button.addEventListener("click", function () {
+                        const targetId = button.getAttribute("data-password-toggle");
+                        const input = targetId ? document.getElementById(targetId) : null;
+                        const label = button.querySelector(".password-toggle-label");
+
+                        if (!input) {
+                            return;
+                        }
+
+                        const isHidden = input.type === "password";
+                        input.type = isHidden ? "text" : "password";
+                        if (label) {
+                            label.textContent = isHidden ? "Slėpti" : "Rodyti";
+                        }
+
+                        button.classList.toggle("is-active", isHidden);
+                        button.setAttribute("aria-pressed", isHidden ? "true" : "false");
+                        button.setAttribute("aria-label", isHidden ? "Slėpti slaptažodį" : "Rodyti slaptažodį");
+                        button.classList.remove("is-animating");
+                        void button.offsetWidth;
+                        button.classList.add("is-animating");
+
+                        if (guidance) {
+                            guidance.classList.toggle("is-visible", guidanceWasVisibleBeforeToggle);
+                        }
+
+                        window.setTimeout(function () {
+                            suppressGuidanceChanges = false;
+                        }, 0);
+                    });
+
+                    button.addEventListener("blur", function () {
+                        window.setTimeout(function () {
+                            suppressGuidanceChanges = false;
+                        }, 0);
+                    });
                 });
 
-                button.addEventListener("blur", function () {
-                    window.setTimeout(function () {
-                        suppressGuidanceChanges = false;
-                    }, 0);
+                passwordInput.addEventListener("focus", showGuidance);
+                repeatInput.addEventListener("focus", showGuidance);
+                passwordInput.addEventListener("blur", hideGuidanceIfNeeded);
+                repeatInput.addEventListener("blur", hideGuidanceIfNeeded);
+
+                passwordInput.addEventListener("input", function () {
+                    showGuidance();
+                    updatePasswordRules();
+                    updateStrength();
+                    updateRepeatSummary();
+                    refreshPasswordCustomValidity();
                 });
-            });
 
-            passwordInput.addEventListener("focus", showGuidance);
-            repeatInput.addEventListener("focus", showGuidance);
-            passwordInput.addEventListener("blur", hideGuidanceIfNeeded);
-            repeatInput.addEventListener("blur", hideGuidanceIfNeeded);
+                repeatInput.addEventListener("input", function () {
+                    showGuidance();
+                    updateRepeatSummary();
+                    refreshPasswordCustomValidity();
+                });
 
-            passwordInput.addEventListener("input", function () {
-                showGuidance();
+                if (passwordInput.value.length > 0 || repeatInput.value.length > 0) {
+                    showGuidance();
+                }
+
                 updatePasswordRules();
                 updateStrength();
                 updateRepeatSummary();
-            });
-
-            repeatInput.addEventListener("input", function () {
-                showGuidance();
-                updateRepeatSummary();
-            });
-
-            if (passwordInput.value.length > 0 || repeatInput.value.length > 0) {
-                showGuidance();
+                refreshPasswordCustomValidity();
             }
 
-            updatePasswordRules();
-            updateStrength();
-            updateRepeatSummary();
+            goToStep(getServerErrorStepIndex());
         });
     </script>
 }

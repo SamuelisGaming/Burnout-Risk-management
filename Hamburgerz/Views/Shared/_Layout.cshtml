@@ -108,89 +108,99 @@
         ? username.Substring(0, 1).ToUpper()
         : "?";
 
-    var avatarStorageKey = isLoggedIn ? $"profile-avatar-{userId!.Value}" : string.Empty;
+    var avatarUrl = isLoggedIn ? Url.Action("Avatar", "Profile") ?? string.Empty : string.Empty;
 }
-<body data-avatar-storage-key="@avatarStorageKey">
+<body class="app-body" data-avatar-url="@avatarUrl">
+    <div class="app-background" aria-hidden="true">
+        <div class="app-background__mesh"></div>
+        <div class="app-background__orb app-background__orb--primary"></div>
+        <div class="app-background__orb app-background__orb--secondary"></div>
+        <div class="app-background__orb app-background__orb--tertiary"></div>
+        <div class="app-background__frost"></div>
+        <div class="app-background__grain"></div>
+    </div>
 
-    <header>
-        <nav class="navbar navbar-expand-lg border-bottom box-shadow mb-3 app-navbar">
-            <div class="container-fluid">
+    <div class="app-chrome">
+        <header>
+            <nav class="navbar navbar-expand-lg border-bottom box-shadow mb-3 app-navbar">
+                <div class="container-fluid">
 
-                @if (!isLoggedIn)
-                {
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Hamburgerz</a>
-                }
-                else
-                {
-                    <div class="w-100 d-flex align-items-center justify-content-between">
+                    @if (!isLoggedIn)
+                    {
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Hamburgerz</a>
+                    }
+                    else
+                    {
+                        <div class="w-100 d-flex align-items-center justify-content-between">
 
-                        <div style="min-width: 180px;">
-                            <a class="navbar-brand mb-0" asp-area="" asp-controller="Home" asp-action="Index">Hamburgerz</a>
-                        </div>
+                            <div style="min-width: 180px;">
+                                <a class="navbar-brand mb-0" asp-area="" asp-controller="Home" asp-action="Index">Hamburgerz</a>
+                            </div>
 
-                        <div class="d-flex justify-content-center flex-grow-1">
-                            <ul class="navbar-nav d-flex flex-row gap-4">
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="History">History</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="Analysis">Analysis</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="d-flex justify-content-end" style="min-width: 180px;">
-                            <div class="dropdown">
-                                <button class="btn profile-avatar-btn"
-                                        type="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                        aria-label="Profilio meniu">
-                                    <div class="profile-avatar" data-avatar-root>
-                                        <img class="profile-avatar-image" data-avatar-image alt="Profilio nuotrauka" hidden />
-                                        <span class="profile-avatar-fallback" data-avatar-fallback>@userInitial</span>
-                                    </div>
-                                </button>
-
-                                <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
-                                    <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="Profile" asp-action="Index">
-                                            Profilis
-                                        </a>
+                            <div class="d-flex justify-content-center flex-grow-1">
+                                <ul class="navbar-nav d-flex flex-row gap-4">
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                                     </li>
-                                    <li><hr class="dropdown-divider" /></li>
-                                    <li>
-                                        <a class="dropdown-item text-danger" asp-area="" asp-controller="Login" asp-action="Logout">
-                                            Atsijungti
-                                        </a>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="History">History</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="Analysis">Analysis</a>
                                     </li>
                                 </ul>
                             </div>
+
+                            <div class="d-flex justify-content-end" style="min-width: 180px;">
+                                <div class="dropdown">
+                                    <button class="btn profile-avatar-btn"
+                                            type="button"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                            aria-label="Profilio meniu">
+                                        <div class="profile-avatar" data-avatar-root>
+                                            <img class="profile-avatar-image" data-avatar-image alt="Profilio nuotrauka" hidden />
+                                            <span class="profile-avatar-fallback" data-avatar-fallback>@userInitial</span>
+                                        </div>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                                        <li>
+                                            <a class="dropdown-item" asp-area="" asp-controller="Profile" asp-action="Index">
+                                                Profilis
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider" /></li>
+                                        <li>
+                                            <a class="dropdown-item text-danger" asp-area="" asp-controller="Login" asp-action="Logout">
+                                                Atsijungti
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
                         </div>
+                    }
+                </div>
+            </nav>
+        </header>
 
-                    </div>
-                }
-            </div>
-        </nav>
-    </header>
-
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer">
-        <div class="container">
-            &copy; 2026 - Hamburgerz - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container app-main-shell">
+            <main role="main" class="app-main-content pb-3">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
+
+        <footer class="border-top footer">
+            <div class="container">
+                &copy; 2026 - Hamburgerz - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

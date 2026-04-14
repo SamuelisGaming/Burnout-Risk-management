@@ -4,6 +4,10 @@
     ViewData["Title"] = "Measurement result";
     TempData.Remove("MeasurementSuccess");
     var errorMessage = TempData["MeasurementError"] as string;
+
+    string DisplayText(string? value) => string.IsNullOrWhiteSpace(value) ? "Not set" : value;
+    string DisplayNumber(int? value) => value?.ToString() ?? "Not set";
+    string DisplayDate(DateTime? value) => value?.ToString("yyyy-MM-dd") ?? "Not set";
 }
 
 <style>
@@ -481,28 +485,33 @@
 
                     <div class="detail-list">
                         <div class="detail-row">
-                            <span class="detail-label">Age</span>
-                            <span class="detail-value">@Model.Age</span>
+                            <span class="detail-label">Birth date</span>
+                            <span class="detail-value">@DisplayDate(Model.BirthDate)</span>
                         </div>
 
                         <div class="detail-row">
                             <span class="detail-label">Gender</span>
-                            <span class="detail-value">@Model.Gender</span>
+                            <span class="detail-value">@DisplayText(Model.Gender)</span>
+                        </div>
+
+                        <div class="detail-row">
+                            <span class="detail-label">Job role</span>
+                            <span class="detail-value">@DisplayText(Model.JobRole)</span>
                         </div>
 
                         <div class="detail-row">
                             <span class="detail-label">Experience years</span>
-                            <span class="detail-value">@Model.ExperienceYears</span>
+                            <span class="detail-value">@DisplayNumber(Model.ExperienceYears)</span>
                         </div>
 
                         <div class="detail-row">
                             <span class="detail-label">Company size</span>
-                            <span class="detail-value">@Model.CompanySize</span>
+                            <span class="detail-value">@DisplayText(Model.CompanySize)</span>
                         </div>
 
                         <div class="detail-row">
                             <span class="detail-label">Work environment</span>
-                            <span class="detail-value">@Model.WorkEnvironment</span>
+                            <span class="detail-value">@DisplayText(Model.WorkEnvironment)</span>
                         </div>
 
                         <div class="detail-row">

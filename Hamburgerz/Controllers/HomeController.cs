@@ -64,9 +64,7 @@ namespace Hamburgerz.Controllers
                 {
                     ID = r.ID,
                     TimeStamp = r.TimeStamp,
-                    Age = r.Age,
                     Gender = r.Gender,
-                    Country = r.Country,
                     JobRole = r.JobRole,
                     ExperienceYears = r.ExperienceYears,
                     CompanySize = r.CompanySize,

@@ -41,6 +41,7 @@ TestResults/
 
 # Publish output
 publish/
+artifacts/
 
 # Local app secrets / env-specific config
 appsettings.Development.json

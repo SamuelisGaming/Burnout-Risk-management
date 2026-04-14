@@ -1,54 +1,67 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const storageKey = document.body?.dataset.avatarStorageKey || "";
-
-    if (!storageKey) {
-        return;
-    }
-
+    const avatarUrl = document.body?.dataset.avatarUrl || "";
     const avatarRoots = Array.from(document.querySelectorAll("[data-avatar-root]"));
     const uploadTrigger = document.querySelector("[data-avatar-upload-trigger]");
     const uploadInput = document.querySelector("[data-avatar-upload-input]");
+    const antiForgeryInput = document.querySelector('input[name="__RequestVerificationToken"]');
 
-    const applyAvatarSource = function (source) {
-        avatarRoots.forEach(function (root) {
-            const image = root.querySelector("[data-avatar-image]");
-            const fallback = root.querySelector("[data-avatar-fallback]");
+    if (!avatarRoots.length) {
+        return;
+    }
 
-            if (!image || !fallback) {
-                return;
-            }
+    const showFallback = function (root) {
+        const image = root.querySelector("[data-avatar-image]");
+        const fallback = root.querySelector("[data-avatar-fallback]");
 
-            if (source) {
-                image.src = source;
+        if (!image || !fallback) {
+            return;
+        }
+
+        image.removeAttribute("src");
+        image.hidden = true;
+        fallback.hidden = false;
+        root.classList.remove("has-image");
+    };
+
+    const showImage = function (root, source) {
+        const image = root.querySelector("[data-avatar-image]");
+        const fallback = root.querySelector("[data-avatar-fallback]");
+
+        if (!image || !fallback) {
+            return;
+        }
+
+        image.onload = function () {
+            image.hidden = false;
+            fallback.hidden = true;
+            root.classList.add("has-image");
+        };
+
+        image.onerror = function () {
+            showFallback(root);
+        };
+
+        image.src = source;
+
+        if (image.complete) {
+            if (image.naturalWidth > 0) {
                 image.hidden = false;
                 fallback.hidden = true;
                 root.classList.add("has-image");
             } else {
-                image.removeAttribute("src");
-                image.hidden = true;
-                fallback.hidden = false;
-                root.classList.remove("has-image");
+                showFallback(root);
+            }
+        }
+    };
+
+    const applyAvatarSource = function (source) {
+        avatarRoots.forEach(function (root) {
+            if (source) {
+                showImage(root, source);
+            } else {
+                showFallback(root);
             }
         });
-    };
-
-    const readStoredAvatar = function () {
-        try {
-            return window.localStorage.getItem(storageKey) || "";
-        } catch (error) {
-            console.warn("Nepavyko perskaityti avataro is localStorage.", error);
-            return "";
-        }
-    };
-
-    const writeStoredAvatar = function (source) {
-        try {
-            window.localStorage.setItem(storageKey, source);
-            return true;
-        } catch (error) {
-            console.warn("Nepavyko issaugoti avataro i localStorage.", error);
-            return false;
-        }
     };
 
     const readFileAsDataUrl = function (file) {
@@ -89,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const context = canvas.getContext("2d");
 
         if (!context) {
-            throw new Error("Nepavyko paruosti paveikslelio apdorojimo.");
+            throw new Error("Nepavyko paruošti paveikslelio apdorojimo.");
         }
 
         canvas.width = size;
@@ -108,9 +121,29 @@ document.addEventListener("DOMContentLoaded", function () {
         return canvas.toDataURL("image/jpeg", 0.88);
     };
 
+    const dataUrlToBlob = function (dataUrl) {
+        const parts = dataUrl.split(",");
+
+        if (parts.length !== 2) {
+            throw new Error("Nepavyko paruošti paveikslelio įkėlimui.");
+        }
+
+        const mimeMatch = parts[0].match(/data:(.*?);base64/);
+        const mimeType = mimeMatch && mimeMatch[1] ? mimeMatch[1] : "image/jpeg";
+        const binary = window.atob(parts[1]);
+        const length = binary.length;
+        const bytes = new Uint8Array(length);
+
+        for (let index = 0; index < length; index += 1) {
+            bytes[index] = binary.charCodeAt(index);
+        }
+
+        return new Blob([bytes], { type: mimeType });
+    };
+
     const handleAvatarFile = async function (file) {
         if (!file || !file.type.startsWith("image/")) {
-            throw new Error("Pasirinktas failas nera paveikslelis.");
+            throw new Error("Pasirinktas failas nėra paveikslėlis.");
         }
 
         const rawDataUrl = await readFileAsDataUrl(file);
@@ -118,8 +151,42 @@ document.addEventListener("DOMContentLoaded", function () {
         return buildAvatarDataUrl(image);
     };
 
-    const storedAvatar = readStoredAvatar();
-    applyAvatarSource(storedAvatar);
+    const uploadAvatar = async function (avatarDataUrl) {
+        const uploadUrl = uploadTrigger instanceof HTMLElement
+            ? uploadTrigger.dataset.avatarUploadUrl || ""
+            : "";
+
+        if (!uploadUrl) {
+            throw new Error("Nerastas avataro įkėlimo adresas.");
+        }
+
+        const formData = new FormData();
+        formData.append("avatar", dataUrlToBlob(avatarDataUrl), "avatar.jpg");
+
+        if (antiForgeryInput instanceof HTMLInputElement && antiForgeryInput.value) {
+            formData.append("__RequestVerificationToken", antiForgeryInput.value);
+        }
+
+        const response = await window.fetch(uploadUrl, {
+            method: "POST",
+            body: formData,
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        });
+
+        const payload = await response.json().catch(function () {
+            return null;
+        });
+
+        if (!response.ok) {
+            throw new Error(payload && payload.message ? payload.message : "Nepavyko įkelti paveikslėlio.");
+        }
+
+        return payload && payload.avatarUrl ? payload.avatarUrl : avatarUrl;
+    };
+
+    applyAvatarSource(avatarUrl);
 
     if (uploadTrigger instanceof HTMLElement && uploadInput instanceof HTMLInputElement) {
         uploadTrigger.addEventListener("click", function () {
@@ -136,28 +203,20 @@ document.addEventListener("DOMContentLoaded", function () {
             uploadTrigger.classList.add("is-loading");
 
             try {
-                const avatarSource = await handleAvatarFile(selectedFile);
-
-                applyAvatarSource(avatarSource);
-
-                if (!writeStoredAvatar(avatarSource)) {
-                    console.warn("Avataras parodytas tik sioje sesijoje, nes nepavyko jo issaugoti.");
-                }
+                const avatarDataUrl = await handleAvatarFile(selectedFile);
+                const savedAvatarUrl = await uploadAvatar(avatarDataUrl);
+                applyAvatarSource(savedAvatarUrl);
             } catch (error) {
                 console.error(error);
-                window.alert("Nepavyko ikelti paveikslelio. Pabandyk kita nuotrauka.");
+                const message = error instanceof Error
+                    ? error.message
+                    : "Nepavyko įkelti paveikslėlio. Pabandykite kitą nuotrauką.";
+
+                window.alert(message);
             } finally {
                 uploadInput.value = "";
                 uploadTrigger.classList.remove("is-loading");
             }
         });
     }
-
-    window.addEventListener("storage", function (event) {
-        if (event.key !== storageKey) {
-            return;
-        }
-
-        applyAvatarSource(event.newValue || "");
-    });
 });

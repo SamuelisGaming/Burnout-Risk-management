@@ -7,7 +7,7 @@
 <div class="home-page">
     @if (!Model.IsLoggedIn)
     {
-        <section class="guest-hero panel-card animate-in">
+        <section class="guest-hero panel-card panel-card-dark animate-in">
             <div class="hero-kicker">Burnout risk management</div>
             <h1 class="guest-title">Stebėk perdegimo riziką ne iš nuojautos, o iš savo duomenų.</h1>
             <p class="guest-copy">
@@ -43,7 +43,7 @@
     else
     {
         <div class="hero-layout">
-            <section class="hero-main panel-card animate-in">
+            <section class="hero-main panel-card panel-card-dark animate-in">
                 <div class="hero-kicker">Dienos apžvalga</div>
                 <h1 class="hero-title">Labas, @Model.DisplayName</h1>
                 <p class="hero-copy">
@@ -83,14 +83,6 @@
 </div>
 
 <style>
-    body {
-        background:
-            radial-gradient(circle at 78% 12%, rgba(var(--color-secondary-rgb), 0.14), transparent 18%),
-            radial-gradient(circle at 86% 30%, rgba(var(--color-secondary-rgb), 0.09), transparent 22%),
-            linear-gradient(180deg, #ffffff 0%, #fffef9 42%, #ffffff 100%);
-        background-attachment: fixed;
-    }
-
     .home-page {
         max-width: 1180px;
         margin: 0 auto;
@@ -98,11 +90,23 @@
     }
 
     .panel-card {
-        background: var(--color-surface);
-        border: 1px solid var(--color-border);
+        background:
+            linear-gradient(180deg, rgba(var(--color-surface-rgb), 0.94), rgba(var(--color-surface-rgb), 0.84));
+        border: 1px solid rgba(var(--color-border-rgb), 0.82);
         border-radius: 24px;
-        box-shadow: var(--shadow-md);
+        box-shadow: 0 18px 44px rgba(15, 23, 42, 0.08);
+        backdrop-filter: blur(12px) saturate(125%);
+        -webkit-backdrop-filter: blur(12px) saturate(125%);
         overflow: hidden;
+    }
+
+    .panel-card-dark {
+        background:
+            radial-gradient(circle at top right, rgba(var(--color-secondary-rgb), 0.18), transparent 24%),
+            radial-gradient(circle at bottom left, rgba(var(--color-tertiary-rgb), 0.18), transparent 26%),
+            linear-gradient(145deg, rgba(12, 44, 58, 0.96) 0%, rgba(20, 77, 99, 0.94) 58%, rgba(25, 100, 126, 0.92) 100%);
+        border-color: rgba(var(--color-primary-rgb), 0.34);
+        box-shadow: 0 24px 56px rgba(8, 38, 53, 0.24);
     }
 
     .animate-in {
@@ -130,10 +134,6 @@
     .guest-hero,
     .hero-main {
         padding: 34px;
-        background:
-            radial-gradient(circle at top right, rgba(var(--color-secondary-rgb), 0.18), transparent 26%),
-            radial-gradient(circle at bottom left, rgba(var(--color-primary-rgb), 0.14), transparent 24%),
-            linear-gradient(135deg, var(--color-surface) 0%, var(--color-bg) 100%);
     }
 
     .hero-kicker,
@@ -146,6 +146,10 @@
         margin-bottom: 10px;
     }
 
+    .panel-card-dark .hero-kicker {
+        color: rgba(255, 255, 255, 0.72);
+    }
+
     .guest-title,
     .hero-title {
         margin: 0;
@@ -154,6 +158,11 @@
         line-height: 1.02;
         color: var(--color-text);
         max-width: 720px;
+    }
+
+    .panel-card-dark .guest-title,
+    .panel-card-dark .hero-title {
+        color: #f8fbff;
     }
 
     .guest-copy,
@@ -165,11 +174,27 @@
         color: var(--color-text-muted);
     }
 
+    .panel-card-dark .guest-copy,
+    .panel-card-dark .hero-copy {
+        color: rgba(248, 251, 255, 0.80);
+    }
+
     .hero-actions {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
         margin-top: 28px;
+    }
+
+    .panel-card-dark .btn-outline-primary {
+        --bs-btn-color: #f8fbff;
+        --bs-btn-border-color: rgba(255, 255, 255, 0.36);
+        --bs-btn-hover-color: #0f172a;
+        --bs-btn-hover-bg: #ffffff;
+        --bs-btn-hover-border-color: #ffffff;
+        --bs-btn-active-color: #0f172a;
+        --bs-btn-active-bg: #ffffff;
+        --bs-btn-active-border-color: #ffffff;
     }
 
     .guest-grid {
@@ -181,6 +206,7 @@
 
     .guest-card {
         padding: 24px;
+        min-height: 200px;
     }
 
     .guest-card h2 {
@@ -230,12 +256,19 @@
         font-weight: 700;
     }
 
+    .panel-card-dark .hero-badge {
+        border-color: rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.10);
+        color: #ffffff;
+    }
+
     .status-card {
         padding: 28px;
         color: var(--color-text);
         display: flex;
         flex-direction: column;
         gap: 16px;
+        box-shadow: 0 18px 44px rgba(15, 23, 42, 0.08);
     }
 
     .status-card h2 {
@@ -295,9 +328,10 @@
         gap: 4px;
         padding: 14px 16px;
         border-radius: 18px;
-        background: rgba(255, 255, 255, 0.78);
-        border: 1px solid var(--color-border);
+        background: rgba(var(--color-surface-rgb), 0.78);
+        border: 1px solid rgba(var(--color-border-rgb), 0.82);
         backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
     }
 
     .status-meta span {

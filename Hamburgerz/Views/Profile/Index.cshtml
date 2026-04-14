@@ -2,19 +2,33 @@
 
 @{
     ViewData["Title"] = "Profile";
-    var smallCompany = "Ma\u017Ea";
-    var mediumCompany = "Vidutin\u0117";
-    var largeCompany = "Didel\u0117";
+    var successMessage = TempData["ProfileSuccess"] as string;
+    var smallCompany = "Maža";
+    var mediumCompany = "Vidutinė";
+    var largeCompany = "Didelė";
+    var remoteEnvironment = "Nuotolinis";
+    var officeEnvironment = "Ofisinis";
+    var hybridEnvironment = "Hibridinis";
+    var minBirthDate = DateTime.Today.AddYears(-100).ToString("yyyy-MM-dd");
+    var maxBirthDate = DateTime.Today.AddYears(-14).ToString("yyyy-MM-dd");
 }
 
 <div class="profile-page">
+    @if (!string.IsNullOrWhiteSpace(successMessage))
+    {
+        <div class="alert alert-success profile-alert" role="alert">
+            @successMessage
+        </div>
+    }
+
     <section class="profile-hero">
         <div class="profile-hero-main">
             <div class="profile-avatar-editor-wrap">
                 <button type="button"
                         class="profile-avatar-editor"
                         data-avatar-upload-trigger
-                        aria-label="Keisti profilio nuotrauka">
+                        data-avatar-upload-url="@Url.Action("UploadAvatar", "Profile")"
+                        aria-label="Keisti profilio nuotrauką">
                     <div class="profile-avatar profile-avatar-large profile-avatar-editable" data-avatar-root>
                         <img class="profile-avatar-image" data-avatar-image alt="Profilio nuotrauka" hidden />
                         <span class="profile-avatar-fallback" data-avatar-fallback>@Model.AvatarInitial</span>
@@ -30,7 +44,10 @@
                 <input type="file"
                        class="visually-hidden"
                        data-avatar-upload-input
-                       accept="image/png,image/jpeg,image/webp,image/gif,image/bmp,image/svg+xml,image/*" />
+                       accept="image/png,image/jpeg,image/webp,image/gif,image/bmp,image/*" />
+                <div class="visually-hidden">
+                    @Html.AntiForgeryToken()
+                </div>
             </div>
 
             <div class="profile-hero-copy">
@@ -59,60 +76,78 @@
 
                 <div class="profile-info-row">
                     <span class="profile-info-label">Gender</span>
-                    <span class="profile-info-value">@(string.IsNullOrWhiteSpace(Model.Gender) ? "Not set yet" : Model.Gender)</span>
+                    <span class="profile-info-value">@(string.IsNullOrWhiteSpace(Model.Gender) ? "Nenustatyta" : Model.Gender)</span>
+                </div>
+
+                <div class="profile-info-row">
+                    <span class="profile-info-label">Measurements</span>
+                    <span class="profile-info-value">@Model.MeasurementCount</span>
+                </div>
+
+                <div class="profile-info-row">
+                    <span class="profile-info-label">Last measurement</span>
+                    <span class="profile-info-value">@(Model.LastMeasurementDate?.ToString("yyyy-MM-dd HH:mm") ?? "Dar nėra")</span>
                 </div>
             </div>
         </section>
 
         <section class="profile-panel">
-            <div class="panel-kicker">Measurement defaults</div>
+            <div class="panel-kicker">Profile defaults</div>
             <h2 class="panel-title">Static details</h2>
 
-            <form class="profile-defaults-grid" onsubmit="return false;">
+            <form asp-controller="Profile" asp-action="Index" method="post" class="profile-defaults-grid">
                 <label class="profile-field">
-                    <span class="profile-field-label">Age</span>
-                    <input class="form-control" type="number" value="@(Model.Age?.ToString() ?? string.Empty)" placeholder="24" />
+                    <span class="profile-field-label">Birth date</span>
+                    <input asp-for="BirthDate" class="form-control" type="date" min="@minBirthDate" max="@maxBirthDate" />
+                    <span asp-validation-for="BirthDate" class="text-danger small"></span>
                 </label>
 
                 <label class="profile-field">
                     <span class="profile-field-label">Country</span>
-                    <input class="form-control" type="text" value="@Model.Country" placeholder="Lithuania" />
+                    <select asp-for="CountryID" asp-items="Model.Countries" class="form-select">
+                        <option value="">Choose...</option>
+                    </select>
+                    <span asp-validation-for="CountryID" class="text-danger small"></span>
                 </label>
 
                 <label class="profile-field profile-field-wide">
                     <span class="profile-field-label">Job role</span>
-                    <input class="form-control" type="text" value="@Model.JobRole" placeholder="Frontend developer" />
+                    <input asp-for="JobRole" class="form-control" placeholder="Frontend developer" />
+                    <span asp-validation-for="JobRole" class="text-danger small"></span>
                 </label>
 
                 <label class="profile-field">
                     <span class="profile-field-label">Experience years</span>
-                    <input class="form-control" type="number" value="@(Model.ExperienceYears?.ToString() ?? string.Empty)" placeholder="3" />
+                    <input asp-for="ExperienceYears" class="form-control" type="number" placeholder="3" />
+                    <span asp-validation-for="ExperienceYears" class="text-danger small"></span>
                 </label>
 
                 <label class="profile-field">
                     <span class="profile-field-label">Company size</span>
-                    <select class="form-select">
+                    <select asp-for="CompanySize" class="form-select">
                         <option value="">Choose...</option>
-                        <option value="@smallCompany" selected="@(Model.CompanySize == smallCompany ? "selected" : null)">@smallCompany (1-50)</option>
-                        <option value="@mediumCompany" selected="@(Model.CompanySize == mediumCompany ? "selected" : null)">@mediumCompany (51-250)</option>
-                        <option value="@largeCompany" selected="@(Model.CompanySize == largeCompany ? "selected" : null)">@largeCompany (250+)</option>
+                        <option value="@smallCompany">@smallCompany (1-50)</option>
+                        <option value="@mediumCompany">@mediumCompany (51-250)</option>
+                        <option value="@largeCompany">@largeCompany (250+)</option>
                     </select>
+                    <span asp-validation-for="CompanySize" class="text-danger small"></span>
                 </label>
 
-                <label class="profile-field">
+                <label class="profile-field profile-field-wide">
                     <span class="profile-field-label">Work environment</span>
-                    <select class="form-select">
+                    <select asp-for="WorkEnvironment" class="form-select">
                         <option value="">Choose...</option>
-                        <option value="Remote" selected="@(Model.WorkEnvironment == "Remote" ? "selected" : null)">Remote</option>
-                        <option value="Office" selected="@(Model.WorkEnvironment == "Office" ? "selected" : null)">Office</option>
-                        <option value="Hybrid" selected="@(Model.WorkEnvironment == "Hybrid" ? "selected" : null)">Hybrid</option>
+                        <option value="@remoteEnvironment">@remoteEnvironment</option>
+                        <option value="@officeEnvironment">@officeEnvironment</option>
+                        <option value="@hybridEnvironment">@hybridEnvironment</option>
                     </select>
+                    <span asp-validation-for="WorkEnvironment" class="text-danger small"></span>
                 </label>
 
-                <label class="profile-field">
-                    <span class="profile-field-label">Internet speed</span>
-                    <input class="form-control" type="number" value="@(Model.InternetSpeed?.ToString() ?? string.Empty)" placeholder="300" />
-                </label>
+                <div class="profile-form-actions">
+                    <button type="submit" class="btn btn-primary">Išsaugoti profilį</button>
+                    <p class="profile-form-note">Šie duomenys bus naudojami kaip šaltinis naujiems matavimams.</p>
+                </div>
             </form>
         </section>
     </div>
@@ -123,6 +158,11 @@
         max-width: 1080px;
         margin: 0 auto;
         padding: 24px 0 48px;
+    }
+
+    .profile-alert {
+        border-radius: 16px;
+        margin-bottom: 18px;
     }
 
     .profile-hero {
@@ -320,6 +360,21 @@
         grid-column: span 2;
     }
 
+    .profile-form-actions {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        margin-top: 4px;
+    }
+
+    .profile-form-note {
+        margin: 0;
+        color: var(--color-text-muted);
+        font-size: 13px;
+    }
+
     @@media (max-width: 992px) {
         .profile-grid {
             grid-template-columns: 1fr;
@@ -344,7 +399,8 @@
             grid-template-columns: 1fr;
         }
 
-        .profile-field-wide {
+        .profile-field-wide,
+        .profile-form-actions {
             grid-column: auto;
         }
 
@@ -358,3 +414,9 @@
         }
     }
 </style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
