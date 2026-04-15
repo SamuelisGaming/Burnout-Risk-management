@@ -249,6 +249,21 @@
         50% { box-shadow: 0 6px 28px rgba(var(--color-primary-rgb), .38), 0 0 0 5px rgba(var(--color-primary-rgb), .07); }
     }
 
+    [data-theme="dark"] .mq-form {
+        background: linear-gradient(180deg, rgba(var(--color-surface-rgb), .96), rgba(var(--color-surface-2-rgb), .92));
+        box-shadow: 0 28px 64px rgba(0, 0, 0, .28);
+    }
+
+    [data-theme="dark"] .mq-card {
+        background: rgba(var(--color-surface-rgb), .76);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
+    }
+
+    [data-theme="dark"] .mq-mood label {
+        background: rgba(var(--color-surface-rgb), .88);
+        box-shadow: none;
+    }
+
     @@media (max-width: 767.98px) {
         .mq-shell { padding-top: .75rem; }
         .mq-form { padding: 1.15rem; border-radius: 22px; }
@@ -271,7 +286,7 @@
         <div class="mq-head">
             <div class="mq-indicator" data-step-caption>1 / 6</div>
             <h2>Naujas matavimas</h2>
-            <p>Keletas klausimų apie šiandieninę dieną — greita ir paprasta.</p>
+            <p>Keletas klausimų apie šiandieninę dieną - greita ir paprasta.</p>
         </div>
 
         <div asp-validation-summary="ModelOnly" class="text-danger mq-summary"></div>
@@ -289,7 +304,6 @@
             <div class="mq-marker" data-step-marker="5">6</div>
         </div>
 
-        <!-- Step 1: UI-only — dienos nuotaika -->
         <section class="mq-panel is-active" data-step-panel="0" data-ui-only>
             <div class="mq-step-kicker">Pradžia</div>
             <h3 class="mq-question">Kaip jautėsi šiandien?</h3>
@@ -307,14 +321,14 @@
                 <label for="mood-ok">
                     <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
                     <span class="mq-mood-title">Normaliai</span>
-                    <span class="mq-mood-copy">Nieko ypatingo — diena praėjo kaip paprastai</span>
+                    <span class="mq-mood-copy">Nieko ypatingo - diena praėjo kaip paprastai</span>
                 </label>
 
                 <input type="radio" name="day-mood" id="mood-tired" value="tired" />
                 <label for="mood-tired">
                     <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
                     <span class="mq-mood-title">Pavargęs</span>
-                    <span class="mq-mood-copy">Jautiausi pavargęs — energijos aiškiai trūko</span>
+                    <span class="mq-mood-copy">Jautiausi pavargęs - energijos aiškiai trūko</span>
                 </label>
 
                 <input type="radio" name="day-mood" id="mood-rough" value="rough" />
@@ -404,11 +418,10 @@
             </div>
         </section>
 
-        <!-- Step 4: UI-only — atsijungimas + fokusas -->
         <section class="mq-panel" data-step-panel="3" data-ui-only>
             <div class="mq-step-kicker">Energija</div>
             <h3 class="mq-question">Du greiti klausimai apie tavo baterijos lygį</h3>
-            <p class="mq-subcopy">Nėra teisingo atsakymo — tiesiog pasirink, kas artimiausiai atitinka šiandieną.</p>
+            <p class="mq-subcopy">Nėra teisingo atsakymo - tiesiog pasirink, kas artimiausiai atitinka šiandieną.</p>
 
             <div class="mq-double">
                 <div>
@@ -521,7 +534,6 @@
             </div>
         </section>
 
-        <!-- Step 6: Streso lygis (DB) -->
         <section class="mq-panel" data-step-panel="5">
             <div class="mq-step-kicker">Paskutinis žingsnis</div>
             <h3 class="mq-question">Kaip vertini šiandieninį streso lygį?</h3>
@@ -533,7 +545,7 @@
                     <label for="StressLevelLow">
                         <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
                         <span class="mq-mood-title">Žemas</span>
-                        <span class="mq-mood-copy">Ramu ir valdoma — streso beveik nejauciau</span>
+                        <span class="mq-mood-copy">Ramu ir valdoma - streso beveik nejauciau</span>
                     </label>
 
                     <input asp-for="StressLevel" type="radio" value="Vidutinis" id="StressLevelMedium" required />

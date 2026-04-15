@@ -1,4 +1,138 @@
-document.addEventListener("DOMContentLoaded", function () {
+const THEME_STORAGE_KEY = "hamburgerz-theme";
+
+function getStoredTheme() {
+    try {
+        const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+        return storedTheme === "dark" || storedTheme === "light" ? storedTheme : null;
+    } catch (error) {
+        return null;
+    }
+}
+
+function getSystemTheme() {
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+}
+
+function getPreferredTheme() {
+    return getStoredTheme() || getSystemTheme();
+}
+
+function getThemeLabel(theme) {
+    return theme === "dark" ? "Tamsus režimas" : "Šviesus režimas";
+}
+
+function syncThemeControls(theme) {
+    const isDark = theme === "dark";
+
+    document.querySelectorAll("[data-theme-toggle]").forEach(function (toggle) {
+        if (!(toggle instanceof HTMLInputElement)) {
+            return;
+        }
+
+        toggle.checked = isDark;
+        toggle.setAttribute("aria-checked", isDark ? "true" : "false");
+    });
+
+    document.querySelectorAll("[data-theme-value]").forEach(function (label) {
+        label.textContent = getThemeLabel(theme);
+    });
+}
+
+function applyTheme(theme, persist) {
+    const resolvedTheme = theme === "dark" ? "dark" : "light";
+    const root = document.documentElement;
+
+    root.setAttribute("data-theme", resolvedTheme);
+    root.setAttribute("data-bs-theme", resolvedTheme);
+    root.style.colorScheme = resolvedTheme;
+
+    if (persist) {
+        try {
+            window.localStorage.setItem(THEME_STORAGE_KEY, resolvedTheme);
+        } catch (error) {
+            // Ignore storage failures and still apply the theme for the current session.
+        }
+    }
+
+    syncThemeControls(resolvedTheme);
+}
+
+function initTheme() {
+    applyTheme(getPreferredTheme(), false);
+
+    document.querySelectorAll("[data-theme-toggle]").forEach(function (toggle) {
+        if (!(toggle instanceof HTMLInputElement)) {
+            return;
+        }
+
+        toggle.addEventListener("change", function () {
+            applyTheme(toggle.checked ? "dark" : "light", true);
+        });
+    });
+
+    if (!window.matchMedia) {
+        return;
+    }
+
+    const colorSchemeMedia = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleSystemThemeChange = function (event) {
+        if (getStoredTheme()) {
+            return;
+        }
+
+        applyTheme(event.matches ? "dark" : "light", false);
+    };
+
+    if (typeof colorSchemeMedia.addEventListener === "function") {
+        colorSchemeMedia.addEventListener("change", handleSystemThemeChange);
+    } else if (typeof colorSchemeMedia.addListener === "function") {
+        colorSchemeMedia.addListener(handleSystemThemeChange);
+    }
+}
+
+function initSettingsModal() {
+    if (typeof bootstrap === "undefined") {
+        return;
+    }
+
+    document.querySelectorAll("[data-settings-open]").forEach(function (button) {
+        if (!(button instanceof HTMLElement)) {
+            return;
+        }
+
+        button.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const targetSelector = button.getAttribute("data-settings-modal-target") || "#settingsModal";
+            const modalElement = document.querySelector(targetSelector);
+
+            if (!(modalElement instanceof HTMLElement)) {
+                return;
+            }
+
+            const showModal = function () {
+                bootstrap.Modal.getOrCreateInstance(modalElement).show();
+            };
+
+            const dropdownRoot = button.closest(".dropdown");
+            const dropdownToggle = dropdownRoot
+                ? dropdownRoot.querySelector("[data-bs-toggle=\"dropdown\"]")
+                : null;
+
+            if (dropdownRoot instanceof HTMLElement && dropdownToggle instanceof HTMLElement) {
+                dropdownRoot.addEventListener("hidden.bs.dropdown", showModal, { once: true });
+                bootstrap.Dropdown.getOrCreateInstance(dropdownToggle).hide();
+                return;
+            }
+
+            showModal();
+        });
+    });
+}
+
+function initAvatar() {
     const avatarUrl = document.body?.dataset.avatarUrl || "";
     const avatarRoots = Array.from(document.querySelectorAll("[data-avatar-root]"));
     const uploadTrigger = document.querySelector("[data-avatar-upload-trigger]");
@@ -219,4 +353,10 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    initTheme();
+    initSettingsModal();
+    initAvatar();
 });

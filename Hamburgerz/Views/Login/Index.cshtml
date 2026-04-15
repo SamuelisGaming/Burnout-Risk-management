@@ -1,53 +1,605 @@
-﻿@model Hamburgerz.Models.LoginViewModel
+@model Hamburgerz.Models.LoginViewModel
 @{
     ViewData["Title"] = "Prisijungimas";
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="app-surface p-4 p-md-5">
-                <h1 class="page-title h2 mb-4">Prisijungimas</h1>
+<div class="login-shell">
+    <div class="login-layout">
+        <aside class="login-story">
+            <div class="login-story-panel">
+                <div class="login-kicker">Prisijungimas</div>
+                <h1 class="login-title">Sugrįžk prie savo ritmo.</h1>
+                <p class="login-copy">
+                    Prisijungęs iškart matysi savo dienos būseną, matavimų istoriją ir analizę vienoje vietoje.
+                </p>
 
-                @if (TempData["SuccessMessage"] != null)
-                {
-                    <div class="alert alert-success">
-                        @TempData["SuccessMessage"]
-                    </div>
-                }
+                <div class="login-story-grid">
+                    <article class="login-story-item">
+                        <div class="login-story-item-title">Daily check-in</div>
+                        <p>Greitai atnaujink savo šiandienos savijautos ir darbo krūvio įrašą.</p>
+                    </article>
 
-                <form asp-action="Index" method="post">
-                    @Html.AntiForgeryToken()
+                    <article class="login-story-item">
+                        <div class="login-story-item-title">History</div>
+                        <p>Peržiūrėk ankstesnius įrašus ir lengvai grįžk prie konkrečių dienų.</p>
+                    </article>
 
-                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <article class="login-story-item">
+                        <div class="login-story-item-title">Analysis</div>
+                        <p>Stebėk tendencijas, kad pokyčiai matytųsi ne tik iš nuojautos.</p>
+                    </article>
+                </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Email" class="form-label">Elektroninis paštas</label>
-                        <input asp-for="Email" class="form-control" placeholder="Elektroninis paštas" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-4">
-                        <label asp-for="Password" class="form-label">Slaptažodis</label>
-                        <input asp-for="Password" class="form-control" placeholder="Slaptažodis" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-
-                    <div class="d-flex flex-wrap gap-3">
-                        <button type="submit" class="btn btn-secondary btn-lg">
-                            Prisijungti
-                        </button>
-
-                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary btn-lg">
-                            Atgal
-                        </a>
-                    </div>
-                </form>
+                <div class="login-note-card">
+                    <div class="login-note-label">Greitas startas</div>
+                    <p class="login-note-text">
+                        Jei ką tik susikūrei paskyrą, prisijunk tuo pačiu el. paštu ir slaptažodžiu, kurį nurodei registracijoje.
+                    </p>
+                </div>
             </div>
-        </div>
+        </aside>
+
+        <section class="login-form-zone">
+            <div class="login-card">
+                <div class="login-card-top">
+                    <div>
+                        <div class="login-step-label">Tavo paskyra</div>
+                        <h2 class="login-card-title">Prisijunk prie sistemos</h2>
+                        <p class="login-card-copy">
+                            Naudok savo paskyros duomenis, kad grįžtum į pagrindinį skydelį ir tęstum stebėjimą.
+                        </p>
+                    </div>
+
+                    <a asp-controller="Home" asp-action="Index" class="login-back-link">
+                        Atgal
+                    </a>
+                </div>
+
+                <div class="login-card-body">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="login-flash login-flash-success" role="status">
+                            @TempData["SuccessMessage"]
+                        </div>
+                    }
+
+                    <form asp-action="Index" method="post" class="login-form">
+                        @Html.AntiForgeryToken()
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger login-summary"></div>
+
+                        <label class="login-field">
+                            <span class="login-field-label">Elektroninis paštas</span>
+                            <input asp-for="Email"
+                                   class="form-control form-control-lg login-input"
+                                   placeholder="vardas@pastas.lt"
+                                   autocomplete="email"
+                                   required />
+                            <span class="login-field-hint">Naudok tą patį adresą, su kuriuo registravaisi.</span>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </label>
+
+                        <div class="login-field">
+                            <label asp-for="Password" class="login-field-label">Slaptažodis</label>
+
+                            <div class="password-field">
+                                <input asp-for="Password"
+                                       class="form-control form-control-lg login-input"
+                                       placeholder="Įvesk savo slaptažodį"
+                                       autocomplete="current-password"
+                                       required />
+
+                                <button type="button"
+                                        class="password-toggle"
+                                        data-password-toggle="Password"
+                                        aria-label="Rodyti slaptažodį"
+                                        aria-pressed="false">
+                                    <span class="password-toggle-icon" aria-hidden="true">
+                                        <svg class="password-toggle-svg password-toggle-svg-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M2.5 12s3.6-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.6 6.5-9.5 6.5S2.5 12 2.5 12Z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg>
+                                        <svg class="password-toggle-svg password-toggle-svg-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M3 3l18 18" />
+                                            <path d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" />
+                                            <path d="M6.71 6.72C4.47 8.23 3 10.68 2.5 12c.83 2.2 4.1 6.5 9.5 6.5 2.24 0 4.18-.74 5.76-1.76" />
+                                            <path d="M9.88 4.68A10.7 10.7 0 0 1 12 4.5c5.9 0 9.5 6.5 9.5 6.5a15.3 15.3 0 0 1-2.17 3.19" />
+                                        </svg>
+                                    </span>
+                                    <span class="visually-hidden password-toggle-label">Rodyti</span>
+                                </button>
+                            </div>
+
+                            <span class="login-field-hint">Slaptažodis tikrinamas saugiai pagal tavo paskyros duomenis.</span>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="login-actions">
+                            <button type="submit" class="btn btn-secondary btn-lg">
+                                Prisijungti
+                            </button>
+
+                            <a asp-controller="Register" asp-action="Index" class="btn btn-outline-primary btn-lg">
+                                Kurti paskyrą
+                            </a>
+                        </div>
+                    </form>
+
+                    <div class="login-footnote">
+                        <button type="button" class="login-footnote-link" aria-disabled="true">
+                            Pamiršai slaptažodį?
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </div>
 
+<style>
+    .login-shell {
+        max-width: 1260px;
+        margin: 0 auto;
+        padding: 24px 0 52px;
+    }
+
+    .login-layout {
+        display: grid;
+        grid-template-columns: minmax(320px, 0.94fr) minmax(0, 1fr);
+        gap: 22px;
+        align-items: stretch;
+    }
+
+    .login-story-panel,
+    .login-card {
+        border: 1px solid var(--color-border);
+        border-radius: 28px;
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+    }
+
+    .login-story-panel {
+        height: 100%;
+        padding: 30px;
+        color: #f8fafc;
+        background:
+            radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.16), transparent 24%),
+            radial-gradient(circle at 86% 20%, rgba(var(--color-secondary-rgb), 0.22), transparent 20%),
+            linear-gradient(155deg, #0f172a 0%, #12314b 52%, #19647e 100%);
+    }
+
+    .login-kicker,
+    .login-step-label,
+    .login-note-label {
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 800;
+    }
+
+    .login-kicker {
+        color: rgba(255, 255, 255, 0.74);
+        margin-bottom: 12px;
+    }
+
+    .login-title {
+        margin: 0;
+        font-size: clamp(36px, 5vw, 56px);
+        line-height: 0.98;
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        color: #fff;
+        max-width: 12ch;
+    }
+
+    .login-copy {
+        margin: 18px 0 0;
+        font-size: 16px;
+        line-height: 1.75;
+        color: rgba(241, 245, 249, 0.84);
+        max-width: 34rem;
+    }
+
+    .login-story-grid {
+        display: grid;
+        gap: 12px;
+        margin-top: 28px;
+    }
+
+    .login-story-item {
+        padding: 16px 18px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .login-story-item-title {
+        font-size: 16px;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 6px;
+    }
+
+    .login-story-item p {
+        margin: 0;
+        color: rgba(241, 245, 249, 0.76);
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .login-note-card {
+        margin-top: 26px;
+        padding: 18px 18px 20px;
+        border-radius: 22px;
+        background: rgba(15, 23, 42, 0.34);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+    }
+
+    .login-note-label {
+        color: rgba(255, 255, 255, 0.68);
+    }
+
+    .login-note-text {
+        margin: 10px 0 0;
+        color: rgba(241, 245, 249, 0.84);
+        line-height: 1.7;
+        font-size: 14px;
+    }
+
+    .login-card {
+        background:
+            radial-gradient(circle at top right, rgba(var(--color-secondary-rgb), 0.12), transparent 24%),
+            linear-gradient(180deg, var(--color-surface) 0%, rgba(255, 255, 255, 0.98) 100%);
+    }
+
+    .login-card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 28px 30px 0;
+    }
+
+    .login-step-label {
+        color: var(--color-primary);
+        margin-bottom: 10px;
+    }
+
+    .login-card-title {
+        margin: 0;
+        font-size: clamp(28px, 3vw, 40px);
+        font-weight: 900;
+        line-height: 1.02;
+        letter-spacing: -0.03em;
+        color: var(--color-text);
+    }
+
+    .login-card-copy {
+        margin: 12px 0 0;
+        max-width: 40rem;
+        color: var(--color-text-muted);
+        line-height: 1.7;
+    }
+
+    .login-back-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 16px;
+        border-radius: 999px;
+        border: 1px solid var(--color-border);
+        background: rgba(255, 255, 255, 0.74);
+        text-decoration: none;
+        font-weight: 700;
+        color: var(--color-text);
+        white-space: nowrap;
+    }
+
+    .login-back-link:hover {
+        color: var(--color-text);
+        border-color: rgba(var(--color-primary-rgb), 0.25);
+    }
+
+    .login-card-body {
+        padding: 20px 30px 30px;
+    }
+
+    .login-flash {
+        margin-bottom: 16px;
+        padding: 14px 16px;
+        border-radius: 18px;
+        border: 1px solid transparent;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.6;
+    }
+
+    .login-flash-success {
+        color: var(--color-success);
+        background: rgba(var(--color-success-rgb), 0.10);
+        border-color: rgba(var(--color-success-rgb), 0.18);
+    }
+
+    .login-form {
+        display: grid;
+        gap: 18px;
+        padding: 24px;
+        border-radius: 24px;
+        border: 1px solid rgba(var(--color-secondary-rgb), 0.12);
+        background: rgba(255, 255, 255, 0.84);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+
+    .login-summary {
+        min-height: 18px;
+        margin: 0;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .login-summary.validation-summary-valid,
+    .login-summary:empty {
+        display: none;
+    }
+
+    .login-summary ul {
+        margin: 0;
+        padding-left: 1.1rem;
+    }
+
+    .login-field {
+        display: grid;
+        gap: 8px;
+    }
+
+    .login-field-label {
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--color-text-muted);
+        letter-spacing: 0.02em;
+    }
+
+    .login-input {
+        min-height: 58px;
+        border-radius: 18px;
+        border-color: rgba(var(--color-secondary-rgb), 0.16);
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .login-input:focus {
+        border-color: rgba(var(--color-primary-rgb), 0.42);
+        box-shadow: 0 0 0 0.28rem rgba(var(--color-secondary-rgb), 0.14);
+    }
+
+    .login-field-hint {
+        font-size: 12px;
+        color: var(--color-text-muted);
+        line-height: 1.5;
+    }
+
+    .password-field {
+        position: relative;
+    }
+
+    .password-field .login-input {
+        padding-right: 3.25rem;
+    }
+
+    .password-toggle {
+        position: absolute;
+        top: 50%;
+        right: 0.45rem;
+        transform: translateY(-50%);
+        width: 2.4rem;
+        height: 2.4rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        color: var(--color-text-muted);
+        transition: transform 0.18s ease, color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .password-toggle:hover {
+        background: rgba(var(--color-secondary-rgb), 0.08);
+        color: var(--color-text);
+    }
+
+    .password-toggle:active {
+        background: rgba(var(--color-secondary-rgb), 0.12);
+        transform: translateY(-50%) scale(0.92);
+    }
+
+    .password-toggle:focus-visible {
+        background: rgba(var(--color-secondary-rgb), 0.08);
+        box-shadow: 0 0 0 0.2rem rgba(var(--color-secondary-rgb), 0.18);
+    }
+
+    .password-toggle-icon {
+        position: relative;
+        width: 1.15rem;
+        height: 1.15rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .password-toggle-svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+
+    .password-toggle-svg-open {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .password-toggle-svg-closed {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    .password-toggle.is-active {
+        color: var(--color-primary);
+    }
+
+    .password-toggle.is-active .password-toggle-svg-open {
+        opacity: 0;
+        transform: scale(0.82);
+    }
+
+    .password-toggle.is-active .password-toggle-svg-closed {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .login-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding-top: 6px;
+    }
+
+    .login-actions .btn {
+        min-width: 170px;
+    }
+
+    .login-footnote {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 18px;
+        color: var(--color-text-muted);
+        font-size: 14px;
+    }
+
+    .login-footnote-link {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        text-decoration: none;
+        font-weight: 700;
+        color: var(--color-link);
+        cursor: default;
+    }
+
+    .login-footnote-link:hover {
+        color: var(--color-link);
+    }
+
+    [data-theme="dark"] .login-card {
+        background:
+            radial-gradient(circle at top right, rgba(var(--color-secondary-rgb), 0.12), transparent 24%),
+            linear-gradient(180deg, rgba(var(--color-surface-rgb), 0.98) 0%, rgba(var(--color-surface-2-rgb), 0.94) 100%);
+    }
+
+    [data-theme="dark"] .login-back-link {
+        background: rgba(var(--color-surface-rgb), 0.78);
+        border-color: rgba(var(--color-border-rgb), 0.88);
+    }
+
+    [data-theme="dark"] .login-form {
+        background: rgba(var(--color-surface-rgb), 0.86);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    [data-theme="dark"] .login-input {
+        background: rgba(var(--color-surface-2-rgb), 0.94);
+        border-color: rgba(var(--color-border-rgb), 0.92);
+    }
+
+    @@media (max-width: 1040px) {
+        .login-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .login-story {
+            order: 2;
+        }
+
+        .login-form-zone {
+            order: 1;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .login-shell {
+            padding: 12px 0 36px;
+        }
+
+        .login-story-panel {
+            padding: 22px;
+        }
+
+        .login-title {
+            font-size: 34px;
+            max-width: none;
+        }
+
+        .login-card-top {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 24px 22px 0;
+        }
+
+        .login-back-link {
+            width: fit-content;
+        }
+
+        .login-card-body {
+            padding: 18px 22px 22px;
+        }
+
+        .login-form {
+            padding: 18px;
+        }
+
+        .login-actions .btn {
+            width: 100%;
+            min-width: 0;
+        }
+    }
+</style>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggleButtons = document.querySelectorAll("[data-password-toggle]");
+
+            toggleButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    const targetId = button.getAttribute("data-password-toggle");
+                    const input = document.getElementById(targetId);
+
+                    if (!input) {
+                        return;
+                    }
+
+                    const isHidden = input.type === "password";
+                    input.type = isHidden ? "text" : "password";
+                    button.classList.toggle("is-active", isHidden);
+                    button.setAttribute("aria-pressed", isHidden ? "true" : "false");
+
+                    const label = button.querySelector(".password-toggle-label");
+                    if (label) {
+                        label.textContent = isHidden ? "Slėpti" : "Rodyti";
+                    }
+                });
+            });
+        });
+    </script>
 }

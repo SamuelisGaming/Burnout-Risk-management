@@ -65,7 +65,7 @@
                         <h2 class="register-card-title" data-step-title>Sukurk paskyrą</h2>
                     </div>
 
-                    <a asp-controller="Home" asp-action="Index" class="register-back-link">
+                    <a asp-controller="Login" asp-action="Index" class="register-back-link">
                         Atgal
                     </a>
                 </div>
@@ -961,7 +961,7 @@
 
     .country-empty-note {
         margin-top: 8px;
-        color: #b45309;
+        color: var(--color-warning);
         font-size: 12px;
         font-weight: 700;
     }
@@ -980,6 +980,43 @@
         min-width: 150px;
         border-radius: 16px;
         font-weight: 800;
+    }
+
+    [data-theme="dark"] .register-card {
+        background:
+            radial-gradient(circle at top right, rgba(var(--color-secondary-rgb), 0.12), transparent 24%),
+            linear-gradient(180deg, rgba(var(--color-surface-rgb), 0.98) 0%, rgba(var(--color-surface-2-rgb), 0.94) 100%);
+    }
+
+    [data-theme="dark"] .register-back-link {
+        background: rgba(var(--color-surface-rgb), 0.78);
+        border-color: rgba(var(--color-border-rgb), 0.88);
+    }
+
+    [data-theme="dark"] .register-step-panel {
+        background: rgba(var(--color-surface-rgb), 0.86);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    [data-theme="dark"] .register-field .form-control,
+    [data-theme="dark"] .register-field .form-select {
+        background: rgba(var(--color-surface-2-rgb), 0.94);
+        border-color: rgba(var(--color-border-rgb), 0.92);
+    }
+
+    [data-theme="dark"] .choice-card {
+        background:
+            linear-gradient(180deg, rgba(var(--color-surface-rgb), 0.98), rgba(var(--color-surface-2-rgb), 0.94));
+    }
+
+    [data-theme="dark"] .choice-input:checked + .choice-card {
+        background:
+            radial-gradient(circle at top right, rgba(var(--color-secondary-rgb), 0.14), transparent 36%),
+            linear-gradient(180deg, rgba(var(--color-surface-rgb), 0.98), rgba(var(--color-secondary-rgb), 0.10));
+    }
+
+    [data-theme="dark"] .password-guidance {
+        background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.18), rgba(var(--color-secondary-rgb), 0.08));
     }
 
     @@media (max-width: 1100px) {

@@ -21,6 +21,14 @@
   --color-text-muted: #475569;
   --color-border: #D7E0E7;
   --color-border-rgb: 215, 224, 231;
+  --color-surface-elevated: #FFFFFF;
+  --color-surface-elevated-rgb: 255, 255, 255;
+  --color-success: #15803D;
+  --color-success-rgb: 21, 128, 61;
+  --color-warning: #B45309;
+  --color-warning-rgb: 180, 83, 9;
+  --color-danger: #DC3545;
+  --color-danger-rgb: 220, 53, 69;
 
   --color-link: var(--color-primary);
   --color-link-hover: #144F64;
@@ -82,6 +90,14 @@
   --color-text-muted: #A9BBC8;
   --color-border: #2B3B49;
   --color-border-rgb: 43, 59, 73;
+  --color-surface-elevated: #22303D;
+  --color-surface-elevated-rgb: 34, 48, 61;
+  --color-success: #4ADE80;
+  --color-success-rgb: 74, 222, 128;
+  --color-warning: #FBBF24;
+  --color-warning-rgb: 251, 191, 36;
+  --color-danger: #FB7185;
+  --color-danger-rgb: 251, 113, 133;
 
   --color-link: #9ED0E0;
   --color-link-hover: #C2E3ED;
@@ -110,6 +126,11 @@ html {
   min-height: 100%;
   font-family: var(--font-family-base);
   background: var(--color-bg);
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 body {
@@ -244,6 +265,31 @@ a:hover {
   -webkit-backdrop-filter: blur(18px) saturate(140%);
 }
 
+.app-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.72rem;
+  white-space: nowrap;
+  word-break: normal;
+  text-decoration: none;
+}
+
+.app-brand-mark {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.16);
+}
+
+.app-brand-text {
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
 .app-navbar .navbar-brand,
 .app-navbar .nav-link {
   color: var(--color-text) !important;
@@ -259,6 +305,10 @@ a:hover {
 .app-navbar .nav-link.active {
   color: var(--color-primary) !important;
   font-weight: 600;
+}
+
+[data-theme="dark"] .app-brand-mark {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.34);
 }
 
 .app-navbar .navbar-toggler {
@@ -287,6 +337,118 @@ a:hover {
 
 .footer a {
   color: var(--color-link);
+}
+
+.modal-content {
+  background:
+    linear-gradient(180deg, rgba(var(--color-surface-rgb), 0.96), rgba(var(--color-surface-elevated-rgb), 0.92));
+  color: var(--color-text);
+  border: 1px solid rgba(var(--color-border-rgb), 0.82);
+  border-radius: 24px;
+  box-shadow: var(--shadow-md);
+}
+
+.modal-header,
+.modal-footer {
+  border-color: rgba(var(--color-border-rgb), 0.72);
+}
+
+.modal-title {
+  color: var(--color-text);
+}
+
+.app-modal-kicker {
+  margin-bottom: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.settings-card {
+  padding: 1.1rem 1.15rem;
+  border-radius: 20px;
+  border: 1px solid rgba(var(--color-border-rgb), 0.78);
+  background: rgba(var(--color-surface-rgb), 0.76);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.settings-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.settings-item-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.settings-item-copy {
+  margin: 0.35rem 0 0;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.settings-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+}
+
+.settings-theme-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.18);
+  background: rgba(var(--color-primary-rgb), 0.1);
+  color: var(--color-primary);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.app-switch {
+  margin: 0;
+}
+
+.app-switch .form-check-input {
+  width: 3rem;
+  height: 1.7rem;
+  margin-top: 0;
+  cursor: pointer;
+  background-color: rgba(var(--color-border-rgb), 0.68);
+  border-color: rgba(var(--color-border-rgb), 0.78);
+}
+
+.app-switch .form-check-input:checked {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+[data-theme="dark"] .btn-close {
+  filter: invert(1) grayscale(1);
+}
+
+[data-theme="dark"] .settings-card {
+  background: rgba(var(--color-surface-rgb), 0.88);
+}
+
+@media (max-width: 576px) {
+  .settings-toggle-row,
+  .settings-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .btn {
