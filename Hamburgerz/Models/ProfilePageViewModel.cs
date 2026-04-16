@@ -19,6 +19,7 @@ namespace Hamburgerz.Models
 
         public string Country { get; set; } = string.Empty;
 
+        [StringLength(80, ErrorMessage = "Job role must be 80 characters or less.")]
         public string JobRole { get; set; } = string.Empty;
 
         public int? ExperienceYears { get; set; }

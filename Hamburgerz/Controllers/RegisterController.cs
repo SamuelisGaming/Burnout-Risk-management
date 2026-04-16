@@ -1,5 +1,6 @@
-﻿using Hamburgerz.Data;
+using Hamburgerz.Data;
 using Hamburgerz.Models;
+using Hamburgerz.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,11 +12,16 @@ namespace Hamburgerz.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly JobRoleCatalogService _jobRoleCatalog;
 
-        public RegisterController(AppDbContext context, IPasswordHasher<User> passwordHasher)
+        public RegisterController(
+            AppDbContext context,
+            IPasswordHasher<User> passwordHasher,
+            JobRoleCatalogService jobRoleCatalog)
         {
             _context = context;
             _passwordHasher = passwordHasher;
+            _jobRoleCatalog = jobRoleCatalog;
         }
 
         [HttpGet]
@@ -48,7 +54,7 @@ namespace Hamburgerz.Controllers
             var emailExists = await _context.Users.AnyAsync(u => u.Email == model.Email);
             if (emailExists)
             {
-                ModelState.AddModelError("Email", "Toks el. paštas jau naudojamas");
+                ModelState.AddModelError("Email", "Toks el. pastas jau naudojamas");
                 return View(model);
             }
 
@@ -69,7 +75,14 @@ namespace Hamburgerz.Controllers
 
             if (string.IsNullOrEmpty(normalizedGender))
             {
-                ModelState.AddModelError("Gender", "Pasirinkite tinkamą lytį");
+                ModelState.AddModelError("Gender", "Pasirinkite tinkama lyti");
+                return View(model);
+            }
+
+            var resolvedJobRole = _jobRoleCatalog.TryResolveCanonicalTitle(model.JobRole);
+            if (resolvedJobRole == null)
+            {
+                ModelState.AddModelError(nameof(model.JobRole), "Pasirinkite darbo pozicija is pasiulymu saraso.");
                 return View(model);
             }
 
@@ -80,7 +93,7 @@ namespace Hamburgerz.Controllers
                 Gender = normalizedGender,
                 BirthDate = model.BirthDate?.Date,
                 CountryID = model.CountryID,
-                JobRole = NormalizeOptionalText(model.JobRole),
+                JobRole = resolvedJobRole,
                 ExperienceYears = model.ExperienceYears,
                 CompanySize = NormalizeOptionalText(model.CompanySize),
                 WorkEnvironment = NormalizeOptionalText(model.WorkEnvironment),
@@ -93,7 +106,7 @@ namespace Hamburgerz.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Registracija sėkminga. Dabar galite prisijungti.";
+            TempData["SuccessMessage"] = "Registracija sekminga. Dabar galite prisijungti.";
             return RedirectToAction("Index", "Login");
         }
 

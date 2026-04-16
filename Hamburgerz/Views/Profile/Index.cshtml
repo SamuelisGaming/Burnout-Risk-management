@@ -112,7 +112,19 @@
 
                 <label class="profile-field profile-field-wide">
                     <span class="profile-field-label">Job role</span>
-                    <input asp-for="JobRole" class="form-control" placeholder="Frontend developer" />
+                    <div class="job-role-field"
+                         data-job-role-field
+                         data-job-role-endpoint="@Url.Content("~/api/job-roles")">
+                        <input asp-for="JobRole"
+                               class="form-control"
+                               placeholder="Try dev, qa, project manager..."
+                               maxlength="80"
+                               autocomplete="off"
+                               spellcheck="false"
+                               aria-autocomplete="list"
+                               data-job-role-input />
+                        <div class="job-role-suggestions" data-job-role-suggestions hidden></div>
+                    </div>
                     <span asp-validation-for="JobRole" class="text-danger small"></span>
                 </label>
 

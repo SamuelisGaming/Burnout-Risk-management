@@ -39,8 +39,8 @@ namespace Hamburgerz.Models
         [Range(1, int.MaxValue, ErrorMessage = "Pasirinkite sali")]
         public int CountryID { get; set; }
 
-        [Required(ErrorMessage = "Iveskite darbo pozicija")]
-        [StringLength(30, ErrorMessage = "Darbo pozicija turi buti iki 30 simboliu")]
+        [Required(ErrorMessage = "Pasirinkite darbo pozicija")]
+        [StringLength(80, ErrorMessage = "Darbo pozicija turi buti iki 80 simboliu")]
         public string JobRole { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Iveskite patirties metus")]

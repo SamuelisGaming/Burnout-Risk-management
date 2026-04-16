@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using Hamburgerz.Data;
 using Hamburgerz.Models;
+using Hamburgerz.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -41,10 +42,12 @@ namespace Hamburgerz.Controllers
         };
 
         private readonly AppDbContext _context;
+        private readonly JobRoleCatalogService _jobRoleCatalog;
 
-        public ProfileController(AppDbContext context)
+        public ProfileController(AppDbContext context, JobRoleCatalogService jobRoleCatalog)
         {
             _context = context;
+            _jobRoleCatalog = jobRoleCatalog;
         }
 
         [HttpGet]
@@ -101,6 +104,28 @@ namespace Hamburgerz.Controllers
                 ModelState.AddModelError(nameof(model.BirthDate), "Choose a valid birth date.");
             }
 
+            string? resolvedJobRole = null;
+            if (!string.IsNullOrWhiteSpace(model.JobRole))
+            {
+                resolvedJobRole = _jobRoleCatalog.TryResolveCanonicalTitle(model.JobRole);
+                var isKeepingLegacyJobRole =
+                    resolvedJobRole == null
+                    && string.Equals(
+                        model.JobRole.Trim(),
+                        user.JobRole?.Trim(),
+                        StringComparison.OrdinalIgnoreCase);
+
+                if (resolvedJobRole == null && !isKeepingLegacyJobRole)
+                {
+                    ModelState.AddModelError(nameof(model.JobRole), "Select a job role from the suggestion list.");
+                }
+
+                if (isKeepingLegacyJobRole)
+                {
+                    resolvedJobRole = user.JobRole?.Trim();
+                }
+            }
+
             if (!ModelState.IsValid)
             {
                 var invalidModel = await BuildProfilePageViewModelAsync(user, model);
@@ -109,7 +134,7 @@ namespace Hamburgerz.Controllers
 
             user.BirthDate = NormalizeBirthDate(model.BirthDate);
             user.CountryID = model.CountryID;
-            user.JobRole = NormalizeOptionalText(model.JobRole);
+            user.JobRole = resolvedJobRole;
             user.ExperienceYears = model.ExperienceYears;
             user.CompanySize = NormalizeOptionalText(model.CompanySize);
             user.WorkEnvironment = NormalizeOptionalText(model.WorkEnvironment);
