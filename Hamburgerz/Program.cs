@@ -4,9 +4,13 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
+
+LoadEnvironmentVariables(builder.Environment.ContentRootPath);
+builder.Configuration.AddEnvironmentVariables();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -102,3 +106,54 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+static void LoadEnvironmentVariables(string contentRootPath)
+{
+    var envPath = Path.Combine(contentRootPath, ".env");
+
+    if (!File.Exists(envPath))
+    {
+        return;
+    }
+
+    foreach (var line in File.ReadAllLines(envPath))
+    {
+        var trimmedLine = line.Trim();
+
+        if (string.IsNullOrWhiteSpace(trimmedLine) || trimmedLine.StartsWith('#'))
+        {
+            continue;
+        }
+
+        if (trimmedLine.StartsWith("export ", StringComparison.OrdinalIgnoreCase))
+        {
+            trimmedLine = trimmedLine["export ".Length..].TrimStart();
+        }
+
+        var separatorIndex = trimmedLine.IndexOf('=');
+
+        if (separatorIndex <= 0)
+        {
+            continue;
+        }
+
+        var key = trimmedLine[..separatorIndex].Trim();
+        var value = trimmedLine[(separatorIndex + 1)..].Trim();
+
+        if (value.Length >= 2)
+        {
+            var firstChar = value[0];
+            var lastChar = value[^1];
+
+            if ((firstChar == '"' && lastChar == '"') || (firstChar == '\'' && lastChar == '\''))
+            {
+                value = value[1..^1];
+            }
+        }
+
+        if (!string.IsNullOrWhiteSpace(key) && string.IsNullOrEmpty(Environment.GetEnvironmentVariable(key)))
+        {
+            Environment.SetEnvironmentVariable(key, value);
+        }
+    }
+}

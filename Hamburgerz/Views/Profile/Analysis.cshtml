@@ -422,6 +422,20 @@
                 </div>
             </section>
 
+            <section class="panel panel-wide" id="aiInsightsPanel">
+                <div class="panel-header">
+                    <div>
+                        <div class="section-kicker">AI · Gemini</div>
+                        <h3 class="panel-title">Period insights</h3>
+                    </div>
+                    <div class="panel-note ai-loading-state" id="aiInsightsLoading">
+                        <span class="ai-loading-dot" aria-hidden="true"></span>
+                        <span>Analyzing...</span>
+                    </div>
+                </div>
+                <div id="aiInsightsResult" class="ai-insights-result" style="display:none;"></div>
+            </section>
+
             <section class="panel panel-full">
                 <div class="panel-header">
                     <div>
@@ -706,6 +720,16 @@
 
     .panel-full {
         grid-column: 1 / -1;
+    }
+
+    #aiInsightsPanel {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    #aiInsightsPanel .panel-header {
+        margin-bottom: 12px;
     }
 
     .panel-header {
@@ -1081,6 +1105,86 @@
         }
     }
 
+    .ai-insights-result {
+        flex: 1;
+        display: flex;
+        margin-top: 2px;
+    }
+
+    .ai-loading-state {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .ai-loading-dot {
+        width: 13px;
+        height: 13px;
+        border: 2px solid rgba(var(--color-primary-rgb), 0.22);
+        border-top-color: var(--color-primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        flex-shrink: 0;
+    }
+
+    .ai-insight-layout {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 22px;
+        min-height: 210px;
+    }
+
+    .ai-insight-text {
+        margin: 0;
+        font-size: 17px;
+        line-height: 1.82;
+        color: var(--color-text);
+        max-width: 94ch;
+    }
+
+    .ai-action-row {
+        display: block;
+        padding-top: 18px;
+        border-top: 1px solid var(--color-border);
+    }
+
+    .ai-action-label {
+        display: inline-flex;
+        width: max-content;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-button-primary-text);
+        background: var(--color-primary);
+        border: 1px solid var(--color-primary);
+        padding: 4px 9px;
+        border-radius: 999px;
+        margin: 0 0 10px;
+    }
+
+    .ai-action-text {
+        display: block;
+        font-size: 16.5px;
+        color: var(--color-text);
+        line-height: 1.74;
+        max-width: 92ch;
+    }
+
+    .ai-empty-state {
+        display: block;
+        color: var(--color-text-muted);
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    @@keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
     @@media (max-width: 768px) {
         .analysis-page {
             padding: 20px 14px 40px;
@@ -1117,5 +1221,75 @@
         .month-metric strong {
             text-align: left;
         }
+
+        .ai-insight-layout {
+            min-height: 0;
+        }
+
+        .ai-action-row {
+            padding-top: 14px;
+        }
     }
 </style>
+
+@section Scripts {
+<script>
+    (function () {
+        var loading = document.getElementById("aiInsightsLoading");
+        var result = document.getElementById("aiInsightsResult");
+        if (!loading || !result) return;
+
+        var periodSelect = document.getElementById("periodSelect");
+
+        function esc(s) {
+            return s ? s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
+        }
+
+        function currentPeriod() {
+            return periodSelect ? periodSelect.value : "30d";
+        }
+
+        function showPeriod(periods, period) {
+            var p = periods && periods[period];
+            loading.style.display = "none";
+            result.style.display = "block";
+            if (!p || (!p.insight && !p.action)) {
+                result.innerHTML = "<em class='ai-empty-state'>Not enough data for this period.</em>";
+            } else {
+                result.innerHTML =
+                    '<div class="ai-insight-layout">' +
+                        (p.insight ? '<p class="ai-insight-text">' + esc(p.insight) + '</p>' : '<span></span>') +
+                        (p.action  ? '<div class="ai-action-row"><span class="ai-action-label">Try this</span><span class="ai-action-text">' + esc(p.action) + '</span></div>' : '') +
+                    '</div>';
+            }
+        }
+
+        function poll() {
+            fetch("/Profile/GetAnalysis")
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (data.status === "ready") {
+                        showPeriod(data.periods, currentPeriod());
+                    } else if (data.status === "generating") {
+                        setTimeout(poll, 3000);
+                    } else if (data.status === "empty") {
+                        loading.style.display = "none";
+                    } else {
+                        console.error("AI analysis error:", data.message);
+                        loading.style.display = "none";
+                        result.style.display = "block";
+                        result.innerHTML = "<em class='ai-empty-state'>Insights temporarily unavailable.</em>";
+                    }
+                })
+                .catch(function (err) {
+                    console.error("AI poll error:", err);
+                    loading.style.display = "none";
+                    result.style.display = "block";
+                    result.innerHTML = "<em class='ai-empty-state'>Insights temporarily unavailable.</em>";
+                });
+        }
+
+        poll();
+    })();
+</script>
+}

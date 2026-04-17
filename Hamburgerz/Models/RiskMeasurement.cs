@@ -105,5 +105,9 @@ namespace Hamburgerz.Models
         }
 
         public string? AISummary { get; set; }
+
+        public int? MoodScore { get; set; }
+        public int? DisconnectScore { get; set; }
+        public int? FocusScore { get; set; }
     }
 }

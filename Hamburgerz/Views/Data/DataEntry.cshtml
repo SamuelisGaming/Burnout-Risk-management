@@ -267,6 +267,9 @@
 <div class="container mq-shell">
     <form asp-controller="Data" asp-action="DataEntry" method="post" class="mq-form" data-measurement-wizard>
         @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="MoodScore" id="hidden-MoodScore" />
+        <input type="hidden" asp-for="DisconnectScore" id="hidden-DisconnectScore" />
+        <input type="hidden" asp-for="FocusScore" id="hidden-FocusScore" />
 
         <div class="mq-head">
             <div class="mq-indicator" data-step-caption>1 / 6</div>
@@ -686,7 +689,18 @@
                 }
             });
 
+            var moodScoreMap = { great: 4, ok: 3, tired: 2, rough: 1 };
+            var disconnectScoreMap = { yes: 3, partial: 2, no: 1 };
+            var focusScoreMap = { easy: 3, ok: 2, hard: 1 };
+
             form.addEventListener("submit", function (event) {
+                var moodRadio = form.querySelector('input[name="day-mood"]:checked');
+                if (moodRadio) document.getElementById("hidden-MoodScore").value = moodScoreMap[moodRadio.value] || "";
+                var disconnectRadio = form.querySelector('input[name="disconnect"]:checked');
+                if (disconnectRadio) document.getElementById("hidden-DisconnectScore").value = disconnectScoreMap[disconnectRadio.value] || "";
+                var focusRadio = form.querySelector('input[name="focus"]:checked');
+                if (focusRadio) document.getElementById("hidden-FocusScore").value = focusScoreMap[focusRadio.value] || "";
+
                 for (let i = 0; i < panels.length; i++) {
                     if (!validateStep(i, false)) {
                         event.preventDefault();

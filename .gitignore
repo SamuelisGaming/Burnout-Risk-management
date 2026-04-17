@@ -46,6 +46,10 @@ artifacts/
 # Local app secrets / env-specific config
 appsettings.Development.json
 **/appsettings.Development.json
+.env
+.env.*
+**/.env
+**/.env.*
 
 # Generated static assets caches
 wwwroot/dist/

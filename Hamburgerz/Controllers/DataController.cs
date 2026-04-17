@@ -79,6 +79,9 @@ namespace Hamburgerz.Controllers
                 ExerciseHours = model.ExerciseHours!.Value,
                 ScreenTime = model.ScreenTime!.Value,
                 StressLevel = model.StressLevel,
+                MoodScore = model.MoodScore,
+                DisconnectScore = model.DisconnectScore,
+                FocusScore = model.FocusScore,
                 TimeStamp = DateTime.Now,
                 Suggestion = null
 

@@ -5,14 +5,12 @@ using Hamburgerz.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Google.GenAI;
 
 namespace Hamburgerz.Controllers
 {
     public class ProfileController : Controller
     {
         private const long MaxAvatarSizeBytes = 5 * 1024 * 1024;
-        Client client;
 
         private static readonly HashSet<string> AllowedAvatarContentTypes =
         [
@@ -41,15 +39,21 @@ namespace Hamburgerz.Controllers
             StressLevel = r.StressLevel,
             ProductivityScore = r.ProductivityScore,
             BurnoutRisk = r.BurnoutRisk,
-            AISummary = r.Suggestion
+            AISummary = r.Suggestion,
+            MoodScore = r.MoodScore,
+            DisconnectScore = r.DisconnectScore,
+            FocusScore = r.FocusScore
         };
 
         private readonly AppDbContext _context;
+        private readonly IConfiguration _configuration;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public ProfileController(AppDbContext context)
+        public ProfileController(AppDbContext context, IConfiguration configuration, IServiceScopeFactory serviceScopeFactory)
         {
             _context = context;
-            
+            _configuration = configuration;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         [HttpGet]
@@ -290,19 +294,43 @@ namespace Hamburgerz.Controllers
             var data = await _context.RiskData.FindAsync(id);
             if (data == null) return NotFound();
 
-            client = new Client(apiKey: Environment.GetEnvironmentVariable("BURNOUT_GEMINI_API", EnvironmentVariableTarget.User));
-
             // If we already generated it, just return it
             if (!string.IsNullOrEmpty(data.Suggestion))
             {
                 return Json(new { suggestion = data.Suggestion });
             }
 
-            // Call Gemini with MUCH better context than just WorkHours
-            var prompt = $@"
-            Duok trumpą analizę ir rekomendacijas dėl perdegimo rizikos asmeniui, kuris dirba {data.JobRole}, dirbantis {data.WorkEnvironment} pobūdžiu.
-            Jis dirba {data.WorkHours} valandų į dieną, miega {data.SleepHours} valandų, ir yra {data.StressLevel} streso lygio.
-            Duok dviejų sakinių aprašymą ir rekomendaciją ką galima pakeist.";
+            var apiKey = GetGeminiApiKey();
+
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                return Json(new { suggestion = "AI is not configured. Add BURNOUT_GEMINI_API to Hamburgerz/.env." });
+            }
+
+            var client = new Client(apiKey: apiKey);
+
+            var moodText = data.MoodScore switch {
+                4 => "puikiai (4/4)", 3 => "normaliai (3/4)", 2 => "pavargęs (2/4)", 1 => "tikrai sunkiai (1/4)", _ => "nenurodyta"
+            };
+            var disconnectText = data.DisconnectScore switch {
+                3 => "atsijungė lengvai (3/3)", 2 => "iš dalies (2/3)", 1 => "sunkiai pavyko (1/3)", _ => "nenurodyta"
+            };
+            var focusText = data.FocusScore switch {
+                3 => "lengvai (3/3)", 2 => "šiaip taip (2/3)", 1 => "labai sunkiai (1/3)", _ => "nenurodyta"
+            };
+
+            var prompt = $@"You are the insight engine for a personal wellness app.
+
+Entry data:
+- Sleep: {data.SleepHours}h | Work: {data.WorkHours}h | Exercise: {data.ExerciseHours}h
+- Screen time: {data.ScreenTime}h | Meetings/day: {data.MeetingsPerDay} | Stress: {data.StressLevel}
+- Mood: {moodText} | Disconnect after work: {disconnectText} | Focus: {focusText}
+
+Write 4-5 sentences in Lithuanian (use ""tu"" form, informal):
+1-3. The most notable patterns in this data — reference actual numbers, explain what they mean for energy and recovery.
+4-5. Two specific, realistic actions.
+
+No intro, no headers, no job/profession references, no medical claims. Calm, direct, personal.";
 
             try
             {
@@ -319,6 +347,192 @@ namespace Hamburgerz.Controllers
             {
                 return Json(new { suggestion = "AI is temporarily unavailable. Please refresh." });
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAnalysis()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return Unauthorized();
+
+            var currentCount = await _context.RiskData.CountAsync(r => r.UserId == userId.Value);
+            if (currentCount == 0)
+                return Json(new { status = "empty" });
+
+            var cached = await _context.AnalysisCache
+                .FirstOrDefaultAsync(c => c.UserId == userId.Value);
+
+            if (cached != null && cached.MeasurementCount == currentCount)
+            {
+                if (cached.Status == "ready" && !string.IsNullOrEmpty(cached.Content))
+                {
+                    try
+                    {
+                        var periods = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, System.Text.Json.JsonElement>>(cached.Content);
+                        return Json(new { status = "ready", periods });
+                    }
+                    catch { /* malformed — fall through to regenerate */ }
+                }
+                else if (cached.Status == "generating" && DateTime.Now - cached.GeneratedAt < TimeSpan.FromMinutes(10))
+                {
+                    return Json(new { status = "generating" });
+                }
+                else if (cached.Status == "failed")
+                {
+                    return Json(new { status = "error", message = cached.Content ?? "Generation failed." });
+                }
+            }
+
+            var apiKey = GetGeminiApiKey();
+            if (string.IsNullOrWhiteSpace(apiKey))
+                return Json(new { status = "error", message = "AI nera sukonfigūruotas." });
+
+            if (cached == null)
+            {
+                cached = new AnalysisCache { UserId = userId.Value };
+                _context.AnalysisCache.Add(cached);
+            }
+            cached.MeasurementCount = currentCount;
+            cached.GeneratedAt = DateTime.Now;
+            cached.Status = "generating";
+            cached.Content = null;
+            await _context.SaveChangesAsync();
+
+            var cacheId = cached.Id;
+            var capturedUserId = userId.Value;
+            var capturedApiKey = apiKey;
+
+            _ = Task.Run(async () =>
+            {
+                using var scope = _serviceScopeFactory.CreateScope();
+                var ctx = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                try
+                {
+                    var content = await BuildAnalysisContentAsync(capturedUserId, capturedApiKey, ctx);
+                    var record = await ctx.AnalysisCache.FindAsync(cacheId);
+                    if (record != null)
+                    {
+                        record.Status = "ready";
+                        record.Content = content;
+                        await ctx.SaveChangesAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var record = await ctx.AnalysisCache.FindAsync(cacheId);
+                    if (record != null)
+                    {
+                        record.Status = "failed";
+                        record.Content = ex.Message;
+                        await ctx.SaveChangesAsync();
+                    }
+                }
+            });
+
+            return Json(new { status = "generating" });
+        }
+
+        private static async Task<string> BuildAnalysisContentAsync(int userId, string apiKey, AppDbContext ctx)
+        {
+            var allItems = await ctx.RiskData
+                .Where(r => r.UserId == userId)
+                .OrderBy(r => r.TimeStamp)
+                .ToListAsync();
+
+            var now = DateTime.Now;
+            var windows = new (string key, DateTime? from)[]
+            {
+                ("7d",  now.AddDays(-7)),
+                ("30d", now.AddDays(-30)),
+                ("3m",  now.AddMonths(-3)),
+                ("6m",  now.AddMonths(-6)),
+                ("1y",  now.AddYears(-1)),
+                ("all", null)
+            };
+
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine("User lifestyle data by time window (personal wellness app):");
+            sb.AppendLine();
+            sb.AppendLine("Score scales (use these to describe feelings, not raw numbers):");
+            sb.AppendLine("  mood 1-4:        1=had a rough day, 2=felt tired, 3=felt ok, 4=felt great");
+            sb.AppendLine("  disconnect 1-3:  1=struggled to stop thinking about work, 2=partially switched off, 3=switched off easily");
+            sb.AppendLine("  focus 1-3:       1=very hard to focus, 2=manageable, 3=focused easily");
+            sb.AppendLine();
+
+            foreach (var (key, from) in windows)
+            {
+                var items = from.HasValue
+                    ? allItems.Where(x => x.TimeStamp >= from.Value).ToList()
+                    : allItems;
+
+                sb.Append($"[{key}]");
+                if (items.Count == 0) { sb.AppendLine(" no data"); continue; }
+
+                var avgSleep    = items.Average(x => (double)x.SleepHours);
+                var minSleep    = items.Min(x => (double)x.SleepHours);
+                var maxSleep    = items.Max(x => (double)x.SleepHours);
+                var avgWork     = items.Average(x => (double)x.WorkHours);
+                var minWork     = items.Min(x => (double)x.WorkHours);
+                var maxWork     = items.Max(x => (double)x.WorkHours);
+                var avgExercise = items.Average(x => (double)x.ExerciseHours);
+                var avgScreen   = items.Average(x => (double)x.ScreenTime);
+                var hiPct       = (int)Math.Round(items.Count(x => (x.StressLevel ?? "").Contains("Aukštas"))   * 100.0 / items.Count);
+                var midPct      = (int)Math.Round(items.Count(x => (x.StressLevel ?? "").Contains("Vidutinis")) * 100.0 / items.Count);
+
+                sb.AppendLine($" {items.Count} entries | sleep avg={avgSleep:0.1}h min={minSleep:0.1}h max={maxSleep:0.1}h | work avg={avgWork:0.1}h min={minWork:0.1}h max={maxWork:0.1}h | exercise avg={avgExercise:0.1}h | screen avg={avgScreen:0.1}h | stress {hiPct}% high {midPct}% medium");
+
+                var moods = items.Where(x => x.MoodScore.HasValue).ToList();
+                var discs = items.Where(x => x.DisconnectScore.HasValue).ToList();
+                var focs  = items.Where(x => x.FocusScore.HasValue).ToList();
+                if (moods.Count > 0 || discs.Count > 0 || focs.Count > 0)
+                {
+                    sb.Append("      ");
+                    if (moods.Count > 0) sb.Append($"mood avg={moods.Average(x => (double)x.MoodScore!.Value):0.1}/4 ");
+                    if (discs.Count > 0) sb.Append($"disconnect avg={discs.Average(x => (double)x.DisconnectScore!.Value):0.1}/3 ");
+                    if (focs.Count > 0)  sb.Append($"focus avg={focs.Average(x => (double)x.FocusScore!.Value):0.1}/3");
+                    sb.AppendLine();
+                }
+            }
+
+            sb.Append(@"
+You are the insight engine for a personal wellness app. Turn the data above into short, personal insights.
+
+TONE: Speak directly to the user as ""you"" (Lithuanian ""tu"" form). Calm, warm, no drama.
+STYLE:
+  insight = 3-5 sentences. Start with the most notable pattern, then explain what it means for energy and recovery, then compare values or highlight a trend if relevant.
+  action = 2 concrete, specific suggestions (2 sentences). Reference the actual data.
+
+RULES:
+- Use real numbers for sleep/work/exercise/screen (e.g. ""your average sleep was 6.1h"")
+- For mood/disconnect/focus: NEVER say ""avg 2.8/4"" — always describe using the scale (e.g. ""you mostly felt ok, sometimes tired"")
+- Each period's insight must feel distinct — focus on what's unique about that time window
+- NEVER repeat the same sentence structure, opening phrase, or pattern across periods — vary vocabulary, rhythm, and angle
+- Shorter windows = focus on recent signals; longer windows = focus on trends and patterns over time
+- No profession or job role references
+- No medical claims
+- No fear or alarm language
+- Use null for any period with no data
+
+Return ONLY this JSON, no markdown, no explanation:
+{""7d"":{""insight"":""..."",""action"":""...""},""30d"":{""insight"":""..."",""action"":""...""},""3m"":{""insight"":""..."",""action"":""...""},""6m"":{""insight"":""..."",""action"":""...""},""1y"":{""insight"":""..."",""action"":""...""},""all"":{""insight"":""..."",""action"":""...""}}
+
+Good insight example: Tavo miegas siа savaitę vidurkis buvo 6.1h — gerokai mažiau nei rekomenduojama 7h. Kartu darbo valandos siekė vidutiniškai 10.4h, o ekrano laikas — 8.2h, kas palieka labai mažai laiko tikram atsigavimui. Žemiausia miego reikšmė buvo 5.5h, kas rodo, kad bent kelios naktys buvo tikrai trumpos.
+Good action example: Pabandyk vieną savaitės vakarą nustatyti miego laikmatį 30 min. anksčiau nei įprastai. Ekrano laiką po 21:00 sumažink bent per pusę — tai ženkliai pagerina užmigimą.
+
+Bad example (avoid):
+insight: Sis darbuotojas rodo lėtinio perdegimo požymius dėl per ilgų darbo valandų.
+action: Rekomenduojama kreiptis į gydytoją.");
+
+            var client = new Client(apiKey: apiKey);
+            var response = await client.Models.GenerateContentAsync(model: "gemini-2.5-flash", contents: sb.ToString());
+            var raw = response.Candidates?.FirstOrDefault()?.Content?.Parts?.FirstOrDefault()?.Text ?? "";
+
+            raw = raw.Trim();
+            if (raw.StartsWith("```"))
+                raw = System.Text.RegularExpressions.Regex.Replace(raw, @"```[a-z]*\n?", "").Replace("```", "").Trim();
+
+            System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, System.Text.Json.JsonElement>>(raw);
+            return raw;
         }
 
         [HttpPost("Profile/UpdateTimestamp")]
@@ -475,6 +689,25 @@ namespace Hamburgerz.Controllers
             }
 
             return value.Trim();
+        }
+
+        private string? GetGeminiApiKey()
+        {
+            var configuredApiKey = _configuration["BURNOUT_GEMINI_API"];
+
+            if (!string.IsNullOrWhiteSpace(configuredApiKey))
+            {
+                return configuredApiKey;
+            }
+
+            configuredApiKey = _configuration["Gemini:ApiKey"];
+
+            if (!string.IsNullOrWhiteSpace(configuredApiKey))
+            {
+                return configuredApiKey;
+            }
+
+            return Environment.GetEnvironmentVariable("BURNOUT_GEMINI_API", EnvironmentVariableTarget.User);
         }
 
         private static DateTime? NormalizeBirthDate(DateTime? birthDate) =>

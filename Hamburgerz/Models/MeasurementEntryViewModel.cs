@@ -39,6 +39,10 @@ namespace Hamburgerz.Models
         [Required(ErrorMessage = "Pažymėkite streso lygį")]
         public string StressLevel { get; set; } = string.Empty;
 
+        public int? MoodScore { get; set; }
+        public int? DisconnectScore { get; set; }
+        public int? FocusScore { get; set; }
+
         public bool HasAnyProfileData =>
             BirthDate.HasValue
             || !string.IsNullOrWhiteSpace(Gender)

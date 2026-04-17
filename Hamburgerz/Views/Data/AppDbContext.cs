@@ -15,6 +15,8 @@ namespace Hamburgerz.Data
 
         public DbSet<RiskData> RiskData { get; set; }
 
+        public DbSet<AnalysisCache> AnalysisCache { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -31,9 +33,13 @@ namespace Hamburgerz.Data
             });
 
             modelBuilder.Entity<RiskData>()
-            .HasOne<User>()
-            .WithMany()
-            .HasForeignKey(r => r.UserId); // Use the UserId property as the FK
+                .HasOne<User>()
+                .WithMany()
+                .HasForeignKey(r => r.UserId);
+
+            modelBuilder.Entity<AnalysisCache>()
+                .HasIndex(c => c.UserId)
+                .IsUnique();
         }
     }
 }

@@ -66,6 +66,15 @@ namespace Hamburgerz.Models
         public int UserId { get; set; }
 
         [Column("suggestion")]
-        public string? Suggestion { get; set; } = string.Empty ;
+        public string? Suggestion { get; set; } = string.Empty;
+
+        [Column("mood_score")]
+        public int? MoodScore { get; set; }
+
+        [Column("disconnect_score")]
+        public int? DisconnectScore { get; set; }
+
+        [Column("focus_score")]
+        public int? FocusScore { get; set; }
     }
 }
