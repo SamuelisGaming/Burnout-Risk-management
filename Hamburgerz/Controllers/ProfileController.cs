@@ -1,15 +1,18 @@
 using System.Linq.Expressions;
+using Google.GenAI;
 using Hamburgerz.Data;
 using Hamburgerz.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Google.GenAI;
 
 namespace Hamburgerz.Controllers
 {
     public class ProfileController : Controller
     {
         private const long MaxAvatarSizeBytes = 5 * 1024 * 1024;
+        Client client;
 
         private static readonly HashSet<string> AllowedAvatarContentTypes =
         [
@@ -37,7 +40,8 @@ namespace Hamburgerz.Controllers
             ScreenTime = r.ScreenTime,
             StressLevel = r.StressLevel,
             ProductivityScore = r.ProductivityScore,
-            BurnoutRisk = r.BurnoutRisk
+            BurnoutRisk = r.BurnoutRisk,
+            AISummary = r.Suggestion
         };
 
         private readonly AppDbContext _context;
@@ -45,6 +49,7 @@ namespace Hamburgerz.Controllers
         public ProfileController(AppDbContext context)
         {
             _context = context;
+            
         }
 
         [HttpGet]
@@ -279,6 +284,43 @@ namespace Hamburgerz.Controllers
             return View(MapToMeasurement(measurement, birthDate));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAiSuggestion(int id)
+        {
+            var data = await _context.RiskData.FindAsync(id);
+            if (data == null) return NotFound();
+
+            client = new Client(apiKey: Environment.GetEnvironmentVariable("BURNOUT_GEMINI_API", EnvironmentVariableTarget.User));
+
+            // If we already generated it, just return it
+            if (!string.IsNullOrEmpty(data.Suggestion))
+            {
+                return Json(new { suggestion = data.Suggestion });
+            }
+
+            // Call Gemini with MUCH better context than just WorkHours
+            var prompt = $@"
+            Duok trumpą analizę ir rekomendacijas dėl perdegimo rizikos asmeniui, kuris dirba {data.JobRole}, dirbantis {data.WorkEnvironment} pobūdžiu.
+            Jis dirba {data.WorkHours} valandų į dieną, miega {data.SleepHours} valandų, ir yra {data.StressLevel} streso lygio.
+            Duok dviejų sakinių aprašymą ir rekomendaciją ką galima pakeist.";
+
+            try
+            {
+                var text = await client.Models.GenerateContentAsync(model: "gemini-2.5-flash", contents: prompt);
+                var result = text.Candidates?.FirstOrDefault()?.Content?.Parts?.FirstOrDefault()?.Text;
+
+                // Save to DB so it's permanent
+                data.Suggestion = result ?? "Analysis complete, but no text generated.";
+                await _context.SaveChangesAsync();
+
+                return Json(new { suggestion = data.Suggestion });
+            }
+            catch (Exception)
+            {
+                return Json(new { suggestion = "AI is temporarily unavailable. Please refresh." });
+            }
+        }
+
         [HttpPost("Profile/UpdateTimestamp")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateTimestamp(int id, DateTime? timeStamp, string? originalTime = null)
@@ -420,7 +462,8 @@ namespace Hamburgerz.Controllers
                 ScreenTime = measurement.ScreenTime,
                 StressLevel = measurement.StressLevel,
                 ProductivityScore = measurement.ProductivityScore,
-                BurnoutRisk = measurement.BurnoutRisk
+                BurnoutRisk = measurement.BurnoutRisk,
+                AISummary = measurement.Suggestion
             };
         }
 

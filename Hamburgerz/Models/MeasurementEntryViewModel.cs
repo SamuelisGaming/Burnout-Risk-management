@@ -47,5 +47,6 @@ namespace Hamburgerz.Models
             || ExperienceYears.HasValue
             || !string.IsNullOrWhiteSpace(CompanySize)
             || !string.IsNullOrWhiteSpace(WorkEnvironment);
+
     }
 }

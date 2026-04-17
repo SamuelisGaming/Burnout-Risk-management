@@ -103,5 +103,7 @@ namespace Hamburgerz.Models
                 return $"{RiskText} risk, {StressLevel} stress, {SleepHours:0.#}h sleep, {WorkHours:0.#}h work, {ProductivityScore} productivity";
             }
         }
+
+        public string? AISummary { get; set; }
     }
 }

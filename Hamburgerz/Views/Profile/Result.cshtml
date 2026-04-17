@@ -1,4 +1,4 @@
-@model Hamburgerz.Models.RiskMeasurement
+﻿@model Hamburgerz.Models.RiskMeasurement
 
 @{
     ViewData["Title"] = "Measurement result";
@@ -9,8 +9,9 @@
     string DisplayNumber(int? value) => value?.ToString() ?? "Not set";
     string DisplayDate(DateTime? value) => value?.ToString("yyyy-MM-dd") ?? "Not set";
 }
-
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
+
     .result-page {
         max-width: 1100px;
         margin: 0 auto;
@@ -305,6 +306,7 @@
         border: 2px dashed var(--color-border);
         border-radius: 16px;
         background: var(--color-surface);
+        padding: 15px;
     }
 
     .back-row {
@@ -570,9 +572,56 @@
 
                 <section class="result-panel">
                     <div class="panel-kicker">Recommendations</div>
-                    <h2 class="panel-title">Recommendations</h2>
-                    <div class="placeholder-panel"></div>
+                    <h2 class="panel-title">AI Insights</h2>
+
+                    <div id="ai-container" class="placeholder-panel">
+                        @if (string.IsNullOrEmpty(Model.AISummary))
+                        {
+                            <div id="ai-loading" class="text-center p-4">
+                                <div class="spinner-border text-primary" role="status"></div>
+                                <p>Gemini is analyzing your data...</p>
+                            </div>
+                            <div id="ai-text" style="display:none;"></div>
+                        }
+                        else
+                        {
+                            <div id="ai-text"
+                                 class="markdown-body"
+                                 data-markdown="@Model.AISummary">
+                            </div>
+                        }
+                    </div>
                 </section>
+
+                <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                        const textElement = document.getElementById('ai-text');
+                        const loadingElement = document.getElementById('ai-loading');
+
+                        const existingMarkdown = textElement?.dataset.markdown;
+
+                        if (existingMarkdown) {
+                            // SSR case → parse immediately
+                            textElement.innerHTML = marked.parse(existingMarkdown);
+                            textElement.style.display = 'block';
+                            if (loadingElement) loadingElement.style.display = 'none';
+                        } else if (loadingElement) {
+                            // Fetch case
+                            fetch('@Url.Action("GetAiSuggestion", "Profile", new { id = Model.ID })')
+                                .then(response => response.json())
+                                .then(data => {
+                                    textElement.innerHTML = marked.parse(data.suggestion);
+                                    textElement.style.display = 'block';
+                                    loadingElement.style.display = 'none';
+                                })
+                                .catch(() => {
+                                    textElement.innerText = "Failed to load AI summary.";
+                                    textElement.style.display = 'block';
+                                    loadingElement.style.display = 'none';
+                                });
+                        }
+                    });
+                </script>
 
                 <section class="result-panel">
                     <div class="panel-kicker">Possible signs</div>
@@ -583,3 +632,33 @@
         </div>
     </div>
 </div>
+
+@if (string.IsNullOrWhiteSpace(Model.AISummary))
+{
+    <script>
+                document.addEventListener("DOMContentLoaded", function () {
+            const textElement = document.getElementById('ai-text');
+            const loadingElement = document.getElementById('ai-loading');
+
+            if (loadingElement) {
+                // CASE: Summary is missing, fetch it via AJAX
+                fetch('@Url.Action("GetAiSuggestion", "Profile", new { id = Model.ID })')
+                    .then(response => response.json())
+                    .then(data => {
+                        textElement.innerHTML = marked.parse(data.suggestion);
+                        textElement.style.display = 'block';
+                        loadingElement.style.display = 'none';
+                    })
+                    .catch(() => {
+                        textElement.innerText = "Failed to load AI summary.";
+                        textElement.style.display = 'block';
+                        loadingElement.style.display = 'none';
+                    });
+            } else if (textElement && textElement.innerText.trim() !== "") {
+                // CASE: Summary was pre-generated (SSR), parse the existing text
+                const rawContent = textElement.innerText;
+                textElement.innerHTML = marked.parse(rawContent);
+            }
+        });
+    </script>
+}

@@ -2,16 +2,20 @@ using Hamburgerz.Data;
 using Hamburgerz.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Google.GenAI;
+using static Google.Apis.Requests.BatchRequest;
 
 namespace Hamburgerz.Controllers
 {
     public class DataController : Controller
     {
         private readonly AppDbContext _context;
+        
 
-        public DataController(AppDbContext context)
+    public DataController(AppDbContext context)
         {
             _context = context;
+
         }
 
         [HttpGet]
@@ -75,7 +79,9 @@ namespace Hamburgerz.Controllers
                 ExerciseHours = model.ExerciseHours!.Value,
                 ScreenTime = model.ScreenTime!.Value,
                 StressLevel = model.StressLevel,
-                TimeStamp = DateTime.Now
+                TimeStamp = DateTime.Now,
+                Suggestion = null
+
             };
 
             _context.RiskData.Add(riskData);
@@ -112,6 +118,7 @@ namespace Hamburgerz.Controllers
                 ExerciseHours = submittedModel?.ExerciseHours,
                 ScreenTime = submittedModel?.ScreenTime,
                 StressLevel = submittedModel?.StressLevel ?? string.Empty
+                
             };
         }
 

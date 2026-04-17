@@ -64,5 +64,8 @@ namespace Hamburgerz.Models
 
         [Column("fk_userID")]
         public int UserId { get; set; }
+
+        [Column("suggestion")]
+        public string? Suggestion { get; set; } = string.Empty ;
     }
 }
