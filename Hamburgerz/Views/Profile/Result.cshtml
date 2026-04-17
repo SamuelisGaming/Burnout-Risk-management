@@ -309,6 +309,87 @@
         padding: 15px;
     }
 
+    .ai-insight-card {
+        min-height: 220px;
+        border: 1px solid var(--color-border);
+        border-radius: 18px;
+        background:
+            radial-gradient(circle at top right, rgba(var(--color-primary-rgb), 0.08), transparent 34%),
+            linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
+        padding: 18px;
+        box-shadow: inset 0 1px 0 rgba(var(--color-bg-rgb), 0.72);
+    }
+
+    .ai-loading-card {
+        min-height: 184px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        color: var(--color-text);
+    }
+
+    .ai-spinner {
+        width: 2rem;
+        height: 2rem;
+        flex-shrink: 0;
+        color: var(--color-primary);
+    }
+
+    .ai-loading-title {
+        font-size: 17px;
+        font-weight: 800;
+        color: var(--color-text);
+        margin-bottom: 4px;
+    }
+
+    .ai-loading-copy {
+        margin: 0;
+        color: var(--color-text-muted);
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .ai-markdown-body {
+        font-size: 16.5px;
+        line-height: 1.76;
+        color: var(--color-text);
+    }
+
+    .ai-markdown-body p,
+    .ai-markdown-body ul,
+    .ai-markdown-body ol {
+        margin: 0 0 14px;
+    }
+
+    .ai-markdown-body p:last-child,
+    .ai-markdown-body ul:last-child,
+    .ai-markdown-body ol:last-child {
+        margin-bottom: 0;
+    }
+
+    .ai-markdown-body ul,
+    .ai-markdown-body ol {
+        padding-left: 1.25rem;
+    }
+
+    .ai-markdown-body li + li {
+        margin-top: 6px;
+    }
+
+    .ai-markdown-body strong {
+        color: var(--color-text);
+        font-weight: 850;
+    }
+
+    .ai-error-text {
+        display: flex;
+        min-height: 184px;
+        align-items: center;
+        color: var(--color-text-muted);
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
     .back-row {
         margin-bottom: 18px;
     }
@@ -574,19 +655,22 @@
                     <div class="panel-kicker">Recommendations</div>
                     <h2 class="panel-title">AI Insights</h2>
 
-                    <div id="ai-container" class="placeholder-panel">
+                    <div id="ai-container" class="ai-insight-card">
                         @if (string.IsNullOrEmpty(Model.AISummary))
                         {
-                            <div id="ai-loading" class="text-center p-4">
-                                <div class="spinner-border text-primary" role="status"></div>
-                                <p>Gemini is analyzing your data...</p>
+                            <div id="ai-loading" class="ai-loading-card">
+                                <div class="spinner-border ai-spinner" role="status" aria-label="Loading AI insights"></div>
+                                <div>
+                                    <div class="ai-loading-title">Generating insight</div>
+                                    <p class="ai-loading-copy">Gemini is reading this measurement and preparing recommendations.</p>
+                                </div>
                             </div>
-                            <div id="ai-text" style="display:none;"></div>
+                            <div id="ai-text" class="markdown-body ai-markdown-body" style="display:none;"></div>
                         }
                         else
                         {
                             <div id="ai-text"
-                                 class="markdown-body"
+                                 class="markdown-body ai-markdown-body"
                                  data-markdown="@Model.AISummary">
                             </div>
                         }
@@ -594,31 +678,56 @@
                 </section>
 
                 <script>
-                        document.addEventListener("DOMContentLoaded", function () {
+                    document.addEventListener("DOMContentLoaded", function () {
                         const textElement = document.getElementById('ai-text');
                         const loadingElement = document.getElementById('ai-loading');
+
+                        if (!textElement) {
+                            return;
+                        }
+
+                        function escapeHtml(value) {
+                            return value
+                                ? value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                                : '';
+                        }
+
+                        function renderInsight(value) {
+                            if (window.marked) {
+                                return marked.parse(value || '');
+                            }
+
+                            return '<p>' + escapeHtml(value || '').replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>') + '</p>';
+                        }
+
+                        function showInsight(value) {
+                            textElement.innerHTML = renderInsight(value);
+                            textElement.style.display = 'block';
+                            if (loadingElement) {
+                                loadingElement.style.display = 'none';
+                            }
+                        }
+
+                        function showError() {
+                            textElement.classList.add('ai-error-text');
+                            textElement.innerText = "AI insights are temporarily unavailable. Please refresh.";
+                            textElement.style.display = 'flex';
+                            if (loadingElement) {
+                                loadingElement.style.display = 'none';
+                            }
+                        }
 
                         const existingMarkdown = textElement?.dataset.markdown;
 
                         if (existingMarkdown) {
-                            // SSR case → parse immediately
-                            textElement.innerHTML = marked.parse(existingMarkdown);
-                            textElement.style.display = 'block';
-                            if (loadingElement) loadingElement.style.display = 'none';
+                            showInsight(existingMarkdown);
                         } else if (loadingElement) {
-                            // Fetch case
                             fetch('@Url.Action("GetAiSuggestion", "Profile", new { id = Model.ID })')
                                 .then(response => response.json())
                                 .then(data => {
-                                    textElement.innerHTML = marked.parse(data.suggestion);
-                                    textElement.style.display = 'block';
-                                    loadingElement.style.display = 'none';
+                                    showInsight(data.suggestion);
                                 })
-                                .catch(() => {
-                                    textElement.innerText = "Failed to load AI summary.";
-                                    textElement.style.display = 'block';
-                                    loadingElement.style.display = 'none';
-                                });
+                                .catch(showError);
                         }
                     });
                 </script>
@@ -632,33 +741,3 @@
         </div>
     </div>
 </div>
-
-@if (string.IsNullOrWhiteSpace(Model.AISummary))
-{
-    <script>
-                document.addEventListener("DOMContentLoaded", function () {
-            const textElement = document.getElementById('ai-text');
-            const loadingElement = document.getElementById('ai-loading');
-
-            if (loadingElement) {
-                // CASE: Summary is missing, fetch it via AJAX
-                fetch('@Url.Action("GetAiSuggestion", "Profile", new { id = Model.ID })')
-                    .then(response => response.json())
-                    .then(data => {
-                        textElement.innerHTML = marked.parse(data.suggestion);
-                        textElement.style.display = 'block';
-                        loadingElement.style.display = 'none';
-                    })
-                    .catch(() => {
-                        textElement.innerText = "Failed to load AI summary.";
-                        textElement.style.display = 'block';
-                        loadingElement.style.display = 'none';
-                    });
-            } else if (textElement && textElement.innerText.trim() !== "") {
-                // CASE: Summary was pre-generated (SSR), parse the existing text
-                const rawContent = textElement.innerText;
-                textElement.innerHTML = marked.parse(rawContent);
-            }
-        });
-    </script>
-}
