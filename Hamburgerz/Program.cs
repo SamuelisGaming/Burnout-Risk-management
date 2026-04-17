@@ -1,5 +1,6 @@
 using Hamburgerz.Data;
 using Hamburgerz.Models;
+using Hamburgerz.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -21,6 +22,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     ));
 
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddSingleton<JobRoleCatalogService>();
 
 builder.Services.AddControllersWithViews();
 

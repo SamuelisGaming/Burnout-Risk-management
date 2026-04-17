@@ -1,4 +1,336 @@
-document.addEventListener("DOMContentLoaded", function () {
+const THEME_STORAGE_KEY = "hamburgerz-theme";
+
+function getStoredTheme() {
+    try {
+        const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+        return storedTheme === "dark" || storedTheme === "light" ? storedTheme : null;
+    } catch (error) {
+        return null;
+    }
+}
+
+function getSystemTheme() {
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+}
+
+function getPreferredTheme() {
+    return getStoredTheme() || getSystemTheme();
+}
+
+function getThemeLabel(theme) {
+    return theme === "dark" ? "Tamsus režimas" : "Šviesus režimas";
+}
+
+function syncThemeControls(theme) {
+    const isDark = theme === "dark";
+
+    document.querySelectorAll("[data-theme-toggle]").forEach(function (toggle) {
+        if (!(toggle instanceof HTMLInputElement)) {
+            return;
+        }
+
+        toggle.checked = isDark;
+        toggle.setAttribute("aria-checked", isDark ? "true" : "false");
+    });
+
+    document.querySelectorAll("[data-theme-value]").forEach(function (label) {
+        label.textContent = getThemeLabel(theme);
+    });
+}
+
+function applyTheme(theme, persist) {
+    const resolvedTheme = theme === "dark" ? "dark" : "light";
+    const root = document.documentElement;
+
+    root.setAttribute("data-theme", resolvedTheme);
+    root.setAttribute("data-bs-theme", resolvedTheme);
+    root.style.colorScheme = resolvedTheme;
+
+    if (persist) {
+        try {
+            window.localStorage.setItem(THEME_STORAGE_KEY, resolvedTheme);
+        } catch (error) {
+            // Ignore storage failures and still apply the theme for the current session.
+        }
+    }
+
+    syncThemeControls(resolvedTheme);
+}
+
+function initTheme() {
+    applyTheme(getPreferredTheme(), false);
+
+    document.querySelectorAll("[data-theme-toggle]").forEach(function (toggle) {
+        if (!(toggle instanceof HTMLInputElement)) {
+            return;
+        }
+
+        toggle.addEventListener("change", function () {
+            applyTheme(toggle.checked ? "dark" : "light", true);
+        });
+    });
+
+    if (!window.matchMedia) {
+        return;
+    }
+
+    const colorSchemeMedia = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleSystemThemeChange = function (event) {
+        if (getStoredTheme()) {
+            return;
+        }
+
+        applyTheme(event.matches ? "dark" : "light", false);
+    };
+
+    if (typeof colorSchemeMedia.addEventListener === "function") {
+        colorSchemeMedia.addEventListener("change", handleSystemThemeChange);
+    } else if (typeof colorSchemeMedia.addListener === "function") {
+        colorSchemeMedia.addListener(handleSystemThemeChange);
+    }
+}
+
+function initSettingsModal() {
+    if (typeof bootstrap === "undefined") {
+        return;
+    }
+
+    document.querySelectorAll("[data-settings-open]").forEach(function (button) {
+        if (!(button instanceof HTMLElement)) {
+            return;
+        }
+
+        button.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const targetSelector = button.getAttribute("data-settings-modal-target") || "#settingsModal";
+            const modalElement = document.querySelector(targetSelector);
+
+            if (!(modalElement instanceof HTMLElement)) {
+                return;
+            }
+
+            const showModal = function () {
+                bootstrap.Modal.getOrCreateInstance(modalElement).show();
+            };
+
+            const dropdownRoot = button.closest(".dropdown");
+            const dropdownToggle = dropdownRoot
+                ? dropdownRoot.querySelector("[data-bs-toggle=\"dropdown\"]")
+                : null;
+
+            if (dropdownRoot instanceof HTMLElement && dropdownToggle instanceof HTMLElement) {
+                dropdownRoot.addEventListener("hidden.bs.dropdown", showModal, { once: true });
+                bootstrap.Dropdown.getOrCreateInstance(dropdownToggle).hide();
+                return;
+            }
+
+            showModal();
+        });
+    });
+}
+
+function initJobRoleAutocomplete() {
+    const fields = Array.from(document.querySelectorAll("[data-job-role-field]"));
+
+    fields.forEach(function (field) {
+        if (!(field instanceof HTMLElement)) {
+            return;
+        }
+
+        const input = field.querySelector("[data-job-role-input]");
+        const suggestionsRoot = field.querySelector("[data-job-role-suggestions]");
+        const endpoint = field.dataset.jobRoleEndpoint || "/api/job-roles";
+
+        if (!(input instanceof HTMLInputElement) || !(suggestionsRoot instanceof HTMLElement)) {
+            return;
+        }
+
+        let suggestions = [];
+        let activeIndex = -1;
+        let debounceId = 0;
+        let requestController = null;
+
+        suggestionsRoot.setAttribute("role", "listbox");
+
+        const closeSuggestions = function () {
+            activeIndex = -1;
+            suggestionsRoot.hidden = true;
+            field.classList.remove("is-open");
+            suggestionsRoot.replaceChildren();
+        };
+
+        const setActiveOption = function (nextIndex) {
+            const options = Array.from(suggestionsRoot.querySelectorAll(".job-role-option"));
+
+            options.forEach(function (option, index) {
+                const isActive = index === nextIndex;
+                option.classList.toggle("is-active", isActive);
+                option.setAttribute("aria-selected", isActive ? "true" : "false");
+
+                if (isActive) {
+                    option.scrollIntoView({ block: "nearest" });
+                }
+            });
+
+            activeIndex = nextIndex;
+        };
+
+        const applySuggestion = function (item) {
+            if (!item || typeof item.canonicalTitle !== "string") {
+                return;
+            }
+
+            input.value = item.canonicalTitle;
+            closeSuggestions();
+        };
+
+        const renderSuggestions = function (items, query) {
+            suggestions = Array.isArray(items) ? items : [];
+            suggestionsRoot.replaceChildren();
+            activeIndex = -1;
+
+            if (!suggestions.length) {
+                if (!query) {
+                    closeSuggestions();
+                    return;
+                }
+
+                const emptyState = document.createElement("div");
+                emptyState.className = "job-role-empty";
+                emptyState.textContent = "No matching job roles found.";
+                suggestionsRoot.appendChild(emptyState);
+                suggestionsRoot.hidden = false;
+                field.classList.add("is-open");
+                return;
+            }
+
+            suggestions.forEach(function (item, index) {
+                const option = document.createElement("button");
+                option.type = "button";
+                option.className = "job-role-option";
+                option.setAttribute("role", "option");
+                option.setAttribute("aria-selected", "false");
+
+                const title = document.createElement("span");
+                title.className = "job-role-option-title";
+                title.textContent = item.canonicalTitle;
+                option.appendChild(title);
+
+                option.addEventListener("mousedown", function (event) {
+                    event.preventDefault();
+                    applySuggestion(item);
+                });
+
+                option.addEventListener("mouseenter", function () {
+                    setActiveOption(index);
+                });
+
+                suggestionsRoot.appendChild(option);
+            });
+
+            suggestionsRoot.hidden = false;
+            field.classList.add("is-open");
+        };
+
+        const loadSuggestions = async function (query) {
+            if (requestController && typeof requestController.abort === "function") {
+                requestController.abort();
+            }
+
+            requestController = typeof AbortController === "function"
+                ? new AbortController()
+                : null;
+
+            try {
+                const url = endpoint + "?q=" + encodeURIComponent(query);
+                const response = await window.fetch(url, {
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    signal: requestController ? requestController.signal : undefined
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to load job role suggestions.");
+                }
+
+                const payload = await response.json();
+                renderSuggestions(payload, query);
+            } catch (error) {
+                if (error && error.name === "AbortError") {
+                    return;
+                }
+
+                console.error(error);
+                closeSuggestions();
+            }
+        };
+
+        const queueSuggestions = function () {
+            window.clearTimeout(debounceId);
+            debounceId = window.setTimeout(function () {
+                loadSuggestions(input.value.trim());
+            }, 120);
+        };
+
+        input.addEventListener("focus", function () {
+            queueSuggestions();
+        });
+
+        input.addEventListener("input", function () {
+            queueSuggestions();
+        });
+
+        input.addEventListener("keydown", function (event) {
+            if (suggestionsRoot.hidden) {
+                if (event.key === "ArrowDown") {
+                    event.preventDefault();
+                    queueSuggestions();
+                }
+
+                return;
+            }
+
+            if (event.key === "ArrowDown") {
+                event.preventDefault();
+                setActiveOption(Math.min(activeIndex + 1, suggestions.length - 1));
+                return;
+            }
+
+            if (event.key === "ArrowUp") {
+                event.preventDefault();
+                setActiveOption(Math.max(activeIndex - 1, 0));
+                return;
+            }
+
+            if (event.key === "Enter" && activeIndex >= 0) {
+                event.preventDefault();
+                applySuggestion(suggestions[activeIndex]);
+                return;
+            }
+
+            if (event.key === "Escape") {
+                event.preventDefault();
+                closeSuggestions();
+            }
+        });
+
+        input.addEventListener("blur", function () {
+            window.setTimeout(closeSuggestions, 150);
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!field.contains(event.target)) {
+                closeSuggestions();
+            }
+        });
+    });
+}
+
+function initAvatar() {
     const avatarUrl = document.body?.dataset.avatarUrl || "";
     const avatarRoots = Array.from(document.querySelectorAll("[data-avatar-root]"));
     const uploadTrigger = document.querySelector("[data-avatar-upload-trigger]");
@@ -219,4 +551,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    initTheme();
+    initSettingsModal();
+    initJobRoleAutocomplete();
+    initAvatar();
 });

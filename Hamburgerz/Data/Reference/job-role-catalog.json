@@ -1,0 +1,561 @@
+[
+  {
+    "canonicalTitle": "Software Engineer",
+    "featured": true,
+    "friendlyValues": [
+      "dev",
+      "developer",
+      "software developer",
+      "application developer",
+      "programmer",
+      "coder",
+      "programuotojas"
+    ]
+  },
+  {
+    "canonicalTitle": "Frontend Developer",
+    "featured": true,
+    "friendlyValues": [
+      "frontend dev",
+      "front-end developer",
+      "front end developer",
+      "ui developer",
+      "react developer",
+      "angular developer",
+      "javascript developer",
+      "frontend programuotojas"
+    ]
+  },
+  {
+    "canonicalTitle": "Backend Developer",
+    "featured": true,
+    "friendlyValues": [
+      "backend dev",
+      "back-end developer",
+      "back end developer",
+      "api developer",
+      "server-side developer",
+      "server side developer",
+      "dotnet developer",
+      "java developer",
+      "backend programuotojas"
+    ]
+  },
+  {
+    "canonicalTitle": "Full-Stack Developer",
+    "featured": true,
+    "friendlyValues": [
+      "full stack developer",
+      "full-stack dev",
+      "full stack dev",
+      "fullstack developer",
+      "web developer",
+      "pilno stack programuotojas"
+    ]
+  },
+  {
+    "canonicalTitle": "Mobile Developer",
+    "featured": false,
+    "friendlyValues": [
+      "mobile dev",
+      "app developer",
+      "android developer",
+      "ios developer",
+      "mobile engineer"
+    ]
+  },
+  {
+    "canonicalTitle": "DevOps Engineer",
+    "featured": true,
+    "friendlyValues": [
+      "devops",
+      "platform engineer",
+      "release engineer",
+      "infrastructure engineer"
+    ]
+  },
+  {
+    "canonicalTitle": "Site Reliability Engineer",
+    "featured": false,
+    "friendlyValues": [
+      "sre",
+      "reliability engineer"
+    ]
+  },
+  {
+    "canonicalTitle": "Cloud Engineer",
+    "featured": false,
+    "friendlyValues": [
+      "cloud developer",
+      "cloud specialist",
+      "cloud ops engineer"
+    ]
+  },
+  {
+    "canonicalTitle": "Data Engineer",
+    "featured": false,
+    "friendlyValues": [
+      "etl developer",
+      "analytics engineer",
+      "data pipeline engineer"
+    ]
+  },
+  {
+    "canonicalTitle": "Machine Learning Engineer",
+    "featured": false,
+    "friendlyValues": [
+      "ml engineer",
+      "ai engineer",
+      "ai developer"
+    ]
+  },
+  {
+    "canonicalTitle": "Data Scientist",
+    "featured": true,
+    "friendlyValues": [
+      "data science",
+      "machine learning scientist",
+      "duomenu mokslininkas"
+    ]
+  },
+  {
+    "canonicalTitle": "Data Analyst",
+    "featured": true,
+    "friendlyValues": [
+      "reporting analyst",
+      "insights analyst",
+      "analytics analyst",
+      "duomenu analitikas"
+    ]
+  },
+  {
+    "canonicalTitle": "Business Intelligence Analyst",
+    "featured": false,
+    "friendlyValues": [
+      "bi analyst",
+      "business intelligence analyst",
+      "reporting developer"
+    ]
+  },
+  {
+    "canonicalTitle": "Quality Assurance Engineer",
+    "featured": true,
+    "friendlyValues": [
+      "qa",
+      "qa engineer",
+      "tester",
+      "test engineer",
+      "software tester",
+      "quality assurance",
+      "kokybes uztikrinimo inzinierius"
+    ]
+  },
+  {
+    "canonicalTitle": "Test Automation Engineer",
+    "featured": false,
+    "friendlyValues": [
+      "automation tester",
+      "qa automation",
+      "automation engineer",
+      "sdet"
+    ]
+  },
+  {
+    "canonicalTitle": "Cybersecurity Analyst",
+    "featured": false,
+    "friendlyValues": [
+      "security analyst",
+      "cyber analyst",
+      "infosec analyst",
+      "information security analyst"
+    ]
+  },
+  {
+    "canonicalTitle": "Systems Administrator",
+    "featured": false,
+    "friendlyValues": [
+      "sysadmin",
+      "system administrator",
+      "it administrator"
+    ]
+  },
+  {
+    "canonicalTitle": "Network Engineer",
+    "featured": false,
+    "friendlyValues": [
+      "network admin",
+      "network specialist",
+      "tinklo inzinierius"
+    ]
+  },
+  {
+    "canonicalTitle": "IT Support Specialist",
+    "featured": false,
+    "friendlyValues": [
+      "help desk",
+      "tech support",
+      "technical support",
+      "service desk",
+      "it support"
+    ]
+  },
+  {
+    "canonicalTitle": "Solutions Architect",
+    "featured": false,
+    "friendlyValues": [
+      "solution architect",
+      "technical architect"
+    ]
+  },
+  {
+    "canonicalTitle": "Product Manager",
+    "featured": true,
+    "friendlyValues": [
+      "product lead",
+      "associate product manager",
+      "produkto vadovas"
+    ]
+  },
+  {
+    "canonicalTitle": "Project Manager",
+    "featured": true,
+    "friendlyValues": [
+      "project lead",
+      "delivery manager",
+      "projektu vadovas"
+    ]
+  },
+  {
+    "canonicalTitle": "Program Manager",
+    "featured": false,
+    "friendlyValues": [
+      "program lead",
+      "portfolio manager"
+    ]
+  },
+  {
+    "canonicalTitle": "Scrum Master",
+    "featured": false,
+    "friendlyValues": [
+      "agile coach",
+      "agile facilitator"
+    ]
+  },
+  {
+    "canonicalTitle": "UX Designer",
+    "featured": false,
+    "friendlyValues": [
+      "user experience designer",
+      "ux dizaineris"
+    ]
+  },
+  {
+    "canonicalTitle": "UI Designer",
+    "featured": false,
+    "friendlyValues": [
+      "interface designer",
+      "visual interface designer",
+      "ui dizaineris"
+    ]
+  },
+  {
+    "canonicalTitle": "Product Designer",
+    "featured": true,
+    "friendlyValues": [
+      "digital product designer",
+      "ux ui designer",
+      "produkto dizaineris"
+    ]
+  },
+  {
+    "canonicalTitle": "Graphic Designer",
+    "featured": false,
+    "friendlyValues": [
+      "visual designer",
+      "brand designer",
+      "grafikos dizaineris"
+    ]
+  },
+  {
+    "canonicalTitle": "Business Analyst",
+    "featured": true,
+    "friendlyValues": [
+      "requirements analyst",
+      "systems analyst",
+      "verslo analitikas"
+    ]
+  },
+  {
+    "canonicalTitle": "Operations Analyst",
+    "featured": false,
+    "friendlyValues": [
+      "ops analyst",
+      "operations specialist"
+    ]
+  },
+  {
+    "canonicalTitle": "Operations Manager",
+    "featured": false,
+    "friendlyValues": [
+      "ops manager",
+      "business operations manager"
+    ]
+  },
+  {
+    "canonicalTitle": "Office Manager",
+    "featured": false,
+    "friendlyValues": [
+      "office coordinator",
+      "office administrator"
+    ]
+  },
+  {
+    "canonicalTitle": "HR Specialist",
+    "featured": true,
+    "friendlyValues": [
+      "human resources specialist",
+      "hr generalist",
+      "people operations specialist",
+      "zmogiskuju istekliu specialistas"
+    ]
+  },
+  {
+    "canonicalTitle": "Human Resources Manager",
+    "featured": false,
+    "friendlyValues": [
+      "hr manager",
+      "people manager",
+      "personalo vadovas"
+    ]
+  },
+  {
+    "canonicalTitle": "Recruiter",
+    "featured": true,
+    "friendlyValues": [
+      "talent recruiter",
+      "talent acquisition specialist",
+      "atranku specialistas"
+    ]
+  },
+  {
+    "canonicalTitle": "Sales Representative",
+    "featured": false,
+    "friendlyValues": [
+      "sales rep",
+      "sales associate",
+      "business development representative",
+      "bdr",
+      "pardavimu atstovas"
+    ]
+  },
+  {
+    "canonicalTitle": "Account Executive",
+    "featured": false,
+    "friendlyValues": [
+      "sales executive",
+      "ae"
+    ]
+  },
+  {
+    "canonicalTitle": "Account Manager",
+    "featured": true,
+    "friendlyValues": [
+      "client manager",
+      "customer account manager",
+      "klientu vadybininkas"
+    ]
+  },
+  {
+    "canonicalTitle": "Customer Success Manager",
+    "featured": true,
+    "friendlyValues": [
+      "csm",
+      "customer success"
+    ]
+  },
+  {
+    "canonicalTitle": "Customer Support Specialist",
+    "featured": true,
+    "friendlyValues": [
+      "support agent",
+      "support specialist",
+      "customer service representative",
+      "customer service agent",
+      "klientu aptarnavimo specialistas"
+    ]
+  },
+  {
+    "canonicalTitle": "Marketing Specialist",
+    "featured": true,
+    "friendlyValues": [
+      "marketing coordinator",
+      "brand marketing specialist",
+      "rinkodaros specialistas"
+    ]
+  },
+  {
+    "canonicalTitle": "Digital Marketing Manager",
+    "featured": false,
+    "friendlyValues": [
+      "growth marketing manager",
+      "performance marketing manager",
+      "digital marketer"
+    ]
+  },
+  {
+    "canonicalTitle": "Content Strategist",
+    "featured": false,
+    "friendlyValues": [
+      "content manager",
+      "content specialist",
+      "copy strategist"
+    ]
+  },
+  {
+    "canonicalTitle": "SEO Specialist",
+    "featured": false,
+    "friendlyValues": [
+      "seo analyst",
+      "search engine optimization specialist"
+    ]
+  },
+  {
+    "canonicalTitle": "Social Media Manager",
+    "featured": false,
+    "friendlyValues": [
+      "community manager",
+      "social media specialist"
+    ]
+  },
+  {
+    "canonicalTitle": "Accountant",
+    "featured": true,
+    "friendlyValues": [
+      "staff accountant",
+      "financial accountant",
+      "bookkeeper",
+      "buhalteris"
+    ]
+  },
+  {
+    "canonicalTitle": "Finance Analyst",
+    "featured": false,
+    "friendlyValues": [
+      "financial analyst",
+      "fp&a analyst",
+      "finance planning analyst"
+    ]
+  },
+  {
+    "canonicalTitle": "Financial Controller",
+    "featured": false,
+    "friendlyValues": [
+      "controller",
+      "finance controller"
+    ]
+  },
+  {
+    "canonicalTitle": "Procurement Specialist",
+    "featured": false,
+    "friendlyValues": [
+      "buyer",
+      "sourcing specialist",
+      "purchasing specialist"
+    ]
+  },
+  {
+    "canonicalTitle": "Supply Chain Analyst",
+    "featured": false,
+    "friendlyValues": [
+      "supply planner",
+      "inventory analyst"
+    ]
+  },
+  {
+    "canonicalTitle": "Logistics Coordinator",
+    "featured": false,
+    "friendlyValues": [
+      "logistics specialist",
+      "shipping coordinator",
+      "logistikos koordinatorius"
+    ]
+  },
+  {
+    "canonicalTitle": "Research Analyst",
+    "featured": false,
+    "friendlyValues": [
+      "market researcher",
+      "research associate"
+    ]
+  },
+  {
+    "canonicalTitle": "Compliance Specialist",
+    "featured": false,
+    "friendlyValues": [
+      "compliance analyst",
+      "governance specialist"
+    ]
+  },
+  {
+    "canonicalTitle": "Risk Analyst",
+    "featured": false,
+    "friendlyValues": [
+      "risk management analyst",
+      "enterprise risk analyst"
+    ]
+  },
+  {
+    "canonicalTitle": "Legal Counsel",
+    "featured": false,
+    "friendlyValues": [
+      "corporate counsel",
+      "in-house counsel",
+      "attorney",
+      "lawyer",
+      "teisininkas"
+    ]
+  },
+  {
+    "canonicalTitle": "Administrative Assistant",
+    "featured": false,
+    "friendlyValues": [
+      "admin assistant",
+      "administrative coordinator"
+    ]
+  },
+  {
+    "canonicalTitle": "Executive Assistant",
+    "featured": false,
+    "friendlyValues": [
+      "ea",
+      "executive admin"
+    ]
+  },
+  {
+    "canonicalTitle": "Consultant",
+    "featured": false,
+    "friendlyValues": [
+      "business consultant",
+      "management consultant",
+      "konsultantas"
+    ]
+  },
+  {
+    "canonicalTitle": "Teacher",
+    "featured": false,
+    "friendlyValues": [
+      "educator",
+      "instructor",
+      "mokytojas"
+    ]
+  },
+  {
+    "canonicalTitle": "Healthcare Administrator",
+    "featured": false,
+    "friendlyValues": [
+      "medical administrator",
+      "clinic administrator",
+      "hospital administrator"
+    ]
+  }
+]

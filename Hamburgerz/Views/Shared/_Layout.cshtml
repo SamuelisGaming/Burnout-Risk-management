@@ -4,6 +4,30 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Hamburgerz</title>
+    <link rel="icon" type="image/png" href="~/assets/hamburgerz_logo_badge.png" asp-append-version="true" />
+    <link rel="shortcut icon" type="image/png" href="~/assets/hamburgerz_logo_badge.png" asp-append-version="true" />
+    <link rel="apple-touch-icon" href="~/assets/hamburgerz_logo_badge.png" asp-append-version="true" />
+    <script>
+        (function () {
+            var storageKey = "hamburgerz-theme";
+            var theme = "light";
+
+            try {
+                var storedTheme = window.localStorage.getItem(storageKey);
+                if (storedTheme === "dark" || storedTheme === "light") {
+                    theme = storedTheme;
+                } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                    theme = "dark";
+                }
+            } catch (error) {
+                theme = "light";
+            }
+
+            document.documentElement.setAttribute("data-theme", theme);
+            document.documentElement.setAttribute("data-bs-theme", theme);
+            document.documentElement.style.colorScheme = theme;
+        })();
+    </script>
     <script type="importmap"></script>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -89,13 +113,13 @@
         }
 
         .profile-dropdown .dropdown-item.text-danger {
-            color: #dc3545 !important;
+            color: var(--color-danger) !important;
         }
 
         .profile-dropdown .dropdown-item.text-danger:hover,
         .profile-dropdown .dropdown-item.text-danger:focus {
             background: var(--color-surface-2);
-            color: #dc3545 !important;
+            color: var(--color-danger) !important;
         }
     </style>
 </head>
@@ -127,23 +151,32 @@
 
                     @if (!isLoggedIn)
                     {
-                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Hamburgerz</a>
+                        <a class="navbar-brand app-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                            <img src="~/assets/hamburgerz_logo.png"
+                                 asp-append-version="true"
+                                 alt="Hamburgerz logo"
+                                 class="app-brand-mark" />
+                            <span class="app-brand-text">Hamburgerz</span>
+                        </a>
                     }
                     else
                     {
                         <div class="w-100 d-flex align-items-center justify-content-between">
 
                             <div style="min-width: 180px;">
-                                <a class="navbar-brand mb-0" asp-area="" asp-controller="Home" asp-action="Index">Hamburgerz</a>
+                                <a class="navbar-brand app-brand mb-0" asp-area="" asp-controller="Home" asp-action="Index">
+                                    <img src="~/assets/hamburgerz_logo.png"
+                                         asp-append-version="true"
+                                         alt="Hamburgerz logo"
+                                         class="app-brand-mark" />
+                                    <span class="app-brand-text">Hamburgerz</span>
+                                </a>
                             </div>
 
                             <div class="d-flex justify-content-center flex-grow-1">
                                 <ul class="navbar-nav d-flex flex-row gap-4">
                                     <li class="nav-item">
                                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="History">History</a>
@@ -167,17 +200,26 @@
                                         </div>
                                     </button>
 
-                                    <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
-                                        <li>
-                                            <a class="dropdown-item" asp-area="" asp-controller="Profile" asp-action="Index">
-                                                Profilis
-                                            </a>
-                                        </li>
-                                        <li><hr class="dropdown-divider" /></li>
-                                        <li>
-                                            <a class="dropdown-item text-danger" asp-area="" asp-controller="Login" asp-action="Logout">
-                                                Atsijungti
-                                            </a>
+                                     <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                                         <li>
+                                             <a class="dropdown-item" asp-area="" asp-controller="Profile" asp-action="Index">
+                                                 Profilis
+                                             </a>
+                                         </li>
+                                         <li>
+                                             <button type="button"
+                                                     class="dropdown-item"
+                                                     data-settings-open
+                                                     data-settings-modal-target="#settingsModal"
+                                                     aria-controls="settingsModal">
+                                                 Settings
+                                             </button>
+                                         </li>
+                                         <li><hr class="dropdown-divider" /></li>
+                                         <li>
+                                             <a class="dropdown-item text-danger" asp-area="" asp-controller="Login" asp-action="Logout">
+                                                 Atsijungti
+                                             </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -200,7 +242,83 @@
                 &copy; 2026 - Hamburgerz - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
             </div>
         </footer>
+
     </div>
+
+    @if (isLoggedIn)
+    {
+        <div class="modal fade app-modal" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                            <div class="app-modal-kicker">Appearance</div>
+                            <h2 class="modal-title fs-5" id="settingsModalLabel">Settings</h2>
+                        </div>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Uždaryti"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="settings-card">
+                            <div class="settings-toggle-row">
+                                <div>
+                                    <div class="settings-item-title">Dark mode</div>
+                                    <p class="settings-item-copy">
+                                        Perjunk visos sistemos išvaizdą tarp šviesaus ir tamsaus režimo.
+                                    </p>
+                                </div>
+
+                                <div class="form-check form-switch app-switch">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           role="switch"
+                                           id="themeModeSwitch"
+                                           data-theme-toggle
+                                           aria-label="Perjungti tamsų režimą"
+                                           aria-describedby="themeModeHint" />
+                                </div>
+                            </div>
+
+                            <div class="settings-meta">
+                                <span class="settings-theme-badge" data-theme-value>Šviesus režimas</span>
+                                <span id="themeModeHint">Nustatymas išsaugomas šiame įrenginyje.</span>
+                            </div>
+                        </div>
+
+                        <div class="settings-card settings-card-spaced">
+                            <div class="settings-item-title">Languages</div>
+                            <p class="settings-item-copy">
+                                Pasirink sistemos kalbą.
+                            </p>
+
+                            <div class="settings-language-strip" aria-label="Galimos kalbos">
+                                <button type="button" class="settings-language-option is-active" aria-pressed="true">
+                                    <span class="settings-language-flag settings-language-flag--lt" aria-hidden="true"></span>
+                                    <span class="settings-language-label">Lietuvių</span>
+                                </button>
+
+                                <button type="button" class="settings-language-option" aria-pressed="false">
+                                    <span class="settings-language-flag settings-language-flag--en" aria-hidden="true"></span>
+                                    <span class="settings-language-label">English</span>
+                                </button>
+
+                                <button type="button" class="settings-language-option" aria-pressed="false">
+                                    <span class="settings-language-flag settings-language-flag--es" aria-hidden="true"></span>
+                                    <span class="settings-language-label">Español</span>
+                                </button>
+
+                                <button type="button" class="settings-language-option" aria-pressed="false">
+                                    <span class="settings-language-flag settings-language-flag--de" aria-hidden="true"></span>
+                                    <span class="settings-language-label">Deutsch</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
