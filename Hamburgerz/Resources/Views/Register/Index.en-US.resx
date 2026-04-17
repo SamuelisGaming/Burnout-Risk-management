@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title1" xml:space="preserve">
+    <value>Registration</value>
+  </data>  
+  <data name="titledescr1" xml:space="preserve">
+    <value>Create an account.</value>
+  </data>
+  <data name="titledescr2" xml:space="preserve">
+    <value>Registration is broken down into a few short steps to make it easier to fill out your account, and basic information about you and your work.</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Account</value>
+  </data>  
+  <data name="accountdescr" xml:space="preserve">
+    <value>Login information for your account.</value>
+  </data>
+  <data name="about" xml:space="preserve">
+    <value>About you</value>
+  </data>
+  <data name="aboutdescr" xml:space="preserve">
+    <value>Basic information about you.</value>
+  </data>
+  <data name="aboutwork" xml:space="preserve">
+    <value>Work profile</value>
+  </data>
+  <data name="aboutworkdescr" xml:space="preserve">
+    <value>Information about your work and environment.</value>
+  </data>
+  <data name="why" xml:space="preserve">
+    <value>Why we request this information</value>
+  </data>
+  <data name="whydescr" xml:space="preserve">
+    <value>This information will help us provide more accurate, clear, and personalized analysis.</value>
+  </data>
+  <data name="accountdescr2" xml:space="preserve">
+    <value>Create an account</value>
+  </data>  
+  <data name="back" xml:space="preserve">
+    <value>Back</value>
+  </data>  
+  <data name="step1" xml:space="preserve">
+    <value>Step 1</value>
+  </data>
+  <data name="step1descr1" xml:space="preserve">
+    <value>Login information</value>
+  </data>
+  <data name="step1descr2" xml:space="preserve">
+    <value>Enter the details needed for logging in to your account.</value>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="user" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="usertemp" xml:space="preserve">
+    <value>"Your name in the system"</value>
+  </data>
+  <data name="pass" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="passtemp" xml:space="preserve">
+    <value>"Create a strong password"</value>
+  </data>
+  <data name="passshow" xml:space="preserve">
+    <value>"Show password"</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="strength" xml:space="preserve">
+    <value>Password strength will be shown while typing.</value>
+    <comment>describes the password strength testing section</comment>
+  </data>
+  <data name="atleast" xml:space="preserve">
+    <value>At least </value>
+  </data>
+  <data name="symbols" xml:space="preserve">
+    <value>symbols</value>
+  </data>
+  <data name="strengthlower" xml:space="preserve">
+    <value>At least one lowercase letter</value>
+  </data>
+  <data name="strengthupper" xml:space="preserve">
+    <value>At least one uppercase letter</value>
+  </data>
+  <data name="strengthnum" xml:space="preserve">
+    <value>At least one number</value>
+  </data>
+  <data name="strengthspecial" xml:space="preserve">
+    <value>At least one special symbol</value>
+  </data>
+  <data name="strengthoption" xml:space="preserve">
+    <value>It is not necessary to meet all the points, a medium-strength password is sufficient.</value>
+  </data>
+  <data name="passrepeat" xml:space="preserve">
+    <value>Repeat password</value>
+  </data>
+  <data name="passrepeat2" xml:space="preserve">
+    <value>"Repeat again"</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="step2" xml:space="preserve">
+    <value>Step 2</value>
+  </data>
+  <data name="step2descr1" xml:space="preserve">
+    <value>Basic information</value>
+  </data>
+  <data name="step2descr2" xml:space="preserve">
+    <value>This information will help us better understand your overall situation.</value>
+  </data>
+  <data name="gender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="gender1" xml:space="preserve">
+    <value>Man</value>
+  </data>
+  <data name="gender1descr" xml:space="preserve">
+    <value>It will be used for profile information.</value>
+  </data>
+  <data name="gender2" xml:space="preserve">
+    <value>Woman</value>
+  </data>
+  <data name="gender2descr" xml:space="preserve">
+    <value>Will be saved in your profile.</value>
+  </data>
+  <data name="gender3" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="gender3descr" xml:space="preserve">
+    <value>A choice for profile information.</value>
+  </data>
+  <data name="birth" xml:space="preserve">
+    <value>Birth date</value>
+  </data>
+  <data name="country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="countrytemp" xml:space="preserve">
+    <value>"Search for a country"</value>
+  </data>
+  <data name="countrychoose" xml:space="preserve">
+    <value>Choose a country</value>
+  </data>
+  <data name="countryempty" xml:space="preserve">
+    <value>The list of countries is empty. The `countries` table needs to be populated for this field to be fully functional.</value>
+    <comment>error message if countries list is empty</comment>
+  </data>
+  <data name="step3" xml:space="preserve">
+    <value>Step 3</value>
+  </data>
+  <data name="step3descr1" xml:space="preserve">
+    <value>Work information</value>
+  </data>
+  <data name="step3descr2" xml:space="preserve">
+    <value>The more accurately you fill in the job information, the more useful the analysis will be.</value>
+  </data>
+  <data name="position" xml:space="preserve">
+    <value>Work position</value>
+  </data>
+  <data name="positiontemp" xml:space="preserve">
+    <value>For example, dev, qa, project manager…</value>
+  </data>
+  <data name="experience" xml:space="preserve">
+    <value>Years of experience</value>
+  </data>
+  <data name="size" xml:space="preserve">
+    <value>Company size</value>
+  </data>
+  <data name="size1" xml:space="preserve">
+    <value>Small</value>
+  </data>
+  <data name="size1descr" xml:space="preserve">
+    <value>An organization of 1–50 people.</value>
+  </data>
+  <data name="size2" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="size2descr" xml:space="preserve">
+    <value>An organization of 51–250 people.</value>
+  </data>
+  <data name="size3" xml:space="preserve">
+    <value>Large</value>
+  </data>
+  <data name="size3descr" xml:space="preserve">
+    <value>An organization of 250+ people.</value>
+  </data>
+  <data name="work" xml:space="preserve">
+    <value>Work model</value>
+  </data>
+  <data name="work1" xml:space="preserve">
+    <value>Remote</value>
+  </data>
+  <data name="work1descr" xml:space="preserve">
+    <value>Online daily work.</value>
+  </data>
+  <data name="work2" xml:space="preserve">
+    <value>Office</value>
+  </data>
+  <data name="work2descr" xml:space="preserve">
+    <value>Daily work in an office.</value>
+  </data>
+  <data name="work3" xml:space="preserve">
+    <value>Hybrid</value>
+  </data>
+  <data name="work3descr" xml:space="preserve">
+    <value>Work is done partly remotely and partly in the office.</value>
+  </data>
+  <data name="finish" xml:space="preserve">
+    <value>Finish registration</value>
+  </data>
+  <data name="title2" xml:space="preserve">
+    <value>Tell us about yourself</value>
+  </data>
+  <data name="title3" xml:space="preserve">
+    <value>Tell us about your work</value>
+  </data>
+</root>

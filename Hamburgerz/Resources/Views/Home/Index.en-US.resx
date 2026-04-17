@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="titleshort" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="title1" xml:space="preserve">
+    <value>Burnout risk management</value>
+  </data>
+  <data name="titledescr1" xml:space="preserve">
+    <value>Monitor the risk of burnout not from intuition, but from data.</value>
+  </data>
+  <data name="titledescr2" xml:space="preserve">
+    <value>The more consistent the measurements, the clearer tendencies get: sleep, workload, stress and their changes over time.</value>
+  </data>
+  <data name="start" xml:space="preserve">
+    <value>Start.</value>
+  </data>
+  <data name="checkin" xml:space="preserve">
+    <value>Daily check-in</value>
+    <comment>describes the daily check-in section</comment>
+  </data>
+  <data name="checkindescr1" xml:space="preserve">
+    <value>Short self-assessments</value>
+  </data>
+  <data name="checkindescr2" xml:space="preserve">
+    <value>Quick measurements let you not just assess today's well-being, but also build a history of well-being records.</value>
+  </data>
+  <data name="history" xml:space="preserve">
+    <value>History</value>
+    <comment>describes the history section</comment>
+  </data>
+  <data name="historydescr1" xml:space="preserve">
+    <value>All data in one place</value>
+  </data>
+  <data name="historydescr2" xml:space="preserve">
+    <value>
+    A history of well-being records clearly shows measurement dates and allows easy access to any specific record.</value>
+  </data>
+  <data name="analysis" xml:space="preserve">
+    <value>Analysis</value>
+    <comment>describes the analysis section</comment>
+  </data>
+  <data name="analysisdescr1" xml:space="preserve">
+    <value>Tendencies, not just numbers</value>
+  </data>
+  <data name="analysisdescr2" xml:space="preserve">
+    <value>When more well-being data is collected, analysis shows overview changes in routines and burnout risk scores.</value>
+  </data>
+  <data name="title2" xml:space="preserve">
+    <value>Daily overview</value>
+    <comment>logged in user's home page</comment>
+  </data>
+  <data name="hello" xml:space="preserve">
+    <value>Hello, </value>
+  </data>  
+  <data name="titledescr3" xml:space="preserve">
+    <value>Last assesment's and today's status overview.</value>
+  </data> 
+  <data name="total" xml:space="preserve">
+    <value>Total records: </value>
+  </data> 
+  <data name="week" xml:space="preserve">
+    <value>This week: </value>
+  </data> 
+  <data name="month" xml:space="preserve">
+    <value>This month: </value>
+  </data> 
+  <data name="todaystatus" xml:space="preserve">
+    <value>Today's status</value>
+  </data>
+  <data name="lastcheckin" xml:space="preserve">
+    <value>Last assessment</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+</root>

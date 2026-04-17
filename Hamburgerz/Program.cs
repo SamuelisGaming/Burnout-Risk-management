@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
+using Microsoft.AspNetCore.Mvc.Razor; // lokalizacijai prie url copy paste ?ui-culture=lt-LT
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -20,7 +24,26 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddSingleton<JobRoleCatalogService>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddLocalization (options =>
+{
+    options.ResourcesPath = "Resources";
+});
+
+//builder.Services.AddControllersWithViews(); 
+builder.Services.AddControllersWithViews().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new []
+    {
+        new CultureInfo("en-US"),
+        new CultureInfo("lt-LT")
+    };
+    options.DefaultRequestCulture = new RequestCulture("lt-LT");
+    options.SupportedUICultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
+
 
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -44,6 +67,13 @@ builder.Services.AddSession(options =>
 });
 
 var app = builder.Build();
+
+//app.UseRequestLocalization();
+
+var localizationOptions = app.Services.GetRequiredService<
+    Microsoft.Extensions.Options.IOptions<RequestLocalizationOptions>>().Value;
+
+app.UseRequestLocalization(localizationOptions);
 
 if (!app.Environment.IsDevelopment())
 {
