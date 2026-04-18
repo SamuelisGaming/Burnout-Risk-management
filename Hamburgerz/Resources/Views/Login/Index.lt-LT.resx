@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="titleshort" xml:space="preserve">
+    <value>Prisijungimas</value>
+  </data>
+  <data name="title1" xml:space="preserve">
+    <value>Prisijungimas</value>
+  </data>
+  <data name="titledescr1" xml:space="preserve">
+    <value>Sugrįžk prie savo ritmo.</value>
+  </data>
+  <data name="titledescr2" xml:space="preserve">
+    <value>Prisijungęs matysi savo dienos būseną, matavimų istoriją ir analizę vienoje vietoje.</value>
+  </data>
+  <data name="checkin" xml:space="preserve">
+    <value>Kasdienis registravimas</value>
+  </data>
+  <data name="checkindescr" xml:space="preserve">
+    <value>Greitai atnaujink savo šiandienos savijautos ir darbo krūvio įrašą.</value>
+  </data>
+  <data name="history" xml:space="preserve">
+    <value>Istorija</value>
+  </data>
+  <data name="historydescr" xml:space="preserve">
+    <value>Peržiūrėk ankstesnius įrašus ir lengvai grįžk prie konkrečių dienų.</value>
+  </data>
+  <data name="analysis" xml:space="preserve">
+    <value>Analizė</value>
+  </data>
+  <data name="analysisdescr" xml:space="preserve">
+    <value>Stebėk tendencijas, kad pokyčiai matytųsi ne tik iš nuojautos.</value>
+  </data>  
+  <data name="start" xml:space="preserve">
+    <value>Greita pradžia</value>
+  </data>
+  <data name="startdescr" xml:space="preserve">
+    <value>Jei ką tik susikūrei paskyrą, prisijunk tuo pačiu el. paštu ir slaptažodžiu, kurį nurodei registracijoje.</value>
+  </data>
+  <data name="title2" xml:space="preserve">
+    <value>Tavo paskyra</value>
+  </data>
+  <data name="titledescr3" xml:space="preserve">
+    <value>Prisijunk prie sistemos</value>
+  </data>
+  <data name="titledescr4" xml:space="preserve">
+    <value>Naudok savo paskyros duomenis, kad grįžtum į pagrindinį skydelį ir tęstum stebėjimą.</value>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>Atgal</value>
+  </data>
+  <data name="mail" xml:space="preserve">
+    <value>Elektroninis paštas</value>
+  </data>  
+  <data name="maildescr" xml:space="preserve">
+    <value>Naudok tą patį adresą, su kuriuo registravaisi.</value>
+  </data>
+  <data name="pass" xml:space="preserve">
+    <value>Slaptažodis</value>
+  </data>
+  <data name="passtemp" xml:space="preserve">
+    <value>Įvesk savo slaptažodį</value>
+  </data>
+  <data name="passshow" xml:space="preserve">
+    <value>Rodyti slaptažodį</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Rodyti</value>
+  </data> 
+  <data name="passdescr" xml:space="preserve">
+    <value>Slaptažodis tikrinamas saugiai pagal tavo paskyros duomenis.</value>
+  </data>  
+  <data name="login" xml:space="preserve">
+    <value>Prisijungti</value>
+  </data>
+  <data name="create" xml:space="preserve">
+    <value>Kurti paskyrą</value>
+  </data>
+  <data name="forget" xml:space="preserve">
+    <value>Pamiršai slaptažodį?</value>
+  </data>
+</root>

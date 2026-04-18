@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title1" xml:space="preserve">
+    <value>Registracija</value>
+  </data>  
+  <data name="titledescr1" xml:space="preserve">
+    <value>Susikurkite paskyrą.</value>
+  </data>
+  <data name="titledescr2" xml:space="preserve">
+    <value>Registracija suskirstyta į kelis trumpus žingsnius, kad būtų paprasčiau užpildyti tiek paskyros, tiek pagrindinę informaciją apie jumis ir jūsų darbą.</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Paskyra</value>
+  </data>  
+  <data name="accountdescr" xml:space="preserve">
+    <value>Prisijungimo duomenys jūsų paskyrai.</value>
+  </data>
+  <data name="about" xml:space="preserve">
+    <value>Apie jumis</value>
+  </data>
+  <data name="aboutdescr" xml:space="preserve">
+    <value>Pagrindinė informacija apie jumis.</value>
+  </data>
+  <data name="aboutwork" xml:space="preserve">
+    <value>Darbo profilis</value>
+  </data>
+  <data name="aboutworkdescr" xml:space="preserve">
+    <value>Informacija apie jūsų darbą ir aplinką.</value>
+  </data>
+  <data name="why" xml:space="preserve">
+    <value>Kodėl prašome šių duomenų</value>
+  </data>
+  <data name="whydescr" xml:space="preserve">
+    <value>Ši informacija padės vėliau pateikti tikslesnę, aiškesnę ir labiau jums pritaikytą analizę.</value>
+  </data>
+  <data name="accountdescr2" xml:space="preserve">
+    <value>Sukurkite paskyrą</value>
+  </data>  
+  <data name="back" xml:space="preserve">
+    <value>Atgal</value>
+  </data>  
+  <data name="step1" xml:space="preserve">
+    <value>1 žingsnis</value>
+  </data>
+  <data name="step1descr1" xml:space="preserve">
+    <value>Prisijungimo duomenys</value>
+  </data>
+  <data name="step1descr2" xml:space="preserve">
+    <value>Įveskite duomenis, kurių reikės prisijungti prie paskyros.</value>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>Elektroninis paštas</value>
+  </data>
+  <data name="user" xml:space="preserve">
+    <value>Slapyvardis</value>
+  </data>
+  <data name="usertemp" xml:space="preserve">
+    <value>Jūsų vardas sistemoje</value>
+  </data>
+  <data name="pass" xml:space="preserve">
+    <value>Slaptažodis</value>
+  </data>
+  <data name="passtemp" xml:space="preserve">
+    <value>Sukurkite stiprų slaptažodį</value>
+  </data>
+  <data name="passshow" xml:space="preserve">
+    <value>Rodyti slaptažodį</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Rodyti</value>
+  </data>
+  <data name="strength" xml:space="preserve">
+    <value>Slaptažodžio stiprumas pasimatys rašant.</value>
+    <comment>describes the password strength testing section</comment>
+  </data>
+  <data name="atleast" xml:space="preserve">
+    <value>Bent </value>
+  </data>
+  <data name="symbols" xml:space="preserve">
+    <value>simboliai</value>
+  </data>
+  <data name="strengthlower" xml:space="preserve">
+    <value>Bent viena mažoji raidė</value>
+  </data>
+  <data name="strengthupper" xml:space="preserve">
+    <value>Bent viena didžioji raidė</value>
+  </data>
+  <data name="strengthnum" xml:space="preserve">
+    <value>Bent vienas skaičius</value>
+  </data>
+  <data name="strengthspecial" xml:space="preserve">
+    <value>Bent vienas specialus simbolis</value>
+  </data>
+  <data name="strengthoption" xml:space="preserve">
+    <value>Nebūtina atitikti visų punktų, pakanka vidutinio stiprumo slaptažodžio.</value>
+  </data>
+  <data name="passrepeat" xml:space="preserve">
+    <value>Pakartokite slaptažodį</value>
+  </data>
+  <data name="passrepeat2" xml:space="preserve">
+    <value>Pakartokite dar kartą</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>Toliau</value>
+  </data>
+  <data name="step2" xml:space="preserve">
+    <value>2 žingsnis</value>
+  </data>
+  <data name="step2descr1" xml:space="preserve">
+    <value>Pagrindinė informacija</value>
+  </data>
+  <data name="step2descr2" xml:space="preserve">
+    <value>Ši informacija padės geriau suprasti jūsų bendrą situaciją.</value>
+  </data>
+  <data name="gender" xml:space="preserve">
+    <value>Lytis</value>
+  </data>
+  <data name="gender1" xml:space="preserve">
+    <value>Vyras</value>
+  </data>
+  <data name="gender1descr" xml:space="preserve">
+    <value>Naudosime profilio informacijai.</value>
+  </data>
+  <data name="gender2" xml:space="preserve">
+    <value>Moteris</value>
+  </data>
+  <data name="gender2descr" xml:space="preserve">
+    <value>Bus išsaugota jūsų profilyje.</value>
+  </data>
+  <data name="gender3" xml:space="preserve">
+    <value>Kita</value>
+  </data>
+  <data name="gender3descr" xml:space="preserve">
+    <value>Pasirinkimas profilio informacijai.</value>
+  </data>
+  <data name="birth" xml:space="preserve">
+    <value>Gimimo data</value>
+  </data>
+  <data name="country" xml:space="preserve">
+    <value>Šalis</value>
+  </data>
+  <data name="countrytemp" xml:space="preserve">
+    <value>Ieškoti šalies</value>
+  </data>
+  <data name="countrychoose" xml:space="preserve">
+    <value>Pasirinkite šalį</value>
+  </data>
+  <data name="countryempty" xml:space="preserve">
+    <value>Šalių sąrašas tuščias. Reikės užpildyti `countries` lentelę, kad šis laukas veiktų pilnai.</value>
+    <comment>error message if countries list is empty</comment>
+  </data>
+  <data name="step3" xml:space="preserve">
+    <value>3 žingsnis</value>
+  </data>
+  <data name="step3descr1" xml:space="preserve">
+    <value>Darbo informacija</value>
+  </data>
+  <data name="step3descr2" xml:space="preserve">
+    <value>Kuo tiksliau užpildysite informaciją apie darbą, tuo naudingesnė bus analizė.</value>
+  </data>
+  <data name="position" xml:space="preserve">
+    <value>Darbo pozicija</value>
+  </data>
+  <data name="positiontemp" xml:space="preserve">
+    <value>Pvz. dev, qa, projektų vadovas…</value>
+  </data>
+  <data name="experience" xml:space="preserve">
+    <value>Patirties metai</value>
+  </data>
+  <data name="size" xml:space="preserve">
+    <value>Kompanijos dydis</value>
+  </data>
+  <data name="size1" xml:space="preserve">
+    <value>Maža</value>
+  </data>
+  <data name="size1descr" xml:space="preserve">
+    <value>1–50 žmonių kompanija.</value>
+  </data>
+  <data name="size2" xml:space="preserve">
+    <value>Vidutinė</value>
+  </data>
+  <data name="size2descr" xml:space="preserve">
+    <value>51–250 žmonių kompanija.</value>
+  </data>
+  <data name="size3" xml:space="preserve">
+    <value>Didelė</value>
+  </data>
+  <data name="size3descr" xml:space="preserve">
+    <value>250+ žmonių organizacija.</value>
+  </data>
+  <data name="work" xml:space="preserve">
+    <value>Darbo pobūdis</value>
+  </data>
+  <data name="work1" xml:space="preserve">
+    <value>Nuotolinis</value>
+  </data>
+  <data name="work1descr" xml:space="preserve">
+    <value>Kasdienis darbas daugiausia internetu.</value>
+  </data>
+  <data name="work2" xml:space="preserve">
+    <value>Ofisinis</value>
+  </data>
+  <data name="work2descr" xml:space="preserve">
+    <value>Pagrindinė vieta yra ofisas.</value>
+  </data>
+  <data name="work3" xml:space="preserve">
+    <value>Hibridinis</value>
+  </data>
+  <data name="work3descr" xml:space="preserve">
+    <value>Mišrus ritmas tarp namų ir ofiso.</value>
+  </data>
+  <data name="finish" xml:space="preserve">
+    <value>Užbaigti registraciją</value>
+  </data>
+  <data name="title2" xml:space="preserve">
+    <value>Papasakokite apie save</value>
+  </data>
+  <data name="title3" xml:space="preserve">
+    <value>Papasakokite apie savo darbą</value>
+  </data>
+  <data name="account13" xml:space="preserve">
+    <value>1 / 3 · Paskyra</value>
+  </data>
+</root>

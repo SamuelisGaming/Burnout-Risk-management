@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title1" xml:space="preserve">
+    <value>lt title</value>
+  </data>
+  <data name="titledescr1" xml:space="preserve">
+    <value>Monitor.</value>
+  </data>
+  <data name="titledescr2" xml:space="preserve">
+    <value>The more.</value>
+  </data>
+  <data name="history" xml:space="preserve">
+    <value>History</value>
+    <comment>describes </comment>
+  </data>
+</root>

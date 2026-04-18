@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="titleshort" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="title1" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="titledescr1" xml:space="preserve">
+    <value>Return to your tempo.</value>
+  </data>
+  <data name="titledescr2" xml:space="preserve">
+    <value>You can see your day's status, records history and analysis all in one place.</value>
+  </data>
+  <data name="checkin" xml:space="preserve">
+    <value>Daily check-in</value>
+  </data>
+  <data name="checkindescr" xml:space="preserve">
+    <value>Quickly update your day's well-being and workload measurements.</value>
+  </data>
+  <data name="history" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="historydescr" xml:space="preserve">
+    <value>Check out older records and quickly return to any specific day.</value>
+  </data>
+  <data name="analysis" xml:space="preserve">
+    <value>Analysis</value>
+  </data>
+  <data name="analysisdescr" xml:space="preserve">
+    <value>Notice tendencies from overviews, so your condition is known from data, not just from intuition.</value>
+  </data>  
+  <data name="start" xml:space="preserve">
+    <value>Quick start</value>
+  </data>
+  <data name="startdescr" xml:space="preserve">
+    <value>If you just created an account, log in with the same email and password used in registration.</value>
+  </data>
+  <data name="title2" xml:space="preserve">
+    <value>Your account</value>
+  </data>
+  <data name="titledescr3" xml:space="preserve">
+    <value>Log in to the system</value>
+  </data>
+  <data name="titledescr4" xml:space="preserve">
+    <value>Write your account details, so you could return to the main page and continue observations.</value>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="mail" xml:space="preserve">
+    <value>Email</value>
+  </data>  
+  <data name="maildescr" xml:space="preserve">
+    <value>Use the same email used in registration.</value>
+  </data>
+  <data name="pass" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="passtemp" xml:space="preserve">
+    <value>Type in your password</value>
+  </data>
+  <data name="passshow" xml:space="preserve">
+    <value>Show password</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Show</value>
+  </data> 
+  <data name="passdescr" xml:space="preserve">
+    <value>Passwords are safely checked based on your account information.</value>
+  </data>  
+  <data name="login" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="create" xml:space="preserve">
+    <value>Create an account</value>
+  </data>
+  <data name="forget" xml:space="preserve">
+    <value>Forgot your password?</value>
+  </data>
+</root>

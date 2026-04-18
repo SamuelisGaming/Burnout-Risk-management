@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title1" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="size1" xml:space="preserve">
+    <value>Small</value>
+  </data>
+  <data name="size2" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="size3" xml:space="preserve">
+    <value>Large</value>
+  </data>
+<data name="env1" xml:space="preserve">
+    <value>Remote</value>
+  </data>
+  <data name="env2" xml:space="preserve">
+    <value>Office</value>
+  </data>
+  <data name="env3" xml:space="preserve">
+    <value>Hybrid</value>
+  </data>
+  <data name="pfpchange" xml:space="preserve">
+    <value>Change profile picture</value>
+  </data>
+  <data name="pfp" xml:space="preserve">
+    <value>Profile picture</value>
+  </data>
+  <data name="change" xml:space="preserve">
+    <value>Change.</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="basic" xml:space="preserve">
+    <value>Basic information</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="gender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="notset" xml:space="preserve">
+    <value>Not set</value>
+  </data>
+  <data name="meas" xml:space="preserve">
+    <value>Measurements</value>
+  </data>
+  <data name="lastmeas" xml:space="preserve">
+    <value>Last measurement</value>
+  </data>
+  <data name="notexist" xml:space="preserve">
+    <value>Doesn't exist yet</value>
+  </data>
+  <data name="defaults" xml:space="preserve">
+    <value>Profile defaults</value>
+  </data>
+  <data name="static" xml:space="preserve">
+    <value>Static details</value>
+  </data>
+  <data name="birth" xml:space="preserve">
+    <value>Birth date</value>
+  </data>
+  <data name="country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="choose" xml:space="preserve">
+    <value>Choose…</value>
+  </data>
+  <data name="job" xml:space="preserve">
+    <value>Work position</value>
+  </data>
+  <data name="jobtemp" xml:space="preserve">
+    <value>For example, dev, qa, project manager…</value>
+  </data>
+  <data name="exp" xml:space="preserve">
+    <value>Years of experience</value>
+  </data>
+    <data name="size" xml:space="preserve">
+    <value>Company size</value>
+  </data>
+    <data name="work" xml:space="preserve">
+    <value>Work model</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>Save profile</value>
+  </data>
+  <data name="savedescr" xml:space="preserve">
+    <value>Šie duomenys bus naudojami kaip šaltinis naujiems matavimams</value>
+  </data>
+</root>

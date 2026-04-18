@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title1" xml:space="preserve">
+    <value>Profilis</value>
+  </data>
+  <data name="size1" xml:space="preserve">
+    <value>Maža</value>
+  </data>
+  <data name="size2" xml:space="preserve">
+    <value>Vidutinė</value>
+  </data>
+  <data name="size3" xml:space="preserve">
+    <value>Didelė</value>
+  </data>
+  <data name="env1" xml:space="preserve">
+    <value>Nuotolinis</value>
+  </data>
+  <data name="env2" xml:space="preserve">
+    <value>Ofisinis</value>
+  </data>
+  <data name="env3" xml:space="preserve">
+    <value>Hibridinis</value>
+  </data>
+  <data name="pfpchange" xml:space="preserve">
+    <value>Keisti profilio nuotrauką</value>
+  </data>
+  <data name="pfp" xml:space="preserve">
+    <value>Profilio nuotrauka</value>
+  </data>
+  <data name="change" xml:space="preserve">
+    <value>Keisti.</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Paskyra</value>
+  </data>
+  <data name="basic" xml:space="preserve">
+    <value>Bazinė informacija</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>Slapyvardis</value>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>Elektroninis paštas</value>
+  </data>
+  <data name="gender" xml:space="preserve">
+    <value>Lytis</value>
+  </data>
+  <data name="notset" xml:space="preserve">
+    <value>Nenustatyta</value>
+  </data>
+  <data name="meas" xml:space="preserve">
+    <value>Matavimai</value>
+  </data>
+  <data name="lastmeas" xml:space="preserve">
+    <value>Paskutinis matavimas</value>
+  </data>
+  <data name="notexist" xml:space="preserve">
+    <value>Dar nėra</value>
+  </data>
+  <data name="defaults" xml:space="preserve">
+    <value>Profilio numatytieji nustatymai</value>
+  </data>
+  <data name="static" xml:space="preserve">
+    <value>Nesikeičiančios detalės</value>
+  </data>
+  <data name="birth" xml:space="preserve">
+    <value>Gimimo data</value>
+  </data>
+  <data name="country" xml:space="preserve">
+    <value>Šalis</value>
+  </data>
+  <data name="choose" xml:space="preserve">
+    <value>Pasirinkti…</value>
+  </data>
+  <data name="job" xml:space="preserve">
+    <value>Darbo pozicija</value>
+  </data>
+  <data name="jobtemp" xml:space="preserve">
+    <value>Pvz. dev, qa, projektu vadovas…</value>
+  </data>
+  <data name="exp" xml:space="preserve">
+    <value>Darbo patirtis metais</value>
+  </data>
+    <data name="size" xml:space="preserve">
+    <value>Kompanijos dydis</value>
+  </data>
+    <data name="work" xml:space="preserve">
+    <value>Darbo pobūdis</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>Išsaugoti profilį</value>
+  </data>
+  <data name="savedescr" xml:space="preserve">
+    <value>This data will be used as a source for new assessment measurements.</value>
+  </data>
+</root>

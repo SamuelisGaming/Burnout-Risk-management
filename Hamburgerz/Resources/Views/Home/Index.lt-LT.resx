@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="titleshort" xml:space="preserve">
+    <value>Pagrindinis</value>
+  </data>
+  <data name="title1" xml:space="preserve">
+    <value>Profesinio perdegimo rizikos valdymas</value>
+  </data>
+  <data name="titledescr1" xml:space="preserve">
+    <value>Stebėk perdegimo riziką ne iš nuojautos, o iš savo duomenų.</value>
+  </data>
+  <data name="titledescr2" xml:space="preserve">
+    <value>Kuo nuosekliau pildomi matavimai, tuo aiškiau pradeda matytis tendencijos: miegas, darbo krūvis, stresas ir jų pokyčiai laike.</value>
+  </data>
+  <data name="start" xml:space="preserve">
+    <value>Pradėti.</value>
+  </data>
+  <data name="checkin" xml:space="preserve">
+    <value>Kasdienis registravimas</value>
+    <comment>describes the daily check-in section</comment>
+  </data>
+  <data name="checkindescr1" xml:space="preserve">
+    <value>Trumpi matavimai</value>
+  </data>
+  <data name="checkindescr2" xml:space="preserve">
+    <value>Greitas įrašas leidžia ne tik įvertinti šiandienos savijautą, bet ir suskaupti savijautos istoriją.</value>
+  </data>
+  <data name="history" xml:space="preserve">
+    <value>Istorija</value>
+    <comment>describes the history section</comment>
+  </data>
+  <data name="historydescr1" xml:space="preserve">
+    <value>Visa eiga vienoje vietoje</value>
+  </data>
+  <data name="historydescr2" xml:space="preserve">
+    <value>Aiškiai matosi, kada buvo vykdyti matavimai, ir galima greitai atsiversti konkretų įrašą.</value>
+  </data>
+  <data name="analysis" xml:space="preserve">
+    <value>Analizė</value>
+    <comment>describes the analysis section</comment>
+  </data>
+  <data name="analysisdescr1" xml:space="preserve">
+    <value>Tendencijos, ne tik skaičiai</value>
+  </data>
+  <data name="analysisdescr2" xml:space="preserve">
+    <value>Kai prisikaupia daugiau duomenų, analizė pradeda rodyti, kaip keičiasi jūsų rutina ir perdegimo rizikos vertinimai.</value>
+  </data>
+  <data name="title2" xml:space="preserve">
+    <value>Dienos apžvalga</value>
+    <comment>logged in user's home page</comment>
+  </data>
+  <data name="hello" xml:space="preserve">
+    <value>Labas, </value>
+  </data>  
+  <data name="titledescr3" xml:space="preserve">
+    <value>Paskutinio matavimo ir šiandienos statuso suvestinė.</value>
+  </data> 
+  <data name="total" xml:space="preserve">
+    <value>Matavimų iš viso: </value>
+  </data> 
+  <data name="week" xml:space="preserve">
+    <value>Šią savaitę: </value>
+  </data> 
+  <data name="month" xml:space="preserve">
+    <value>Šį mėnesį: </value>
+  </data> 
+  <data name="todaystatus" xml:space="preserve">
+    <value>Šiandienos būsena</value>
+  </data>
+  <data name="lastcheckin" xml:space="preserve">
+    <value>Paskutinis matavimas</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>Būsena</value>
+  </data>
+  <data name="measurementupdate" xml:space="preserve">
+    <value>Atnaujinti matavimą</value>
+  </data>
+  <data name="measurementdo" xml:space="preserve">
+    <value>Pasidaryti matavimą</value>
+  </data>
+</root>

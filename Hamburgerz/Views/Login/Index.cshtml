@@ -1,39 +1,42 @@
 @model Hamburgerz.Models.LoginViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Prisijungimas";
+    ViewData["Title"] = @Localizer["titleshort"];
 }
 
 <div class="login-shell">
     <div class="login-layout">
         <aside class="login-story">
             <div class="login-story-panel">
-                <div class="login-kicker">Prisijungimas</div>
-                <h1 class="login-title">Sugrįžk prie savo ritmo.</h1>
+                <div class="login-kicker">@Localizer["title1"]</div>
+                <h1 class="login-title">@Localizer["titledescr1"]</h1>
                 <p class="login-copy">
-                    Prisijungęs iškart matysi savo dienos būseną, matavimų istoriją ir analizę vienoje vietoje.
+                    @Localizer["titledescr2"]
                 </p>
 
                 <div class="login-story-grid">
                     <article class="login-story-item">
-                        <div class="login-story-item-title">Daily check-in</div>
-                        <p>Greitai atnaujink savo šiandienos savijautos ir darbo krūvio įrašą.</p>
+                        <div class="login-story-item-title">@Localizer["checkin"]</div>
+                        <p>@Localizer["checkindescr"]</p>
                     </article>
 
                     <article class="login-story-item">
-                        <div class="login-story-item-title">History</div>
-                        <p>Peržiūrėk ankstesnius įrašus ir lengvai grįžk prie konkrečių dienų.</p>
+                        <div class="login-story-item-title">@Localizer["history"]</div>
+                        <p>@Localizer["historydescr"]</p>
                     </article>
 
                     <article class="login-story-item">
-                        <div class="login-story-item-title">Analysis</div>
-                        <p>Stebėk tendencijas, kad pokyčiai matytųsi ne tik iš nuojautos.</p>
+                        <div class="login-story-item-title">@Localizer["analysis"]</div>
+                        <p>@Localizer["analysisdescr"]</p>
                     </article>
                 </div>
 
                 <div class="login-note-card">
-                    <div class="login-note-label">Greitas startas</div>
+                    <div class="login-note-label">@Localizer["start"]</div>
                     <p class="login-note-text">
-                        Jei ką tik susikūrei paskyrą, prisijunk tuo pačiu el. paštu ir slaptažodžiu, kurį nurodei registracijoje.
+                        @Localizer["startdescr"]
                     </p>
                 </div>
             </div>
@@ -43,15 +46,15 @@
             <div class="login-card">
                 <div class="login-card-top">
                     <div>
-                        <div class="login-step-label">Tavo paskyra</div>
-                        <h2 class="login-card-title">Prisijunk prie sistemos</h2>
+                        <div class="login-step-label">@Localizer["title2"]</div>
+                        <h2 class="login-card-title">@Localizer["titledescr3"]</h2>
                         <p class="login-card-copy">
-                            Naudok savo paskyros duomenis, kad grįžtum į pagrindinį skydelį ir tęstum stebėjimą.
+                            @Localizer["titledescr4"]
                         </p>
                     </div>
 
                     <a asp-controller="Home" asp-action="Index" class="login-back-link">
-                        Atgal
+                        @Localizer["back"]
                     </a>
                 </div>
 
@@ -69,30 +72,30 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger login-summary"></div>
 
                         <label class="login-field">
-                            <span class="login-field-label">Elektroninis paštas</span>
+                            <span class="login-field-label">@Localizer["mail"]</span>
                             <input asp-for="Email"
                                    class="form-control form-control-lg login-input"
                                    placeholder="vardas@pastas.lt"
                                    autocomplete="email"
                                    required />
-                            <span class="login-field-hint">Naudok tą patį adresą, su kuriuo registravaisi.</span>
+                            <span class="login-field-hint">@Localizer["maildescr"]</span>
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </label>
 
                         <div class="login-field">
-                            <label asp-for="Password" class="login-field-label">Slaptažodis</label>
+                            <label asp-for="Password" class="login-field-label">@Localizer["pass"]</label>
 
                             <div class="password-field">
                                 <input asp-for="Password"
                                        class="form-control form-control-lg login-input"
-                                       placeholder="Įvesk savo slaptažodį"
+                                       placeholder=@Localizer["passtemp"]
                                        autocomplete="current-password"
                                        required />
 
                                 <button type="button"
                                         class="password-toggle"
                                         data-password-toggle="Password"
-                                        aria-label="Rodyti slaptažodį"
+                                        aria-label="@Localizer["passshow"]
                                         aria-pressed="false">
                                     <span class="password-toggle-icon" aria-hidden="true">
                                         <svg class="password-toggle-svg password-toggle-svg-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -106,28 +109,28 @@
                                             <path d="M9.88 4.68A10.7 10.7 0 0 1 12 4.5c5.9 0 9.5 6.5 9.5 6.5a15.3 15.3 0 0 1-2.17 3.19" />
                                         </svg>
                                     </span>
-                                    <span class="visually-hidden password-toggle-label">Rodyti</span>
+                                    <span class="visually-hidden password-toggle-label">@Localizer["show"]</span>
                                 </button>
                             </div>
 
-                            <span class="login-field-hint">Slaptažodis tikrinamas saugiai pagal tavo paskyros duomenis.</span>
+                            <span class="login-field-hint">@Localizer["passdescr"]</span>
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
 
                         <div class="login-actions">
                             <button type="submit" class="btn btn-secondary btn-lg">
-                                Prisijungti
+                                @Localizer["login"]
                             </button>
 
                             <a asp-controller="Register" asp-action="Index" class="btn btn-outline-primary btn-lg">
-                                Kurti paskyrą
+                                @Localizer["create"]
                             </a>
                         </div>
                     </form>
 
                     <div class="login-footnote">
                         <button type="button" class="login-footnote-link" aria-disabled="true">
-                            Pamiršai slaptažodį?
+                            @Localizer["forget"]
                         </button>
                     </div>
                 </div>

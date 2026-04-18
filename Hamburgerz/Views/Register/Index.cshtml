@@ -1,6 +1,9 @@
 @model Hamburgerz.Models.RegisterViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Registracija";
+    ViewData["Title"] = @Localizer["title1"];
     var minPasswordLength = Hamburgerz.Models.PasswordRules.MinLength;
     var minimumAcceptedScore = Hamburgerz.Models.PasswordRules.MinimumAcceptedScore;
     var hasCountries = Model.Countries.Count > 0;
@@ -12,42 +15,42 @@
     <div class="register-layout">
         <aside class="register-story">
             <div class="register-story-panel">
-                <div class="register-kicker">Registracija</div>
-                <h1 class="register-title">Susikurk paskyrą.</h1>
+                <div class="register-kicker">@Localizer["title1"]</div>
+                <h1 class="register-title">@Localizer["titledescr1"]</h1>
                 <p class="register-copy">
-                    Registracija suskirstyta į kelis trumpus žingsnius, kad būtų paprasčiau užpildyti tiek paskyros, tiek pagrindinę informaciją apie tave ir tavo darbą.
+                    @Localizer["titledescr2"]
                 </p>
 
                 <div class="register-journey" data-step-markers>
                     <div class="journey-step is-active" data-step-marker="0">
                         <div class="journey-step-index">1</div>
                         <div>
-                            <div class="journey-step-title">Paskyra</div>
-                            <div class="journey-step-copy">Prisijungimo duomenys tavo paskyrai.</div>
+                            <div class="journey-step-title">@Localizer["account"]</div>
+                            <div class="journey-step-copy">@Localizer["accountdescr"]</div>
                         </div>
                     </div>
 
                     <div class="journey-step" data-step-marker="1">
                         <div class="journey-step-index">2</div>
                         <div>
-                            <div class="journey-step-title">Apie tave</div>
-                            <div class="journey-step-copy">Pagrindinė informacija apie tave.</div>
+                            <div class="journey-step-title">@Localizer["about"]</div>
+                            <div class="journey-step-copy">@Localizer["aboutdescr"]</div>
                         </div>
                     </div>
 
                     <div class="journey-step" data-step-marker="2">
                         <div class="journey-step-index">3</div>
                         <div>
-                            <div class="journey-step-title">Darbo profilis</div>
-                            <div class="journey-step-copy">Informacija apie tavo darbą ir aplinką.</div>
+                            <div class="journey-step-title">@Localizer["aboutwork"]</div>
+                            <div class="journey-step-copy">@Localizer["aboutworkdescr"]</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="register-note-card">
-                    <div class="register-note-label">Kodėl prašome šių duomenų</div>
+                    <div class="register-note-label">@Localizer["why"]</div>
                     <p class="register-note-text">
-                        Ši informacija padės vėliau pateikti tikslesnę, aiškesnę ir labiau tau pritaikytą analizę.
+                        @Localizer["whydescr"]
                     </p>
                 </div>
             </div>
@@ -61,12 +64,12 @@
 
                 <div class="register-card-top">
                     <div>
-                        <div class="register-step-label" data-step-caption>1 / 3 · Paskyra</div>
-                        <h2 class="register-card-title" data-step-title>Sukurk paskyrą</h2>
+                        <div class="register-step-label" data-step-caption>@Localizer["account13"]</div>
+                        <h2 class="register-card-title" data-step-title>@Localizer["titledescr1"]</h2>
                     </div>
 
                     <a asp-controller="Login" asp-action="Index" class="register-back-link">
-                        Atgal
+                        @Localizer["back"]
                     </a>
                 </div>
 
@@ -78,14 +81,14 @@
                     <div class="register-stage" data-step-stage>
                         <section class="register-step-panel is-active" data-step-panel="0" data-step-name="Paskyra">
                             <div class="step-section-header">
-                                <div class="step-kicker">1 žingsnis</div>
-                                <h3 class="step-title">Prisijungimo duomenys</h3>
-                                <p class="step-copy">Įvesk duomenis, kurių reikės prisijungti prie paskyros.</p>
+                                <div class="step-kicker">@Localizer["step1"]</div>
+                                <h3 class="step-title">@Localizer["step1descr1"]</h3>
+                                <p class="step-copy">@Localizer["step1descr2"]</p>
                             </div>
 
                             <div class="register-field-grid">
                                 <label class="register-field register-field-wide">
-                                    <span class="register-field-label">Elektroninis paštas</span>
+                                    <span class="register-field-label">@Localizer["email"]</span>
                                     <input asp-for="Email"
                                            class="form-control form-control-lg"
                                            placeholder="vardas@pastas.lt"
@@ -95,27 +98,27 @@
                                 </label>
 
                                 <label class="register-field register-field-wide">
-                                    <span class="register-field-label">Slapyvardis</span>
+                                    <span class="register-field-label">@Localizer["user"]</span>
                                     <input asp-for="Username"
                                            class="form-control form-control-lg"
-                                           placeholder="Tavo vardas sistemoje"
+                                           placeholder=@Localizer["usertemp"]
                                            autocomplete="username"
                                            required />
                                     <span asp-validation-for="Username" class="text-danger"></span>
                                 </label>
 
                                 <div class="register-field register-field-wide">
-                                    <label asp-for="Password" class="register-field-label">Slaptažodis</label>
+                                    <label asp-for="Password" class="register-field-label">@Localizer["pass"]</label>
                                     <div class="password-field">
                                         <input asp-for="Password"
                                                class="form-control form-control-lg"
-                                               placeholder="Sukurk stiprų slaptažodį"
+                                               placeholder=@Localizer["passtemp"]
                                                autocomplete="new-password"
                                                required />
                                         <button type="button"
                                                 class="password-toggle"
                                                 data-password-toggle="Password"
-                                                aria-label="Rodyti slaptažodį"
+                                                aria-label=@Localizer["passshow"]
                                                 aria-pressed="false">
                                             <span class="password-toggle-icon" aria-hidden="true">
                                                 <svg class="password-toggle-svg password-toggle-svg-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -129,7 +132,7 @@
                                                     <path d="M9.88 4.68A10.7 10.7 0 0 1 12 4.5c5.9 0 9.5 6.5 9.5 6.5a15.3 15.3 0 0 1-2.17 3.19" />
                                                 </svg>
                                             </span>
-                                            <span class="visually-hidden password-toggle-label">Rodyti</span>
+                                            <span class="visually-hidden password-toggle-label">@Localizer["show"]</span>
                                         </button>
                                     </div>
                                     <span asp-validation-for="Password" class="text-danger"></span>
@@ -141,33 +144,33 @@
                                                 <div class="password-strength-fill" data-password-strength-fill></div>
                                             </div>
                                             <div class="password-strength-text" data-password-strength-text>
-                                                Slaptažodžio stiprumas pasimatys rašant.
+                                                @Localizer["strength"]
                                             </div>
                                         </div>
 
                                         <div class="password-rule-list">
-                                            <div class="password-rule" data-password-rule="length">Bent @minPasswordLength simboliai</div>
-                                            <div class="password-rule" data-password-rule="lowercase">Bent viena mažoji raidė</div>
-                                            <div class="password-rule" data-password-rule="uppercase">Bent viena didžioji raidė</div>
-                                            <div class="password-rule" data-password-rule="digit">Bent vienas skaičius</div>
-                                            <div class="password-rule" data-password-rule="symbol">Bent vienas specialus simbolis</div>
-                                            <div class="password-rule password-rule-note is-note">Nebūtina atitikti visų punktų, pakanka vidutinio stiprumo slaptažodžio.</div>
+                                            <div class="password-rule" data-password-rule="length">@Localizer["atleast"] @minPasswordLength @Localizer["symbols"]</div>
+                                            <div class="password-rule" data-password-rule="lowercase">@Localizer["strengthlower"]</div>
+                                            <div class="password-rule" data-password-rule="uppercase">@Localizer["strengthupper"]</div>
+                                            <div class="password-rule" data-password-rule="digit">@Localizer["strengthnum"]</div>
+                                            <div class="password-rule" data-password-rule="symbol">@Localizer["strengthspecial"]</div>
+                                            <div class="password-rule password-rule-note is-note">@Localizer["strengthoption"]</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="register-field register-field-wide">
-                                    <label asp-for="PasswordRepeat" class="register-field-label">Pakartok slaptažodį</label>
+                                    <label asp-for="PasswordRepeat" class="register-field-label">@Localizer["passrepeat"]</label>
                                     <div class="password-field">
                                         <input asp-for="PasswordRepeat"
                                                class="form-control form-control-lg"
-                                               placeholder="Pakartok dar kartą"
+                                               placeholder=@Localizer["passrepeat2"]
                                                autocomplete="new-password"
                                                required />
                                         <button type="button"
                                                 class="password-toggle"
                                                 data-password-toggle="PasswordRepeat"
-                                                aria-label="Rodyti slaptažodį"
+                                                aria-label=@Localizer["passshow"]
                                                 aria-pressed="false">
                                             <span class="password-toggle-icon" aria-hidden="true">
                                                 <svg class="password-toggle-svg password-toggle-svg-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -181,7 +184,7 @@
                                                     <path d="M9.88 4.68A10.7 10.7 0 0 1 12 4.5c5.9 0 9.5 6.5 9.5 6.5a15.3 15.3 0 0 1-2.17 3.19" />
                                                 </svg>
                                             </span>
-                                            <span class="visually-hidden password-toggle-label">Rodyti</span>
+                                            <span class="visually-hidden password-toggle-label">@Localizer["show"]</span>
                                         </button>
                                     </div>
                                     <span asp-validation-for="PasswordRepeat" class="text-danger"></span>
@@ -192,32 +195,32 @@
                             <div class="register-actions">
                                 <span></span>
                                 <button type="button" class="btn btn-primary btn-lg register-next" data-step-next>
-                                    Toliau
+                                    @Localizer["next"]
                                 </button>
                             </div>
                         </section>
 
                         <section class="register-step-panel" data-step-panel="1" data-step-name="Apie tave">
                             <div class="step-section-header">
-                                <div class="step-kicker">2 žingsnis</div>
-                                <h3 class="step-title">Pagrindinė informacija</h3>
-                                <p class="step-copy">Ši informacija padės geriau suprasti tavo bendrą situaciją.</p>
+                                <div class="step-kicker">@Localizer["step2"]</div>
+                                <h3 class="step-title">@Localizer["step2descr1"]</h3>
+                                <p class="step-copy">@Localizer["step2descr2"]</p>
                             </div>
 
                             <div class="register-field-grid">
                                 <div class="register-field register-field-wide">
-                                    <span class="register-field-label">Lytis</span>
+                                    <span class="register-field-label">@Localizer["gender"]</span>
                                     <div class="choice-grid choice-grid-three">
                                         <input asp-for="Gender" type="radio" value="male" id="GenderMale" class="choice-input" required />
                                         <label for="GenderMale" class="choice-card">
-                                            <span class="choice-title">Vyras</span>
-                                            <span class="choice-copy">Naudosime profilio informacijai.</span>
+                                            <span class="choice-title">@Localizer["gender1"]</span>
+                                            <span class="choice-copy">@Localizer["gender1descr"]</span>
                                         </label>
 
                                         <input asp-for="Gender" type="radio" value="female" id="GenderFemale" class="choice-input" required />
                                         <label for="GenderFemale" class="choice-card">
-                                            <span class="choice-title">Moteris</span>
-                                            <span class="choice-copy">Bus išsaugota tavo profilyje.</span>
+                                            <span class="choice-title">@Localizer["gender2"]</span>
+                                            <span class="choice-copy">@Localizer["gender2descr"]</span>
                                         </label>
 
                                         <input asp-for="Gender" type="radio" value="other" id="GenderOther" class="choice-input" required />

@@ -1,41 +1,43 @@
 ﻿@model Hamburgerz.Models.HomePageViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Pagrindinis";
+    ViewData["Title"] = @Localizer["titleshort"];
 }
 
 <div class="home-page">
     @if (!Model.IsLoggedIn)
     {
         <section class="guest-hero panel-card panel-card-dark animate-in">
-            <div class="hero-kicker">Burnout risk management</div>
-            <h1 class="guest-title">Stebėk perdegimo riziką ne iš nuojautos, o iš savo duomenų.</h1>
+            <div class="hero-kicker">@Localizer["title1"]</div>
+            <h1 class="guest-title">@Localizer["titledescr1"]</h1>
             <p class="guest-copy">
-                Kuo nuosekliau pildomi matavimai, tuo aiškiau pradeda matytis tendencijos: miegas, darbo krūvis, stresas ir jų pokyčiai laike.
+                @Localizer["titledescr2"]
             </p>
 
             <div class="hero-actions">
-                <a asp-controller="Login" asp-action="Index" class="btn btn-secondary btn-lg">Pradėti</a>
+                <a asp-controller="Login" asp-action="Index" class="btn btn-secondary btn-lg">@Localizer["start"]</a>
             </div>
         </section>
 
         <div class="guest-grid animate-in delay-1">
             <article class="panel-card guest-card">
-                <div class="card-kicker">Daily check-in</div>
-                <h2>Trumpi matavimai</h2>
-                <p>Greitas įrašas leidžia ne tik įvertinti šiandieną, bet ir susikurti normalią istoriją ateičiai.</p>
+                <div class="card-kicker">@Localizer["checkin"]</div>
+                <h2>@Localizer["checkindescr1"]</h2>
+                <p>@Localizer["checkindescr2"]</p>
             </article>
 
             <article class="panel-card guest-card">
-                <div class="card-kicker">History</div>
-                <h2>Visa eiga vienoje vietoje</h2>
-                <p>Aiškiai matysi, kada darei matavimus, ir galėsi greitai atsiversti konkretų įrašą.</p>
+                <div class="card-kicker">@Localizer["history"]</div>
+                <h2>@Localizer["historydescr1"]</h2>
+                <p>@Localizer["historydescr2"]</p>
             </article>
 
             <article class="panel-card guest-card">
-                <div class="card-kicker">Analysis</div>
-                <h2>Tendencijos, ne tik skaičiai</h2>
-                <p>Kai duomenų prisikaupia daugiau, analysis pradeda rodyti, kaip keičiasi tavo rutina ir rizikos signalai.</p>
+                <div class="card-kicker">@Localizer["analysis"]</div>
+                <h2>@Localizer["analysisdescr1"]</h2>
+                <p>@Localizer["analysisdescr2"]</p>
             </article>
         </div>
     }
@@ -43,38 +45,38 @@
     {
         <div class="hero-layout">
             <section class="hero-main panel-card panel-card-dark animate-in">
-                <div class="hero-kicker">Dienos apžvalga</div>
-                <h1 class="hero-title">Labas, @Model.DisplayName</h1>
+                <div class="hero-kicker">@Localizer["title2"]</div>
+                <h1 class="hero-title">@Localizer["hello"] @Model.DisplayName</h1>
                 <p class="hero-copy">
-                    Paskutinio matavimo ir šiandienos statuso suvestinė.
+                    @Localizer["titledescr3"]
                 </p>
 
                 <div class="hero-badges">
-                    <span class="hero-badge">Matavimų iš viso: @Model.MeasurementCount</span>
-                    <span class="hero-badge">Šią savaitę: @Model.MeasurementsThisWeek</span>
-                    <span class="hero-badge">Šį mėnesį: @Model.MeasurementsThisMonth</span>
+                    <span class="hero-badge">@Localizer["total"] @Model.MeasurementCount</span>
+                    <span class="hero-badge">@Localizer["week"] @Model.MeasurementsThisWeek</span>
+                    <span class="hero-badge">@Localizer["month"] @Model.MeasurementsThisMonth</span>
                 </div>
             </section>
 
             <aside class="status-card panel-card @Model.StatusClass animate-in delay-1">
-                <div class="status-pill">Šiandienos būsena</div>
+                <div class="status-pill">@Localizer["todaystatus"]</div>
                 <h2>@Model.StatusTitle</h2>
                 <p>@Model.StatusText</p>
 
                 <div class="status-meta-list">
                     <div class="status-meta">
-                        <span>Paskutinis check-in</span>
+                        <span>@Localizer["lastcheckin"]</span>
                         <strong>@Model.LastMeasurementDateTimeLabel</strong>
                     </div>
 
                     <div class="status-meta">
-                        <span>Būsena</span>
+                        <span>@Localizer["status"]</span>
                         <strong>@Model.LastMeasurementRelativeLabel</strong>
                     </div>
                 </div>
 
                 <a asp-controller="Data" asp-action="DataEntry" class="status-btn">
-                    @(Model.HasMeasurementToday ? "Atnaujinti matavimą" : "Pasidaryti matavimą")
+                    @(Model.HasMeasurementToday? @Localizer["measurementupdate"] : @Localizer["measurementdon"])
                 </a>
             </aside>
         </div>

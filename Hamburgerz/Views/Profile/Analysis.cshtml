@@ -1,7 +1,9 @@
 @model List<Hamburgerz.Models.RiskMeasurement>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Analysis";
+    ViewData["Title"] = @Localizer["title1"];
 
     var measurements = (Model ?? new List<Hamburgerz.Models.RiskMeasurement>())
         .OrderBy(x => x.TimeStamp)
@@ -46,25 +48,25 @@
     switch (selectedPeriod)
     {
         case "7d":
-            periodLabel = "Last 7 days";
+            periodLabel = @Localizer["last7d"].ToString();
             break;
         case "30d":
-            periodLabel = "Last 30 days";
+            periodLabel = @Localizer["last30d"].ToString();
             break;
         case "3m":
-            periodLabel = "Last 3 months";
+            periodLabel = @Localizer["last3m"].ToString();
             break;
         case "6m":
-            periodLabel = "Last 6 months";
+            periodLabel = @Localizer["last6m"].ToString();
             break;
         case "1y":
-            periodLabel = "Last year";
+            periodLabel = @Localizer["lasty"].ToString();
             break;
         case "all":
-            periodLabel = "All time";
+            periodLabel = @Localizer["all"].ToString();
             break;
         default:
-            periodLabel = "Last 30 days";
+            periodLabel = @Localizer["last30d"].ToString();
             break;
     }
 
@@ -206,9 +208,9 @@
     var windowAvgWork = filteredMeasurements.Any() ? filteredMeasurements.Average(x => x.WorkHours) : 0;
 
     var overviewText = filteredCount < 3
-        ? "There is only a small amount of data so far, but this page is already ready for longer-term patterns."
+        ? @Localizer["last30d"].ToString()
         : allLowRisk
-            ? "Risk is currently low across the selected period, so the more useful signal here is how sleep, work hours, and stress shift over time."
+            ? @Localizer["alllowrisk"].ToString()
             : $"{periodLabel} shows {stressedShare}% stressed entries, with an average of {windowAvgSleep:0.0}h sleep and {windowAvgWork:0.0}h workdays.";
 }
 
@@ -318,12 +320,12 @@
                     @foreach (var point in recentTrend)
                     {
                         var sleepHeight = point.SleepHours <= 0
-                            ? 0
-                            : Math.Max(10, (int)Math.Round(point.SleepHours / maxRecentMetric * 100));
+                        ? 0
+                        : Math.Max(10, (int)Math.Round(point.SleepHours / maxRecentMetric * 100));
 
                         var workHeight = point.WorkHours <= 0
-                            ? 0
-                            : Math.Max(10, (int)Math.Round(point.WorkHours / maxRecentMetric * 100));
+                        ? 0
+                        : Math.Max(10, (int)Math.Round(point.WorkHours / maxRecentMetric * 100));
 
                         <div class="trend-group">
                             <div class="trend-bars">
@@ -559,28 +561,28 @@
         position: relative;
     }
 
-    .period-select-wrap::before,
-    .period-select-wrap::after {
-        content: "";
-        position: absolute;
-        right: 14px;
-        pointer-events: none;
-        opacity: 0.9;
-    }
+        .period-select-wrap::before,
+        .period-select-wrap::after {
+            content: "";
+            position: absolute;
+            right: 14px;
+            pointer-events: none;
+            opacity: 0.9;
+        }
 
-    .period-select-wrap::before {
-        top: 11px;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-bottom: 6px solid var(--color-text-muted);
-    }
+        .period-select-wrap::before {
+            top: 11px;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 6px solid var(--color-text-muted);
+        }
 
-    .period-select-wrap::after {
-        top: 20px;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 6px solid var(--color-text-muted);
-    }
+        .period-select-wrap::after {
+            top: 20px;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 6px solid var(--color-text-muted);
+        }
 
     .period-select {
         appearance: none;
@@ -593,11 +595,11 @@
         background-image: none;
     }
 
-    .period-select:focus {
-        outline: none;
-        border-color: var(--color-primary);
-        box-shadow: 0 0 0 0.2rem var(--focus-ring);
-    }
+        .period-select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 0.2rem var(--focus-ring);
+        }
 
     .summary-grid {
         display: grid;
@@ -641,9 +643,7 @@
         margin-bottom: 20px;
         border-radius: 24px;
         border: 1px solid var(--color-border);
-        background:
-            radial-gradient(circle at top right, rgba(var(--color-primary-rgb), 0.10), transparent 28%),
-            linear-gradient(135deg, var(--color-surface) 0%, var(--color-bg) 100%);
+        background: radial-gradient(circle at top right, rgba(var(--color-primary-rgb), 0.10), transparent 28%), linear-gradient(135deg, var(--color-surface) 0%, var(--color-bg) 100%);
         box-shadow: var(--shadow-md);
     }
 
@@ -688,16 +688,16 @@
         gap: 8px;
     }
 
-    .insight-badge span {
-        font-size: 12px;
-        color: var(--color-text-muted);
-    }
+        .insight-badge span {
+            font-size: 12px;
+            color: var(--color-text-muted);
+        }
 
-    .insight-badge strong {
-        font-size: 28px;
-        color: var(--color-text);
-        font-weight: 800;
-    }
+        .insight-badge strong {
+            font-size: 28px;
+            color: var(--color-text);
+            font-weight: 800;
+        }
 
     .analysis-grid {
         display: grid;
@@ -728,9 +728,9 @@
         overflow: hidden;
     }
 
-    #aiInsightsPanel .panel-header {
-        margin-bottom: 12px;
-    }
+        #aiInsightsPanel .panel-header {
+            margin-bottom: 12px;
+        }
 
     .panel-header {
         display: flex;
@@ -768,22 +768,22 @@
         border-radius: 50%;
     }
 
-    .legend-dot.sleep,
-    .sleep-bar,
-    .sleep-fill {
-        background: var(--color-tertiary);
-    }
+        .legend-dot.sleep,
+        .sleep-bar,
+        .sleep-fill {
+            background: var(--color-tertiary);
+        }
 
-    .legend-dot.work,
-    .work-bar,
-    .work-fill {
-        background: var(--color-secondary);
-    }
+        .legend-dot.work,
+        .work-bar,
+        .work-fill {
+            background: var(--color-secondary);
+        }
 
-    .legend-dot.leisure,
-    .leisure-fill {
-        background: var(--color-primary);
-    }
+        .legend-dot.leisure,
+        .leisure-fill {
+            background: var(--color-primary);
+        }
 
     .risk-fill {
         background: #22c55e;
@@ -866,17 +866,17 @@
         flex-shrink: 0;
     }
 
-    .mix-fill.low {
-        background: #22c55e;
-    }
+        .mix-fill.low {
+            background: #22c55e;
+        }
 
-    .mix-fill.medium {
-        background: #f59e0b;
-    }
+        .mix-fill.medium {
+            background: #f59e0b;
+        }
 
-    .mix-fill.high {
-        background: #ef4444;
-    }
+        .mix-fill.high {
+            background: #ef4444;
+        }
 
     .signal-list {
         display: grid;
@@ -925,17 +925,17 @@
         padding: 12px;
     }
 
-    .allocation-stat span {
-        display: block;
-        font-size: 12px;
-        color: var(--color-text-muted);
-        margin-bottom: 4px;
-    }
+        .allocation-stat span {
+            display: block;
+            font-size: 12px;
+            color: var(--color-text-muted);
+            margin-bottom: 4px;
+        }
 
-    .allocation-stat strong {
-        font-size: 18px;
-        color: var(--color-text);
-    }
+        .allocation-stat strong {
+            font-size: 18px;
+            color: var(--color-text);
+        }
 
     .allocation-note {
         margin-top: 12px;
@@ -969,11 +969,11 @@
         font-weight: 700;
     }
 
-    .month-share-item strong {
-        color: var(--color-text);
-        font-size: 12px;
-        font-weight: 800;
-    }
+        .month-share-item strong {
+            color: var(--color-text);
+            font-size: 12px;
+            font-weight: 800;
+        }
 
     .month-share-dot {
         width: 10px;
@@ -996,10 +996,10 @@
         border-top: 1px solid var(--color-border);
     }
 
-    .month-row:first-child {
-        border-top: 0;
-        padding-top: 0;
-    }
+        .month-row:first-child {
+            border-top: 0;
+            padding-top: 0;
+        }
 
     .month-label {
         font-size: 16px;
@@ -1073,10 +1073,10 @@
         font-weight: 700;
     }
 
-    .primary-btn:hover {
-        color: var(--color-button-primary-text);
-        background: var(--color-button-primary-hover);
-    }
+        .primary-btn:hover {
+            color: var(--color-button-primary-text);
+            background: var(--color-button-primary-hover);
+        }
 
     .sr-only {
         position: absolute;
@@ -1181,8 +1181,13 @@
     }
 
     @@keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
     }
 
     @@media (max-width: 768px) {
@@ -1233,63 +1238,63 @@
 </style>
 
 @section Scripts {
-<script>
-    (function () {
-        var loading = document.getElementById("aiInsightsLoading");
-        var result = document.getElementById("aiInsightsResult");
-        if (!loading || !result) return;
+    <script>
+        (function () {
+            var loading = document.getElementById("aiInsightsLoading");
+            var result = document.getElementById("aiInsightsResult");
+            if (!loading || !result) return;
 
-        var periodSelect = document.getElementById("periodSelect");
+            var periodSelect = document.getElementById("periodSelect");
 
-        function esc(s) {
-            return s ? s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
-        }
-
-        function currentPeriod() {
-            return periodSelect ? periodSelect.value : "30d";
-        }
-
-        function showPeriod(periods, period) {
-            var p = periods && periods[period];
-            loading.style.display = "none";
-            result.style.display = "block";
-            if (!p || (!p.insight && !p.action)) {
-                result.innerHTML = "<em class='ai-empty-state'>Not enough data for this period.</em>";
-            } else {
-                result.innerHTML =
-                    '<div class="ai-insight-layout">' +
-                        (p.insight ? '<p class="ai-insight-text">' + esc(p.insight) + '</p>' : '<span></span>') +
-                        (p.action  ? '<div class="ai-action-row"><span class="ai-action-label">Try this</span><span class="ai-action-text">' + esc(p.action) + '</span></div>' : '') +
-                    '</div>';
+            function esc(s) {
+                return s ? s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
             }
-        }
 
-        function poll() {
-            fetch("/Profile/GetAnalysis")
-                .then(function (r) { return r.json(); })
-                .then(function (data) {
-                    if (data.status === "ready") {
-                        showPeriod(data.periods, currentPeriod());
-                    } else if (data.status === "generating") {
-                        setTimeout(poll, 3000);
-                    } else if (data.status === "empty") {
-                        loading.style.display = "none";
-                    } else {
-                        console.error("AI analysis error:", data.message);
+            function currentPeriod() {
+                return periodSelect ? periodSelect.value : "30d";
+            }
+
+            function showPeriod(periods, period) {
+                var p = periods && periods[period];
+                loading.style.display = "none";
+                result.style.display = "block";
+                if (!p || (!p.insight && !p.action)) {
+                    result.innerHTML = "<em class='ai-empty-state'>Not enough data for this period.</em>";
+                } else {
+                    result.innerHTML =
+                        '<div class="ai-insight-layout">' +
+                            (p.insight ? '<p class="ai-insight-text">' + esc(p.insight) + '</p>' : '<span></span>') +
+                            (p.action  ? '<div class="ai-action-row"><span class="ai-action-label">Try this</span><span class="ai-action-text">' + esc(p.action) + '</span></div>' : '') +
+                        '</div>';
+                }
+            }
+
+            function poll() {
+                fetch("/Profile/GetAnalysis")
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        if (data.status === "ready") {
+                            showPeriod(data.periods, currentPeriod());
+                        } else if (data.status === "generating") {
+                            setTimeout(poll, 3000);
+                        } else if (data.status === "empty") {
+                            loading.style.display = "none";
+                        } else {
+                            console.error("AI analysis error:", data.message);
+                            loading.style.display = "none";
+                            result.style.display = "block";
+                            result.innerHTML = "<em class='ai-empty-state'>Insights temporarily unavailable.</em>";
+                        }
+                    })
+                    .catch(function (err) {
+                        console.error("AI poll error:", err);
                         loading.style.display = "none";
                         result.style.display = "block";
                         result.innerHTML = "<em class='ai-empty-state'>Insights temporarily unavailable.</em>";
-                    }
-                })
-                .catch(function (err) {
-                    console.error("AI poll error:", err);
-                    loading.style.display = "none";
-                    result.style.display = "block";
-                    result.innerHTML = "<em class='ai-empty-state'>Insights temporarily unavailable.</em>";
-                });
-        }
+                    });
+            }
 
-        poll();
-    })();
-</script>
+            poll();
+        })();
+    </script>
 }

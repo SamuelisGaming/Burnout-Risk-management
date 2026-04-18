@@ -1,14 +1,16 @@
 @model Hamburgerz.Models.ProfilePageViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = @Localizer["title1"];
     var successMessage = TempData["ProfileSuccess"] as string;
-    var smallCompany = "Maža";
-    var mediumCompany = "Vidutinė";
-    var largeCompany = "Didelė";
-    var remoteEnvironment = "Nuotolinis";
-    var officeEnvironment = "Ofisinis";
-    var hybridEnvironment = "Hibridinis";
+    var smallCompany = @Localizer["size1"];
+    var mediumCompany = @Localizer["size2"];
+    var largeCompany = @Localizer["size3"];
+    var remoteEnvironment = @Localizer["env1"];
+    var officeEnvironment = @Localizer["env2"];
+    var hybridEnvironment = @Localizer["env3"];
     var minBirthDate = DateTime.Today.AddYears(-100).ToString("yyyy-MM-dd");
     var maxBirthDate = DateTime.Today.AddYears(-14).ToString("yyyy-MM-dd");
 }
@@ -28,16 +30,16 @@
                         class="profile-avatar-editor"
                         data-avatar-upload-trigger
                         data-avatar-upload-url="@Url.Action("UploadAvatar", "Profile")"
-                        aria-label="Keisti profilio nuotrauką">
+                        aria-label=@Localizer["pfpchange"]>
                     <div class="profile-avatar profile-avatar-large profile-avatar-editable" data-avatar-root>
-                        <img class="profile-avatar-image" data-avatar-image alt="Profilio nuotrauka" hidden />
+                        <img class="profile-avatar-image" data-avatar-image alt=@Localizer["pfp"] hidden />
                         <span class="profile-avatar-fallback" data-avatar-fallback>@Model.AvatarInitial</span>
                         <span class="profile-avatar-overlay" aria-hidden="true">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M12 20h9" />
                                 <path d="M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4Z" />
                             </svg>
-                            <span class="profile-avatar-overlay-text">Keisti</span>
+                            <span class="profile-avatar-overlay-text">@Localizer["change"]</span>
                         </span>
                     </div>
                 </button>
@@ -51,7 +53,7 @@
             </div>
 
             <div class="profile-hero-copy">
-                <div class="profile-kicker">Profile</div>
+                <div class="profile-kicker">@Localizer["title1"]</div>
                 <h1 class="profile-name">@Model.Username</h1>
                 <p class="profile-email">@Model.Email</p>
             </div>
@@ -60,64 +62,64 @@
 
     <div class="profile-grid">
         <section class="profile-panel">
-            <div class="panel-kicker">Account</div>
-            <h2 class="panel-title">Basic info</h2>
+            <div class="panel-kicker">@Localizer["account"]</div>
+            <h2 class="panel-title">@Localizer["basic"]</h2>
 
             <div class="profile-info-list">
                 <div class="profile-info-row">
-                    <span class="profile-info-label">Username</span>
+                    <span class="profile-info-label">@Localizer["username"]</span>
                     <span class="profile-info-value">@Model.Username</span>
                 </div>
 
                 <div class="profile-info-row">
-                    <span class="profile-info-label">Email</span>
+                    <span class="profile-info-label">@Localizer["email"]</span>
                     <span class="profile-info-value">@Model.Email</span>
                 </div>
 
                 <div class="profile-info-row">
-                    <span class="profile-info-label">Gender</span>
-                    <span class="profile-info-value">@(string.IsNullOrWhiteSpace(Model.Gender) ? "Nenustatyta" : Model.Gender)</span>
+                    <span class="profile-info-label">@Localizer["gender"]</span>
+                    <span class="profile-info-value">@(string.IsNullOrWhiteSpace(Model.Gender) ? @Localizer["notset"] : Model.Gender)</span>
                 </div>
 
                 <div class="profile-info-row">
-                    <span class="profile-info-label">Measurements</span>
+                    <span class="profile-info-label">@Localizer["meas"]</span>
                     <span class="profile-info-value">@Model.MeasurementCount</span>
                 </div>
 
                 <div class="profile-info-row">
-                    <span class="profile-info-label">Last measurement</span>
-                    <span class="profile-info-value">@(Model.LastMeasurementDate?.ToString("yyyy-MM-dd HH:mm") ?? "Dar nėra")</span>
+                    <span class="profile-info-label">@Localizer["lastmeas"]</span>
+                    <span class="profile-info-value">@(Model.LastMeasurementDate?.ToString("yyyy-MM-dd HH:mm") ?? @Localizer["notexist"].ToString())</span>
                 </div>
             </div>
         </section>
 
         <section class="profile-panel">
-            <div class="panel-kicker">Profile defaults</div>
-            <h2 class="panel-title">Static details</h2>
+            <div class="panel-kicker">@Localizer["defaults"]</div>
+            <h2 class="panel-title">@Localizer["static"]</h2>
 
             <form asp-controller="Profile" asp-action="Index" method="post" class="profile-defaults-grid">
                 <label class="profile-field">
-                    <span class="profile-field-label">Birth date</span>
+                    <span class="profile-field-label">@Localizer["birth"]</span>
                     <input asp-for="BirthDate" class="form-control" type="date" min="@minBirthDate" max="@maxBirthDate" />
                     <span asp-validation-for="BirthDate" class="text-danger small"></span>
                 </label>
 
                 <label class="profile-field">
-                    <span class="profile-field-label">Country</span>
+                    <span class="profile-field-label">@Localizer["country"]</span>
                     <select asp-for="CountryID" asp-items="Model.Countries" class="form-select">
-                        <option value="">Choose...</option>
+                        <option value="">@Localizer["choose"]</option>
                     </select>
                     <span asp-validation-for="CountryID" class="text-danger small"></span>
                 </label>
 
                 <label class="profile-field profile-field-wide">
-                    <span class="profile-field-label">Job role</span>
+                    <span class="profile-field-label">@Localizer["role"]</span>
                     <div class="job-role-field"
                          data-job-role-field
                          data-job-role-endpoint="@Url.Content("~/api/job-roles")">
                         <input asp-for="JobRole"
                                class="form-control"
-                               placeholder="Try dev, qa, project manager..."
+                               placeholder=@Localizer["jobtemp"]
                                maxlength="80"
                                autocomplete="off"
                                spellcheck="false"
@@ -129,15 +131,15 @@
                 </label>
 
                 <label class="profile-field">
-                    <span class="profile-field-label">Experience years</span>
+                    <span class="profile-field-label">@Localizer["exp"]</span>
                     <input asp-for="ExperienceYears" class="form-control" type="number" placeholder="3" />
                     <span asp-validation-for="ExperienceYears" class="text-danger small"></span>
                 </label>
 
                 <label class="profile-field">
-                    <span class="profile-field-label">Company size</span>
+                    <span class="profile-field-label">@Localizer["size"]</span>
                     <select asp-for="CompanySize" class="form-select">
-                        <option value="">Choose...</option>
+                        <option value="">@Localizer["choose"]</option>
                         <option value="@smallCompany">@smallCompany (1-50)</option>
                         <option value="@mediumCompany">@mediumCompany (51-250)</option>
                         <option value="@largeCompany">@largeCompany (250+)</option>
@@ -146,9 +148,9 @@
                 </label>
 
                 <label class="profile-field profile-field-wide">
-                    <span class="profile-field-label">Work environment</span>
+                    <span class="profile-field-label">@Localizer["work"]</span>
                     <select asp-for="WorkEnvironment" class="form-select">
-                        <option value="">Choose...</option>
+                        <option value="">@Localizer["choose"]</option>
                         <option value="@remoteEnvironment">@remoteEnvironment</option>
                         <option value="@officeEnvironment">@officeEnvironment</option>
                         <option value="@hybridEnvironment">@hybridEnvironment</option>
@@ -157,8 +159,8 @@
                 </label>
 
                 <div class="profile-form-actions">
-                    <button type="submit" class="btn btn-primary">Išsaugoti profilį</button>
-                    <p class="profile-form-note">Šie duomenys bus naudojami kaip šaltinis naujiems matavimams.</p>
+                    <button type="submit" class="btn btn-primary">@Localizer["save"]</button>
+                    <p class="profile-form-note">@Localizer["savedescr"]</p>
                 </div>
             </form>
         </section>
@@ -194,9 +196,7 @@
         align-items: center;
         gap: 20px;
         padding: 24px 26px;
-        background:
-            radial-gradient(circle at top left, rgba(var(--color-primary-rgb), 0.18), transparent 30%),
-            linear-gradient(135deg, var(--color-surface) 0%, var(--color-bg) 100%);
+        background: radial-gradient(circle at top left, rgba(var(--color-primary-rgb), 0.18), transparent 30%), linear-gradient(135deg, var(--color-surface) 0%, var(--color-bg) 100%);
     }
 
     .profile-avatar-large {
@@ -218,21 +218,21 @@
         cursor: pointer;
     }
 
-    .profile-avatar-editor:focus {
-        outline: none;
-    }
+        .profile-avatar-editor:focus {
+            outline: none;
+        }
 
-    .profile-avatar-editor:focus-visible {
-        box-shadow: 0 0 0 0.24rem rgba(var(--color-secondary-rgb), 0.22);
-    }
+        .profile-avatar-editor:focus-visible {
+            box-shadow: 0 0 0 0.24rem rgba(var(--color-secondary-rgb), 0.22);
+        }
 
     .profile-avatar-editable {
         cursor: pointer;
     }
 
-    .profile-avatar-editable .profile-avatar-image {
-        transition: filter 0.2s ease, transform 0.2s ease;
-    }
+        .profile-avatar-editable .profile-avatar-image {
+            transition: filter 0.2s ease, transform 0.2s ease;
+        }
 
     .profile-avatar-overlay {
         position: absolute;
@@ -250,12 +250,12 @@
         transition: opacity 0.18s ease, transform 0.18s ease;
     }
 
-    .profile-avatar-overlay svg {
-        width: 18px;
-        height: 18px;
-        margin: 0 auto;
-        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.28));
-    }
+        .profile-avatar-overlay svg {
+            width: 18px;
+            height: 18px;
+            margin: 0 auto;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.28));
+        }
 
     .profile-avatar-overlay-text {
         font-size: 11px;

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title1" xml:space="preserve">
+    <value>Analizė</value>
+  </data>
+  <data name="last7d" xml:space="preserve">
+    <value>Paskutinės 7 dienos</value>
+  </data>
+  <data name="last30d" xml:space="preserve">
+    <value>Paskutinės 30 dienų</value>
+  </data>
+  <data name="last3m" xml:space="preserve">
+    <value>Paskutiniai 3 mėnesiai</value>
+  </data>
+  <data name="last6m" xml:space="preserve">
+    <value>Paskutiniai 6 mėnesiai</value>
+  </data>
+  <data name="lasty" xml:space="preserve">
+    <value>Paskutiniai metai</value>
+  </data>
+  <data name="all" xml:space="preserve">
+    <value>Viso laiko</value>
+  </data>
+  <data name="less3measurements" xml:space="preserve">
+    <value>Šiuo metu čia per mažai matavimų, bet puslapis paruoštas ilgalaikių tendencijų stebėjimui.</value>
+  </data>
+  <data name="alllowrisk" xml:space="preserve">
+    <value>Pasirinktame laikotarpyje perdegimo rizika yra maža, todėl naudingiau stebėti miego, darbo valandų ir streso pokyčius laike.</value>
+  </data>
+</root>

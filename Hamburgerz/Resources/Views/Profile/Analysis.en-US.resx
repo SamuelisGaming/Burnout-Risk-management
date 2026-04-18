@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title1" xml:space="preserve">
+    <value>Analysis</value>
+  </data>
+  <data name="last7d" xml:space="preserve">
+    <value>Last 7 days</value>
+  </data>
+  <data name="last30d" xml:space="preserve">
+    <value>Last 30 days</value>
+  </data>
+  <data name="last3m" xml:space="preserve">
+    <value>Last 3 months</value>
+  </data>
+  <data name="last6m" xml:space="preserve">
+    <value>Last 6 months</value>
+  </data>
+  <data name="lasty" xml:space="preserve">
+    <value>Last year</value>
+  </data>
+  <data name="all" xml:space="preserve">
+    <value>All time</value>
+  </data>
+  <data name="less3measurements" xml:space="preserve">
+    <value>There is only a small amount of data so far, but this page is already ready for longer-term patterns.</value>
+  </data>
+  <data name="alllowrisk" xml:space="preserve">
+    <value>Risk is currently low across the selected period, so the more useful signal here is how sleep, work hours, and stress shift over time.</value>
+  </data>
+</root>
