@@ -3,6 +3,9 @@
   <data name="title1" xml:space="preserve">
     <value>Analizė</value>
   </data>
+  <data name="title1desc" xml:space="preserve">
+    <value>Jūsų įpročių, streso tendencijų apžvalga ir jų pokytis laike.</value>
+  </data>
   <data name="last7d" xml:space="preserve">
     <value>Paskutinės 7 dienos</value>
   </data>
@@ -26,5 +29,158 @@
   </data>
   <data name="alllowrisk" xml:space="preserve">
     <value>Pasirinktame laikotarpyje perdegimo rizika yra maža, todėl naudingiau stebėti miego, darbo valandų ir streso pokyčius laike.</value>
+  </data>
+  <data name="high" xml:space="preserve">
+    <value>aukšta</value>
+  </data>
+  <data name="medium" xml:space="preserve">
+    <value>vidutiniška</value>
+  </data>
+  <data name="low" xml:space="preserve">
+    <value>žema</value>
+  </data>  
+  <data name="unknown" xml:space="preserve">
+    <value>Nežinoma</value>
+  </data>  
+  <data name="over1" xml:space="preserve">
+    <value>rodomas aukšto streso įrašų</value>
+  </data>
+  <data name="over2" xml:space="preserve">
+    <value>%, kuriuose miego vidurkis yra</value>
+  </data>
+  <data name="over3" xml:space="preserve">
+    <value>h ir darbo valandų vidurkis yra</value>
+  </data>
+  <data name="over4" xml:space="preserve">
+    <value>h.</value>
+  </data>  
+  <data name="meas" xml:space="preserve">
+    <value>matavimai</value>
+  </data>
+  <data name="latest" xml:space="preserve">
+    <value>Paskutinis: </value>
+  </data>  
+  <data name="selrange" xml:space="preserve">
+    <value>Pasirinkite laikotarpį</value>
+  </data>
+  <data name="measno" xml:space="preserve">
+    <value>Dar nėra matavimų</value>
+  </data> 
+  <data name="measnodesc" xml:space="preserve">
+    <value>Jūs dar neturite jokių išsaugotų matavimų. Pridėkite pirmajį, kad atrakintumėte ilgalaikę analizę.</value>
+  </data>
+  <data name="measfirst" xml:space="preserve">
+    <value>Pridėti pirmą matavimą</value>
+  </data>
+  <data name="measrange" xml:space="preserve">
+    <value>Matavimų diapazonas</value>
+  </data>
+  <data name="avgsleep" xml:space="preserve">
+    <value>Miego valandų vidurkis</value>
+  </data>
+  <data name="avgwork" xml:space="preserve">
+    <value>Darbo valangų vidurkis</value>
+  </data> 
+  <data name="stressshare" xml:space="preserve">
+    <value>Streso pasiskirstymas</value>
+  </data>
+  <data name="over" xml:space="preserve">
+    <value>Apžvalga</value>
+  </data>
+  <data name="overdesc" xml:space="preserve">
+    <value>Kas išsiskiria jūsų duomenyse</value>
+  </data>
+  <data name="avgprod" xml:space="preserve">
+    <value>Produktyvumo vidurkis</value>
+  </data>
+  <data name="avgburn" xml:space="preserve">
+    <value>Perdegimo balų vidurkis</value>
+  </data> 
+  <data name="trend" xml:space="preserve">
+    <value>Tendencija</value>
+  </data>
+  <data name="sleep" xml:space="preserve">
+    <value>Miegas</value>
+  </data>
+  <data name="work" xml:space="preserve">
+    <value>Darbas</value>
+  </data>
+  <data name="leisure" xml:space="preserve">
+    <value>Poilsis</value>
+  </data>
+  <data name="stress" xml:space="preserve">
+    <value>Stresas</value>
+  </data>
+  <data name="sleepvswork" xml:space="preserve">
+    <value>Naujausiai įrašytos miego ir darbo valandos</value>
+  </data>  
+  <data name="last" xml:space="preserve">
+    <value>Paskutiniai</value>
+  </data>
+  <data name="savedmeas" xml:space="preserve">
+    <value>išsaugoti matavimai</value>
+  </data>  
+  <data name="stressmix" xml:space="preserve">
+    <value>Streso pasiskirstymas</value>
+  </data>  
+  <data name="stresslow" xml:space="preserve">
+    <value>Žemas stresas</value>
+  </data>
+  <data name="stressmed" xml:space="preserve">
+    <value>Vidutiniškas stresas</value>
+  </data>
+  <data name="stresshigh" xml:space="preserve">
+    <value>Aukštas stresas</value>
+  </data>
+  <data name="habits" xml:space="preserve">
+    <value>Įpročiai</value>
+  </data>  
+  <data name="signals" xml:space="preserve">
+    <value>Signalai, į kuriuos reikia atkreipti dėmesį</value>
+  </data>
+  <data name="signal1" xml:space="preserve">
+    <value>Mažiau nei 6h miego</value>
+  </data>
+  <data name="signal2" xml:space="preserve">
+    <value>9h+ darbo diena</value>
+  </data>
+  <data name="signal3" xml:space="preserve">
+    <value>Miego pokyčiai</value>
+  </data>
+  <data name="signal4" xml:space="preserve">
+    <value>Darbo pokyčiai</value>
+  </data>
+  <data name="signal5" xml:space="preserve">
+    <value>Produktyvumo pokyčiai</value>
+  </data>
+  <data name="notenough" xml:space="preserve">
+    <value>Trūksta duomenų</value>
+  </data>
+  <data name="ai" xml:space="preserve">
+    <value>DI · Gemini</value>
+  </data>
+  <data name="period" xml:space="preserve">
+    <value>Laikotarpio įžvalgos</value>
+  </data>
+  <data name="analysing" xml:space="preserve">
+    <value>Analizuojama...</value>
+  </data>
+  <data name="timeline" xml:space="preserve">
+    <value>Laiko juosta</value>
+  </data>
+  <data name="timelinedescr1" xml:space="preserve">
+    <value>Mėnesinio laiko pasiskirstymo apžvalga</value>
+  </data>
+  <data name="timelinedescr2" xml:space="preserve">
+    <value>Mėnesio laiko paskirstymo apžvalga</value>
+  </data>
+  <data name="notenoughperiod" xml:space="preserve">
+    <value>Šiam laikotarpiui trūksta duomenų.</value>
+  </data>
+  <data name="analerror" xml:space="preserve">
+    <value>DI analizės klaida:</value>
+  </data>
+  <data name="analno" xml:space="preserve">
+    <value>Įžvalgos laikinai nepasiekiamos.</value>
   </data>
 </root>

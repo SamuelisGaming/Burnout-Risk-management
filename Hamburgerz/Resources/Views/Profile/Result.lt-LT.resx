@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title1" xml:space="preserve">
+    <value>Matavimo rezultatai</value>
+  </data>
+  <data name="notset" xml:space="preserve">
+    <value>Nenustatyta</value>
+  </data>  
+  <data name="backhist" xml:space="preserve">
+    <value>Grįžti į istoriją</value>
+  </data>
+  <data name="measdate" xml:space="preserve">
+    <value>Matavimo data</value>
+  </data>
+  <data name="datedescr" xml:space="preserve">
+    <value>Įveskite datą arba pasirinkite ją iš kalendoriaus.</value>
+  </data>
+  <data name="delconfirm" xml:space="preserve">
+    <value>Ištrinti šį matavimą?</value>
+  </data>
+  <data name="delmeas" xml:space="preserve">
+    <value>Ištrinti matavimą</value>  
+  </data>
+  <data name="del" xml:space="preserve">
+    <value>Ištrinti</value>
+  </data>
+  <data name="res" xml:space="preserve">
+    <value>Rezultatas</value>
+  </data>
+  <data name="mainass" xml:space="preserve">
+    <value>Pagrindinis vertinimas</value>
+  </data>
+  <data name="burn" xml:space="preserve">
+    <value>Perdegimo balas</value>
+  </data>
+  <data name="title2" xml:space="preserve">
+    <value>Svarbiausi dalykai</value>
+  </data>
+  <data name="title2descr" xml:space="preserve">
+    <value>Pagrindiniai rodikliai</value>
+  </data>  
+  <data name="sleep" xml:space="preserve">
+    <value>Miegas</value>
+  </data>
+  <data name="work" xml:space="preserve">
+    <value>Darbas</value>
+  </data>
+  <data name="stress" xml:space="preserve">
+    <value>Stresas</value>  
+  </data>  
+  <data name="prod" xml:space="preserve">
+    <value>Produktyvumas</value>
+  </data>
+  <data name="title3" xml:space="preserve">
+    <value>Detalės</value>
+  </data>
+  <data name="title3descr" xml:space="preserve">
+    <value>Matavimo duomenys</value>
+  </data>
+  <data name="gender" xml:space="preserve">
+    <value>Lytis</value>
+  </data>
+  <data name="birth" xml:space="preserve">
+    <value>Gimimo data</value>
+  </data>	
+  <data name="position" xml:space="preserve">
+    <value>Darbo pozicija</value>
+  </data>
+  <data name="experience" xml:space="preserve">
+    <value>Patirties metai</value>
+  </data>
+  <data name="size" xml:space="preserve">
+    <value>Kompanijos dydis</value>
+  </data>
+  <data name="workenv" xml:space="preserve">
+    <value>Darbo pobūdis</value>
+  </data>
+  <data name="meetsday" xml:space="preserve">
+    <value>Susirinkimai per dieną</value>
+  </data>
+  <data name="intspeed" xml:space="preserve">
+    <value>Interneto greitis</value>
+  </data>
+  <data name="title4" xml:space="preserve">
+    <value>Sveikata ir įpročiai</value>
+  </data>
+  <data name="title4descr" xml:space="preserve">
+    <value>Gyvensenos rodikliai</value>
+  </data>
+  <data name="sleeph" xml:space="preserve">
+    <value>Miego valandos</value>
+  </data>
+  <data name="exh" xml:space="preserve">
+    <value>Mankštos valandos</value>
+  </data>
+  <data name="screenh" xml:space="preserve">
+    <value>Ekrano laikas</value>
+  </data>
+  <data name="workh" xml:space="preserve">
+    <value>Darbo valandos</value>
+  </data>
+  <data name="stresslev" xml:space="preserve">
+    <value>Streso lygis</value>  
+  </data>
+  <data name="burnrisk" xml:space="preserve">
+    <value>Perdegimo rizika</value>
+  </data>
+  <data name="prodscor" xml:space="preserve">
+    <value>Produktyvumo balas</value>
+  </data>
+  <data name="title5" xml:space="preserve">
+    <value>Rekomendacijos</value>
+  </data>
+  <data name="title5descr" xml:space="preserve">
+    <value>DI įžvalgos</value>
+  </data>
+  <data name="aiload" xml:space="preserve">
+    <value>Įkeliamos DI įžvalgos</value>
+  </data>
+  <data name="aigen" xml:space="preserve">
+    <value>Generuojama įžvalga</value>
+  </data>
+  <data name="aigendescr" xml:space="preserve">
+    <value>Gemini skaito šį matavimą ir ruošia rekomendacijas.</value>
+  </data>  
+  <data name="aidown" xml:space="preserve">
+    <value>DI įžvalgos laikinai neprieinamos. Prašome atnaujinti puslapį.</value>
+  </data>
+  <data name="possigns" xml:space="preserve">
+    <value>Galimi ženklai</value>
+  </data>
+</root>

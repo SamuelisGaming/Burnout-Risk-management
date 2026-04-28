@@ -65,7 +65,10 @@
   </data>
   <data name="show" xml:space="preserve">
     <value>Rodyti</value>
-  </data> 
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
   <data name="passdescr" xml:space="preserve">
     <value>Slaptažodis tikrinamas saugiai pagal tavo paskyros duomenis.</value>
   </data>  

@@ -66,8 +66,14 @@
   <data name="passshow" xml:space="preserve">
     <value>Rodyti slaptažodį</value>
   </data>
+  <data name="passhide" xml:space="preserve">
+    <value>Slėpti slaptažodį</value>
+  </data>
   <data name="show" xml:space="preserve">
     <value>Rodyti</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Slėpti</value>
   </data>
   <data name="strength" xml:space="preserve">
     <value>Slaptažodžio stiprumas pasimatys rašant.</value>
@@ -94,11 +100,38 @@
   <data name="strengthoption" xml:space="preserve">
     <value>Nebūtina atitikti visų punktų, pakanka vidutinio stiprumo slaptažodžio.</value>
   </data>
+  <data name="strengthveryweak" xml:space="preserve">
+    <value>Labai silpnas slaptažodis</value>
+  </data>
+  <data name="strengthweak" xml:space="preserve">
+    <value>Silpnas slaptažodis</value>
+  </data>
+  <data name="strengthmedium" xml:space="preserve">
+    <value>Vidutiniškas slaptažodis</value>
+  </data>
+  <data name="strengthstrong" xml:space="preserve">
+    <value>Stiprus slaptažodis</value>
+  </data>
+  <data name="strengthverystrong" xml:space="preserve">
+    <value>Labai stiprus slaptažodis</value>
+  </data>
   <data name="passrepeat" xml:space="preserve">
     <value>Pakartokite slaptažodį</value>
   </data>
   <data name="passrepeat2" xml:space="preserve">
     <value>Pakartokite dar kartą</value>
+  </data>
+   <data name="passtooshort" xml:space="preserve">
+    <value>Per trumpas slaptažodis</value>
+  </data>
+  <data name="passtooweak" xml:space="preserve">
+    <value>Slaptažodis per silpnas registracijai.</value>
+  </data>
+  <data name="passmatch" xml:space="preserve">
+    <value>Slaptažodžiai sutampa.</value>
+  </data>
+  <data name="passnotmatch" xml:space="preserve">
+    <value>Slaptažodžiai nesutampa.</value>
   </data>
   <data name="next" xml:space="preserve">
     <value>Toliau</value>

@@ -66,8 +66,14 @@
   <data name="passshow" xml:space="preserve">
     <value>Show password</value>
   </data>
+  <data name="passhide" xml:space="preserve">
+    <value>Hide password</value>
+  </data>
   <data name="show" xml:space="preserve">
     <value>Show</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Hide</value>
   </data>
   <data name="strength" xml:space="preserve">
     <value>Password strength will be shown while typing.</value>
@@ -94,11 +100,38 @@
   <data name="strengthoption" xml:space="preserve">
     <value>It is not necessary to meet all the points, a medium-strength password is sufficient.</value>
   </data>
+  <data name="strengthveryweak" xml:space="preserve">
+    <value>Very weak password</value>
+  </data>
+  <data name="strengthweak" xml:space="preserve">
+    <value>Weak password</value>
+  </data>
+  <data name="strengthmedium" xml:space="preserve">
+    <value>Medium-strength password</value>
+  </data>
+  <data name="strengthstrong" xml:space="preserve">
+    <value>Strong password</value>
+  </data>
+  <data name="strengthverystrong" xml:space="preserve">
+    <value>Very strong password</value>
+  </data>
   <data name="passrepeat" xml:space="preserve">
     <value>Repeat password</value>
   </data>
   <data name="passrepeat2" xml:space="preserve">
     <value>Repeat again</value>
+  </data>
+     <data name="passtooshort" xml:space="preserve">
+    <value>Password is too short</value>
+  </data>
+  <data name="passtooweak" xml:space="preserve">
+    <value>Password is too weak for registration.</value>
+  </data>
+  <data name="passmatch" xml:space="preserve">
+    <value>Passwords match.</value>
+  </data>
+  <data name="passnotmatch" xml:space="preserve">
+    <value>Passwords don't match.</value>
   </data>
   <data name="next" xml:space="preserve">
     <value>Next</value>
@@ -159,7 +192,7 @@
     <value>The more accurately you fill in the job information, the more useful the analysis will be.</value>
   </data>
   <data name="position" xml:space="preserve">
-    <value>Work position</value>
+    <value>Job role</value>
   </data>
   <data name="positiontemp" xml:space="preserve">
     <value>For example, dev, qa, project manager…</value>
@@ -189,7 +222,7 @@
     <value>An organization of 250+ people.</value>
   </data>
   <data name="work" xml:space="preserve">
-    <value>Work model</value>
+    <value>Work environment</value>
   </data>
   <data name="work1" xml:space="preserve">
     <value>Remote</value>

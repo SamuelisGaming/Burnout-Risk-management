@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <value>New measurement</value>
+  </data>
+  <data name="titledescr" xml:space="preserve">
+    <value>A few questions about today - quick and easy.</value>
+  </data>  
+  <data name="title1" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="title1descr1" xml:space="preserve">
+    <value>How did you feel today?</value>
+  </data>
+  <data name="title1descr2" xml:space="preserve">
+    <value>Choose which mood best describes your day.</value>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>Next</value>  
+  </data>
+  <data name="mood1" xml:space="preserve">
+    <value>Great</value>
+  </data>
+  <data name="mood1descr" xml:space="preserve">
+    <value>I felt refreshed and motivated</value>
+  </data>
+  <data name="mood2" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="mood2descr" xml:space="preserve">
+    <value>Nothing special - the day passed as usual</value>
+  </data>
+  <data name="mood3" xml:space="preserve">
+    <value>Bad</value>
+  </data>
+  <data name="mood3descr" xml:space="preserve">
+    <value>I felt tired - energy was clearly lacking</value>
+  </data>
+  <data name="mood4" xml:space="preserve">
+    <value>Very bad</value>
+  </data>
+  <data name="mood4descr" xml:space="preserve">
+    <value>The day was difficult both physically and emotionally</value>
+  </data>
+  <data name="title2" xml:space="preserve">
+    <value>Work</value>
+  </data>
+  <data name="title2descr1" xml:space="preserve">
+    <value>How many hours did you work today?</value>
+  </data>
+  <data name="title2descr2" xml:space="preserve">
+    <value>An approximate number is fine.</value>
+  </data>  
+  <data name="workhours" xml:space="preserve">
+    <value>Work hours</value>
+  </data>
+  <data name="worktemp" xml:space="preserve">
+    <value>E.g. 8</value>
+  </data>
+  <data name="title3" xml:space="preserve">
+    <value>Rest</value>
+  </data>
+  <data name="title3descr1" xml:space="preserve">
+    <value>What did your rest and exercise look like?</value>
+  </data>
+  <data name="title3descr2" xml:space="preserve">
+    <value>Approximate values are valid/</value>
+  </data>  
+  <data name="sleeph" xml:space="preserve">
+    <value>Sleep hours</value>
+  </data>
+  <data name="sleeptemp" xml:space="preserve">
+    <value>E.g. 7.5</value>
+  </data>
+  <data name="exer" xml:space="preserve">
+    <value>Exercise</value>  
+  </data>  
+  <data name="exertemp" xml:space="preserve">
+    <value>E.g. 1</value>
+  </data>
+  <data name="title4" xml:space="preserve">
+    <value>Energy</value>
+  </data>
+  <data name="title4descr1" xml:space="preserve">
+    <value>Two quick questions about your energy levels</value>
+  </data>
+  <data name="title4descr2" xml:space="preserve">
+    <value>There is no right answer - just choose what most closely matches today.</value>
+  </data>  
+  <data name="discquestion" xml:space="preserve">
+    <value>Did you manage to unwind after work and stop thinking about it?</value>
+  </data>
+  <data name="focusquestion" xml:space="preserve">
+    <value>How easy was it to focus on one task today?</value>
+  </data>
+  <data name="disc1" xml:space="preserve">
+    <value>Yes, I unwinded well</value>
+  </data>
+  <data name="disc2" xml:space="preserve">
+    <value>Partly</value>
+  </data>
+  <data name="disc3" xml:space="preserve">
+    <value>It was hard to unwind</value>
+  </data>
+  <data name="focus1" xml:space="preserve">
+    <value>Easy</value>
+  </data>
+  <data name="focus2" xml:space="preserve">
+    <value>It took effort</value>
+  </data>
+  <data name="focus3" xml:space="preserve">
+    <value>Very difficult</value>
+  </data>
+  <data name="title5" xml:space="preserve">
+    <value>Digital environment</value>
+  </data>
+  <data name="title5descr1" xml:space="preserve">
+    <value>How much time did you spend in front of screens and in meetings?</value>
+  </data>
+  <data name="title5descr2" xml:space="preserve">
+    <value>If you don't know your exact internet speed, an approximate value is fine.</value>
+  </data>
+  <data name="screen" xml:space="preserve">
+    <value>Screentime</value>
+  </data>
+  <data name="screentemp" xml:space="preserve">
+    <value>E.g. 6</value>
+  </data> 
+  <data name="meet" xml:space="preserve">
+    <value>Meetings per day</value>
+  </data>
+  <data name="meettemp" xml:space="preserve">
+    <value>E.g. 2</value>
+  </data>
+  <data name="intspeed" xml:space="preserve">
+    <value>Internet speed</value>
+  </data>
+  <data name="intspeedtemp" xml:space="preserve">
+    <value>E.g. 100</value>
+  </data>  
+  <data name="title6" xml:space="preserve">
+    <value>Last step</value>
+  </data>
+  <data name="title6descr1" xml:space="preserve">
+    <value>How would you rate your stress level today?</value>
+  </data>
+  <data name="title6descr2" xml:space="preserve">
+    <value>Choose the level that best describes how you felt throughout the day.</value>
+  </data>  
+  <data name="stress1" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="stress1descr" xml:space="preserve">
+    <value>Calm and controlled - I hardly felt any stress.</value>
+  </data>
+  <data name="stress2" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="stress2descr" xml:space="preserve">
+    <value>I felt tense, but things remained under control.</value>
+  </data>
+  <data name="stress3" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="stress3descr" xml:space="preserve">
+    <value>I felt very tense and exhausted for most of the day.</value>
+  </data>  
+  <data name="save" xml:space="preserve">
+    <value>Save measurement</value>
+  </data>
+</root>

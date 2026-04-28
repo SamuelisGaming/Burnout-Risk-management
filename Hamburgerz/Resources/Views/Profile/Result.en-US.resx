@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title1" xml:space="preserve">
+    <value>Measurement result</value>
+  </data>
+  <data name="notset" xml:space="preserve">
+    <value>Not set</value>
+  </data>  
+  <data name="backhist" xml:space="preserve">
+    <value>Back to history</value>
+  </data>
+  <data name="measdate" xml:space="preserve">
+    <value>Measurement date</value>
+  </data>
+  <data name="datedescr" xml:space="preserve">
+    <value>Type the date or pick it from the calendar.</value>
+  </data>
+  <data name="delconfirm" xml:space="preserve">
+    <value>Delete this measurement?</value>
+  </data>
+  <data name="delmeas" xml:space="preserve">
+    <value>Delete measurement</value>  
+  </data>
+  <data name="del" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="res" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="mainass" xml:space="preserve">
+    <value>Main assessment</value>
+  </data>
+  <data name="burn" xml:space="preserve">
+    <value>Burnout score</value>
+  </data>
+  <data name="title2" xml:space="preserve">
+    <value>Highlights</value>
+  </data>
+  <data name="title2descr" xml:space="preserve">
+    <value>Key metrics</value>
+  </data>  
+  <data name="sleep" xml:space="preserve">
+    <value>Sleep</value>
+  </data>
+  <data name="work" xml:space="preserve">
+    <value>Work</value>
+  </data>
+  <data name="stress" xml:space="preserve">
+    <value>Stress</value>  
+  </data>  
+  <data name="prod" xml:space="preserve">
+    <value>Productivity</value>
+  </data>
+  <data name="title3" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="title3descr" xml:space="preserve">
+    <value>Measurement data</value>
+  </data>
+  <data name="gender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="birth" xml:space="preserve">
+    <value>Birth date</value>
+  </data>	
+  <data name="position" xml:space="preserve">
+    <value>Job role</value>
+  </data>
+  <data name="experience" xml:space="preserve">
+    <value>Years of experience</value>
+  </data>
+  <data name="size" xml:space="preserve">
+    <value>Company size</value>
+  </data>
+  <data name="workenv" xml:space="preserve">
+    <value>Work environment</value>
+  </data>
+  <data name="meetsday" xml:space="preserve">
+    <value>Meetings per day</value>
+  </data>
+  <data name="intspeed" xml:space="preserve">
+    <value>Internet speed</value>
+  </data>
+  <data name="title4" xml:space="preserve">
+    <value>Health and habits</value>
+  </data>
+  <data name="title4descr" xml:space="preserve">
+    <value>Lifestyle indicators</value>
+  </data>
+  <data name="sleeph" xml:space="preserve">
+    <value>Sleep hours</value>
+  </data>
+  <data name="exh" xml:space="preserve">
+    <value>Exercise hours</value>
+  </data>
+  <data name="screenh" xml:space="preserve">
+    <value>Screen time</value>
+  </data>
+  <data name="workh" xml:space="preserve">
+    <value>Work hours</value>
+  </data>
+  <data name="stresslev" xml:space="preserve">
+    <value>Stress level</value>  
+  </data>
+  <data name="burnrisk" xml:space="preserve">
+    <value>Burnout risk</value>
+  </data>
+  <data name="prodscor" xml:space="preserve">
+    <value>Productivity score</value>
+  </data>
+  <data name="title5" xml:space="preserve">
+    <value>Recommendations</value>
+  </data>
+  <data name="title5descr" xml:space="preserve">
+    <value>AI Insights</value>
+  </data>
+  <data name="aiload" xml:space="preserve">
+    <value>Loading AI insights</value>
+  </data>
+  <data name="aigen" xml:space="preserve">
+    <value>Generating insight</value>
+  </data>
+  <data name="aigendescr" xml:space="preserve">
+    <value>Gemini is reading this measurement and preparing recommendations.</value>
+  </data>  
+  <data name="aidown" xml:space="preserve">
+    <value>AI insights are temporarily unavailable. Please refresh.</value>
+  </data>
+  <data name="possigns" xml:space="preserve">
+    <value>Possible signs</value>
+  </data>
+</root>

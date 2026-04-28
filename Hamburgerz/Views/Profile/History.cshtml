@@ -1,7 +1,9 @@
 @model List<Hamburgerz.Models.RiskMeasurement>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "History";
+    ViewData["Title"] = @Localizer["title1"];
     var currentPage = ViewBag.CurrentPage != null ? (int)ViewBag.CurrentPage : 1;
     var totalPages = ViewBag.TotalPages != null ? (int)ViewBag.TotalPages : 1;
     var totalCount = ViewBag.TotalCount != null ? (int)ViewBag.TotalCount : (Model?.Count ?? 0);
@@ -10,13 +12,13 @@
 <div class="history-wrapper">
     <div class="history-header">
         <div>
-            <h1 class="history-title">History</h1>
-            <p class="history-subtitle">All your burnout measurements in one place.</p>
+            <h1 class="history-title">@Localizer["title1"]</h1>
+            <p class="history-subtitle">@Localizer["title1descr"]</p>
         </div>
 
         @if (totalCount > 0)
         {
-            <div class="history-count">@totalCount measurements</div>
+            <div class="history-count">@totalCount @Localizer["meas"]</div>
         }
     </div>
 
@@ -40,9 +42,9 @@
                     <path d="M24 29.5v2.5l1.5 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
-            <h3 class="empty-state-title">Matavimų dar nėra</h3>
-            <p class="empty-state-copy">Pridėk pirmą matavimą ir pradėk stebėti savo savijautą laikui bėgant.</p>
-            <a asp-controller="Data" asp-action="DataEntry" class="history-btn">Pradėti pirmą matavimą</a>
+            <h3 class="empty-state-title">@Localizer["measno"]</h3>
+            <p class="empty-state-copy">@Localizer["measnodescr"]</p>
+            <a asp-controller="Data" asp-action="DataEntry" class="history-btn">@Localizer["addfirst"]</a>
         </div>
     }
     else
@@ -76,14 +78,14 @@
                                 </div>
 
                                 <div class="history-risk @item.RiskClass">
-                                    @item.RiskText risk
+                                    @item.RiskText @Localizer["risk"]
                                 </div>
                         </div>
 
                         <div class="history-footer">
-                            <div class="history-chip">Stress: @item.StressLevel</div>
-                            <div class="history-chip">Sleep: @item.SleepHours.ToString("0.0")h</div>
-                            <div class="history-chip">Work: @item.WorkHours.ToString("0.0")h</div>
+                            <div class="history-chip">@Localizer["stress"]: @item.StressLevel</div>
+                            <div class="history-chip">@Localizer["sleep"]: @item.SleepHours.ToString("0.0")h</div>
+                            <div class="history-chip">@Localizer["work"]: @item.WorkHours.ToString("0.0")h</div>
                         </div>
                     </article>
                 </a>
@@ -93,7 +95,7 @@
         @if (totalPages > 1)
         {
             <nav class="history-pagination" aria-label="History pages">
-                <div class="history-page-summary">Page @currentPage of @totalPages</div>
+                <div class="history-page-summary">@Localizer["page"] @currentPage @Localizer["of"] @totalPages</div>
 
                 <div class="history-page-controls">
                     @if (currentPage > 1)
@@ -102,12 +104,12 @@
                            asp-action="History"
                            asp-route-page="@(currentPage - 1)"
                            class="history-page-btn">
-                            Previous
+                            @Localizer["prev"]
                         </a>
                     }
                     else
                     {
-                        <span class="history-page-btn is-disabled">Previous</span>
+                        <span class="history-page-btn is-disabled">@Localizer["prev"]</span>
                     }
 
                     @for (var pageNumber = 1; pageNumber <= totalPages; pageNumber++)
@@ -133,12 +135,12 @@
                            asp-action="History"
                            asp-route-page="@(currentPage + 1)"
                            class="history-page-btn">
-                            Next
+                            @Localizer["next"]
                         </a>
                     }
                     else
                     {
-                        <span class="history-page-btn is-disabled">Next</span>
+                        <span class="history-page-btn is-disabled">@Localizer["next"]</span>
                     }
                 </div>
             </nav>

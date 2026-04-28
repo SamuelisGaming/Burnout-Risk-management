@@ -3,6 +3,9 @@
   <data name="title1" xml:space="preserve">
     <value>Analysis</value>
   </data>
+  <data name="title1desc" xml:space="preserve">
+    <value>Overview of your habits, stress patterns, and how they change over time.</value>
+  </data>
   <data name="last7d" xml:space="preserve">
     <value>Last 7 days</value>
   </data>
@@ -26,5 +29,158 @@
   </data>
   <data name="alllowrisk" xml:space="preserve">
     <value>Risk is currently low across the selected period, so the more useful signal here is how sleep, work hours, and stress shift over time.</value>
+  </data>
+    <data name="high" xml:space="preserve">
+    <value>high</value>
+  </data>
+  <data name="medium" xml:space="preserve">
+    <value>medium</value>
+  </data>
+  <data name="low" xml:space="preserve">
+    <value>low</value>
+  </data>  
+  <data name="unknown" xml:space="preserve">
+    <value>unknown</value>
+  </data>
+  <data name="over1" xml:space="preserve">
+    <value>shows</value>
+  </data>
+  <data name="over2" xml:space="preserve">
+    <value>% stressed entries, with an average of</value>
+  </data>
+  <data name="over3" xml:space="preserve">
+    <value>h sleep and</value>
+  </data>
+  <data name="over4" xml:space="preserve">
+    <value>h workdays.</value>
+  </data>
+  <data name="meas" xml:space="preserve">
+    <value>measurements</value>
+  </data>
+  <data name="latest" xml:space="preserve">
+    <value>Latest: </value>
+  </data>
+  <data name="selrange" xml:space="preserve">
+    <value>Select time range</value>
+  </data>
+  <data name="measno" xml:space="preserve">
+    <value>No measurements yet</value>
+  </data> 
+  <data name="measnodesc" xml:space="preserve">
+    <value>You do not have any saved measurements. Add your first one to unlock long-term analysis.</value>
+  </data>
+  <data name="measfirst" xml:space="preserve">
+    <value>Add first measurement</value>
+  </data>
+  <data name="measrange" xml:space="preserve">
+    <value>Measurements in range</value>
+  </data>
+  <data name="avgsleep" xml:space="preserve">
+    <value>Average sleep</value>
+  </data>
+  <data name="avgwork" xml:space="preserve">
+    <value>Average workday</value>
+  </data> 
+  <data name="stressshare" xml:space="preserve">
+    <value>Stressed share</value>
+  </data>
+  <data name="over" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="overdesc" xml:space="preserve">
+    <value>What stands out in your data</value>
+  </data>
+  <data name="avgprod" xml:space="preserve">
+    <value>Average productivity</value>
+  </data>
+  <data name="avgburn" xml:space="preserve">
+    <value>Average burnout score</value>
+  </data> 
+  <data name="trend" xml:space="preserve">
+    <value>Trend</value>
+  </data>
+  <data name="sleep" xml:space="preserve">
+    <value>Sleep</value>
+  </data>
+  <data name="work" xml:space="preserve">
+    <value>Work</value>
+  </data>
+  <data name="leisure" xml:space="preserve">
+    <value>Leisure</value>
+  </data>
+  <data name="stress" xml:space="preserve">
+    <value>Stress</value>
+  </data>
+  <data name="sleepvswork" xml:space="preserve">
+    <value>Recent sleep vs work hours</value>
+  </data>  
+  <data name="last" xml:space="preserve">
+    <value>Last</value>
+  </data>
+  <data name="savedmeas" xml:space="preserve">
+    <value>saved measurements</value>
+  </data>  
+  <data name="stressmix" xml:space="preserve">
+    <value>Stress mix</value>
+  </data>  
+  <data name="stresslow" xml:space="preserve">
+    <value>Low stress</value>
+  </data>
+  <data name="stressmed" xml:space="preserve">
+    <value>Medium stress</value>
+  </data>
+  <data name="stresshigh" xml:space="preserve">
+    <value>High stress</value>
+  </data>
+  <data name="habits" xml:space="preserve">
+    <value>Habits</value>
+  </data>  
+  <data name="signals" xml:space="preserve">
+    <value>Signals to watch</value>
+  </data>
+  <data name="signal1" xml:space="preserve">
+    <value>Under 6h sleep</value>
+  </data>
+  <data name="signal2" xml:space="preserve">
+    <value>9h+ workdays</value>
+  </data>
+  <data name="signal3" xml:space="preserve">
+    <value>Sleep change</value>
+  </data>
+  <data name="signal4" xml:space="preserve">
+    <value>Work change</value>
+  </data>
+  <data name="signal5" xml:space="preserve">
+    <value>Productivity change</value>
+  </data>
+  <data name="notenough" xml:space="preserve">
+    <value>Not enough data</value>
+  </data>
+  <data name="ai" xml:space="preserve">
+    <value>AI · Gemini</value>
+  </data>
+  <data name="period" xml:space="preserve">
+    <value>Period insights</value>
+  </data>
+  <data name="analysing" xml:space="preserve">
+    <value>Analysing...</value>
+  </data>
+  <data name="timeline" xml:space="preserve">
+    <value>Timeline</value>
+  </data>
+  <data name="timelinedescr1" xml:space="preserve">
+    <value>Monthly time allocation overview</value>
+  </data>
+  <data name="timelinedescr2" xml:space="preserve">
+    <value>Grouped by month in the selected period</value>
+  </data>
+  <data name="notenoughperiod" xml:space="preserve">
+    <value>Not enough data for this period.</value>
+  </data>
+  <data name="analerror" xml:space="preserve">
+    <value>AI analysis error:</value>
+  </data>
+  <data name="analno" xml:space="preserve">
+    <value>Insights temporarily unavailable.</value>
   </data>
 </root>

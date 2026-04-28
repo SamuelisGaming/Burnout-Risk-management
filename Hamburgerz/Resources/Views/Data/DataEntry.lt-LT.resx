@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <value>Naujas matavimas</value>
+  </data>
+  <data name="titledescr" xml:space="preserve">
+    <value>Keletas klausimų apie šiandieninę dieną - greita ir paprasta.</value>
+  </data>  
+  <data name="title1" xml:space="preserve">
+    <value>Pradžia</value>
+  </data>
+  <data name="title1descr1" xml:space="preserve">
+    <value>Kaip jauteisi šiandien?</value>
+  </data>
+  <data name="title1descr2" xml:space="preserve">
+    <value>Pasirinkite, kuri nuotaika geriausiai apibūdina jūsų dieną.</value>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>Atgal</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>Toliau</value>  
+  </data>
+  <data name="mood1" xml:space="preserve">
+    <value>Puikiai</value>
+  </data>
+  <data name="mood1descr" xml:space="preserve">
+    <value>Jaučiausi žvaliai ir motyvuotai</value>
+  </data>
+  <data name="mood2" xml:space="preserve">
+    <value>Normaliai</value>
+  </data>
+  <data name="mood2descr" xml:space="preserve">
+    <value>Nieko ypatingo - diena praėjo kaip paprastai</value>
+  </data>
+  <data name="mood3" xml:space="preserve">
+    <value>Blogai</value>
+  </data>
+  <data name="mood3descr" xml:space="preserve">
+    <value>Jaučiausi pavargęs - energijos aiškiai trūko</value>
+  </data>
+  <data name="mood4" xml:space="preserve">
+    <value>Labai blogai</value>
+  </data>
+  <data name="mood4descr" xml:space="preserve">
+    <value>Buvo sunku tiek fiziškai, tiek emociškai</value>
+  </data>
+  <data name="title2" xml:space="preserve">
+    <value>Darbas</value>
+  </data>
+  <data name="title2descr1" xml:space="preserve">
+    <value>Kiek valandų šiandien dirbai?</value>
+  </data>
+  <data name="title2descr2" xml:space="preserve">
+    <value>Apytikslis skaičius visiškai tinka.</value>
+  </data>  
+  <data name="workhours" xml:space="preserve">
+    <value>Darbo valandos</value>
+  </data>
+  <data name="worktemp" xml:space="preserve">
+    <value>Pvz. 8</value>
+  </data>
+  <data name="title3" xml:space="preserve">
+    <value>Poilsis</value>
+  </data>
+  <data name="title3descr1" xml:space="preserve">
+    <value>Kaip atrodė jūsų poilsis ir aktyvumas?</value>
+  </data>
+  <data name="title3descr2" xml:space="preserve">
+    <value>Apytikslės reikšmės pilnai tinka.</value>
+  </data>  
+  <data name="sleeph" xml:space="preserve">
+    <value>Miego valandos</value>
+  </data>
+  <data name="sleeptemp" xml:space="preserve">
+    <value>Pvz. 7.5</value>
+  </data>
+  <data name="exer" xml:space="preserve">
+    <value>Aktyvumo laikas</value>  
+  </data>  
+  <data name="exertemp" xml:space="preserve">
+    <value>Pvz. 1</value>
+  </data>
+  <data name="title4" xml:space="preserve">
+    <value>Energija</value>
+  </data>
+  <data name="title4descr1" xml:space="preserve">
+    <value>Du greiti klausimai apie jūsų energijos lygį</value>
+  </data>
+  <data name="title4descr2" xml:space="preserve">
+    <value>Nėra teisingo atsakymo - tiesiog pasirinkite, kas artimiausiai atitinka šiandieną.</value>
+  </data>  
+  <data name="discquestion" xml:space="preserve">
+    <value>Ar po darbo pavyko atsiriboti nuo minčių apie darbą?</value>
+  </data>
+  <data name="focusquestion" xml:space="preserve">
+    <value>Kaip lengva šiandien buvo susikaupti ties viena užduotimi?</value>
+  </data>
+  <data name="disc1" xml:space="preserve">
+    <value>Taip, atsiribojau</value>
+  </data>
+  <data name="disc2" xml:space="preserve">
+    <value>Iš dalies</value>
+  </data>
+  <data name="disc3" xml:space="preserve">
+    <value>Sunkiai pavyko</value>
+  </data>
+  <data name="focus1" xml:space="preserve">
+    <value>Lengvai</value>
+  </data>
+  <data name="focus2" xml:space="preserve">
+    <value>Šiaip taip</value>
+  </data>
+  <data name="focus3" xml:space="preserve">
+    <value>Labai sunkiai</value>
+  </data>
+  <data name="title5" xml:space="preserve">
+    <value>Skaitmeninė aplinka</value>
+  </data>
+  <data name="title5descr1" xml:space="preserve">
+    <value>Kiek laiko praleidote prie ekranų ir susirinkimų?</value>
+  </data>
+  <data name="title5descr2" xml:space="preserve">
+    <value>Jei tikslaus interneto greičio nežinote, apytikslė reikšmė tinka.</value>
+  </data>
+  <data name="screen" xml:space="preserve">
+    <value>Ekrano laikas</value>
+  </data>
+  <data name="screentemp" xml:space="preserve">
+    <value>Pvz. 6</value>
+  </data> 
+  <data name="meet" xml:space="preserve">
+    <value>Susirinkimai per dieną</value>
+  </data>
+  <data name="meettemp" xml:space="preserve">
+    <value>Pvz. 2</value>
+  </data>
+  <data name="intspeed" xml:space="preserve">
+    <value>Interneto greitis</value>
+  </data>
+  <data name="intspeedtemp" xml:space="preserve">
+    <value>Pvz. 100</value>
+  </data>  
+  <data name="title6" xml:space="preserve">
+    <value>Paskutinis žingsnis</value>
+  </data>
+  <data name="title6descr1" xml:space="preserve">
+    <value>Kaip vertinate šiandieninį streso lygį?</value>
+  </data>
+  <data name="title6descr2" xml:space="preserve">
+    <value>Pasirinkite tą lygį, kuris geriausiai apibūdina visos dienos savijautą.</value>
+  </data>  
+  <data name="stress1" xml:space="preserve">
+    <value>Žemas</value>
+  </data>
+  <data name="stress1descr" xml:space="preserve">
+    <value>Ramu ir valdoma - streso beveik nejaučiau</value>
+  </data>
+  <data name="stress2" xml:space="preserve">
+    <value>Vidutinis</value>
+  </data>
+  <data name="stress2descr" xml:space="preserve">
+    <value>Jaučiau įtampą, bet situacija buvo valdoma</value>
+  </data>
+  <data name="stress3" xml:space="preserve">
+    <value>Aukštas</value>
+  </data>
+  <data name="stress3descr" xml:space="preserve">
+    <value>Didžiąją dalį dienos jauciau stiprią įtampą ir išsekimą</value>
+  </data>  
+  <data name="save" xml:space="preserve">
+    <value>Išsaugoti matavimą</value>
+  </data>
+</root>

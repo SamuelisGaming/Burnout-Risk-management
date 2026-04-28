@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title1" xml:space="preserve">
+    <value>Istorija</value>
+  </data>
+  <data name="title1descr" xml:space="preserve">
+    <value>Visi jūsų perdegimo matavimai vienoje vietoje.</value>
+  </data>
+  <data name="meas" xml:space="preserve">
+    <value>matavimai</value>
+  </data>
+  <data name="measno" xml:space="preserve">
+    <value>Matavimų dar nėra</value>
+  </data>
+  <data name="measnodescr" xml:space="preserve">
+    <value>Pridėkite pirmą matavimą ir pradėkite stebėti jūsų savijautą laikui bėgant.</value>
+  </data>
+  <data name="addfirst" xml:space="preserve">
+    <value>Pradėti pirmą matavimą</value>
+  </data>
+  <data name="risk" xml:space="preserve">
+    <value>rizika</value>
+  </data>
+  <data name="sleep" xml:space="preserve">
+    <value>Miego valandos</value>
+  </data>
+  <data name="work" xml:space="preserve">
+    <value>Darbo valandos</value>
+  </data>
+  <data name="stress" xml:space="preserve">
+    <value>Stresas</value>  
+  </data>
+  <data name="page" xml:space="preserve">
+    <value>Puslapis</value>
+  </data>
+  <data name="of" xml:space="preserve">
+    <value>iš</value>
+  </data>
+  <data name="prev" xml:space="preserve">
+    <value>Atgal</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>Pirmyn</value>
+  </data>
+</root>

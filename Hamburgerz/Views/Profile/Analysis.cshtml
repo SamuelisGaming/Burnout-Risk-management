@@ -111,7 +111,8 @@
     Func<string?, string> normalizeStress = value =>
     {
         var normalized = (value ?? string.Empty).Trim().ToLowerInvariant();
-
+        // @Localizer["high"] @Localizer["medium"] @Localizer["low"] @Localizer["unknown"]
+        // tingiu tikrint kas tik rodoma o kas actually svarbūs kintamieji tai pakeiskit kur reikia
         if (normalized.Contains("auk") || normalized.Contains("high"))
         {
             return "high";
@@ -211,32 +212,33 @@
         ? @Localizer["last30d"].ToString()
         : allLowRisk
             ? @Localizer["alllowrisk"].ToString()
-            : $"{periodLabel} shows {stressedShare}% stressed entries, with an average of {windowAvgSleep:0.0}h sleep and {windowAvgWork:0.0}h workdays.";
+            //: $"{periodLabel} shows {stressedShare}% stressed entries, with an average of {windowAvgSleep:0.0}h sleep and {windowAvgWork:0.0}h workdays.";
+            : $"{periodLabel} {@Localizer["over1"]} {stressedShare} {@Localizer["over2"]} {windowAvgSleep:0.0} {@Localizer["over3"]} {windowAvgWork:0.0} {@Localizer["over4"]}";
 }
 
 <div class="analysis-page">
     <div class="analysis-hero">
         <div>
-            <h1 class="analysis-title">Analysis</h1>
-            <p class="analysis-subtitle">Overview of your habits, stress patterns, and how they change over time.</p>
+            <h1 class="analysis-title">@Localizer["title1"]</h1>            
+            <p class="analysis-subtitle">@Localizer["title1desc"]</p>
         </div>
 
         @if (latest != null)
         {
             <div class="hero-pills">
-                <div class="hero-pill">@totalCount measurements</div>
-                <div class="hero-pill">Latest: @latest.TimeStamp.ToString("yyyy-MM-dd")</div>
+                <div class="hero-pill">@totalCount @Localizer["meas"]</div>
+                <div class="hero-pill">@Localizer["latest"] @latest.TimeStamp.ToString("yyyy-MM-dd")</div>
 
                 <form method="get" asp-controller="Profile" asp-action="Analysis" class="period-selector-form">
-                    <label for="periodSelect" class="sr-only">Select time range</label>
+                    <label for="periodSelect" class="sr-only">@Localizer["selrange"]</label>
                     <div class="period-select-wrap">
                         <select id="periodSelect" name="period" class="period-select" onchange="this.form.submit()">
-                            <option value="7d" selected="@(selectedPeriod == "7d")">Last 7 days</option>
-                            <option value="30d" selected="@(selectedPeriod == "30d")">Last 30 days</option>
-                            <option value="3m" selected="@(selectedPeriod == "3m")">Last 3 months</option>
-                            <option value="6m" selected="@(selectedPeriod == "6m")">Last 6 months</option>
-                            <option value="1y" selected="@(selectedPeriod == "1y")">Last year</option>
-                            <option value="all" selected="@(selectedPeriod == "all")">All time</option>
+                            <option value="7d" selected="@(selectedPeriod == "7d")">@Localizer["last7d"]</option>
+                            <option value="30d" selected="@(selectedPeriod == "30d")">@Localizer["last30d"]</option>
+                            <option value="3m" selected="@(selectedPeriod == "3m")">@Localizer["last3m"]</option>
+                            <option value="6m" selected="@(selectedPeriod == "6m")">@Localizer["last6m"]</option>
+                            <option value="1y" selected="@(selectedPeriod == "1y")">@Localizer["lasty"]</option>
+                            <option value="all" selected="@(selectedPeriod == "all")">@Localizer["all"]</option>
                         </select>
                     </div>
                 </form>
@@ -249,9 +251,9 @@
         <div class="empty-state-card">
             <div class="empty-state-icon">+</div>
             <div>
-                <h3>No measurements yet</h3>
-                <p>You do not have any saved measurements. Add your first one to unlock long-term analysis.</p>
-                <a asp-controller="Data" asp-action="DataEntry" class="primary-btn">Add first measurement</a>
+                <h3>@Localizer["measno"]</h3>
+                <p>@Localizer["measnodesc"]</p>
+                <a asp-controller="Data" asp-action="DataEntry" class="primary-btn">@Localizer["measfirst"]</a>
             </div>
         </div>
     }
@@ -259,23 +261,23 @@
     {
         <div class="summary-grid">
             <div class="summary-card">
-                <div class="summary-label">Measurements in range</div>
+                <div class="summary-label">@Localizer["measrange"]</div>
                 <div class="summary-value">@filteredCount</div>
                 <div class="summary-note">@periodLabel</div>
             </div>
 
             <div class="summary-card">
-                <div class="summary-label">Average sleep</div>
+                <div class="summary-label">@Localizer["avgsleep"]</div>
                 <div class="summary-value">@avgSleep.ToString("0.0")h</div>
             </div>
 
             <div class="summary-card">
-                <div class="summary-label">Average workday</div>
+                <div class="summary-label">@Localizer["avgwork"]</div>
                 <div class="summary-value">@avgWork.ToString("0.0")h</div>
             </div>
 
             <div class="summary-card">
-                <div class="summary-label">Stressed share</div>
+                <div class="summary-label">@Localizer["stressshare"]</div>
                 <div class="summary-value">@stressedShare%</div>
                 <div class="summary-note">@periodLabel</div>
             </div>
@@ -283,19 +285,19 @@
 
         <div class="insight-banner">
             <div>
-                <div class="section-kicker">Overview</div>
-                <h2 class="section-title">What stands out in your data</h2>
+                <div class="section-kicker">@Localizer["over"]</div>
+                <h2 class="section-title">@Localizer["overdesc"]</h2>
                 <p class="section-copy">@overviewText</p>
             </div>
 
             <div class="insight-badges">
                 <div class="insight-badge">
-                    <span>Avg productivity</span>
+                    <span>@Localizer["avgprod"]</span>
                     <strong>@avgProductivity.ToString("0")</strong>
                 </div>
 
                 <div class="insight-badge">
-                    <span>Avg burnout score</span>
+                    <span>@Localizer["avgburn"]</span>
                     <strong>@Math.Round(avgRisk, 0)%</strong>
                 </div>
             </div>
@@ -305,15 +307,15 @@
             <section class="panel panel-wide">
                 <div class="panel-header">
                     <div>
-                        <div class="section-kicker">Trend</div>
-                        <h3 class="panel-title">Recent sleep vs work hours</h3>
+                        <div class="section-kicker">@Localizer["trend"]</div>
+                        <h3 class="panel-title">@Localizer["sleepvswork"]</h3>
                     </div>
-                    <div class="panel-note">Last @recentTrend.Count saved measurements</div>
+                    <div class="panel-note">@Localizer["last"] @recentTrend.Count @Localizer["savedmeas"]</div>
                 </div>
 
                 <div class="legend">
-                    <span class="legend-item"><span class="legend-dot sleep"></span>Sleep</span>
-                    <span class="legend-item"><span class="legend-dot work"></span>Work</span>
+                    <span class="legend-item"><span class="legend-dot sleep"></span>@Localizer["sleep"]</span>
+                    <span class="legend-item"><span class="legend-dot work"></span>@Localizer["work"]</span>
                 </div>
 
                 <div class="trend-chart">
@@ -342,8 +344,8 @@
             <section class="panel">
                 <div class="panel-header">
                     <div>
-                        <div class="section-kicker">Stress</div>
-                        <h3 class="panel-title">Stress mix</h3>
+                        <div class="section-kicker">@Localizer["stress"]</div>
+                        <h3 class="panel-title">@Localizer["stressmix"]</h3>
                     </div>
                     <div class="panel-note">@periodLabel</div>
                 </div>
@@ -351,7 +353,7 @@
                 <div class="mix-list">
                     <div class="mix-row">
                         <div class="mix-meta">
-                            <span>Low stress</span>
+                            <span>@Localizer["stresslow"]</span>
                             <strong>@lowStressShare%</strong>
                         </div>
                         <div class="mix-track">
@@ -361,7 +363,7 @@
 
                     <div class="mix-row">
                         <div class="mix-meta">
-                            <span>Medium stress</span>
+                            <span>@Localizer["stressmed"]</span>
                             <strong>@mediumStressShare%</strong>
                         </div>
                         <div class="mix-track">
@@ -371,7 +373,7 @@
 
                     <div class="mix-row">
                         <div class="mix-meta">
-                            <span>High stress</span>
+                            <span>@Localizer["stresshigh"]</span>
                             <strong>@highStressShare%</strong>
                         </div>
                         <div class="mix-track">
@@ -384,41 +386,41 @@
             <section class="panel">
                 <div class="panel-header">
                     <div>
-                        <div class="section-kicker">Habits</div>
-                        <h3 class="panel-title">Signals to watch</h3>
+                        <div class="section-kicker">@Localizer["habits"]</div>
+                        <h3 class="panel-title">@Localizer["signals"]</h3>
                     </div>
                     <div class="panel-note">@periodLabel</div>
                 </div>
 
                 <div class="signal-list">
                     <div class="signal-card">
-                        <div class="signal-label">Under 6h sleep</div>
+                        <div class="signal-label">@Localizer["signal1"]</div>
                         <div class="signal-value">@shortSleepShare%</div>
                     </div>
 
                     <div class="signal-card">
-                        <div class="signal-label">9h+ workdays</div>
+                        <div class="signal-label">@Localizer["signal2"]</div>
                         <div class="signal-value">@overtimeShare%</div>
                     </div>
 
                     <div class="signal-card">
-                        <div class="signal-label">Sleep change</div>
+                        <div class="signal-label">@Localizer["signal3"]</div>
                         <div class="signal-value">
-                            @(sleepDelta.HasValue ? $"{sleepDelta.Value:+0.0;-0.0;0.0}h" : "Not enough data")
+                            @(sleepDelta.HasValue ? $"{sleepDelta.Value:+0.0;-0.0;0.0}h" : @Localizer["notenough"].ToString())
                         </div>
                     </div>
 
                     <div class="signal-card">
-                        <div class="signal-label">Work change</div>
+                        <div class="signal-label">@Localizer["signal4"]</div>
                         <div class="signal-value">
-                            @(workDelta.HasValue ? $"{workDelta.Value:+0.0;-0.0;0.0}h" : "Not enough data")
+                            @(workDelta.HasValue ? $"{workDelta.Value:+0.0;-0.0;0.0}h" : @Localizer["notenough"].ToString())
                         </div>
                     </div>
 
                     <div class="signal-card">
-                        <div class="signal-label">Productivity change</div>
+                        <div class="signal-label">@Localizer["signal5"]</div>
                         <div class="signal-value">
-                            @(productivityDelta.HasValue ? $"{productivityDelta.Value:+0;-0;0}" : "Not enough data")
+                            @(productivityDelta.HasValue ? $"{productivityDelta.Value:+0;-0;0}" : @Localizer["notenough"].ToString())
                         </div>
                     </div>
                 </div>
@@ -427,12 +429,12 @@
             <section class="panel panel-wide" id="aiInsightsPanel">
                 <div class="panel-header">
                     <div>
-                        <div class="section-kicker">AI · Gemini</div>
-                        <h3 class="panel-title">Period insights</h3>
+                        <div class="section-kicker">@Localizer["ai"]</div>
+                        <h3 class="panel-title">@Localizer["period"]</h3>
                     </div>
                     <div class="panel-note ai-loading-state" id="aiInsightsLoading">
                         <span class="ai-loading-dot" aria-hidden="true"></span>
-                        <span>Analyzing...</span>
+                        <span>@Localizer["analysing"]</span>
                     </div>
                 </div>
                 <div id="aiInsightsResult" class="ai-insights-result" style="display:none;"></div>
@@ -441,16 +443,16 @@
             <section class="panel panel-full">
                 <div class="panel-header">
                     <div>
-                        <div class="section-kicker">Timeline</div>
-                        <h3 class="panel-title">Monthly time allocation overview</h3>
+                        <div class="section-kicker">@Localizer["timeline"]</div>
+                        <h3 class="panel-title">@Localizer["timelinedescr1"]</h3>
                     </div>
-                    <div class="panel-note">Grouped by month in the selected period</div>
+                    <div class="panel-note">@Localizer["timelinedescr2"]</div>
                 </div>
 
                 <div class="legend">
-                    <span class="legend-item"><span class="legend-dot sleep"></span>Sleep</span>
-                    <span class="legend-item"><span class="legend-dot work"></span>Work</span>
-                    <span class="legend-item"><span class="legend-dot leisure"></span>Leisure</span>
+                    <span class="legend-item"><span class="legend-dot sleep"></span>@Localizer["sleep"]</span>
+                    <span class="legend-item"><span class="legend-dot work"></span>@Localizer["work"]</span>
+                    <span class="legend-item"><span class="legend-dot leisure"></span>@Localizer["leisure"]</span>
                 </div>
 
                 <div class="month-list">
@@ -465,7 +467,7 @@
                         <div class="month-row">
                             <div class="month-label-block">
                                 <div class="month-label">@month.Month.ToString("MMM yyyy")</div>
-                                <div class="month-count">@month.Count measurements</div>
+                                <div class="month-count">@month.Count @Localizer["meas"]</div>
                             </div>
 
                             <div class="month-allocation">
@@ -478,19 +480,19 @@
                                 <div class="month-share-row">
                                     <div class="month-share-item">
                                         <span class="month-share-dot sleep-fill"></span>
-                                        <span>Sleep</span>
+                                        <span>@Localizer["sleep"]</span>
                                         <strong>@sleepPct%</strong>
                                     </div>
 
                                     <div class="month-share-item">
                                         <span class="month-share-dot work-fill"></span>
-                                        <span>Work</span>
+                                        <span>@Localizer["work"]</span>
                                         <strong>@workPct%</strong>
                                     </div>
 
                                     <div class="month-share-item">
                                         <span class="month-share-dot leisure-fill"></span>
-                                        <span>Leisure</span>
+                                        <span>@Localizer["leisure"]</span>
                                         <strong>@otherPct%</strong>
                                     </div>
                                 </div>
@@ -1259,7 +1261,8 @@
                 loading.style.display = "none";
                 result.style.display = "block";
                 if (!p || (!p.insight && !p.action)) {
-                    result.innerHTML = "<em class='ai-empty-state'>Not enough data for this period.</em>";
+                    //result.innerHTML = "<em class='ai-empty-state'>Not enough data for this period.</em>";
+                    result.innerHTML = "<em class='ai-empty-state'><@Localizer["notenoughperiod"]></em>";
                 } else {
                     result.innerHTML =
                         '<div class="ai-insight-layout">' +
@@ -1280,20 +1283,22 @@
                         } else if (data.status === "empty") {
                             loading.style.display = "none";
                         } else {
-                            console.error("AI analysis error:", data.message);
+                            //console.error("AI analysis error:", data.message);
+                            console.error(@Localizer["analerror"], data.message);
                             loading.style.display = "none";
                             result.style.display = "block";
-                            result.innerHTML = "<em class='ai-empty-state'>Insights temporarily unavailable.</em>";
+                            //result.innerHTML = "<em class='ai-empty-state'>Insights temporarily unavailable.</em>";
+                            result.innerHTML = "<em class='ai-empty-state'>@Localizer["analno"]</em>";
                         }
                     })
                     .catch(function (err) {
                         console.error("AI poll error:", err);
                         loading.style.display = "none";
                         result.style.display = "block";
-                        result.innerHTML = "<em class='ai-empty-state'>Insights temporarily unavailable.</em>";
+                        //result.innerHTML = "<em class='ai-empty-state'>Insights temporarily unavailable.</em>";
+                        result.innerHTML = "<em class='ai-empty-state'>@Localizer["analno"]</em>";
                     });
             }
-
             poll();
         })();
     </script>

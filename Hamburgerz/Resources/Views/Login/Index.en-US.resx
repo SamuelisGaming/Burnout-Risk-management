@@ -65,7 +65,10 @@
   </data>
   <data name="show" xml:space="preserve">
     <value>Show</value>
-  </data> 
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
   <data name="passdescr" xml:space="preserve">
     <value>Passwords are safely checked based on your account information.</value>
   </data>  

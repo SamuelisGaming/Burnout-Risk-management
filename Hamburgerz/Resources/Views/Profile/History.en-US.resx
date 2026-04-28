@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title1" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="title1descr" xml:space="preserve">
+    <value>All your burnout measurements in one place.</value>
+  </data>
+  <data name="meas" xml:space="preserve">
+    <value>measurements</value>
+  </data>
+  <data name="measno" xml:space="preserve">
+    <value>No measurements yet</value>
+  </data>
+  <data name="measnodescr" xml:space="preserve">
+    <value>Add your first measurement and start tracking your well-being over time.</value>
+  </data>
+  <data name="addfirst" xml:space="preserve">
+    <value>Add first measurement</value>
+  </data>
+  <data name="risk" xml:space="preserve">
+    <value>risk</value>
+  </data>
+  <data name="sleep" xml:space="preserve">
+    <value>Sleep</value>
+  </data>
+  <data name="work" xml:space="preserve">
+    <value>Work</value>
+  </data>
+  <data name="stress" xml:space="preserve">
+    <value>Stress</value>  
+  </data>
+  <data name="page" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="of" xml:space="preserve">
+    <value>of</value>
+  </data>
+  <data name="prev" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+</root>

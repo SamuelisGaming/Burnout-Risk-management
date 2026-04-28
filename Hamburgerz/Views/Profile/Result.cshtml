@@ -1,13 +1,15 @@
 ﻿@model Hamburgerz.Models.RiskMeasurement
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Measurement result";
+    ViewData["Title"] = @Localizer["title1"];
     TempData.Remove("MeasurementSuccess");
     var errorMessage = TempData["MeasurementError"] as string;
 
-    string DisplayText(string? value) => string.IsNullOrWhiteSpace(value) ? "Not set" : value;
-    string DisplayNumber(int? value) => value?.ToString() ?? "Not set";
-    string DisplayDate(DateTime? value) => value?.ToString("yyyy-MM-dd") ?? "Not set";
+    string DisplayText(string? value) => string.IsNullOrWhiteSpace(value) ? @Localizer["notset"].ToString() : value;
+    string DisplayNumber(int? value) => value?.ToString() ?? @Localizer["notset"].ToString();
+    string DisplayDate(DateTime? value) => value?.ToString("yyyy-MM-dd") ?? @Localizer["notset"].ToString();
 }
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
@@ -455,7 +457,7 @@
 <div class="result-page">
     <div class="back-row">
         <a asp-controller="Profile" asp-action="History" class="back-link">
-            &larr; Back to history
+            &larr; @Localizer["backhist"]
         </a>
     </div>
 
@@ -481,10 +483,10 @@
                            name="timeStamp"
                            type="date"
                            class="date-title-input"
-                           aria-label="Measurement date"
+                           aria-label=@Localizer["measdate"]
                            value="@Model.TimeStamp.ToString("yyyy-MM-dd")"
                            onchange="this.form.submit()" />
-                    <p class="result-subtitle">Type the date or pick it from the calendar.</p>
+                    <p class="result-subtitle">@Localizer["datedescr"]</p>
                 </form>
 
                 <div class="hero-actions">
@@ -492,9 +494,9 @@
                           asp-action="DeleteMeasurement"
                         method="post"
                         class="hero-icon-form"
-                        onsubmit="return confirm('Delete this measurement?');">
+                        onsubmit="return confirm(@Localizer["delconfirm"].ToString());">
                         <input type="hidden" name="id" value="@Model.ID" />
-                        <button type="submit" class="hero-icon-btn" title="Delete measurement" aria-label="Delete measurement">
+                        <button type="submit" class="hero-icon-btn" title="Delete measurement" aria-label=@Localizer["delmeas"]>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M3 6h18" />
                                 <path d="M8 6V4h8v2" />
@@ -502,7 +504,7 @@
                                 <path d="M10 11v6" />
                                 <path d="M14 11v6" />
                             </svg>
-                            <span>Delete</span>
+                            <span>@Localizer["del"]</span>
                         </button>
                     </form>
                 </div>
@@ -512,15 +514,15 @@
         <div class="result-body">
             <div class="result-main-grid">
                 <section class="result-panel">
-                    <div class="panel-kicker">Result</div>
-                    <h2 class="panel-title">Main assessment</h2>
+                    <div class="panel-kicker">@Localizer["res"]</div>
+                    <h2 class="panel-title">@Localizer["mainass"]</h2>
 
                     <div class="score-block">
                         <div class="score-circle-wrap">
                             <div class="score-circle" style="--score:@Model.BurnoutPercent;">
                                 <div class="score-circle-inner">
                                     <div class="score-number">@Model.BurnoutPercent%</div>
-                                    <div class="score-caption">Burnout score</div>
+                                    <div class="score-caption">@Localizer["burn"]</div>
                                 </div>
                             </div>
                         </div>
@@ -534,27 +536,27 @@
                 </section>
 
                 <section class="result-panel">
-                    <div class="panel-kicker">Highlights</div>
-                    <h2 class="panel-title">Key metrics</h2>
+                    <div class="panel-kicker">@Localizer["title2"]</div>
+                    <h2 class="panel-title">@Localizer["title2descr"]</h2>
 
                     <div class="mini-stats">
                         <div class="mini-stat">
-                            <div class="mini-stat-label">Stress</div>
+                            <div class="mini-stat-label">@Localizer["stress"]</div>
                             <div class="mini-stat-value">@Model.StressLevel</div>
                         </div>
 
                         <div class="mini-stat">
-                            <div class="mini-stat-label">Productivity</div>
+                            <div class="mini-stat-label">@Localizer["prod"]</div>
                             <div class="mini-stat-value">@Model.ProductivityScore</div>
                         </div>
 
                         <div class="mini-stat">
-                            <div class="mini-stat-label">Sleep</div>
+                            <div class="mini-stat-label">@Localizer["sleep"]</div>
                             <div class="mini-stat-value">@Model.SleepHours.ToString("0.0")h</div>
                         </div>
 
                         <div class="mini-stat">
-                            <div class="mini-stat-label">Work</div>
+                            <div class="mini-stat-label">@Localizer["work"]</div>
                             <div class="mini-stat-value">@Model.WorkHours.ToString("0.0")h</div>
                         </div>
                     </div>
@@ -563,106 +565,106 @@
 
             <div class="details-grid">
                 <section class="result-panel">
-                    <div class="panel-kicker">Details</div>
-                    <h2 class="panel-title">Measurement data</h2>
+                    <div class="panel-kicker">@Localizer["title3"]</div>
+                    <h2 class="panel-title">@Localizer["title3descr"]</h2>
 
                     <div class="detail-list">
                         <div class="detail-row">
-                            <span class="detail-label">Birth date</span>
+                            <span class="detail-label">@Localizer["birth"]</span>
                             <span class="detail-value">@DisplayDate(Model.BirthDate)</span>
                         </div>
 
                         <div class="detail-row">
-                            <span class="detail-label">Gender</span>
+                            <span class="detail-label">@Localizer["gender"]</span>
                             <span class="detail-value">@DisplayText(Model.Gender)</span>
                         </div>
 
                         <div class="detail-row">
-                            <span class="detail-label">Job role</span>
+                            <span class="detail-label">@Localizer["position"]</span>
                             <span class="detail-value">@DisplayText(Model.JobRole)</span>
                         </div>
 
                         <div class="detail-row">
-                            <span class="detail-label">Experience years</span>
+                            <span class="detail-label">@Localizer["experience"]</span>
                             <span class="detail-value">@DisplayNumber(Model.ExperienceYears)</span>
                         </div>
 
                         <div class="detail-row">
-                            <span class="detail-label">Company size</span>
+                            <span class="detail-label">@Localizer["size"]</span>
                             <span class="detail-value">@DisplayText(Model.CompanySize)</span>
                         </div>
 
                         <div class="detail-row">
-                            <span class="detail-label">Work environment</span>
+                            <span class="detail-label">@Localizer["workenv"]</span>
                             <span class="detail-value">@DisplayText(Model.WorkEnvironment)</span>
                         </div>
 
                         <div class="detail-row">
-                            <span class="detail-label">Meetings per day</span>
+                            <span class="detail-label">@Localizer["meetsday"]</span>
                             <span class="detail-value">@Model.MeetingsPerDay</span>
                         </div>
 
                         <div class="detail-row">
-                            <span class="detail-label">Internet speed</span>
+                            <span class="detail-label">@Localizer["intspeed"]</span>
                             <span class="detail-value">@Model.InternetSpeed</span>
                         </div>
                     </div>
                 </section>
 
                 <section class="result-panel">
-                    <div class="panel-kicker">Health and habits</div>
-                    <h2 class="panel-title">Lifestyle indicators</h2>
+                    <div class="panel-kicker">@Localizer["title4"]</div>
+                    <h2 class="panel-title">@Localizer["title4descr"]</h2>
 
                     <div class="detail-list">
                         <div class="detail-row">
-                            <span class="detail-label">Sleep hours</span>
+                            <span class="detail-label">@Localizer["sleeph"]</span>
                             <span class="detail-value">@Model.SleepHours.ToString("0.0")h</span>
                         </div>
 
                         <div class="detail-row">
-                            <span class="detail-label">Exercise hours</span>
+                            <span class="detail-label">@Localizer["exh"]</span>
                             <span class="detail-value">@Model.ExerciseHours.ToString("0.0")h</span>
                         </div>
 
                         <div class="detail-row">
-                            <span class="detail-label">Screen time</span>
+                            <span class="detail-label">@Localizer["screenh"]</span>
                             <span class="detail-value">@Model.ScreenTime.ToString("0.0")h</span>
                         </div>
 
                         <div class="detail-row">
-                            <span class="detail-label">Work hours</span>
+                            <span class="detail-label">@Localizer["workh"]</span>
                             <span class="detail-value">@Model.WorkHours.ToString("0.0")h</span>
                         </div>
 
                         <div class="detail-row">
-                            <span class="detail-label">Stress level</span>
+                            <span class="detail-label">@Localizer["stresslev"]</span>
                             <span class="detail-value">@Model.StressLevel</span>
                         </div>
 
                         <div class="detail-row">
-                            <span class="detail-label">Burnout risk</span>
+                            <span class="detail-label">@Localizer["burnrisk"]</span>
                             <span class="detail-value">@Model.BurnoutPercent%</span>
                         </div>
 
                         <div class="detail-row">
-                            <span class="detail-label">Productivity score</span>
+                            <span class="detail-label"@Localizer["prodscor"]></span>
                             <span class="detail-value">@Model.ProductivityScore</span>
                         </div>
                     </div>
                 </section>
 
                 <section class="result-panel">
-                    <div class="panel-kicker">Recommendations</div>
-                    <h2 class="panel-title">AI Insights</h2>
+                    <div class="panel-kicker">@Localizer["title5"]</div>
+                    <h2 class="panel-title">@Localizer["title5descr"]</h2>
 
                     <div id="ai-container" class="ai-insight-card">
                         @if (string.IsNullOrEmpty(Model.AISummary))
                         {
                             <div id="ai-loading" class="ai-loading-card">
-                                <div class="spinner-border ai-spinner" role="status" aria-label="Loading AI insights"></div>
+                                <div class="spinner-border ai-spinner" role="status" aria-label=@Localizer["aiload"]></div>
                                 <div>
-                                    <div class="ai-loading-title">Generating insight</div>
-                                    <p class="ai-loading-copy">Gemini is reading this measurement and preparing recommendations.</p>
+                                    <div class="ai-loading-title">@Localizer["aigen"]</div>
+                                    <p class="ai-loading-copy">@Localizer["aigendescr"]</p>
                                 </div>
                             </div>
                             <div id="ai-text" class="markdown-body ai-markdown-body" style="display:none;"></div>
@@ -710,7 +712,7 @@
 
                         function showError() {
                             textElement.classList.add('ai-error-text');
-                            textElement.innerText = "AI insights are temporarily unavailable. Please refresh.";
+                            textElement.innerText = @Localizer["aidown"];
                             textElement.style.display = 'flex';
                             if (loadingElement) {
                                 loadingElement.style.display = 'none';
@@ -733,8 +735,8 @@
                 </script>
 
                 <section class="result-panel">
-                    <div class="panel-kicker">Possible signs</div>
-                    <h2 class="panel-title">Possible signs</h2>
+                    <div class="panel-kicker">@Localizer["possigns"]</div>
+                    <h2 class="panel-title">@Localizer["possigns"]</h2>
                     <div class="placeholder-panel"></div>
                 </section>
             </div>
