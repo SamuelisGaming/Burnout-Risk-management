@@ -159,6 +159,9 @@
   <data name="ai" xml:space="preserve">
     <value>DI · Gemini</value>
   </data>
+	<data name="trythis" xml:space="preserve">
+    <value>IŠBANDYK TAI</value>
+  </data>
   <data name="period" xml:space="preserve">
     <value>Laikotarpio įžvalgos</value>
   </data>

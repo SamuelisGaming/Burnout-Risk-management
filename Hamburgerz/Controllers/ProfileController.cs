@@ -4,6 +4,7 @@ using Hamburgerz.Data;
 using Hamburgerz.Models;
 using Hamburgerz.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
@@ -344,7 +345,11 @@ namespace Hamburgerz.Controllers
                 3 => "lengvai (3/3)", 2 => "šiaip taip (2/3)", 1 => "labai sunkiai (1/3)", _ => "nenurodyta"
             };
 
-            var prompt = $@"You are the insight engine for a personal wellness app.
+            var prompt = "";
+            if(System.Globalization.CultureInfo.CurrentUICulture.Name == "lt-LT")
+            {
+                Console.WriteLine("Eta lietuviu fr fr");
+                prompt = $@"You are the insight engine for a personal wellness app.
 
 Entry data:
 - Sleep: {data.SleepHours}h | Work: {data.WorkHours}h | Exercise: {data.ExerciseHours}h
@@ -356,6 +361,26 @@ Write 4-5 sentences in Lithuanian (use ""tu"" form, informal):
 4-5. Two specific, realistic actions.
 
 No intro, no headers, no job/profession references, no medical claims. Calm, direct, personal.";
+            }
+            else if (System.Globalization.CultureInfo.CurrentUICulture.Name == "en-US")
+            {
+                Console.WriteLine("Eta Anglu fr fr");
+                prompt = $@"You are the insight engine for a personal wellness app.
+
+Entry data:
+- Sleep: {data.SleepHours}h | Work: {data.WorkHours}h | Exercise: {data.ExerciseHours}h
+- Screen time: {data.ScreenTime}h | Meetings/day: {data.MeetingsPerDay} | Stress: {data.StressLevel}
+- Mood: {moodText} | Disconnect after work: {disconnectText} | Focus: {focusText}
+
+Write 4-5 sentences in English (use ""you"" form, informal):
+1-3. The most notable patterns in this data — reference actual numbers, explain what they mean for energy and recovery.
+4-5. Two specific, realistic actions.
+
+No intro, no headers, no job/profession references, no medical claims. Calm, direct, personal.";
+                
+            }
+
+                
 
             try
             {
@@ -518,8 +543,9 @@ No intro, no headers, no job/profession references, no medical claims. Calm, dir
                     sb.AppendLine();
                 }
             }
-
-            sb.Append(@"
+            if (System.Globalization.CultureInfo.CurrentUICulture.Name == "lt-LT")
+            {
+                sb.Append(@"
 You are the insight engine for a personal wellness app. Turn the data above into short, personal insights.
 
 TONE: Speak directly to the user as ""you"" (Lithuanian ""tu"" form). Calm, warm, no drama.
@@ -546,7 +572,41 @@ Good action example: Pabandyk vieną savaitės vakarą nustatyti miego laikmatį
 
 Bad example (avoid):
 insight: Sis darbuotojas rodo lėtinio perdegimo požymius dėl per ilgų darbo valandų.
-action: Rekomenduojama kreiptis į gydytoją.");
+action: Rekomenduojama kreiptis į gydytoją.
+
+ONCE AGAIN, ALL IN LITHUANIAN!!");
+            }
+            else if (System.Globalization.CultureInfo.CurrentUICulture.Name == "en-US")
+            {
+                sb.Append(@"
+You are the insight engine for a personal wellness app. Turn the data above into short, personal insights.
+
+TONE: Speak directly to the user as ""you"". Calm, warm, no drama.
+STYLE:
+  insight = 3-5 sentences. Start with the most notable pattern, then explain what it means for energy and recovery, then compare values or highlight a trend if relevant.
+  action = 2 concrete, specific suggestions (2 sentences). Reference the actual data.
+
+RULES:
+- Use real numbers for sleep/work/exercise/screen (e.g. ""your average sleep was 6.1h"")
+- For mood/disconnect/focus: NEVER say ""avg 2.8/4"" — always describe using the scale (e.g. ""you mostly felt ok, sometimes tired"")
+- Each period's insight must feel distinct — focus on what's unique about that time window
+- NEVER repeat the same sentence structure, opening phrase, or pattern across periods — vary vocabulary, rhythm, and angle
+- Shorter windows = focus on recent signals; longer windows = focus on trends and patterns over time
+- No profession or job role references
+- No medical claims
+- No fear or alarm language
+- Use null for any period with no data
+
+Return ONLY this JSON, no markdown, no explanation:
+{""7d"":{""insight"":""..."",""action"":""...""},""30d"":{""insight"":""..."",""action"":""...""},""3m"":{""insight"":""..."",""action"":""...""},""6m"":{""insight"":""..."",""action"":""...""},""1y"":{""insight"":""..."",""action"":""...""},""all"":{""insight"":""..."",""action"":""...""}}
+
+Good insight example: Your average sleep this week was 6.1 hours—well below the recommended 7 hours. At the same time, your average work hours were 10.4 hours, and your screen time was 8.2 hours, which leaves very little time for proper rest. The lowest sleep duration was 5.5 hours, indicating that at least a few nights were really short.
+Good action example: Try setting your sleep timer 30 minutes earlier than usual one evening this week. Cut your screen time after 9:00 PM by at least half—this significantly improves your ability to fall asleep.
+
+Bad example (avoid):
+insight: This employee is showing signs of chronic burnout due to excessive working hours.
+action: It is recommended that they see a doctor.");
+            }
 
             var client = new Client(apiKey: apiKey);
             var response = await client.Models.GenerateContentAsync(model: "gemini-2.5-flash", contents: sb.ToString());
@@ -670,15 +730,32 @@ action: Rekomenduojama kreiptis į gydytoją.");
 
         private async Task PopulateCountriesAsync(ProfilePageViewModel model)
         {
-            model.Countries = await _context.Countries
-                .AsNoTracking()
-                .OrderBy(country => country.Name)
-                .Select(country => new SelectListItem
-                {
-                    Value = country.Id.ToString(),
-                    Text = country.Name
-                })
-                .ToListAsync();
+            if (System.Globalization.CultureInfo.CurrentUICulture.Name == "lt-LT")
+            {
+                model.Countries = await _context.Countries
+                    .AsNoTracking()
+                    .OrderBy(country => country.Name)
+                    .Select(country => new SelectListItem
+                    {
+                        Value = country.Id.ToString(),
+                        Text = country.Name
+                    })
+                    .ToListAsync();
+            }
+            else if (System.Globalization.CultureInfo.CurrentUICulture.Name == "en-US")
+            {
+                model.Countries = await _context.CountriesEN
+                    .AsNoTracking()
+                    .OrderBy(country => country.Name)
+                    .Select(country => new SelectListItem
+                    {
+                        Value = country.Id.ToString(),
+                        Text = country.Name
+                    })
+                    .ToListAsync();
+            }
+
+                
         }
 
         private static RiskMeasurement MapToMeasurement(RiskData measurement, DateTime? birthDate = null)

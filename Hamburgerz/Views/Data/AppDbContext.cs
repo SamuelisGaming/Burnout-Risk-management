@@ -13,6 +13,8 @@ namespace Hamburgerz.Data
 
         public DbSet<Country> Countries { get; set; }
 
+        public DbSet<CountryEN> CountriesEN { get; set; }
+
         public DbSet<RiskData> RiskData { get; set; }
 
         public DbSet<AnalysisCache> AnalysisCache { get; set; }

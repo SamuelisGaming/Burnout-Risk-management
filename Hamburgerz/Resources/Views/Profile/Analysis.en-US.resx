@@ -159,6 +159,9 @@
   <data name="ai" xml:space="preserve">
     <value>AI · Gemini</value>
   </data>
+	<data name="trythis" xml:space="preserve">
+    <value>TRY THIS</value>
+  </data>
   <data name="period" xml:space="preserve">
     <value>Period insights</value>
   </data>

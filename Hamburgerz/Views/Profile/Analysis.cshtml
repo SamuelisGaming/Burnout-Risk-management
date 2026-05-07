@@ -1263,12 +1263,12 @@
                 result.style.display = "block";
                 if (!p || (!p.insight && !p.action)) {
                     //result.innerHTML = "<em class='ai-empty-state'>Not enough data for this period.</em>";
-                    result.innerHTML = "<em class='ai-empty-state'><@Localizer["notenoughperiod"]></em>";
+                    result.innerHTML = "<em class='ai-empty-state'><@Localizer["notenoughperiod"].Value></em>";
                 } else {
                     result.innerHTML =
                         '<div class="ai-insight-layout">' +
                             (p.insight ? '<p class="ai-insight-text">' + esc(p.insight) + '</p>' : '<span></span>') +
-                            (p.action  ? '<div class="ai-action-row"><span class="ai-action-label">Try this</span><span class="ai-action-text">' + esc(p.action) + '</span></div>' : '') +
+                            (p.action  ? '<div class="ai-action-row"><span class="ai-action-label">@Localizer["trythis"].Value</span><span class="ai-action-text">' + esc(p.action) + '</span></div>' : '') +
                         '</div>';
                 }
             }
@@ -1285,11 +1285,11 @@
                             loading.style.display = "none";
                         } else {
                             console.error("AI analysis error:", data.message);
-                            console.error(@Localizer["analerror"].Value, data.message);
+                            console.error("@Localizer["analerror"].Value", data.message);
                             loading.style.display = "none";
                             result.style.display = "block";
                             //result.innerHTML = "<em class='ai-empty-state'>Insights temporarily unavailable.</em>";
-                            result.innerHTML = "<em class='ai-empty-state'>@Localizer["analno"]</em>";
+                            result.innerHTML = "<em class='ai-empty-state'>@Localizer["analno"].Value</em>";
                         }
                     })
                     .catch(function (err) {
@@ -1297,7 +1297,7 @@
                         loading.style.display = "none";
                         result.style.display = "block";
                         //result.innerHTML = "<em class='ai-empty-state'>Insights temporarily unavailable.</em>";
-                        result.innerHTML = "<em class='ai-empty-state'>@Localizer["analno"]</em>";
+                        result.innerHTML = "<em class='ai-empty-state'>@Localizer["analno"].Value</em>";
                     });
             }
             poll();
