@@ -48,25 +48,25 @@
     switch (selectedPeriod)
     {
         case "7d":
-            periodLabel = @Localizer["last7d"].ToString();
+            periodLabel = @Localizer["last7d"].Value;
             break;
         case "30d":
-            periodLabel = @Localizer["last30d"].ToString();
+            periodLabel = @Localizer["last30d"].Value;
             break;
         case "3m":
-            periodLabel = @Localizer["last3m"].ToString();
+            periodLabel = @Localizer["last3m"].Value;
             break;
         case "6m":
-            periodLabel = @Localizer["last6m"].ToString();
+            periodLabel = @Localizer["last6m"].Value;
             break;
         case "1y":
-            periodLabel = @Localizer["lasty"].ToString();
+            periodLabel = @Localizer["lasty"].Value;
             break;
         case "all":
-            periodLabel = @Localizer["all"].ToString();
+            periodLabel = @Localizer["all"].Value;
             break;
         default:
-            periodLabel = @Localizer["last30d"].ToString();
+            periodLabel = @Localizer["last30d"].Value;
             break;
     }
 
@@ -209,11 +209,12 @@
     var windowAvgWork = filteredMeasurements.Any() ? filteredMeasurements.Average(x => x.WorkHours) : 0;
 
     var overviewText = filteredCount < 3
-        ? @Localizer["last30d"].ToString()
+        ? @Localizer["last30d"].Value
         : allLowRisk
-            ? @Localizer["alllowrisk"].ToString()
-            //: $"{periodLabel} shows {stressedShare}% stressed entries, with an average of {windowAvgSleep:0.0}h sleep and {windowAvgWork:0.0}h workdays.";
-            : $"{periodLabel} {@Localizer["over1"]} {stressedShare} {@Localizer["over2"]} {windowAvgSleep:0.0} {@Localizer["over3"]} {windowAvgWork:0.0} {@Localizer["over4"]}";
+            ? @Localizer["alllowrisk"].Value
+            //: $"{periodLabel} shows {stressedShare}% stressed entries, with an average of {windowAvgSleep:0.0}h sleep and {window
+            // AvgWork:0.0}h workdays.";
+            : $"{periodLabel} {@Localizer["over1"].Value} {stressedShare} {@Localizer["over2"].Value} {windowAvgSleep:0.0} {@Localizer["over3"].Value} {windowAvgWork:0.0} {@Localizer["over4"].Value}";
 }
 
 <div class="analysis-page">
@@ -226,7 +227,7 @@
         @if (latest != null)
         {
             <div class="hero-pills">
-                <div class="hero-pill">@totalCount @Localizer["meas"]</div>
+                <div class="hero-pill">@totalCount @Localizer["meas"].Value</div>
                 <div class="hero-pill">@Localizer["latest"] @latest.TimeStamp.ToString("yyyy-MM-dd")</div>
 
                 <form method="get" asp-controller="Profile" asp-action="Analysis" class="period-selector-form">
@@ -406,21 +407,21 @@
                     <div class="signal-card">
                         <div class="signal-label">@Localizer["signal3"]</div>
                         <div class="signal-value">
-                            @(sleepDelta.HasValue ? $"{sleepDelta.Value:+0.0;-0.0;0.0}h" : @Localizer["notenough"].ToString())
+                            @(sleepDelta.HasValue ? $"{sleepDelta.Value:+0.0;-0.0;0.0}h" : @Localizer["notenough"].Value)
                         </div>
                     </div>
 
                     <div class="signal-card">
                         <div class="signal-label">@Localizer["signal4"]</div>
                         <div class="signal-value">
-                            @(workDelta.HasValue ? $"{workDelta.Value:+0.0;-0.0;0.0}h" : @Localizer["notenough"].ToString())
+                            @(workDelta.HasValue ? $"{workDelta.Value:+0.0;-0.0;0.0}h" : @Localizer["notenough"].Value)
                         </div>
                     </div>
 
                     <div class="signal-card">
                         <div class="signal-label">@Localizer["signal5"]</div>
                         <div class="signal-value">
-                            @(productivityDelta.HasValue ? $"{productivityDelta.Value:+0;-0;0}" : @Localizer["notenough"].ToString())
+                            @(productivityDelta.HasValue ? $"{productivityDelta.Value:+0;-0;0}" : @Localizer["notenough"].Value)
                         </div>
                     </div>
                 </div>
@@ -1283,8 +1284,8 @@
                         } else if (data.status === "empty") {
                             loading.style.display = "none";
                         } else {
-                            //console.error("AI analysis error:", data.message);
-                            console.error(@Localizer["analerror"], data.message);
+                            console.error("AI analysis error:", data.message);
+                            console.error(@Localizer["analerror"].Value, data.message);
                             loading.style.display = "none";
                             result.style.display = "block";
                             //result.innerHTML = "<em class='ai-empty-state'>Insights temporarily unavailable.</em>";

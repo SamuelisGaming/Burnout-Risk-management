@@ -559,3 +559,42 @@ document.addEventListener("DOMContentLoaded", function () {
     initJobRoleAutocomplete();
     initAvatar();
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const langButtons = document.querySelectorAll('.settings-language-option');
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentCulture = urlParams.get('ui-culture') || 'lt-LT'; // Default to LT
+
+    // 1. Set active button on load based on URL
+    langButtons.forEach(btn => {
+        if (btn.getAttribute('data-lang') === currentCulture) {
+            btn.classList.add('is-active');
+            btn.setAttribute('aria-pressed', 'true');
+        } else {
+            btn.classList.remove('is-active');
+            btn.setAttribute('aria-pressed', 'false');
+        }
+    });
+
+    // 2. Handle Click & Redirection
+    langButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const selectedCulture = button.getAttribute('data-lang');
+
+            // Create a new URL object based on current location
+            const newUrl = new URL(window.location.href);
+
+            // Update the ui-culture parameter
+            newUrl.searchParams.set('ui-culture', selectedCulture);
+
+            // Optional: ASP.NET also likes 'culture' to be set alongside 'ui-culture'
+            newUrl.searchParams.set('culture', selectedCulture);
+
+            // Redirect to the new URL
+            document.cookie = `.AspNetCore.Culture=c=${selectedCulture}|uic=${selectedCulture};path=/;max-age=31536000`;
+
+            window.location.href = newUrl.toString();
+        });
+    });
+});
