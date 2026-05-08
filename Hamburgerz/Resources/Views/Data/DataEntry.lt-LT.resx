@@ -10,7 +10,7 @@
     <value>Pradžia</value>
   </data>
   <data name="title1descr1" xml:space="preserve">
-    <value>Kaip jauteisi šiandien?</value>
+    <value>Kaip dažnai jaučiates pavarge?</value>
   </data>
   <data name="title1descr2" xml:space="preserve">
     <value>Pasirinkite, kuri nuotaika geriausiai apibūdina jūsų dieną.</value>
@@ -22,25 +22,28 @@
     <value>Toliau</value>  
   </data>
   <data name="mood1" xml:space="preserve">
-    <value>Puikiai</value>
+    <value>Visada</value>
   </data>
   <data name="mood1descr" xml:space="preserve">
     <value>Jaučiausi žvaliai ir motyvuotai</value>
   </data>
   <data name="mood2" xml:space="preserve">
-    <value>Normaliai</value>
+    <value>Dažnai</value>
   </data>
   <data name="mood2descr" xml:space="preserve">
     <value>Nieko ypatingo - diena praėjo kaip paprastai</value>
   </data>
   <data name="mood3" xml:space="preserve">
-    <value>Blogai</value>
+    <value>Kartais</value>
   </data>
   <data name="mood3descr" xml:space="preserve">
     <value>Jaučiausi pavargęs - energijos aiškiai trūko</value>
   </data>
   <data name="mood4" xml:space="preserve">
-    <value>Labai blogai</value>
+    <value>Retai</value>
+  </data>
+  <data name="mood5" xml:space="preserve">
+    <value>Niekada</value>
   </data>
   <data name="mood4descr" xml:space="preserve">
     <value>Buvo sunku tiek fiziškai, tiek emociškai</value>
@@ -49,7 +52,7 @@
     <value>Darbas</value>
   </data>
   <data name="title2descr1" xml:space="preserve">
-    <value>Kiek valandų šiandien dirbai?</value>
+    <value>Kaip dažnai jaučiates fiziškai išsekę?</value>
   </data>
   <data name="title2descr2" xml:space="preserve">
     <value>Apytikslis skaičius visiškai tinka.</value>
@@ -64,7 +67,7 @@
     <value>Poilsis</value>
   </data>
   <data name="title3descr1" xml:space="preserve">
-    <value>Kaip atrodė jūsų poilsis ir aktyvumas?</value>
+    <value>Kaip dažnai jaučiates psichologiškai išsekę?</value>
   </data>
   <data name="title3descr2" xml:space="preserve">
     <value>Apytikslės reikšmės pilnai tinka.</value>
@@ -170,5 +173,59 @@
   </data>  
   <data name="save" xml:space="preserve">
     <value>Išsaugoti matavimą</value>
+  </data>
+	<data name="title7descr1" xml:space="preserve">
+    <value>Ar darbo dienos pabaigoje jaučiatės išsekęs?</value>
+  </data>
+	<data name="title8descr1" xml:space="preserve">
+    <value>Ar ryte jaučiatės išsekęs vien pagalvojęs apie dar vieną darbo dieną?</value>
+  </data>
+	<data name="title9descr1" xml:space="preserve">
+    <value>Ar jaučiate, kad kiekviena darbo valanda jums yra varginanti?</value>
+  </data>
+	<data name="title10descr1" xml:space="preserve">
+		<value>Ar turite pakankamai energijos šeimai ir draugams laisvalaikio metu?</value>
+	</data>
+	<data name="title11descr1" xml:space="preserve">
+		<value>Ar jūsų darbas yra emociškai išsekantis?</value>
+	</data>
+	<data name="title12descr1" xml:space="preserve">
+		<value>Ar jūsų darbas jus frustruoja?</value>
+	</data>
+	<data name="title13descr1" xml:space="preserve">
+		<value>Ar jaučiatės išsekęs dėl savo darbo?</value>
+	</data>
+	<data name="title14descr1" xml:space="preserve">
+		<value>Ar jums sunku dirbti su klientais?</value>
+	</data>
+	<data name="title15descr1" xml:space="preserve">
+		<value>Ar darbas su klientais atima iš jūsų energiją?</value>
+	</data>
+	<data name="title16descr1" xml:space="preserve">
+		<value>Ar darbas su klientais jums kelia nusivylimą?</value>
+	</data>
+	<data name="title17descr1" xml:space="preserve">
+		<value>Ar jaučiate, kad dirbdami su klientais duodate daugiau, nei gaunate?</value>
+	</data>
+	<data name="title18descr1" xml:space="preserve">
+    <value>Ar esate pavargę dirbti su klientais?</value>
+  </data>
+	<data name="title19descr1" xml:space="preserve">
+    <value>Ar kartais susimąstote, kiek laiko dar galėsite dirbti su klientais?</value>
+  </data>
+	<data name="time1" xml:space="preserve">
+    <value>Labai dideliu mastu</value>
+  </data>
+	<data name="time2" xml:space="preserve">
+    <value>dideliu mastu</value>
+  </data>
+	<data name="time3" xml:space="preserve">
+    <value>Šiek tiek</value>
+  </data>
+	<data name="time4" xml:space="preserve">
+    <value>Mažai</value>
+  </data>
+	<data name="time5" xml:space="preserve">
+    <value>Labai mažai</value>
   </data>
 </root>

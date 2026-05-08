@@ -64,6 +64,14 @@ namespace Hamburgerz.Controllers
                 return View(invalidModel);
             }
 
+            int burnoutScore = (int)(model.Q.Average() * 25);
+            float productivityScore = 100;
+
+            for(int i = 6; i<13; i++)
+            {
+                productivityScore -= (float)model.Q[i] / 7 * 25;
+            }
+
             var riskData = new RiskData
             {
                 UserId = user.Id,
@@ -74,12 +82,14 @@ namespace Hamburgerz.Controllers
                 WorkEnvironment = NormalizeOptionalText(user.WorkEnvironment),
                 WorkHours = model.WorkHours!.Value,
                 MeetingsPerDay = model.MeetingsPerDay!.Value,
-                InternetSpeed = model.InternetSpeed!.Value,
+                //InternetSpeed = model.InternetSpeed!.Value,
                 SleepHours = model.SleepHours!.Value,
                 ExerciseHours = model.ExerciseHours!.Value,
                 ScreenTime = model.ScreenTime!.Value,
                 StressLevel = model.StressLevel,
                 MoodScore = model.MoodScore,
+                BurnoutRisk = burnoutScore,
+                ProductivityScore = (int)productivityScore,
                 DisconnectScore = model.DisconnectScore,
                 FocusScore = model.FocusScore,
                 TimeStamp = DateTime.Now,

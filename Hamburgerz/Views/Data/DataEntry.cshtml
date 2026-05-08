@@ -178,6 +178,22 @@
     .mq-mood-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .mq-mood-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
+    .mq-mood-5 {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .mq-mood-5 label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        min-width: 0;
+        flex: 1 1 0;
+    }
+
     .mq-mood input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
     .mq-mood label {
         display: flex;
@@ -300,51 +316,1224 @@
             <div class="mq-progress-fill" data-progress-fill></div>
         </div>
 
-        <div class="mq-markers" aria-hidden="true">
+        @* <div class="mq-markers" aria-hidden="true">
             <div class="mq-marker is-active" data-step-marker="0">1</div>
             <div class="mq-marker" data-step-marker="1">2</div>
             <div class="mq-marker" data-step-marker="2">3</div>
             <div class="mq-marker" data-step-marker="3">4</div>
             <div class="mq-marker" data-step-marker="4">5</div>
             <div class="mq-marker" data-step-marker="5">6</div>
-        </div>
-
+            <div class="mq-marker" data-step-marker="6">7</div>
+            <div class="mq-marker" data-step-marker="7">8</div>
+            <div class="mq-marker" data-step-marker="8">9</div>
+            <div class="mq-marker" data-step-marker="9">10</div>
+            <div class="mq-marker" data-step-marker="10">11</div>
+            <div class="mq-marker" data-step-marker="11">12</div>
+            <div class="mq-marker" data-step-marker="12">13</div>
+            <div class="mq-marker" data-step-marker="13">14</div>
+            <div class="mq-marker" data-step-marker="14">15</div>
+            <div class="mq-marker" data-step-marker="15">16</div>
+            <div class="mq-marker" data-step-marker="16">17</div>
+            <div class="mq-marker" data-step-marker="17">18</div>
+            <div class="mq-marker" data-step-marker="18">19</div>
+        </div> *@
+        
+        <!-- Questions 1-3 -->
         <section class="mq-panel is-active" data-step-panel="0" data-ui-only>
             <div class="mq-step-kicker">@Localizer["title1"]</div>
             <h3 class="mq-question">@Localizer["title1descr1"]</h3>
-            <p class="mq-subcopy">@Localizer["title1descr2"]</p>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
 
-            <div class="mq-mood mq-mood-4" style="margin-top:1.2rem;">
-                <input type="radio" name="day-mood" id="mood-great" value="great" />
-                <label for="mood-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><path d="M14.5 21 Q17 17.5 19.5 21" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/><path d="M28.5 21 Q31 17.5 33.5 21" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/><path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-                    <span class="mq-mood-title">@Localizer["mood1"]</span>
-                    <span class="mq-mood-copy">@Localizer["mood1descr"]</span>
+                <input type="radio" name="Q[0]" id="q0-great" value="0" />
+                <label for="q0-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood5"]</span>
                 </label>
 
-                <input type="radio" name="day-mood" id="mood-ok" value="ok" />
-                <label for="mood-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-                    <span class="mq-mood-title">@Localizer["mood2"]</span>
-                    <span class="mq-mood-copy">@Localizer["mood2descr"]</span>
-                </label>
-
-                <input type="radio" name="day-mood" id="mood-tired" value="tired" />
-                <label for="mood-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-                    <span class="mq-mood-title">@Localizer["mood3"]</span>
-                    <span class="mq-mood-copy">@Localizer["mood3descr"]</span>
-                </label>
-
-                <input type="radio" name="day-mood" id="mood-rough" value="rough" />
-                <label for="mood-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                <input type="radio" name="Q[0]" id="q0-ok" value="1" />
+                <label for="q0-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
                     <span class="mq-mood-title">@Localizer["mood4"]</span>
-                    <span class="mq-mood-copy">@Localizer["mood4descr"]</span>
+                </label>
+
+                <input type="radio" name="Q[0]" id="q0-tired" value="2" />
+                <label for="q0-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood3"]</span>
+                </label>
+
+                <input type="radio" name="Q[0]" id="q0-rough" value="3" />
+                <label for="q0-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood2"]</span>
+                </label>
+
+                <input type="radio" name="Q[0]" id="q0-terrible" value="4" />
+                <label for="q0-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood1"]</span>
+                </label>
+            </div>
+            <h3 class="mq-question">@Localizer["title2descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[1]" id="q1-great" value="0" />
+                <label for="q1-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood5"]</span>
+                </label>
+
+                <input type="radio" name="Q[1]" id="q1-ok" value="1" />
+                <label for="q1-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood4"]</span>
+                </label>
+
+                <input type="radio" name="Q[1]" id="q1-tired" value="2" />
+                <label for="q1-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood3"]</span>
+                </label>
+
+                <input type="radio" name="Q[1]" id="q1-rough" value="3" />
+                <label for="q1-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood2"]</span>
+                </label>
+
+                <input type="radio" name="Q[1]" id="q1-terrible" value="4" />
+                <label for="q1-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood1"]</span>
+                </label>
+            </div>
+            <h3 class="mq-question">@Localizer["title3descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[2]" id="q2-great" value="0" />
+                <label for="q2-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood5"]</span>
+                </label>
+
+                <input type="radio" name="Q[2]" id="q2-ok" value="1" />
+                <label for="q2-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood4"]</span>
+                </label>
+
+                <input type="radio" name="Q[2]" id="q2-tired" value="2" />
+                <label for="q2-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood3"]</span>
+                </label>
+
+                <input type="radio" name="Q[2]" id="q2-rough" value="3" />
+                <label for="q2-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood2"]</span>
+                </label>
+
+                <input type="radio" name="Q[2]" id="q2-terrible" value="4" />
+                <label for="q2-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood1"]</span>
                 </label>
             </div>
 
             <div class="mq-actions mq-actions-end">
+                <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
+            </div>
+        </section>
+
+        <!-- Questions 4-6 -->
+        <section class="mq-panel is-active" data-step-panel="0" data-ui-only>
+            <div class="mq-step-kicker">@Localizer["title1"]</div>
+            <h3 class="mq-question">@Localizer["title4descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[3]" id="q3-great" value="0" required/>
+                <label for="q3-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood5"]</span>
+                </label>
+
+                <input type="radio" name="Q[3]" id="q3-ok" value="1" />
+                <label for="q3-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood4"]</span>
+                </label>
+
+                <input type="radio" name="Q[3]" id="q3-tired" value="2" />
+                <label for="q3-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood3"]</span>
+                </label>
+
+                <input type="radio" name="Q[3]" id="q3-rough" value="3" />
+                <label for="q3-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood2"]</span>
+                </label>
+
+                <input type="radio" name="Q[3]" id="q3-terrible" value="4" />
+                <label for="q3-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood1"]</span>
+                </label>
+            </div>
+            <h3 class="mq-question">@Localizer["title5descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[4]" id="q4-great" value="0" />
+                <label for="q4-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood5"]</span>
+                </label>
+
+                <input type="radio" name="Q[4]" id="q4-ok" value="1" />
+                <label for="q4-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood4"]</span>
+                </label>
+
+                <input type="radio" name="Q[4]" id="q4-tired" value="2" />
+                <label for="q4-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood3"]</span>
+                </label>
+
+                <input type="radio" name="Q[4]" id="q4-rough" value="3" />
+                <label for="q4-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood2"]</span>
+                </label>
+
+                <input type="radio" name="Q[4]" id="q4-terrible" value="4" />
+                <label for="q4-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood1"]</span>
+                </label>
+            </div>
+            <h3 class="mq-question">@Localizer["title6descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[5]" id="q5-great" value="0" />
+                <label for="q5-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood5"]</span>
+                </label>
+
+                <input type="radio" name="Q[5]" id="q5-ok" value="1" />
+                <label for="q5-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood4"]</span>
+                </label>
+
+                <input type="radio" name="Q[5]" id="q5-tired" value="2" />
+                <label for="q5-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood3"]</span>
+                </label>
+
+                <input type="radio" name="Q[5]" id="q5-rough" value="3" />
+                <label for="q5-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood2"]</span>
+                </label>
+
+                <input type="radio" name="Q[5]" id="q5-terrible" value="4" />
+                <label for="q5-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood1"]</span>
+                </label>
+            </div>
+
+            <div class="mq-actions">
+                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
+                <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
+            </div>
+        </section>
+
+        <!-- Questions 7-9 -->
+        <section class="mq-panel is-active" data-step-panel="0" data-ui-only>
+            <div class="mq-step-kicker">@Localizer["title1"]</div>
+            <h3 class="mq-question">@Localizer["title7descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[6]" id="q6-great" value="0" />
+                <label for="q6-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time5"]</span>
+                </label>
+
+                <input type="radio" name="Q[6]" id="q6-ok" value="1" />
+                <label for="q6-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time4"]</span>
+                </label>
+
+                <input type="radio" name="Q[6]" id="q6-tired" value="2" />
+                <label for="q6-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time3"]</span>
+                </label>
+
+                <input type="radio" name="Q[6]" id="q6-rough" value="3" />
+                <label for="q6-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time2"]</span>
+                </label>
+
+                <input type="radio" name="Q[6]" id="q6-terrible" value="4" />
+                <label for="q6-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time1"]</span>
+                </label>
+            </div>
+            <h3 class="mq-question">@Localizer["title8descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[7]" id="q7-great" value="0" />
+                <label for="q7-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time5"]</span>
+                </label>
+
+                <input type="radio" name="Q[7]" id="q7-ok" value="1" />
+                <label for="q7-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time4"]</span>
+                </label>
+
+                <input type="radio" name="Q[7]" id="q7-tired" value="2" />
+                <label for="q7-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time3"]</span>
+                </label>
+
+                <input type="radio" name="Q[7]" id="q7-rough" value="3" />
+                <label for="q7-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time2"]</span>
+                </label>
+
+                <input type="radio" name="Q[7]" id="q7-terrible" value="4" />
+                <label for="q7-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time1"]</span>
+                </label>
+            </div>
+            <h3 class="mq-question">@Localizer["title9descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[8]" id="q8-great" value="0" />
+                <label for="q8-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time5"]</span>
+                </label>
+
+                <input type="radio" name="Q[8]" id="q8-ok" value="1" />
+                <label for="q8-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time4"]</span>
+                </label>
+
+                <input type="radio" name="Q[8]" id="q8-tired" value="2" />
+                <label for="q8-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time3"]</span>
+                </label>
+
+                <input type="radio" name="Q[8]" id="q8-rough" value="3" />
+                <label for="q8-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time2"]</span>
+                </label>
+
+                <input type="radio" name="Q[8]" id="q8-terrible" value="4" />
+                <label for="q8-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time1"]</span>
+                </label>
+            </div>
+
+            <div class="mq-actions">
+                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
+                <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
+            </div>
+        </section>
+
+        <!-- Questions 10-13  ## 4 QUESTION DON FORGBEt-->
+        <section class="mq-panel is-active" data-step-panel="0" data-ui-only>
+            <div class="mq-step-kicker">@Localizer["title1"]</div>
+            <h3 class="mq-question">@Localizer["title10descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[9]" id="q9-great" value="0" />
+                <label for="q9-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood5"]</span>
+                </label>
+
+                <input type="radio" name="Q[9]" id="q9-ok" value="1" />
+                <label for="q9-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood4"]</span>
+                </label>
+
+                <input type="radio" name="Q[9]" id="q9-tired" value="2" />
+                <label for="q9-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood3"]</span>
+                </label>
+
+                <input type="radio" name="Q[9]" id="q9-rough" value="3" />
+                <label for="q9-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood2"]</span>
+                </label>
+
+                <input type="radio" name="Q[9]" id="q9-terrible" value="4" />
+                <label for="q9-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood1"]</span>
+                </label>
+            </div>
+            <h3 class="mq-question">@Localizer["title11descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[10]" id="q10-great" value="0" />
+                <label for="q10-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood5"]</span>
+                </label>
+
+                <input type="radio" name="Q[10]" id="q10-ok" value="1" />
+                <label for="q10-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood4"]</span>
+                </label>
+
+                <input type="radio" name="Q[10]" id="q10-tired" value="2" />
+                <label for="q10-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood3"]</span>
+                </label>
+
+                <input type="radio" name="Q[10]" id="q10-rough" value="3" />
+                <label for="q10-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood2"]</span>
+                </label>
+
+                <input type="radio" name="Q[10]" id="q10-terrible" value="4" />
+                <label for="q10-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood1"]</span>
+                </label>
+            </div>
+            <h3 class="mq-question">@Localizer["title12descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[11]" id="q11-great" value="0" />
+                <label for="q11-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood5"]</span>
+                </label>
+
+                <input type="radio" name="Q[11]" id="q11-ok" value="1" />
+                <label for="q11-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood4"]</span>
+                </label>
+
+                <input type="radio" name="Q[11]" id="q11-tired" value="2" />
+                <label for="q11-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood3"]</span>
+                </label>
+
+                <input type="radio" name="Q[11]" id="q11-rough" value="3" />
+                <label for="q11-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood2"]</span>
+                </label>
+
+                <input type="radio" name="Q[11]" id="q11-terrible" value="4" />
+                <label for="q11-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood1"]</span>
+                </label>
+            </div>
+            <h3 class="mq-question">@Localizer["title13descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[12]" id="q12-great" value="0" />
+                <label for="q12-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood5"]</span>
+                </label>
+
+                <input type="radio" name="Q[12]" id="q12-ok" value="1" />
+                <label for="q12-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood4"]</span>
+                </label>
+
+                <input type="radio" name="Q[12]" id="q12-tired" value="2" />
+                <label for="q12-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood3"]</span>
+                </label>
+
+                <input type="radio" name="Q[12]" id="q12-rough" value="3" />
+                <label for="q12-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood2"]</span>
+                </label>
+
+                <input type="radio" name="Q[12]" id="q12-terrible" value="4" />
+                <label for="q12-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood1"]</span>
+                </label>
+            </div>
+
+            <div class="mq-actions">
+                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
+                <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
+            </div>
+        </section>
+
+        <!-- Questions 14-17 -->
+        <section class="mq-panel is-active" data-step-panel="0" data-ui-only>
+            <div class="mq-step-kicker">@Localizer["title1"]</div>
+            <h3 class="mq-question">@Localizer["title14descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[13]" id="q13-great" value="0" />
+                <label for="q13-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time5"]</span>
+                </label>
+
+                <input type="radio" name="Q[13]" id="q13-ok" value="1" />
+                <label for="q13-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time4"]</span>
+                </label>
+
+                <input type="radio" name="Q[13]" id="q13-tired" value="2" />
+                <label for="q13-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time3"]</span>
+                </label>
+
+                <input type="radio" name="Q[13]" id="q13-rough" value="3" />
+                <label for="q13-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time2"]</span>
+                </label>
+
+                <input type="radio" name="Q[13]" id="q13-terrible" value="4" />
+                <label for="q13-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time1"]</span>
+                </label>
+            </div>
+            <h3 class="mq-question">@Localizer["title15descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[14]" id="q14-great" value="0" />
+                <label for="q14-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time5"]</span>
+                </label>
+
+                <input type="radio" name="Q[14]" id="q14-ok" value="1" />
+                <label for="q14-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time4"]</span>
+                </label>
+
+                <input type="radio" name="Q[14]" id="q14-tired" value="2" />
+                <label for="q14-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time3"]</span>
+                </label>
+
+                <input type="radio" name="Q[14]" id="q14-rough" value="3" />
+                <label for="q14-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time2"]</span>
+                </label>
+
+                <input type="radio" name="Q[14]" id="q14-terrible" value="4" />
+                <label for="q14-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time1"]</span>
+                </label>
+            </div>
+            <h3 class="mq-question">@Localizer["title16descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[15]" id="q15-great" value="0" />
+                <label for="q15-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time5"]</span>
+                </label>
+
+                <input type="radio" name="Q[15]" id="q15-ok" value="1" />
+                <label for="q15-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time4"]</span>
+                </label>
+
+                <input type="radio" name="Q[15]" id="q15-tired" value="2" />
+                <label for="q15-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time3"]</span>
+                </label>
+
+                <input type="radio" name="Q[15]" id="q15-rough" value="3" />
+                <label for="q15-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time2"]</span>
+                </label>
+
+                <input type="radio" name="Q[15]" id="q15-terrible" value="4" />
+                <label for="q15-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time1"]</span>
+                </label>
+            </div>
+
+            <h3 class="mq-question">@Localizer["title17descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[16]" id="q16-great" value="0" />
+                <label for="q16-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time5"]</span>
+                </label>
+
+                <input type="radio" name="Q[16]" id="q16-ok" value="1" />
+                <label for="q16-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time4"]</span>
+                </label>
+
+                <input type="radio" name="Q[16]" id="q16-tired" value="2" />
+                <label for="q16-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time3"]</span>
+                </label>
+
+                <input type="radio" name="Q[16]" id="q16-rough" value="3" />
+                <label for="q16-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time2"]</span>
+                </label>
+
+                <input type="radio" name="Q[16]" id="q16-terrible" value="4" />
+                <label for="q16-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["time1"]</span>
+                </label>
+            </div>
+
+            <div class="mq-actions">
+                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
+                <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
+            </div>
+        </section>
+
+        <!-- Questions 18-19 -->
+        <section class="mq-panel is-active" data-step-panel="0" data-ui-only>
+            <div class="mq-step-kicker">@Localizer["title1"]</div>
+            <h3 class="mq-question">@Localizer["title18descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[17]" id="q17-great" value="0" />
+                <label for="q17-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood5"]</span>
+                </label>
+
+                <input type="radio" name="Q[17]" id="q17-ok" value="1" />
+                <label for="q17-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood4"]</span>
+                </label>
+
+                <input type="radio" name="Q[17]" id="q17-tired" value="2" />
+                <label for="q17-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood3"]</span>
+                </label>
+
+                <input type="radio" name="Q[17]" id="q17-rough" value="3" />
+                <label for="q17-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood2"]</span>
+                </label>
+
+                <input type="radio" name="Q[17]" id="q17-terrible" value="4" />
+                <label for="q17-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood1"]</span>
+                </label>
+            </div>
+            <h3 class="mq-question">@Localizer["title19descr1"]</h3>
+            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
+
+                <input type="radio" name="Q[18]" id="q18-great" value="0" />
+                <label for="q18-great">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
+                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood5"]</span>
+                </label>
+
+                <input type="radio" name="Q[18]" id="q18-ok" value="1" />
+                <label for="q18-ok">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood4"]</span>
+                </label>
+
+                <input type="radio" name="Q[18]" id="q18-tired" value="2" />
+                <label for="q18-tired">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood3"]</span>
+                </label>
+
+                <input type="radio" name="Q[18]" id="q18-rough" value="3" />
+                <label for="q18-rough">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
+                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood2"]</span>
+                </label>
+
+                <input type="radio" name="Q[18]" id="q18-terrible" value="4" />
+                <label for="q18-terrible">
+                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
+                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
+                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
+                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <span class="mq-mood-title">@Localizer["mood1"]</span>
+                </label>
+            </div>
+
+            <div class="mq-actions">
+                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
                 <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
             </div>
         </section>
@@ -458,7 +1647,7 @@
                             <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><path d="M14.5 21 Q17 17.5 19.5 21" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/><path d="M28.5 21 Q31 17.5 33.5 21" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/><path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
                             <span class="mq-mood-title">@Localizer["focus1"]</span>
                         </label>
-                        <input type="radio" name="focus" id="focus-ok" value="ok" />
+                        <input type="radio" name="focus" id="focus-ok" value="1" />
                         <label for="focus-ok">
                             <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
                             <span class="mq-mood-title">@Localizer["focus2"]</span>
@@ -517,21 +1706,7 @@
                     </div>
                 </div>
 
-                <div class="mq-field" style="margin-top:1rem;">
-                    <label asp-for="InternetSpeed" class="mq-label">@Localizer["intspeed"]</label>
-                    <div class="mq-input-wrap">
-                        <input asp-for="InternetSpeed" class="form-control mq-input" type="number" min="1" max="5000" step="1" inputmode="numeric" placeholder=@Localizer["intspeedtemp"] required />
-                        <span class="mq-suffix">Mbps</span>
-                    </div>
-                    <span asp-validation-for="InternetSpeed" class="text-danger mq-error"></span>
-                    <div class="mq-chips">
-                        <button type="button" class="mq-chip" data-chip-target="InternetSpeed" data-chip-value="30">30</button>
-                        <button type="button" class="mq-chip" data-chip-target="InternetSpeed" data-chip-value="30">50</button>
-                        <button type="button" class="mq-chip" data-chip-target="InternetSpeed" data-chip-value="100">100</button>
-                        <button type="button" class="mq-chip" data-chip-target="InternetSpeed" data-chip-value="300">300</button>
-                        <button type="button" class="mq-chip" data-chip-target="InternetSpeed" data-chip-value="500">500</button>
-                    </div>
-                </div>
+                
             </div>
 
             <div class="mq-actions">
@@ -709,7 +1884,7 @@
             var focusScoreMap = { easy: 3, ok: 2, hard: 1 };
 
             form.addEventListener("submit", function (event) {
-                var moodRadio = form.querySelector('input[name="day-mood"]:checked');
+                var moodRadio = form.querySelector('input[name="Q[]"]:checked');
                 if (moodRadio) document.getElementById("hidden-MoodScore").value = moodScoreMap[moodRadio.value] || "";
                 var disconnectRadio = form.querySelector('input[name="disconnect"]:checked');
                 if (disconnectRadio) document.getElementById("hidden-DisconnectScore").value = disconnectScoreMap[disconnectRadio.value] || "";

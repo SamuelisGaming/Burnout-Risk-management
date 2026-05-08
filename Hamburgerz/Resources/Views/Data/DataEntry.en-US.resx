@@ -10,10 +10,10 @@
     <value>Start</value>
   </data>
   <data name="title1descr1" xml:space="preserve">
-    <value>How did you feel today?</value>
+    <value>How often do you feel tired?</value>
   </data>
   <data name="title1descr2" xml:space="preserve">
-    <value>Choose which mood best describes your day.</value>
+    <value>Select how often do you feel this way.</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Back</value>
@@ -22,25 +22,43 @@
     <value>Next</value>  
   </data>
   <data name="mood1" xml:space="preserve">
-    <value>Great</value>
+    <value>Always</value>
   </data>
   <data name="mood1descr" xml:space="preserve">
     <value>I felt refreshed and motivated</value>
   </data>
   <data name="mood2" xml:space="preserve">
-    <value>Normal</value>
+    <value>Often</value>
   </data>
   <data name="mood2descr" xml:space="preserve">
     <value>Nothing special - the day passed as usual</value>
   </data>
   <data name="mood3" xml:space="preserve">
-    <value>Bad</value>
+    <value>Somewhat</value>
   </data>
   <data name="mood3descr" xml:space="preserve">
     <value>I felt tired - energy was clearly lacking</value>
   </data>
   <data name="mood4" xml:space="preserve">
-    <value>Very bad</value>
+    <value>Rarely</value>
+  </data>
+	<data name="mood5" xml:space="preserve">
+    <value>Never</value>
+  </data>
+	<data name="time1" xml:space="preserve">
+    <value>To a very high degree</value>
+  </data>
+	<data name="time2" xml:space="preserve">
+    <value>To a high degree</value>
+  </data>
+	<data name="time3" xml:space="preserve">
+    <value>Somewhat</value>
+  </data>
+	<data name="time4" xml:space="preserve">
+    <value>To a low degree</value>
+  </data>
+	<data name="time5" xml:space="preserve">
+    <value>To a very low degree</value>
   </data>
   <data name="mood4descr" xml:space="preserve">
     <value>The day was difficult both physically and emotionally</value>
@@ -49,7 +67,7 @@
     <value>Work</value>
   </data>
   <data name="title2descr1" xml:space="preserve">
-    <value>How many hours did you work today?</value>
+    <value>How often are you physically exhausted?</value>
   </data>
   <data name="title2descr2" xml:space="preserve">
     <value>An approximate number is fine.</value>
@@ -64,7 +82,7 @@
     <value>Rest</value>
   </data>
   <data name="title3descr1" xml:space="preserve">
-    <value>What did your rest and exercise look like?</value>
+    <value>How often are you emotionally exhausted?</value>
   </data>
   <data name="title3descr2" xml:space="preserve">
     <value>Approximate values are valid/</value>
@@ -85,7 +103,7 @@
     <value>Energy</value>
   </data>
   <data name="title4descr1" xml:space="preserve">
-    <value>Two quick questions about your energy levels</value>
+    <value>How often do you think: “I can’t take it anymore”?</value>
   </data>
   <data name="title4descr2" xml:space="preserve">
     <value>There is no right answer - just choose what most closely matches today.</value>
@@ -118,7 +136,7 @@
     <value>Digital environment</value>
   </data>
   <data name="title5descr1" xml:space="preserve">
-    <value>How much time did you spend in front of screens and in meetings?</value>
+    <value>How often do you feel worn out?</value>
   </data>
   <data name="title5descr2" xml:space="preserve">
     <value>If you don't know your exact internet speed, an approximate value is fine.</value>
@@ -145,7 +163,7 @@
     <value>Last step</value>
   </data>
   <data name="title6descr1" xml:space="preserve">
-    <value>How would you rate your stress level today?</value>
+    <value>	How often do you feel weak and susceptible to illness?</value>
   </data>
   <data name="title6descr2" xml:space="preserve">
     <value>Choose the level that best describes how you felt throughout the day.</value>
@@ -170,5 +188,44 @@
   </data>  
   <data name="save" xml:space="preserve">
     <value>Save measurement</value>
+  </data>
+	<data name="title7descr1" xml:space="preserve">
+    <value>Do you feel worn out at the end of the working day?</value>
+  </data>
+	<data name="title8descr1" xml:space="preserve">
+    <value>Are you exhausted in the morning at the thought of another day at work?</value>
+  </data>
+	<data name="title9descr1" xml:space="preserve">
+    <value>Do you feel that every working hour is tiring for you?</value>
+  </data>
+	<data name="title10descr1" xml:space="preserve">
+    <value>Do you have enough energy for family and friends during leisure time?</value>
+  </data>
+	<data name="title11descr1" xml:space="preserve">
+    <value>Is your work emotionally exhausting</value>
+  </data>
+	<data name="title12descr1" xml:space="preserve">
+    <value>Does your work frustrate you?</value>
+  </data>
+	<data name="title13descr1" xml:space="preserve">
+    <value>Do you feel burnt out because of your work?</value>
+  </data>
+	<data name="title14descr1" xml:space="preserve">
+    <value>Do you find it hard to work with clients?</value>
+  </data>
+	<data name="title15descr1" xml:space="preserve">
+    <value>Does it drain your energy to work with clients?</value>
+  </data>
+	<data name="title16descr1" xml:space="preserve">
+    <value>Do you find it frustrating to work with clients?</value>
+  </data>
+	<data name="title17descr1" xml:space="preserve">
+    <value>Do you feel that you give more than you get back when you work with clients?</value>
+  </data>
+	<data name="title18descr1" xml:space="preserve">
+    <value>Are you tired of working with clients?</value>
+  </data>
+	<data name="title19descr1" xml:space="preserve">
+    <value>Do you sometimes wonder how long you will be able to continue working with clients?</value>
   </data>
 </root>

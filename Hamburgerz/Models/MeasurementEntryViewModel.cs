@@ -6,6 +6,7 @@ namespace Hamburgerz.Models
     {
         public DateTime? BirthDate { get; set; }
 
+
         public string Gender { get; set; } = string.Empty;
 
         public string Country { get; set; } = string.Empty;
@@ -24,7 +25,7 @@ namespace Hamburgerz.Models
         [Required(ErrorMessage = "Įrašykite susirinkimų skaičių")]
         public int? MeetingsPerDay { get; set; }
 
-        [Required(ErrorMessage = "Įrašykite interneto greitį")]
+        //[Required(ErrorMessage = "Įrašykite interneto greitį")]
         public int? InternetSpeed { get; set; }
 
         [Required(ErrorMessage = "Įrašykite miego valandas")]
@@ -38,6 +39,9 @@ namespace Hamburgerz.Models
 
         [Required(ErrorMessage = "Pažymėkite streso lygį")]
         public string StressLevel { get; set; } = string.Empty;
+
+        public List<int> Q { get; set; } = new();
+
 
         public int? MoodScore { get; set; }
         public int? DisconnectScore { get; set; }
