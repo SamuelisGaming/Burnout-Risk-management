@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <value>Patvirtinkite el. paštą</value>
+  </data>
+  <data name="heading" xml:space="preserve">
+    <value>Patikrinkite savo pašto dėžutę</value>
+  </data>
+  <data name="body" xml:space="preserve">
+    <value>Išsiuntėme verifikacijos nuorodą jūsų el. pašto adresu. Paspauskite nuorodą laiške, kad aktyvuotumėte paskyrą.</value>
+  </data>
+  <data name="hint" xml:space="preserve">
+    <value>Negavote laiško? Patikrinkite šlamšto aplanką. Nuoroda galioja 24 valandas.</value>
+  </data>
+  <data name="resendBtn" xml:space="preserve">
+    <value>Siųsti laišką iš naujo</value>
+  </data>
+  <data name="resendCooldown" xml:space="preserve">
+    <value>Palaukite</value>
+  </data>
+  <data name="resent" xml:space="preserve">
+    <value>Laiškas išsiųstas iš naujo! Patikrinkite pašto dėžutę.</value>
+  </data>
+  <data name="logout" xml:space="preserve">
+    <value>Atsijungti</value>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>Grįžti į prisijungimą</value>
+  </data>
+</root>

@@ -129,9 +129,9 @@
                     </form>
 
                     <div class="login-footnote">
-                        <button type="button" class="login-footnote-link" aria-disabled="true">
+                        <a asp-controller="ForgotPassword" asp-action="Index" class="login-footnote-link">
                             @Localizer["forget"]
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -495,11 +495,12 @@
         text-decoration: none;
         font-weight: 700;
         color: var(--color-link);
-        cursor: default;
+        cursor: pointer;
     }
 
     .login-footnote-link:hover {
         color: var(--color-link);
+        text-decoration: underline;
     }
 
     [data-theme="dark"] .login-card {

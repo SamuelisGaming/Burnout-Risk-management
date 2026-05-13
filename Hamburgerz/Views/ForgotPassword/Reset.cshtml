@@ -1,0 +1,285 @@
+@model Hamburgerz.Models.ResetPasswordViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = @Localizer["title"];
+    var minPasswordLength = Hamburgerz.Models.PasswordRules.MinLength;
+    var minimumAcceptedScore = Hamburgerz.Models.PasswordRules.MinimumAcceptedScore;
+}
+
+<div class="auth-shell">
+    <div class="auth-card auth-card-form">
+        <div class="auth-card-top">
+            <div>
+                <div class="auth-step-label">@Localizer["step"]</div>
+                <h1 class="auth-card-title">@Localizer["heading"]</h1>
+                <p class="auth-card-copy">@Localizer["body"]</p>
+            </div>
+        </div>
+
+        <div class="auth-card-body">
+            <form asp-action="Reset" method="post" class="auth-form">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Token" />
+                <div asp-validation-summary="ModelOnly" class="text-danger auth-summary"></div>
+
+                <div class="auth-field">
+                    <label asp-for="Password" class="auth-field-label">@Localizer["newPass"]</label>
+                    <div class="password-field">
+                        <input asp-for="Password"
+                               class="form-control form-control-lg auth-input"
+                               autocomplete="new-password"
+                               required />
+                        <button type="button" class="password-toggle" data-password-toggle="Password" aria-label="@Localizer["passshow"]" aria-pressed="false">
+                            <span class="password-toggle-icon" aria-hidden="true">
+                                <svg class="password-toggle-svg password-toggle-svg-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12s3.6-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.6 6.5-9.5 6.5S2.5 12 2.5 12Z" /><circle cx="12" cy="12" r="3" /></svg>
+                                <svg class="password-toggle-svg password-toggle-svg-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18" /><path d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" /><path d="M6.71 6.72C4.47 8.23 3 10.68 2.5 12c.83 2.2 4.1 6.5 9.5 6.5 2.24 0 4.18-.74 5.76-1.76" /><path d="M9.88 4.68A10.7 10.7 0 0 1 12 4.5c5.9 0 9.5 6.5 9.5 6.5a15.3 15.3 0 0 1-2.17 3.19" /></svg>
+                            </span>
+                            <span class="visually-hidden password-toggle-label">@Localizer["show"]</span>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <div class="password-inline-feedback" data-password-summary aria-live="polite"></div>
+
+                    <div class="password-guidance" data-password-guidance aria-live="polite">
+                        <div class="password-strength">
+                            <div class="password-strength-bar">
+                                <div class="password-strength-fill" data-password-strength-fill></div>
+                            </div>
+                            <div class="password-strength-text" data-password-strength-text>
+                                @Localizer["strength"]
+                            </div>
+                        </div>
+                        <div class="password-rule-list">
+                            <div class="password-rule" data-password-rule="length">@Localizer["atleast"] @minPasswordLength @Localizer["symbols"]</div>
+                            <div class="password-rule" data-password-rule="lowercase">@Localizer["strengthlower"]</div>
+                            <div class="password-rule" data-password-rule="uppercase">@Localizer["strengthupper"]</div>
+                            <div class="password-rule" data-password-rule="digit">@Localizer["strengthnum"]</div>
+                            <div class="password-rule" data-password-rule="symbol">@Localizer["strengthspecial"]</div>
+                            <div class="password-rule password-rule-note is-note">@Localizer["strengthoption"]</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="auth-field">
+                    <label asp-for="ConfirmPassword" class="auth-field-label">@Localizer["confirmPass"]</label>
+                    <div class="password-field">
+                        <input asp-for="ConfirmPassword"
+                               class="form-control form-control-lg auth-input"
+                               autocomplete="new-password"
+                               required />
+                        <button type="button" class="password-toggle" data-password-toggle="ConfirmPassword" aria-label="@Localizer["passshow"]" aria-pressed="false">
+                            <span class="password-toggle-icon" aria-hidden="true">
+                                <svg class="password-toggle-svg password-toggle-svg-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12s3.6-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.6 6.5-9.5 6.5S2.5 12 2.5 12Z" /><circle cx="12" cy="12" r="3" /></svg>
+                                <svg class="password-toggle-svg password-toggle-svg-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18" /><path d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" /><path d="M6.71 6.72C4.47 8.23 3 10.68 2.5 12c.83 2.2 4.1 6.5 9.5 6.5 2.24 0 4.18-.74 5.76-1.76" /><path d="M9.88 4.68A10.7 10.7 0 0 1 12 4.5c5.9 0 9.5 6.5 9.5 6.5a15.3 15.3 0 0 1-2.17 3.19" /></svg>
+                            </span>
+                            <span class="visually-hidden password-toggle-label">@Localizer["show"]</span>
+                        </button>
+                    </div>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    <div class="password-inline-feedback" data-repeat-summary aria-live="polite"></div>
+                </div>
+
+                <div class="auth-actions">
+                    <button type="submit" class="btn btn-secondary btn-lg">@Localizer["submit"]</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_AuthCardStyles" />
+
+    <style>
+        .password-guidance {
+            margin-top: 0;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transform: translateY(-6px);
+            padding: 0 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(var(--color-secondary-rgb), 0.22);
+            background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.12), rgba(var(--color-secondary-rgb), 0.05));
+            transition: max-height 0.22s ease, opacity 0.18s ease, transform 0.18s ease, padding 0.18s ease, margin-top 0.18s ease;
+            pointer-events: none;
+        }
+        .password-guidance.is-visible {
+            margin-top: 12px;
+            max-height: 320px;
+            opacity: 1;
+            transform: translateY(0);
+            padding: 14px 16px;
+            pointer-events: auto;
+        }
+        .password-strength { display: grid; gap: 8px; margin-bottom: 12px; }
+        .password-strength-bar { height: 8px; border-radius: 999px; overflow: hidden; background: rgba(var(--color-secondary-rgb), 0.15); }
+        .password-strength-fill { height: 100%; width: 0; border-radius: inherit; background: #dc3545; transition: width 0.18s ease, background 0.18s ease; }
+        .password-strength-text { font-size: 12px; font-weight: 700; color: var(--color-text-muted); }
+        .password-rule-list { display: grid; gap: 7px; }
+        .password-rule { display: flex; align-items: center; gap: 10px; color: var(--color-text-muted); font-size: 13px; font-weight: 600; }
+        .password-rule::before { content: ""; width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--color-border); background: transparent; flex-shrink: 0; transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease, color 0.15s ease; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: transparent; }
+        .password-rule.is-met { color: var(--color-text); }
+        .password-rule.is-met::before { content: "\2713"; background: var(--color-button-secondary-bg); border-color: var(--color-button-secondary-bg); color: var(--color-button-secondary-text); transform: scale(1.05); }
+        .password-rule-note { color: var(--color-text-muted); font-style: italic; }
+        .password-rule-note::before { display: none; }
+        .password-inline-feedback { min-height: 18px; margin-top: 6px; color: #b45309; font-size: 12px; font-weight: 700; }
+        .password-inline-feedback.is-valid { color: #15803d; }
+        [data-theme="dark"] .password-guidance { background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.18), rgba(var(--color-secondary-rgb), 0.08)); }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var passwordInput = document.getElementById("Password");
+            var repeatInput = document.getElementById("ConfirmPassword");
+            var guidance = document.querySelector("[data-password-guidance]");
+            var passwordSummary = document.querySelector("[data-password-summary]");
+            var repeatSummary = document.querySelector("[data-repeat-summary]");
+            var strengthFill = document.querySelector("[data-password-strength-fill]");
+            var strengthText = document.querySelector("[data-password-strength-text]");
+            var toggleButtons = document.querySelectorAll("[data-password-toggle]");
+            var suppressGuidanceChanges = false;
+            var guidanceWasVisibleBeforeToggle = false;
+            var minLen = @minPasswordLength;
+            var minScore = @minimumAcceptedScore;
+
+            var ruleEls = {
+                length: document.querySelector('[data-password-rule="length"]'),
+                lowercase: document.querySelector('[data-password-rule="lowercase"]'),
+                uppercase: document.querySelector('[data-password-rule="uppercase"]'),
+                digit: document.querySelector('[data-password-rule="digit"]'),
+                symbol: document.querySelector('[data-password-rule="symbol"]')
+            };
+
+            function getState() {
+                var p = passwordInput ? passwordInput.value || "" : "";
+                var r = repeatInput ? repeatInput.value || "" : "";
+                return {
+                    password: p, repeat: r,
+                    hasMinLength: p.length >= minLen,
+                    hasLowercase: /[a-z]/.test(p),
+                    hasUppercase: /[A-Z]/.test(p),
+                    hasDigit: /\d/.test(p),
+                    hasSymbol: /[^A-Za-z0-9]/.test(p)
+                };
+            }
+
+            function getScore(s) {
+                return [s.hasMinLength, s.hasLowercase, s.hasUppercase, s.hasDigit, s.hasSymbol].filter(Boolean).length;
+            }
+
+            function isStrong(s) { return s.password.length > 0 && s.hasMinLength && getScore(s) >= minScore; }
+
+            function updateRule(el, met) { if (el) el.classList.toggle("is-met", met); }
+
+            function getStrengthDetails(s) {
+                if (s.password.length === 0) return { width: "0%", color: "#dc3545", label: "@Localizer["strength"]" };
+                var score = getScore(s);
+                if (!s.hasMinLength) return { width: ((Math.max(score, 1) / 5) * 100) + "%", color: "#f59e0b", label: "@Localizer["passtooshort"]" };
+                var map = {
+                    1: { color: "#dc3545", label: "@Localizer["strengthveryweak"]" },
+                    2: { color: "#f59e0b", label: "@Localizer["strengthweak"]" },
+                    3: { color: "#0ea5e9", label: "@Localizer["strengthmedium"]" },
+                    4: { color: "#2563eb", label: "@Localizer["strengthstrong"]" },
+                    5: { color: "#15803d", label: "@Localizer["strengthverystrong"]" }
+                };
+                var d = map[score] || map[1];
+                return { width: ((score / 5) * 100) + "%", color: d.color, label: d.label };
+            }
+
+            function updateRules() {
+                var s = getState();
+                updateRule(ruleEls.length, s.hasMinLength);
+                updateRule(ruleEls.lowercase, s.hasLowercase);
+                updateRule(ruleEls.uppercase, s.hasUppercase);
+                updateRule(ruleEls.digit, s.hasDigit);
+                updateRule(ruleEls.symbol, s.hasSymbol);
+            }
+
+            function updateStrength() {
+                if (!strengthFill || !strengthText) return;
+                var d = getStrengthDetails(getState());
+                strengthFill.style.width = d.width;
+                strengthFill.style.background = d.color;
+                strengthText.textContent = d.label;
+            }
+
+            function showGuidance() {
+                if (suppressGuidanceChanges) return;
+                if (guidance) guidance.classList.add("is-visible");
+                if (passwordSummary) passwordSummary.textContent = "";
+            }
+
+            function hideGuidanceIfNeeded() {
+                if (suppressGuidanceChanges) return;
+                window.setTimeout(function () {
+                    var active = document.activeElement;
+                    if (active === passwordInput || active === repeatInput) return;
+                    if (guidance) guidance.classList.remove("is-visible");
+                    var s = getState();
+                    if (passwordSummary) {
+                        passwordSummary.textContent =
+                            s.password.length > 0 && !s.hasMinLength ? "@Localizer["passtooshort"]"
+                            : s.password.length > 0 && !isStrong(s) ? "@Localizer["passtooweak"]"
+                            : "";
+                    }
+                    if (repeatSummary) {
+                        repeatSummary.textContent = s.repeat.length > 0 && s.password !== s.repeat ? "@Localizer["passnotmatch"]" : "";
+                    }
+                }, 0);
+            }
+
+            function updateRepeatSummary() {
+                var s = getState();
+                if (!repeatSummary) return;
+                var match = s.repeat.length > 0 && s.password === s.repeat;
+                var differ = s.repeat.length > 0 && s.password !== s.repeat;
+                repeatSummary.textContent = match ? "@Localizer["passmatch"]" : differ ? "@Localizer["passnotmatch"]" : "";
+                repeatSummary.classList.toggle("is-valid", match);
+            }
+
+            toggleButtons.forEach(function (btn) {
+                btn.addEventListener("pointerdown", function () {
+                    suppressGuidanceChanges = true;
+                    guidanceWasVisibleBeforeToggle = guidance ? guidance.classList.contains("is-visible") : false;
+                });
+                btn.addEventListener("mousedown", function (e) {
+                    e.preventDefault();
+                    suppressGuidanceChanges = true;
+                    guidanceWasVisibleBeforeToggle = guidance ? guidance.classList.contains("is-visible") : false;
+                });
+                btn.addEventListener("click", function () {
+                    var id = btn.getAttribute("data-password-toggle");
+                    var input = id ? document.getElementById(id) : null;
+                    var label = btn.querySelector(".password-toggle-label");
+                    if (!input) return;
+                    var hidden = input.type === "password";
+                    input.type = hidden ? "text" : "password";
+                    if (label) label.textContent = hidden ? "@Localizer["hide"]" : "@Localizer["show"]";
+                    btn.classList.toggle("is-active", hidden);
+                    btn.setAttribute("aria-pressed", hidden ? "true" : "false");
+                    if (guidance) guidance.classList.toggle("is-visible", guidanceWasVisibleBeforeToggle);
+                    window.setTimeout(function () { suppressGuidanceChanges = false; }, 0);
+                });
+                btn.addEventListener("blur", function () {
+                    window.setTimeout(function () { suppressGuidanceChanges = false; }, 0);
+                });
+            });
+
+            if (passwordInput && repeatInput) {
+                passwordInput.addEventListener("focus", showGuidance);
+                repeatInput.addEventListener("focus", showGuidance);
+                passwordInput.addEventListener("blur", hideGuidanceIfNeeded);
+                repeatInput.addEventListener("blur", hideGuidanceIfNeeded);
+                passwordInput.addEventListener("input", function () { showGuidance(); updateRules(); updateStrength(); updateRepeatSummary(); });
+                repeatInput.addEventListener("input", function () { showGuidance(); updateRepeatSummary(); });
+                updateRules();
+                updateStrength();
+                updateRepeatSummary();
+            }
+        });
+    </script>
+}

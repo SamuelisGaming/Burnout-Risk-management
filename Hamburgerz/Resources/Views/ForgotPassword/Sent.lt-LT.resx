@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <value>Laiškas išsiųstas</value>
+  </data>
+  <data name="heading" xml:space="preserve">
+    <value>Patikrinkite savo pašto dėžutę</value>
+  </data>
+  <data name="body" xml:space="preserve">
+    <value>Jei toks el. paštas užregistruotas sistemoje, išsiuntėme slaptažodžio atstatymo nuorodą.</value>
+  </data>
+  <data name="hint" xml:space="preserve">
+    <value>Negavote laiško? Patikrinkite šlamšto aplanką. Nuoroda galioja 1 valandą.</value>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>Grįžti į prisijungimą</value>
+  </data>
+</root>

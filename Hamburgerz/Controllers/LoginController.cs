@@ -62,6 +62,25 @@ namespace Hamburgerz.Controllers
                 return View(model);
             }
 
+            if (!user.IsEmailVerified)
+            {
+                await SignInUserAsync(user);
+                return RedirectToAction("Pending", "VerifyEmail");
+            }
+
+            await SignInUserAsync(user);
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            HttpContext.Session.Clear();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
+        }
+
+        private async Task SignInUserAsync(User user)
+        {
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("Username", user.Username);
             HttpContext.Session.SetString("UserType", UserAccess.NormalizeUserType(user.UserType));
@@ -87,15 +106,6 @@ namespace Hamburgerz.Controllers
                     AllowRefresh = true,
                     ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
                 });
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        public async Task<IActionResult> Logout()
-        {
-            HttpContext.Session.Clear();
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="step" xml:space="preserve">
+    <value>Account recovery</value>
+  </data>
+  <data name="heading" xml:space="preserve">
+    <value>Set a new password</value>
+  </data>
+  <data name="body" xml:space="preserve">
+    <value>Enter a new password. It must be at least 8 characters long.</value>
+  </data>
+  <data name="newPass" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="confirmPass" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="submit" xml:space="preserve">
+    <value>Save password</value>
+  </data>
+  <data name="passshow" xml:space="preserve">
+    <value>Show password</value>
+  </data>
+  <data name="passhide" xml:space="preserve">
+    <value>Hide password</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="strength" xml:space="preserve">
+    <value>Password strength will be shown while typing.</value>
+  </data>
+  <data name="atleast" xml:space="preserve">
+    <value>At least </value>
+  </data>
+  <data name="symbols" xml:space="preserve">
+    <value>symbols</value>
+  </data>
+  <data name="strengthlower" xml:space="preserve">
+    <value>At least one lowercase letter</value>
+  </data>
+  <data name="strengthupper" xml:space="preserve">
+    <value>At least one uppercase letter</value>
+  </data>
+  <data name="strengthnum" xml:space="preserve">
+    <value>At least one number</value>
+  </data>
+  <data name="strengthspecial" xml:space="preserve">
+    <value>At least one special symbol</value>
+  </data>
+  <data name="strengthoption" xml:space="preserve">
+    <value>It is not necessary to meet all the points, a medium-strength password is sufficient.</value>
+  </data>
+  <data name="strengthveryweak" xml:space="preserve">
+    <value>Very weak password</value>
+  </data>
+  <data name="strengthweak" xml:space="preserve">
+    <value>Weak password</value>
+  </data>
+  <data name="strengthmedium" xml:space="preserve">
+    <value>Medium-strength password</value>
+  </data>
+  <data name="strengthstrong" xml:space="preserve">
+    <value>Strong password</value>
+  </data>
+  <data name="strengthverystrong" xml:space="preserve">
+    <value>Very strong password</value>
+  </data>
+  <data name="passtooshort" xml:space="preserve">
+    <value>Password is too short</value>
+  </data>
+  <data name="passtooweak" xml:space="preserve">
+    <value>Password is too weak.</value>
+  </data>
+  <data name="passmatch" xml:space="preserve">
+    <value>Passwords match.</value>
+  </data>
+  <data name="passnotmatch" xml:space="preserve">
+    <value>Passwords don't match.</value>
+  </data>
+</root>

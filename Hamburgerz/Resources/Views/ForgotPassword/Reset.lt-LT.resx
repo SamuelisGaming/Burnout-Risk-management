@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <value>Naujas slaptažodis</value>
+  </data>
+  <data name="step" xml:space="preserve">
+    <value>Paskyros atkūrimas</value>
+  </data>
+  <data name="heading" xml:space="preserve">
+    <value>Nustatykite naują slaptažodį</value>
+  </data>
+  <data name="body" xml:space="preserve">
+    <value>Įveskite naują slaptažodį. Jis turi būti ne trumpesnis nei 8 simboliai.</value>
+  </data>
+  <data name="newPass" xml:space="preserve">
+    <value>Naujas slaptažodis</value>
+  </data>
+  <data name="confirmPass" xml:space="preserve">
+    <value>Pakartokite slaptažodį</value>
+  </data>
+  <data name="submit" xml:space="preserve">
+    <value>Išsaugoti slaptažodį</value>
+  </data>
+  <data name="passshow" xml:space="preserve">
+    <value>Rodyti slaptažodį</value>
+  </data>
+  <data name="passhide" xml:space="preserve">
+    <value>Slėpti slaptažodį</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Rodyti</value>
+  </data>
+  <data name="hide" xml:space="preserve">
+    <value>Slėpti</value>
+  </data>
+  <data name="strength" xml:space="preserve">
+    <value>Slaptažodžio stiprumas pasimatys rašant.</value>
+  </data>
+  <data name="atleast" xml:space="preserve">
+    <value>Bent </value>
+  </data>
+  <data name="symbols" xml:space="preserve">
+    <value>simboliai</value>
+  </data>
+  <data name="strengthlower" xml:space="preserve">
+    <value>Bent viena mažoji raidė</value>
+  </data>
+  <data name="strengthupper" xml:space="preserve">
+    <value>Bent viena didžioji raidė</value>
+  </data>
+  <data name="strengthnum" xml:space="preserve">
+    <value>Bent vienas skaičius</value>
+  </data>
+  <data name="strengthspecial" xml:space="preserve">
+    <value>Bent vienas specialus simbolis</value>
+  </data>
+  <data name="strengthoption" xml:space="preserve">
+    <value>Nebūtina atitikti visų punktų, pakanka vidutinio stiprumo slaptažodžio.</value>
+  </data>
+  <data name="strengthveryweak" xml:space="preserve">
+    <value>Labai silpnas slaptažodis</value>
+  </data>
+  <data name="strengthweak" xml:space="preserve">
+    <value>Silpnas slaptažodis</value>
+  </data>
+  <data name="strengthmedium" xml:space="preserve">
+    <value>Vidutiniškas slaptažodis</value>
+  </data>
+  <data name="strengthstrong" xml:space="preserve">
+    <value>Stiprus slaptažodis</value>
+  </data>
+  <data name="strengthverystrong" xml:space="preserve">
+    <value>Labai stiprus slaptažodis</value>
+  </data>
+  <data name="passtooshort" xml:space="preserve">
+    <value>Per trumpas slaptažodis</value>
+  </data>
+  <data name="passtooweak" xml:space="preserve">
+    <value>Slaptažodis per silpnas.</value>
+  </data>
+  <data name="passmatch" xml:space="preserve">
+    <value>Slaptažodžiai sutampa.</value>
+  </data>
+  <data name="passnotmatch" xml:space="preserve">
+    <value>Slaptažodžiai nesutampa.</value>
+  </data>
+</root>

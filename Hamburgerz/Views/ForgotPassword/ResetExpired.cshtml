@@ -1,0 +1,24 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = @Localizer["title"];
+}
+
+<div class="auth-shell">
+    <div class="auth-card">
+        <div class="auth-icon auth-icon-error">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="m15 9-6 6M9 9l6 6" />
+            </svg>
+        </div>
+        <h1 class="auth-title">@Localizer["heading"]</h1>
+        <p class="auth-body">@Localizer["body"]</p>
+        <a asp-controller="ForgotPassword" asp-action="Index" class="btn btn-secondary btn-lg auth-btn">@Localizer["tryAgain"]</a>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_AuthCardStyles" />
+}

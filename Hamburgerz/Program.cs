@@ -29,6 +29,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddSingleton<JobRoleCatalogService>();
 
+var emailSettings = new Hamburgerz.Services.EmailSettings();
+builder.Configuration.GetSection("Email").Bind(emailSettings);
+builder.Services.AddSingleton(emailSettings);
+builder.Services.AddScoped<EmailService>();
+
 builder.Services.AddLocalization (options =>
 {
     options.ResourcesPath = "Resources";
@@ -128,6 +133,24 @@ app.Use(async (context, next) =>
                 context.Session.SetString("Username", user.Username);
                 context.Session.SetString("UserType", UserAccess.NormalizeUserType(user.UserType));
                 context.Session.SetString("Email", user.Email);
+
+                if (!user.IsEmailVerified)
+                {
+                    var path = context.Request.Path.Value ?? string.Empty;
+                    var isAllowed =
+                        path.StartsWith("/VerifyEmail", StringComparison.OrdinalIgnoreCase) ||
+                        path.StartsWith("/Login/Logout", StringComparison.OrdinalIgnoreCase) ||
+                        path.StartsWith("/css", StringComparison.OrdinalIgnoreCase) ||
+                        path.StartsWith("/js", StringComparison.OrdinalIgnoreCase) ||
+                        path.StartsWith("/lib", StringComparison.OrdinalIgnoreCase) ||
+                        path.StartsWith("/favicon", StringComparison.OrdinalIgnoreCase);
+
+                    if (!isAllowed)
+                    {
+                        context.Response.Redirect("/VerifyEmail/Pending");
+                        return;
+                    }
+                }
             }
             else
             {

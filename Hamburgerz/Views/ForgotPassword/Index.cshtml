@@ -1,0 +1,46 @@
+@model Hamburgerz.Models.ForgotPasswordViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = @Localizer["title"];
+}
+
+<div class="auth-shell">
+    <div class="auth-card auth-card-form">
+        <div class="auth-card-top">
+            <div>
+                <div class="auth-step-label">@Localizer["step"]</div>
+                <h1 class="auth-card-title">@Localizer["heading"]</h1>
+                <p class="auth-card-copy">@Localizer["body"]</p>
+            </div>
+            <a asp-controller="Login" asp-action="Index" class="auth-back-link">@Localizer["back"]</a>
+        </div>
+
+        <div class="auth-card-body">
+            <form asp-action="Index" method="post" class="auth-form">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger auth-summary"></div>
+
+                <label class="auth-field">
+                    <span class="auth-field-label">@Localizer["emailLabel"]</span>
+                    <input asp-for="Email"
+                           class="form-control form-control-lg auth-input"
+                           placeholder="vardas@pastas.lt"
+                           autocomplete="email"
+                           required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </label>
+
+                <div class="auth-actions">
+                    <button type="submit" class="btn btn-secondary btn-lg">@Localizer["submit"]</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_AuthCardStyles" />
+}

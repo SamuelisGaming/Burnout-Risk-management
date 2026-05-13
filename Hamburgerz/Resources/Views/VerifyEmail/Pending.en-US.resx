@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <value>Verify your email</value>
+  </data>
+  <data name="heading" xml:space="preserve">
+    <value>Check your inbox</value>
+  </data>
+  <data name="body" xml:space="preserve">
+    <value>We sent a verification link to your email address. Click the link in the email to activate your account.</value>
+  </data>
+  <data name="hint" xml:space="preserve">
+    <value>Didn't receive the email? Check your spam folder. The link expires in 24 hours.</value>
+  </data>
+  <data name="resendBtn" xml:space="preserve">
+    <value>Resend verification email</value>
+  </data>
+  <data name="resendCooldown" xml:space="preserve">
+    <value>Wait</value>
+  </data>
+  <data name="resent" xml:space="preserve">
+    <value>Email sent again! Check your inbox.</value>
+  </data>
+  <data name="logout" xml:space="preserve">
+    <value>Log out</value>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>Back to login</value>
+  </data>
+</root>

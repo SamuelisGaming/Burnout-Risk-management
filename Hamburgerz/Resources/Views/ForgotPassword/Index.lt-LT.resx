@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <value>Pamiršau slaptažodį</value>
+  </data>
+  <data name="step" xml:space="preserve">
+    <value>Paskyros atkūrimas</value>
+  </data>
+  <data name="heading" xml:space="preserve">
+    <value>Atstatyti slaptažodį</value>
+  </data>
+  <data name="body" xml:space="preserve">
+    <value>Įveskite el. pašto adresą, kurį naudojote registracijos metu. Išsiųsime nuorodą slaptažodžiui atstatyti.</value>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>Atgal</value>
+  </data>
+  <data name="emailLabel" xml:space="preserve">
+    <value>Elektroninis paštas</value>
+  </data>
+  <data name="submit" xml:space="preserve">
+    <value>Siųsti nuorodą</value>
+  </data>
+</root>

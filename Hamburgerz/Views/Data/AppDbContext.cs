@@ -19,6 +19,10 @@ namespace Hamburgerz.Data
 
         public DbSet<AnalysisCache> AnalysisCache { get; set; }
 
+        public DbSet<EmailVerificationToken> EmailVerificationTokens { get; set; }
+
+        public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

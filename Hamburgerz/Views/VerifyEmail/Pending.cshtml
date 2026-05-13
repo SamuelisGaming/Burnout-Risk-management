@@ -1,0 +1,102 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = @Localizer["title"];
+}
+
+<div class="auth-shell">
+    <div class="auth-card">
+        <div class="auth-icon auth-icon-info">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="3" />
+                <path d="m2 7 9.1 6.1a1.5 1.5 0 0 0 1.8 0L22 7" />
+            </svg>
+        </div>
+        <h1 class="auth-title">@Localizer["heading"]</h1>
+        <p class="auth-body">@Localizer["body"]</p>
+
+        @if (TempData["Resent"] != null)
+        {
+            <p class="auth-resent-notice">@Localizer["resent"]</p>
+        }
+        else
+        {
+            <p class="auth-hint">@Localizer["hint"]</p>
+        }
+
+        @{
+            var cooldown = TempData["CooldownSeconds"] as int? ?? 0;
+        }
+
+        <form asp-action="Resend" method="post" style="width:100%;display:flex;flex-direction:column;gap:10px;align-items:center">
+            @Html.AntiForgeryToken()
+            <button type="submit" id="resendBtn" class="btn btn-secondary btn-lg auth-btn" @(cooldown > 0 ? "disabled" : "")>
+                @if (cooldown > 0)
+                {
+                    <span id="resendLabel">@Localizer["resendCooldown"] <span id="countdown">@(cooldown/60):@((cooldown%60).ToString("D2"))</span></span>
+                }
+                else
+                {
+                    <span id="resendLabel">@Localizer["resendBtn"]</span>
+                }
+            </button>
+        </form>
+
+        <a asp-controller="Login" asp-action="Logout" class="auth-logout-link">@Localizer["logout"]</a>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_AuthCardStyles" />
+    <style>
+        .auth-resent-notice {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-success);
+            margin: 0;
+        }
+        .auth-logout-link {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            text-decoration: none;
+            margin-top: 4px;
+        }
+        .auth-logout-link:hover {
+            text-decoration: underline;
+            color: var(--color-text-muted);
+        }
+    </style>
+
+    @if (cooldown > 0)
+    {
+        <script>
+            (function () {
+                var btn = document.getElementById("resendBtn");
+                var label = document.getElementById("resendLabel");
+                var resendText = "@Localizer["resendBtn"]";
+                var cooldownText = "@Localizer["resendCooldown"]";
+                var seconds = @cooldown;
+
+                function fmt(s) {
+                    var m = Math.floor(s / 60);
+                    var sec = s % 60;
+                    return m + ":" + (sec < 10 ? "0" : "") + sec;
+                }
+
+                label.innerHTML = cooldownText + " <span id='countdown'>" + fmt(seconds) + "</span>";
+
+                var interval = setInterval(function () {
+                    seconds--;
+                    if (seconds <= 0) {
+                        clearInterval(interval);
+                        btn.disabled = false;
+                        label.textContent = resendText;
+                    } else {
+                        label.innerHTML = cooldownText + " <span id='countdown'>" + fmt(seconds) + "</span>";
+                    }
+                }, 1000);
+            })();
+        </script>
+    }
+}

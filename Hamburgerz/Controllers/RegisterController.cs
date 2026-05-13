@@ -2,10 +2,13 @@ using Hamburgerz.Data;
 using Hamburgerz.Helpers;
 using Hamburgerz.Models;
 using Hamburgerz.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Hamburgerz.Controllers
 {
@@ -14,15 +17,21 @@ namespace Hamburgerz.Controllers
         private readonly AppDbContext _context;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly JobRoleCatalogService _jobRoleCatalog;
+        private readonly EmailService _emailService;
+        private readonly ILogger<RegisterController> _logger;
 
         public RegisterController(
             AppDbContext context,
             IPasswordHasher<User> passwordHasher,
-            JobRoleCatalogService jobRoleCatalog)
+            JobRoleCatalogService jobRoleCatalog,
+            EmailService emailService,
+            ILogger<RegisterController> logger)
         {
             _context = context;
             _passwordHasher = passwordHasher;
             _jobRoleCatalog = jobRoleCatalog;
+            _emailService = emailService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -107,8 +116,52 @@ namespace Hamburgerz.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = IsEnglish() ? "Registration successful. You can now log in." : "Registracija sėkminga. Dabar galite prisijungti.";
-            return RedirectToAction("Index", "Login");
+            var verificationToken = new EmailVerificationToken
+            {
+                UserId = user.Id,
+                Token = Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N"),
+                ExpiresAt = DateTime.UtcNow.AddHours(24),
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _context.EmailVerificationTokens.Add(verificationToken);
+            await _context.SaveChangesAsync();
+
+            var verifyUrl = Url.Action("Index", "VerifyEmail", new { token = verificationToken.Token }, Request.Scheme)!;
+
+            try
+            {
+                await _emailService.SendVerificationEmailAsync(user.Email, user.Username, verifyUrl, IsEnglish());
+                _logger.LogInformation("Verification email sent to {Email}", user.Email);
+                HttpContext.Session.SetString("LastVerificationEmailSent", DateTimeOffset.UtcNow.ToString("O"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to send verification email to {Email}", user.Email);
+            }
+
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new(ClaimTypes.Name, user.Username),
+                new(ClaimTypes.Email, user.Email),
+                new(ClaimTypes.Role, UserAccess.NormalizeUserType(user.UserType))
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                principal,
+                new AuthenticationProperties { IsPersistent = true, AllowRefresh = true });
+
+            HttpContext.Session.SetInt32("UserId", user.Id);
+            HttpContext.Session.SetString("Username", user.Username);
+            HttpContext.Session.SetString("UserType", UserAccess.NormalizeUserType(user.UserType));
+            HttpContext.Session.SetString("Email", user.Email);
+
+            return RedirectToAction("Pending", "VerifyEmail");
         }
 
         private async Task PopulateCountriesAsync(RegisterViewModel model)

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <value>Nuoroda negalioja</value>
+  </data>
+  <data name="heading" xml:space="preserve">
+    <value>Nuoroda pasibaigė</value>
+  </data>
+  <data name="body" xml:space="preserve">
+    <value>Slaptažodžio atstatymo nuoroda negalioja arba jos galiojimo laikas (1 valanda) pasibaigė.</value>
+  </data>
+  <data name="tryAgain" xml:space="preserve">
+    <value>Bandyti iš naujo</value>
+  </data>
+</root>

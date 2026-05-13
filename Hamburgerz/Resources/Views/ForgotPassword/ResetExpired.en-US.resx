@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <value>Link expired</value>
+  </data>
+  <data name="heading" xml:space="preserve">
+    <value>Link has expired</value>
+  </data>
+  <data name="body" xml:space="preserve">
+    <value>The password reset link is invalid or has expired (valid for 1 hour).</value>
+  </data>
+  <data name="tryAgain" xml:space="preserve">
+    <value>Try again</value>
+  </data>
+</root>
