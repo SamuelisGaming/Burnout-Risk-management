@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="logoAlt" xml:space="preserve"><value>Hamburgerz logo</value></data>
+  <data name="home" xml:space="preserve"><value>Home</value></data>
+  <data name="history" xml:space="preserve"><value>History</value></data>
+  <data name="analysis" xml:space="preserve"><value>Analysis</value></data>
+  <data name="admin" xml:space="preserve"><value>Admin</value></data>
+  <data name="profileMenu" xml:space="preserve"><value>Profile menu</value></data>
+  <data name="profilePhoto" xml:space="preserve"><value>Profile photo</value></data>
+  <data name="profile" xml:space="preserve"><value>Profile</value></data>
+  <data name="settings" xml:space="preserve"><value>Settings</value></data>
+  <data name="logout" xml:space="preserve"><value>Log out</value></data>
+  <data name="privacy" xml:space="preserve"><value>Privacy</value></data>
+  <data name="appearance" xml:space="preserve"><value>Appearance</value></data>
+  <data name="close" xml:space="preserve"><value>Close</value></data>
+  <data name="darkMode" xml:space="preserve"><value>Dark mode</value></data>
+  <data name="darkModeCopy" xml:space="preserve"><value>Switch the system appearance between light and dark mode.</value></data>
+  <data name="darkModeToggle" xml:space="preserve"><value>Toggle dark mode</value></data>
+  <data name="themeLight" xml:space="preserve"><value>Light mode</value></data>
+  <data name="themeDark" xml:space="preserve"><value>Dark mode</value></data>
+  <data name="themeSaved" xml:space="preserve"><value>This setting is saved on this device.</value></data>
+  <data name="languages" xml:space="preserve"><value>Languages</value></data>
+  <data name="languagesCopy" xml:space="preserve"><value>Choose the system language.</value></data>
+  <data name="availableLanguages" xml:space="preserve"><value>Available languages</value></data>
+  <data name="premium" xml:space="preserve"><value>Premium</value></data>
+  <data name="premiumTitle" xml:space="preserve"><value>Unlock the full plan</value></data>
+  <data name="premiumCopy" xml:space="preserve"><value>Premium removes free-plan limits and lets you keep tracking burnout risk without interruptions.</value></data>
+  <data name="premiumBenefitMeasurements" xml:space="preserve"><value>Unlimited measurements</value></data>
+  <data name="premiumBenefitAi" xml:space="preserve"><value>AI insights for each measurement and period analysis</value></data>
+  <data name="premiumBenefitHistory" xml:space="preserve"><value>More flexible history management</value></data>
+  <data name="premiumBuy" xml:space="preserve"><value>Buy plan</value></data>
+  <data name="jobRoleEmpty" xml:space="preserve"><value>No matching job roles found.</value></data>
+  <data name="avatarReadError" xml:space="preserve"><value>Could not read the image file.</value></data>
+  <data name="avatarProcessError" xml:space="preserve"><value>Could not process the image.</value></data>
+  <data name="avatarCanvasError" xml:space="preserve"><value>Could not prepare image processing.</value></data>
+  <data name="avatarDataError" xml:space="preserve"><value>Could not prepare the image for upload.</value></data>
+  <data name="avatarInvalidFile" xml:space="preserve"><value>The selected file is not an image.</value></data>
+  <data name="avatarUploadUrlError" xml:space="preserve"><value>Avatar upload URL was not found.</value></data>
+  <data name="avatarUploadError" xml:space="preserve"><value>Could not upload the image. Try another photo.</value></data>
+</root>

@@ -42,4 +42,28 @@
   <data name="next" xml:space="preserve">
     <value>Pirmyn</value>
   </data>
+  <data name="freePlan" xml:space="preserve">
+    <value>Nemokamas planas</value>
+  </data>
+  <data name="measurementLimit" xml:space="preserve">
+    <value>Matavimų limitas</value>
+  </data>
+  <data name="remainingLimit" xml:space="preserve">
+    <value>Liko {0} nemokamo plano matavimų.</value>
+  </data>
+  <data name="limitReachedPremium" xml:space="preserve">
+    <value>Pasiektas nemokamo plano limitas. Paspauskite, kad sužinotumėte apie Premium funkcijas.</value>
+  </data>
+  <data name="premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="riskHigh" xml:space="preserve">
+    <value>Aukšta</value>
+  </data>
+  <data name="riskMedium" xml:space="preserve">
+    <value>Vidutinė</value>
+  </data>
+  <data name="riskLow" xml:space="preserve">
+    <value>Žema</value>
+  </data>
 </root>

@@ -1,6 +1,9 @@
 using System.Linq.Expressions;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Google.GenAI;
 using Hamburgerz.Data;
+using Hamburgerz.Helpers;
 using Hamburgerz.Models;
 using Hamburgerz.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -105,7 +108,7 @@ namespace Hamburgerz.Controllers
                 var countryExists = await _context.Countries.AnyAsync(country => country.Id == model.CountryID.Value);
                 if (!countryExists)
                 {
-                    ModelState.AddModelError(nameof(model.CountryID), "Pasirinkite tinkamą šalį.");
+                    ModelState.AddModelError(nameof(model.CountryID), IsEnglish() ? "Select a valid country." : "Pasirinkite tinkamą šalį.");
                 }
             }
 
@@ -198,7 +201,7 @@ namespace Hamburgerz.Controllers
 
             if (avatar == null || avatar.Length == 0)
             {
-                return BadRequest(new { message = "Pasirinkite paveikslėlį." });
+                return BadRequest(new { message = IsEnglish() ? "Choose an image." : "Pasirinkite paveikslėlį." });
             }
 
             if (avatar.Length > MaxAvatarSizeBytes)
@@ -263,6 +266,8 @@ namespace Hamburgerz.Controllers
             ViewBag.TotalPages = totalPages;
             ViewBag.TotalCount = totalCount;
             ViewBag.PageSize = pageSize;
+            ViewBag.HasPremiumFeatures = HttpContext.Session.HasPremiumFeatures();
+            ViewBag.MeasurementLimit = UserAccess.FreeMeasurementLimit;
 
             return View(measurements);
         }
@@ -283,6 +288,8 @@ namespace Hamburgerz.Controllers
                 .Select(MeasurementProjection)
                 .ToListAsync();
 
+            ViewBag.HasAiAccess = HttpContext.Session.HasPremiumFeatures();
+            ViewBag.AnalysisEndpoint = Url.Action(nameof(GetAnalysis), "Profile");
             return View(measurements);
         }
 
@@ -311,13 +318,27 @@ namespace Hamburgerz.Controllers
                 .Select(u => u.BirthDate)
                 .FirstOrDefaultAsync();
 
+            ViewBag.HasAiAccess = HttpContext.Session.HasPremiumFeatures();
+            ViewBag.CanDeleteMeasurement = HttpContext.Session.HasPremiumFeatures();
+            ViewBag.AiSuggestionUrl = Url.Action(nameof(GetAiSuggestion), "Profile", new { id = measurement.ID });
             return View(MapToMeasurement(measurement, birthDate));
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAiSuggestion(int id)
         {
-            var data = await _context.RiskData.FindAsync(id);
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return Unauthorized();
+
+            var currentUserType = HttpContext.Session.GetString("UserType");
+            if (!UserAccess.HasPremiumFeatures(currentUserType))
+            {
+                return Json(new { suggestion = IsEnglish() ? "AI insights are available for Premium users." : "AI įžvalgos prieinamos Premium vartotojams." });
+            }
+
+            var isAdmin = UserAccess.IsAdmin(currentUserType);
+            var data = await _context.RiskData
+                .FirstOrDefaultAsync(r => r.ID == id && (isAdmin || r.UserId == userId.Value));
             if (data == null) return NotFound();
 
             // If we already generated it, just return it
@@ -405,16 +426,40 @@ No intro, no headers, no job/profession references, no medical claims. Calm, dir
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null) return Unauthorized();
 
+            if (!HttpContext.Session.HasPremiumFeatures())
+            {
+                return Json(new { status = "limited", message = IsEnglish() ? "AI analysis is available for Premium users." : "AI analizė prieinama Premium vartotojams." });
+            }
+
             var currentCount = await _context.RiskData.CountAsync(r => r.UserId == userId.Value);
             if (currentCount == 0)
                 return Json(new { status = "empty" });
 
+            var requestedCulture = GetAnalysisCulture();
             var cached = await _context.AnalysisCache
                 .FirstOrDefaultAsync(c => c.UserId == userId.Value);
 
             if (cached != null && cached.MeasurementCount == currentCount)
             {
-                if (cached.Status == "ready" && !string.IsNullOrEmpty(cached.Content))
+                if (TryReadAnalysisCache(cached.Content, requestedCulture, out var localizedPeriods, out var cultureStatus, out var cultureGeneratedAt, out var cultureErrorMessage))
+                {
+                    if (cultureStatus == "ready" && localizedPeriods != null)
+                    {
+                        return Json(new { status = "ready", periods = localizedPeriods });
+                    }
+
+                    if (cultureStatus == "generating" && cultureGeneratedAt.HasValue && DateTime.Now - cultureGeneratedAt.Value < TimeSpan.FromMinutes(10))
+                    {
+                        return Json(new { status = "generating" });
+                    }
+
+                    if (cultureStatus == "failed")
+                    {
+                        return Json(new { status = "error", message = cultureErrorMessage ?? "Generation failed." });
+                    }
+                }
+
+                if (cached.Content == "__legacy_analysis_cache__" && cached.Status == "ready")
                 {
                     try
                     {
@@ -423,7 +468,7 @@ No intro, no headers, no job/profession references, no medical claims. Calm, dir
                     }
                     catch { /* malformed — fall through to regenerate */ }
                 }
-                else if (cached.Status == "generating" && DateTime.Now - cached.GeneratedAt < TimeSpan.FromMinutes(10))
+                if (cached.Status == "generating" && DateTime.Now - cached.GeneratedAt < TimeSpan.FromMinutes(10))
                 {
                     return Json(new { status = "generating" });
                 }
@@ -435,7 +480,7 @@ No intro, no headers, no job/profession references, no medical claims. Calm, dir
 
             var apiKey = GetGeminiApiKey();
             if (string.IsNullOrWhiteSpace(apiKey))
-                return Json(new { status = "error", message = "AI nera sukonfigūruotas." });
+                return Json(new { status = "error", message = IsEnglish() ? "AI is not configured." : "AI nėra sukonfigūruotas." });
 
             if (cached == null)
             {
@@ -445,12 +490,13 @@ No intro, no headers, no job/profession references, no medical claims. Calm, dir
             cached.MeasurementCount = currentCount;
             cached.GeneratedAt = DateTime.Now;
             cached.Status = "generating";
-            cached.Content = null;
+            cached.Content = UpsertAnalysisCacheContent(cached.Content, requestedCulture, "generating");
             await _context.SaveChangesAsync();
 
             var cacheId = cached.Id;
             var capturedUserId = userId.Value;
             var capturedApiKey = apiKey;
+            var capturedCulture = requestedCulture;
 
             _ = Task.Run(async () =>
             {
@@ -458,12 +504,12 @@ No intro, no headers, no job/profession references, no medical claims. Calm, dir
                 var ctx = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 try
                 {
-                    var content = await BuildAnalysisContentAsync(capturedUserId, capturedApiKey, ctx);
+                    var content = await BuildAnalysisContentAsync(capturedUserId, capturedApiKey, ctx, capturedCulture);
                     var record = await ctx.AnalysisCache.FindAsync(cacheId);
                     if (record != null)
                     {
                         record.Status = "ready";
-                        record.Content = content;
+                        record.Content = UpsertAnalysisCacheContent(record.Content, capturedCulture, "ready", content);
                         await ctx.SaveChangesAsync();
                     }
                 }
@@ -473,7 +519,7 @@ No intro, no headers, no job/profession references, no medical claims. Calm, dir
                     if (record != null)
                     {
                         record.Status = "failed";
-                        record.Content = ex.Message;
+                        record.Content = UpsertAnalysisCacheContent(record.Content, capturedCulture, "failed", errorMessage: ex.Message);
                         await ctx.SaveChangesAsync();
                     }
                 }
@@ -482,7 +528,7 @@ No intro, no headers, no job/profession references, no medical claims. Calm, dir
             return Json(new { status = "generating" });
         }
 
-        private static async Task<string> BuildAnalysisContentAsync(int userId, string apiKey, AppDbContext ctx)
+        public static async Task<string> BuildAnalysisContentAsync(int userId, string apiKey, AppDbContext ctx, string cultureName)
         {
             var allItems = await ctx.RiskData
                 .Where(r => r.UserId == userId)
@@ -543,7 +589,56 @@ No intro, no headers, no job/profession references, no medical claims. Calm, dir
                     sb.AppendLine();
                 }
             }
-            if (System.Globalization.CultureInfo.CurrentUICulture.Name == "lt-LT")
+            var isEnglishAnalysis = IsEnglishCulture(cultureName);
+            sb.AppendLine();
+            sb.AppendLine(isEnglishAnalysis
+                ? "OUTPUT LANGUAGE: English (en-US). Return every insight and action in English."
+                : "OUTPUT LANGUAGE: Lithuanian (lt-LT). Return every insight and action in Lithuanian.");
+            sb.Append(isEnglishAnalysis
+                ? @"
+You are the insight engine for a personal wellness app. Turn the data above into short, personal insights.
+
+TONE: Speak directly to the user as ""you"". Calm, warm, no drama.
+STYLE:
+  insight = 3-5 sentences. Start with the most notable pattern, explain what it means for energy and recovery, then compare values or highlight a trend if relevant.
+  action = 2 concrete, specific suggestions. Reference the actual data.
+
+RULES:
+- Write all JSON string values in English.
+- Use real numbers for sleep/work/exercise/screen.
+- For mood/disconnect/focus: never say ""avg 2.8/4""; describe the scale in natural language.
+- Each period's insight must feel distinct.
+- No profession or job role references.
+- No medical claims.
+- No fear or alarm language.
+- Use null for any period with no data.
+
+Return ONLY this JSON, no markdown, no explanation:
+{""7d"":{""insight"":""..."",""action"":""...""},""30d"":{""insight"":""..."",""action"":""...""},""3m"":{""insight"":""..."",""action"":""...""},""6m"":{""insight"":""..."",""action"":""...""},""1y"":{""insight"":""..."",""action"":""...""},""all"":{""insight"":""..."",""action"":""...""}}
+"
+                : @"
+You are the insight engine for a personal wellness app. Turn the data above into short, personal insights.
+
+TONE: Speak directly to the user in Lithuanian using informal ""tu"" form. Calm, warm, no drama.
+STYLE:
+  insight = 3-5 sentences. Start with the most notable pattern, explain what it means for energy and recovery, then compare values or highlight a trend if relevant.
+  action = 2 concrete, specific suggestions. Reference the actual data.
+
+RULES:
+- Write all JSON string values in Lithuanian.
+- Use real numbers for sleep/work/exercise/screen.
+- For mood/disconnect/focus: never say ""avg 2.8/4""; describe the scale in natural language.
+- Each period's insight must feel distinct.
+- No profession or job role references.
+- No medical claims.
+- No fear or alarm language.
+- Use null for any period with no data.
+
+Return ONLY this JSON, no markdown, no explanation:
+{""7d"":{""insight"":""..."",""action"":""...""},""30d"":{""insight"":""..."",""action"":""...""},""3m"":{""insight"":""..."",""action"":""...""},""6m"":{""insight"":""..."",""action"":""...""},""1y"":{""insight"":""..."",""action"":""...""},""all"":{""insight"":""..."",""action"":""...""}}
+");
+
+            if (!isEnglishAnalysis && sb.Length < 0)
             {
                 sb.Append(@"
 You are the insight engine for a personal wellness app. Turn the data above into short, personal insights.
@@ -576,7 +671,7 @@ action: Rekomenduojama kreiptis į gydytoją.
 
 ONCE AGAIN, ALL IN LITHUANIAN!!");
             }
-            else if (System.Globalization.CultureInfo.CurrentUICulture.Name == "en-US")
+            else if (isEnglishAnalysis && sb.Length < 0)
             {
                 sb.Append(@"
 You are the insight engine for a personal wellness app. Turn the data above into short, personal insights.
@@ -620,6 +715,99 @@ action: It is recommended that they see a doctor.");
             return raw;
         }
 
+        public static bool TryReadAnalysisCache(
+            string? content,
+            string cultureName,
+            out Dictionary<string, JsonElement>? periods,
+            out string? status,
+            out DateTime? generatedAt,
+            out string? errorMessage)
+        {
+            periods = null;
+            status = null;
+            generatedAt = null;
+            errorMessage = null;
+
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                return false;
+            }
+
+            try
+            {
+                using var document = JsonDocument.Parse(content);
+                if (!document.RootElement.TryGetProperty("cultures", out var cultures)
+                    || !cultures.TryGetProperty(cultureName, out var entry))
+                {
+                    return false;
+                }
+
+                status = entry.TryGetProperty("status", out var statusElement)
+                    ? statusElement.GetString()
+                    : null;
+
+                if (entry.TryGetProperty("generatedAt", out var generatedAtElement)
+                    && generatedAtElement.ValueKind == JsonValueKind.String
+                    && DateTime.TryParse(generatedAtElement.GetString(), out var parsedGeneratedAt))
+                {
+                    generatedAt = parsedGeneratedAt;
+                }
+
+                if (entry.TryGetProperty("error", out var errorElement))
+                {
+                    errorMessage = errorElement.GetString();
+                }
+
+                if (status == "ready" && entry.TryGetProperty("periods", out var periodsElement))
+                {
+                    periods = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(periodsElement.GetRawText());
+                }
+
+                return !string.IsNullOrWhiteSpace(status);
+            }
+            catch (JsonException)
+            {
+                return false;
+            }
+        }
+
+        public static string UpsertAnalysisCacheContent(string? existingContent, string cultureName, string status, string? periodsJson = null, string? errorMessage = null)
+        {
+            JsonObject root;
+            try
+            {
+                root = !string.IsNullOrWhiteSpace(existingContent)
+                    ? JsonNode.Parse(existingContent) as JsonObject ?? new JsonObject()
+                    : new JsonObject();
+            }
+            catch (JsonException)
+            {
+                root = new JsonObject();
+            }
+
+            var cultures = root["cultures"] as JsonObject ?? new JsonObject();
+            var entry = new JsonObject
+            {
+                ["status"] = status,
+                ["generatedAt"] = DateTime.Now
+            };
+
+            if (!string.IsNullOrWhiteSpace(periodsJson))
+            {
+                entry["periods"] = JsonNode.Parse(periodsJson);
+            }
+
+            if (!string.IsNullOrWhiteSpace(errorMessage))
+            {
+                entry["error"] = errorMessage;
+            }
+
+            cultures[cultureName] = entry;
+            root["cultures"] = cultures;
+
+            return root.ToJsonString();
+        }
+
         [HttpPost("Profile/UpdateTimestamp")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateTimestamp(int id, DateTime? timeStamp, string? originalTime = null)
@@ -633,7 +821,7 @@ action: It is recommended that they see a doctor.");
 
             if (!ModelState.IsValid || timeStamp == null)
             {
-                TempData["MeasurementError"] = "Please select a valid date.";
+                TempData["MeasurementError"] = IsEnglish() ? "Please select a valid date." : "Pasirinkite tinkamą datą.";
                 return RedirectToAction(nameof(Result), new { id });
             }
 
@@ -671,6 +859,12 @@ action: It is recommended that they see a doctor.");
                 return RedirectToAction("Index", "Login");
             }
 
+            if (!HttpContext.Session.HasPremiumFeatures())
+            {
+                TempData["MeasurementError"] = IsEnglish() ? "Measurement deletion is available for Premium users." : "Matavimų trynimas prieinamas Premium vartotojams.";
+                return RedirectToAction(nameof(Result), new { id });
+            }
+
             var measurement = await _context.RiskData
                 .FirstOrDefaultAsync(r => r.UserId == userId.Value && r.ID == id);
 
@@ -682,8 +876,62 @@ action: It is recommended that they see a doctor.");
             _context.RiskData.Remove(measurement);
             await _context.SaveChangesAsync();
 
-            TempData["MeasurementSuccess"] = "Measurement deleted.";
+            TempData["MeasurementSuccess"] = IsEnglish() ? "Measurement deleted." : "Matavimas ištrintas.";
             return RedirectToAction(nameof(History));
+        }
+
+        [HttpPost("Profile/UpgradeToPremium")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpgradeToPremium(string? returnUrl = null)
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            try
+            {
+                await UserTypeSchema.EnsureAsync(_context);
+            }
+            catch
+            {
+                TempData["PremiumSuccess"] = IsEnglish()
+                    ? "Premium could not be activated because the user type column is not ready."
+                    : "Premium nepavyko aktyvuoti, nes vartotojo tipo stulpelis dar neparuoštas.";
+
+                if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+                {
+                    return LocalRedirect(returnUrl);
+                }
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId.Value);
+            if (user == null)
+            {
+                return RedirectToAction("Logout", "Login");
+            }
+
+            if (!UserAccess.IsAdmin(user.UserType))
+            {
+                await _context.Database.ExecuteSqlInterpolatedAsync(
+                    $"UPDATE `users` SET `user_type` = {UserAccess.Premium} WHERE `id` = {user.Id}");
+                await _context.Entry(user).ReloadAsync();
+            }
+
+            var normalizedUserType = UserAccess.NormalizeUserType(user.UserType);
+            HttpContext.Session.SetString("UserType", normalizedUserType);
+            TempData["PremiumSuccess"] = IsEnglish() ? "Premium plan activated." : "Premium planas aktyvuotas.";
+
+            if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+            {
+                return LocalRedirect(returnUrl);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         private async Task<ProfilePageViewModel> BuildProfilePageViewModelAsync(User user, ProfilePageViewModel? submittedModel = null)
@@ -821,5 +1069,14 @@ action: It is recommended that they see a doctor.");
             var normalizedBirthDate = birthDate.Date;
             return normalizedBirthDate >= today.AddYears(-100) && normalizedBirthDate <= today.AddYears(-14);
         }
+
+        private static bool IsEnglish() =>
+            System.Globalization.CultureInfo.CurrentUICulture.Name.Equals("en-US", StringComparison.OrdinalIgnoreCase);
+
+        public static string GetAnalysisCulture() =>
+            IsEnglish() ? "en-US" : "lt-LT";
+
+        private static bool IsEnglishCulture(string cultureName) =>
+            cultureName.Equals("en-US", StringComparison.OrdinalIgnoreCase);
     }
 }

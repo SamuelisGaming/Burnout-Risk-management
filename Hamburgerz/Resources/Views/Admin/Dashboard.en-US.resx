@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve"><value>Admin</value></data>
+  <data name="kicker" xml:space="preserve"><value>Admin</value></data>
+  <data name="heading" xml:space="preserve"><value>Users</value></data>
+  <data name="description" xml:space="preserve"><value>Review all users or find a specific one by ID, email, or username.</value></data>
+  <data name="searchPlaceholder" xml:space="preserve"><value>ID, email, or username</value></data>
+  <data name="search" xml:space="preserve"><value>Search</value></data>
+  <data name="clear" xml:space="preserve"><value>Clear</value></data>
+  <data name="username" xml:space="preserve"><value>Username</value></data>
+  <data name="email" xml:space="preserve"><value>Email</value></data>
+  <data name="type" xml:space="preserve"><value>Type</value></data>
+  <data name="measurements" xml:space="preserve"><value>Measurements</value></data>
+  <data name="latest" xml:space="preserve"><value>Latest</value></data>
+  <data name="empty" xml:space="preserve"><value>No users found.</value></data>
+  <data name="open" xml:space="preserve"><value>Open</value></data>
+</root>

@@ -129,4 +129,7 @@
   <data name="possigns" xml:space="preserve">
     <value>Possible signs</value>
   </data>
+  <data name="premiumAiRequired" xml:space="preserve">
+    <value>AI insights are available for Premium users.</value>
+  </data>
 </root>

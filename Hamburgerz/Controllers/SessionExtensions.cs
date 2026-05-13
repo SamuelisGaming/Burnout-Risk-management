@@ -21,7 +21,7 @@ namespace Hamburgerz.Helpers
 
         public static string? GetUserType(this ISession session)
         {
-            return session.GetString("UserType");
+            return UserAccess.NormalizeUserType(session.GetString("UserType"));
         }
 
         public static string? GetEmail(this ISession session)

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="titlePrefix" xml:space="preserve"><value>Admin</value></data>
+  <data name="allUsers" xml:space="preserve"><value>Visi vartotojai</value></data>
+  <data name="measurements" xml:space="preserve"><value>Matavimai</value></data>
+  <data name="analysis" xml:space="preserve"><value>Analizė</value></data>
+  <data name="latestMeasurement" xml:space="preserve"><value>Paskutinis matavimas</value></data>
+  <data name="planType" xml:space="preserve"><value>Plano tipas</value></data>
+  <data name="profileData" xml:space="preserve"><value>Profilio duomenys</value></data>
+  <data name="gender" xml:space="preserve"><value>Lytis</value></data>
+  <data name="birthDate" xml:space="preserve"><value>Gimimo data</value></data>
+  <data name="country" xml:space="preserve"><value>Šalis</value></data>
+  <data name="jobRole" xml:space="preserve"><value>Pareigos</value></data>
+  <data name="experience" xml:space="preserve"><value>Patirtis</value></data>
+  <data name="companySize" xml:space="preserve"><value>Įmonės dydis</value></data>
+  <data name="workEnvironment" xml:space="preserve"><value>Darbo aplinka</value></data>
+</root>

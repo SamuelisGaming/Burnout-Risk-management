@@ -4,6 +4,11 @@
 
 @{
     ViewData["Title"] = @Localizer["title1"];
+    var hasAiAccess = ViewBag.HasAiAccess is bool aiAccess && aiAccess;
+    var analysisController = (ViewBag.AnalysisController as string) ?? "Profile";
+    var analysisAction = (ViewBag.AnalysisAction as string) ?? "Analysis";
+    var analysisUserId = ViewBag.AnalysisUserId;
+    var analysisEndpoint = (ViewBag.AnalysisEndpoint as string) ?? Url.Action("GetAnalysis", "Profile");
 
     var measurements = (Model ?? new List<Hamburgerz.Models.RiskMeasurement>())
         .OrderBy(x => x.TimeStamp)
@@ -230,7 +235,11 @@
                 <div class="hero-pill">@totalCount @Localizer["meas"].Value</div>
                 <div class="hero-pill">@Localizer["latest"] @latest.TimeStamp.ToString("yyyy-MM-dd")</div>
 
-                <form method="get" asp-controller="Profile" asp-action="Analysis" class="period-selector-form">
+                <form method="get" asp-controller="@analysisController" asp-action="@analysisAction" class="period-selector-form">
+                    @if (analysisUserId != null)
+                    {
+                        <input type="hidden" name="userId" value="@analysisUserId" />
+                    }
                     <label for="periodSelect" class="sr-only">@Localizer["selrange"]</label>
                     <div class="period-select-wrap">
                         <select id="periodSelect" name="period" class="period-select" onchange="this.form.submit()">
@@ -427,6 +436,8 @@
                 </div>
             </section>
 
+            @if (hasAiAccess)
+            {
             <section class="panel panel-wide" id="aiInsightsPanel">
                 <div class="panel-header">
                     <div>
@@ -440,6 +451,48 @@
                 </div>
                 <div id="aiInsightsResult" class="ai-insights-result" style="display:none;"></div>
             </section>
+            }
+            else
+            {
+            <section class="panel panel-wide premium-locked-panel">
+                <div class="premium-blur-preview" aria-hidden="true">
+                    <div class="panel-header">
+                        <div>
+                            <div class="section-kicker">@Localizer["ai"]</div>
+                            <h3 class="panel-title">@Localizer["period"]</h3>
+                        </div>
+                        <div class="panel-note">@Localizer["premium"]</div>
+                    </div>
+
+                    <div class="ai-insight-layout">
+                        <p class="ai-insight-text">
+                            @Localizer["lockedPreview1"]
+                            @Localizer["lockedPreview2"]
+                        </p>
+                        <div class="ai-action-row">
+                            <span class="ai-action-label">@Localizer["trythis"].Value</span>
+                            <span class="ai-action-text">@Localizer["lockedAction"]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button"
+                        class="premium-lock-overlay"
+                        data-bs-toggle="modal"
+                        data-bs-target="#premiumModal"
+                        aria-label="@Localizer["openPremium"].Value">
+                    <span class="premium-lock-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <rect x="5" y="10" width="14" height="10" rx="2.5" stroke="currentColor" stroke-width="2" />
+                            <path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                            <path d="M12 14v2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </span>
+                    <span class="premium-lock-title">@Localizer["premiumRequired"]</span>
+                    <span class="premium-lock-copy">@Localizer["premiumLockCopy"]</span>
+                </button>
+            </section>
+            }
 
             <section class="panel panel-full">
                 <div class="panel-header">
@@ -734,6 +787,78 @@
         #aiInsightsPanel .panel-header {
             margin-bottom: 12px;
         }
+
+    .premium-locked-panel {
+        position: relative;
+        min-height: 310px;
+        overflow: hidden;
+    }
+
+    .premium-blur-preview {
+        filter: blur(4px);
+        opacity: 0.58;
+        transform: scale(1.01);
+        pointer-events: none;
+        user-select: none;
+    }
+
+    .premium-lock-overlay {
+        position: absolute;
+        inset: 0;
+        border: 0;
+        background:
+            linear-gradient(135deg, rgba(var(--color-surface-rgb), 0.74), rgba(var(--color-bg-rgb), 0.58)),
+            radial-gradient(circle at top right, rgba(251, 191, 36, 0.26), transparent 34%);
+        color: var(--color-text);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 24px;
+        text-align: center;
+        cursor: pointer;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        transition: background 0.18s ease, transform 0.18s ease;
+    }
+
+    .premium-lock-overlay:hover {
+        background:
+            linear-gradient(135deg, rgba(var(--color-surface-rgb), 0.68), rgba(var(--color-bg-rgb), 0.52)),
+            radial-gradient(circle at top right, rgba(251, 191, 36, 0.34), transparent 36%);
+    }
+
+    .premium-lock-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #251604;
+        background: linear-gradient(135deg, #fbbf24, #d97706);
+        box-shadow: 0 16px 30px rgba(217, 119, 6, 0.28);
+    }
+
+    .premium-lock-icon svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    .premium-lock-title {
+        font-size: 22px;
+        font-weight: 900;
+        color: var(--color-text);
+    }
+
+    .premium-lock-copy {
+        max-width: 390px;
+        color: var(--color-text-muted);
+        font-size: 14px;
+        line-height: 1.55;
+        font-weight: 700;
+    }
 
     .panel-header {
         display: flex;
@@ -1274,7 +1399,7 @@
             }
 
             function poll() {
-                fetch("/Profile/GetAnalysis")
+                fetch(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(analysisEndpoint)))
                     .then(function (r) { return r.json(); })
                     .then(function (data) {
                         if (data.status === "ready") {

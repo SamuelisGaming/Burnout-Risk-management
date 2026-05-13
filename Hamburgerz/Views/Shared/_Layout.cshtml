@@ -1,5 +1,8 @@
-﻿<!DOCTYPE html>
-<html lang="lt" data-theme="light">
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer LayoutLocalizer
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName" data-theme="light">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -121,12 +124,72 @@
             background: var(--color-surface-2);
             color: var(--color-danger) !important;
         }
+
+        .premium-modal-kicker {
+            width: max-content;
+            padding: 0.35rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(245, 158, 11, 0.14);
+            border: 1px solid rgba(245, 158, 11, 0.28);
+            color: #b45309;
+            font-size: 0.72rem;
+            font-weight: 850;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .premium-benefits {
+            display: grid;
+            gap: 0.75rem;
+            margin: 1rem 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .premium-benefits li {
+            display: flex;
+            gap: 0.7rem;
+            align-items: flex-start;
+            padding: 0.85rem;
+            border-radius: 14px;
+            border: 1px solid var(--color-border);
+            background: var(--color-bg);
+            color: var(--color-text);
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .premium-benefits li::before {
+            content: "";
+            width: 0.72rem;
+            height: 0.72rem;
+            margin-top: 0.25rem;
+            border-radius: 50%;
+            flex: 0 0 auto;
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.14);
+        }
+
+        .premium-purchase-btn {
+            width: 100%;
+            border: 0;
+            border-radius: 14px;
+            padding: 0.9rem 1rem;
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            color: #251604;
+            font-weight: 900;
+            box-shadow: 0 14px 28px rgba(217, 119, 6, 0.22);
+        }
     </style>
 </head>
 @{
     var userId = Context.Session.GetInt32("UserId");
     var username = Context.Session.GetString("Username");
+    var userType = Context.Session.GetString("UserType")?.Trim().ToLowerInvariant();
+    var isAdmin = userType == "admin";
+    var hasPremiumFeatures = userType == "premium" || userType == "admin";
     var isLoggedIn = userId != null;
+    var currentReturnUrl = $"{Context.Request.PathBase}{Context.Request.Path}{Context.Request.QueryString}";
 
     var userInitial = !string.IsNullOrWhiteSpace(username)
         ? username.Substring(0, 1).ToUpper()
@@ -134,7 +197,18 @@
 
     var avatarUrl = isLoggedIn ? Url.Action("Avatar", "Profile") ?? string.Empty : string.Empty;
 }
-<body class="app-body" data-avatar-url="@avatarUrl">
+<body class="app-body"
+      data-avatar-url="@avatarUrl"
+      data-theme-label-light="@LayoutLocalizer["themeLight"].Value"
+      data-theme-label-dark="@LayoutLocalizer["themeDark"].Value"
+      data-job-role-empty="@LayoutLocalizer["jobRoleEmpty"].Value"
+      data-avatar-read-error="@LayoutLocalizer["avatarReadError"].Value"
+      data-avatar-process-error="@LayoutLocalizer["avatarProcessError"].Value"
+      data-avatar-canvas-error="@LayoutLocalizer["avatarCanvasError"].Value"
+      data-avatar-data-error="@LayoutLocalizer["avatarDataError"].Value"
+      data-avatar-invalid-file="@LayoutLocalizer["avatarInvalidFile"].Value"
+      data-avatar-upload-url-error="@LayoutLocalizer["avatarUploadUrlError"].Value"
+      data-avatar-upload-error="@LayoutLocalizer["avatarUploadError"].Value">
     <div class="app-background" aria-hidden="true">
         <div class="app-background__mesh"></div>
         <div class="app-background__orb app-background__orb--primary"></div>
@@ -154,7 +228,7 @@
                         <a class="navbar-brand app-brand" asp-area="" asp-controller="Home" asp-action="Index">
                             <img src="~/assets/hamburgerz_logo.png"
                                  asp-append-version="true"
-                                 alt="Hamburgerz logo"
+                                 alt="@LayoutLocalizer["logoAlt"].Value"
                                  class="app-brand-mark" />
                             <span class="app-brand-text">Hamburgerz</span>
                         </a>
@@ -167,7 +241,7 @@
                                 <a class="navbar-brand app-brand mb-0" asp-area="" asp-controller="Home" asp-action="Index">
                                     <img src="~/assets/hamburgerz_logo.png"
                                          asp-append-version="true"
-                                         alt="Hamburgerz logo"
+                                         alt="@LayoutLocalizer["logoAlt"].Value"
                                          class="app-brand-mark" />
                                     <span class="app-brand-text">Hamburgerz</span>
                                 </a>
@@ -176,14 +250,20 @@
                             <div class="d-flex justify-content-center flex-grow-1">
                                 <ul class="navbar-nav d-flex flex-row gap-4">
                                     <li class="nav-item">
-                                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">@LayoutLocalizer["home"]</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="History">History</a>
+                                        <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="History">@LayoutLocalizer["history"]</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="Analysis">Analysis</a>
+                                        <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="Analysis">@LayoutLocalizer["analysis"]</a>
                                     </li>
+                                    @if (isAdmin)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Dashboard">@LayoutLocalizer["admin"]</a>
+                                        </li>
+                                    }
                                 </ul>
                             </div>
 
@@ -193,9 +273,9 @@
                                             type="button"
                                             data-bs-toggle="dropdown"
                                             aria-expanded="false"
-                                            aria-label="Profilio meniu">
+                                            aria-label="@LayoutLocalizer["profileMenu"].Value">
                                         <div class="profile-avatar" data-avatar-root>
-                                            <img class="profile-avatar-image" data-avatar-image alt="Profilio nuotrauka" hidden />
+                                            <img class="profile-avatar-image" data-avatar-image alt="@LayoutLocalizer["profilePhoto"].Value" hidden />
                                             <span class="profile-avatar-fallback" data-avatar-fallback>@userInitial</span>
                                         </div>
                                     </button>
@@ -203,7 +283,7 @@
                                      <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
                                          <li>
                                              <a class="dropdown-item" asp-area="" asp-controller="Profile" asp-action="Index">
-                                                 Profilis
+                                                 @LayoutLocalizer["profile"]
                                              </a>
                                          </li>
                                          <li>
@@ -212,13 +292,13 @@
                                                      data-settings-open
                                                      data-settings-modal-target="#settingsModal"
                                                      aria-controls="settingsModal">
-                                                 Settings
+                                                 @LayoutLocalizer["settings"]
                                              </button>
                                          </li>
                                          <li><hr class="dropdown-divider" /></li>
                                          <li>
                                              <a class="dropdown-item text-danger" asp-area="" asp-controller="Login" asp-action="Logout">
-                                                 Atsijungti
+                                                 @LayoutLocalizer["logout"]
                                              </a>
                                         </li>
                                     </ul>
@@ -239,7 +319,7 @@
 
         <footer class="border-top footer">
             <div class="container">
-                &copy; 2026 - Hamburgerz - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                &copy; 2026 - Hamburgerz - <a asp-area="" asp-controller="Home" asp-action="Privacy">@LayoutLocalizer["privacy"]</a>
             </div>
         </footer>
 
@@ -252,20 +332,20 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <div>
-                            <div class="app-modal-kicker">Appearance</div>
-                            <h2 class="modal-title fs-5" id="settingsModalLabel">Settings</h2>
+                            <div class="app-modal-kicker">@LayoutLocalizer["appearance"]</div>
+                            <h2 class="modal-title fs-5" id="settingsModalLabel">@LayoutLocalizer["settings"]</h2>
                         </div>
 
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Uždaryti"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@LayoutLocalizer["close"].Value"></button>
                     </div>
 
                     <div class="modal-body">
                         <div class="settings-card">
                             <div class="settings-toggle-row">
                                 <div>
-                                    <div class="settings-item-title">Dark mode</div>
+                                    <div class="settings-item-title">@LayoutLocalizer["darkMode"]</div>
                                     <p class="settings-item-copy">
-                                        Perjunk visos sistemos išvaizdą tarp šviesaus ir tamsaus režimo.
+                                        @LayoutLocalizer["darkModeCopy"]
                                     </p>
                                 </div>
 
@@ -275,21 +355,21 @@
                                            role="switch"
                                            id="themeModeSwitch"
                                            data-theme-toggle
-                                           aria-label="Perjungti tamsų režimą"
+                                           aria-label="@LayoutLocalizer["darkModeToggle"].Value"
                                            aria-describedby="themeModeHint" />
                                 </div>
                             </div>
 
                             <div class="settings-meta">
-                                <span class="settings-theme-badge" data-theme-value>Šviesus režimas</span>
-                                <span id="themeModeHint">Nustatymas išsaugomas šiame įrenginyje.</span>
+                                <span class="settings-theme-badge" data-theme-value>@LayoutLocalizer["themeLight"]</span>
+                                <span id="themeModeHint">@LayoutLocalizer["themeSaved"]</span>
                             </div>
                         </div>
 
                         <div class="settings-card settings-card-spaced">
-                            <div class="settings-item-title">Languages</div>
+                            <div class="settings-item-title">@LayoutLocalizer["languages"]</div>
                             <p class="settings-item-copy">
-                                Pasirink sistemos kalbą.
+                                @LayoutLocalizer["languagesCopy"]
                             </p>
 
                             @* <div class="settings-language-strip" aria-label="Galimos kalbos">
@@ -314,7 +394,7 @@
                                 </button>
                             </div> *@
 
-                            <div class="settings-language-strip" aria-label="Galimos kalbos">
+                            <div class="settings-language-strip" aria-label="@LayoutLocalizer["availableLanguages"].Value">
                                 <button type="button" class="settings-language-option" data-lang="lt-LT">
                                     <span class="settings-language-flag settings-language-flag--lt"></span>
                                     <span class="settings-language-label">Lietuvių</span>
@@ -327,6 +407,42 @@
                                 
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (isLoggedIn && !hasPremiumFeatures)
+    {
+        <div class="modal fade app-modal" id="premiumModal" tabindex="-1" aria-labelledby="premiumModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                            <div class="premium-modal-kicker">@LayoutLocalizer["premium"]</div>
+                            <h2 class="modal-title fs-5" id="premiumModalLabel">@LayoutLocalizer["premiumTitle"]</h2>
+                        </div>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@LayoutLocalizer["close"].Value"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p class="settings-item-copy">
+                            @LayoutLocalizer["premiumCopy"]
+                        </p>
+
+                        <ul class="premium-benefits">
+                            <li>@LayoutLocalizer["premiumBenefitMeasurements"]</li>
+                            <li>@LayoutLocalizer["premiumBenefitAi"]</li>
+                            <li>@LayoutLocalizer["premiumBenefitHistory"]</li>
+                        </ul>
+
+                        <form asp-controller="Profile" asp-action="UpgradeToPremium" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="returnUrl" value="@currentReturnUrl" />
+                            <button type="submit" class="premium-purchase-btn">@LayoutLocalizer["premiumBuy"]</button>
+                        </form>
                     </div>
                 </div>
             </div>

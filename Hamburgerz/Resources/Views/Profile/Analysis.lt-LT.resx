@@ -186,4 +186,25 @@
   <data name="analno" xml:space="preserve">
     <value>Įžvalgos laikinai nepasiekiamos.</value>
   </data>
+  <data name="premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="lockedPreview1" xml:space="preserve">
+    <value>Tavo paskutinio laikotarpio duomenyse matosi miego, darbo valandų ir streso ritmo pokyčiai.</value>
+  </data>
+  <data name="lockedPreview2" xml:space="preserve">
+    <value>Premium analizė palygina laikotarpius, išskiria stipriausius signalus ir pasiūlo konkrečius veiksmus.</value>
+  </data>
+  <data name="lockedAction" xml:space="preserve">
+    <value>Gauk personalizuotas AI įžvalgas pagal savo matavimų istoriją.</value>
+  </data>
+  <data name="openPremium" xml:space="preserve">
+    <value>Atidaryti Premium planą</value>
+  </data>
+  <data name="premiumRequired" xml:space="preserve">
+    <value>Reikalingas Premium</value>
+  </data>
+  <data name="premiumLockCopy" xml:space="preserve">
+    <value>Paspausk, kad pamatytum Premium pliusus ir atrakintum AI analizę.</value>
+  </data>
 </root>

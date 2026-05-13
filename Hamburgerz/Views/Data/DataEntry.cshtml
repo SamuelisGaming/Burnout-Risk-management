@@ -55,6 +55,40 @@
 
     .mq-summary { margin-bottom: 1rem; padding: .9rem 1rem; border-radius: 18px; background: rgba(220,53,69,.08); border: 1px solid rgba(220,53,69,.16); }
 
+    .mq-limit-card {
+        max-width: 680px;
+        margin: 0 auto 1rem;
+        padding: 1.1rem 1.25rem;
+        border-radius: 20px;
+        border: 1px solid rgba(var(--color-primary-rgb), .18);
+        background: var(--color-surface);
+        box-shadow: var(--shadow-sm);
+        color: var(--color-text);
+    }
+
+    .mq-limit-title {
+        margin: 0 0 .35rem;
+        font-weight: 800;
+        font-size: 1.05rem;
+    }
+
+    .mq-limit-copy {
+        margin: 0;
+        color: var(--color-text-muted);
+        line-height: 1.55;
+    }
+
+    .mq-premium-button {
+        margin-top: 0.9rem;
+        border: 0;
+        border-radius: 14px;
+        padding: 0.8rem 1rem;
+        background: linear-gradient(135deg, #fbbf24, #d97706);
+        color: #251604;
+        font-weight: 900;
+        box-shadow: 0 12px 24px rgba(217, 119, 6, 0.20);
+    }
+
     .mq-progress { height: 8px; border-radius: 999px; background: rgba(var(--color-border-rgb), .7); overflow: hidden; margin-bottom: 0; }
     .mq-progress-fill {
         height: 100%;
@@ -298,11 +332,57 @@
 </style>
 
 <div class="container mq-shell">
+    @if (!Model.CanCreateMeasurement)
+    {
+        <div class="mq-limit-card" role="alert">
+            <h2 class="mq-limit-title">@Localizer["limitReachedTitle"]</h2>
+            <p class="mq-limit-copy">
+                @string.Format(Localizer["limitReachedCopy"].Value, Model.MeasurementLimit, Model.MeasurementCount)
+                @Localizer["premiumNoLimit"]
+            </p>
+            <button type="button"
+                    class="mq-premium-button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#premiumModal">
+                @Localizer["viewPremium"]
+            </button>
+        </div>
+    }
+    else if (Model.IsEditingTodayMeasurement)
+    {
+        <div class="mq-limit-card">
+            <h2 class="mq-limit-title">@Localizer["editingTodayTitle"]</h2>
+            <p class="mq-limit-copy">
+                @Localizer["editingTodayCopy"]
+                @(Model.ExistingMeasurementTimeStamp.HasValue ? string.Format(Localizer["lastSaved"].Value, Model.ExistingMeasurementTimeStamp.Value.ToString("HH:mm")) : "")
+            </p>
+        </div>
+    }
+    else if (Model.MeasurementLimit.HasValue)
+    {
+        <div class="mq-limit-card">
+            <h2 class="mq-limit-title">@Localizer["freePlan"]</h2>
+            <p class="mq-limit-copy">
+                @string.Format(Localizer["freeRemainingCopy"].Value, Model.RemainingMeasurements, Model.MeasurementLimit)
+            </p>
+        </div>
+    }
+
+    @if (TempData["MeasurementLimitMessage"] is string limitMessage && !string.IsNullOrWhiteSpace(limitMessage))
+    {
+        <div class="mq-limit-card" role="alert">
+            <p class="mq-limit-copy">@limitMessage</p>
+        </div>
+    }
+
+    @if (Model.CanCreateMeasurement)
+    {
     <form asp-controller="Data" asp-action="DataEntry" method="post" class="mq-form" data-measurement-wizard>
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="MoodScore" id="hidden-MoodScore" />
         <input type="hidden" asp-for="DisconnectScore" id="hidden-DisconnectScore" />
         <input type="hidden" asp-for="FocusScore" id="hidden-FocusScore" />
+        <input type="hidden" asp-for="ExistingMeasurementId" />
 
         <div class="mq-head">
             <div class="mq-indicator" data-step-caption>1 / 6</div>
@@ -1749,11 +1829,12 @@
 
             <div class="mq-actions">
                 <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
-                <button type="submit" class="btn btn-primary btn-lg">@Localizer["save"]</button>
+                <button type="submit" class="btn btn-primary btn-lg">@(Model.IsEditingTodayMeasurement ? Localizer["updateSave"] : Localizer["save"])</button>
             </div>
         </section>
 
     </form>
+    }
 </div>
 
 @section Scripts {

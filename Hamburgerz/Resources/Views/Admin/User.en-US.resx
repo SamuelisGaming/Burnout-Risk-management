@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="titlePrefix" xml:space="preserve"><value>Admin</value></data>
+  <data name="allUsers" xml:space="preserve"><value>All users</value></data>
+  <data name="measurements" xml:space="preserve"><value>Measurements</value></data>
+  <data name="analysis" xml:space="preserve"><value>Analysis</value></data>
+  <data name="latestMeasurement" xml:space="preserve"><value>Latest measurement</value></data>
+  <data name="planType" xml:space="preserve"><value>Plan type</value></data>
+  <data name="profileData" xml:space="preserve"><value>Profile data</value></data>
+  <data name="gender" xml:space="preserve"><value>Gender</value></data>
+  <data name="birthDate" xml:space="preserve"><value>Birth date</value></data>
+  <data name="country" xml:space="preserve"><value>Country</value></data>
+  <data name="jobRole" xml:space="preserve"><value>Job role</value></data>
+  <data name="experience" xml:space="preserve"><value>Experience</value></data>
+  <data name="companySize" xml:space="preserve"><value>Company size</value></data>
+  <data name="workEnvironment" xml:space="preserve"><value>Work environment</value></data>
+</root>

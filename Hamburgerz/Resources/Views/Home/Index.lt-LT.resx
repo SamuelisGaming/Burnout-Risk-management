@@ -79,4 +79,10 @@
   <data name="measurementdo" xml:space="preserve">
     <value>Pasidaryti matavimą</value>
   </data>
+  <data name="freeLimit" xml:space="preserve">
+    <value>Nemokamo plano limitas</value>
+  </data>
+  <data name="limitReached" xml:space="preserve">
+    <value>Pasiektas 7 matavimų limitas</value>
+  </data>
 </root>

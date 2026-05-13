@@ -55,6 +55,10 @@
                     <span class="hero-badge">@Localizer["total"] @Model.MeasurementCount</span>
                     <span class="hero-badge">@Localizer["week"] @Model.MeasurementsThisWeek</span>
                     <span class="hero-badge">@Localizer["month"] @Model.MeasurementsThisMonth</span>
+                    @if (Model.MeasurementLimit.HasValue)
+                    {
+                        <span class="hero-badge">@Localizer["freeLimit"] @Model.MeasurementCount/@Model.MeasurementLimit</span>
+                    }
                 </div>
             </section>
 
@@ -75,9 +79,21 @@
                     </div>
                 </div>
 
-                <a asp-controller="Data" asp-action="DataEntry" class="status-btn">
-                    @(Model.HasMeasurementToday? @Localizer["measurementupdate"] : @Localizer["measurementdo"])
-                </a>
+                @if (Model.CanCreateMeasurement)
+                {
+                    <a asp-controller="Data" asp-action="DataEntry" class="status-btn">
+                        @(Model.HasMeasurementToday? @Localizer["measurementupdate"] : @Localizer["measurementdo"])
+                    </a>
+                }
+                else
+                {
+                    <button type="button"
+                            class="status-btn premium-limit-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#premiumModal">
+                        @Localizer["limitReached"]
+                    </button>
+                }
             </aside>
         </div>
     }
@@ -366,6 +382,20 @@
         color: var(--color-button-primary-text);
         transform: translateY(-1px);
         box-shadow: var(--shadow-md);
+    }
+
+    .premium-limit-btn,
+    .premium-limit-btn:hover {
+        border: 0;
+        background: linear-gradient(135deg, #fbbf24, #d97706);
+        color: #251604;
+        box-shadow: 0 14px 28px rgba(217, 119, 6, 0.22);
+        cursor: pointer;
+    }
+
+    .premium-limit-btn:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.03);
     }
 
     [data-theme="dark"] .panel-card {

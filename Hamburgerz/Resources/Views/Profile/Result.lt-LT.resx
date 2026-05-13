@@ -129,4 +129,7 @@
   <data name="possigns" xml:space="preserve">
     <value>Galimi ženklai</value>
   </data>
+  <data name="premiumAiRequired" xml:space="preserve">
+    <value>AI įžvalgos prieinamos Premium vartotojams.</value>
+  </data>
 </root>

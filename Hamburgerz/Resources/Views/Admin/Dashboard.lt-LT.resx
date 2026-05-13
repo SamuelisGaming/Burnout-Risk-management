@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve"><value>Admin</value></data>
+  <data name="kicker" xml:space="preserve"><value>Admin</value></data>
+  <data name="heading" xml:space="preserve"><value>Vartotojai</value></data>
+  <data name="description" xml:space="preserve"><value>Peržiūrėkite visus vartotojus arba raskite konkretų pagal ID, el. paštą ar vartotojo vardą.</value></data>
+  <data name="searchPlaceholder" xml:space="preserve"><value>ID, el. paštas arba vartotojo vardas</value></data>
+  <data name="search" xml:space="preserve"><value>Ieškoti</value></data>
+  <data name="clear" xml:space="preserve"><value>Išvalyti</value></data>
+  <data name="username" xml:space="preserve"><value>Vartotojo vardas</value></data>
+  <data name="email" xml:space="preserve"><value>El. paštas</value></data>
+  <data name="type" xml:space="preserve"><value>Tipas</value></data>
+  <data name="measurements" xml:space="preserve"><value>Matavimai</value></data>
+  <data name="latest" xml:space="preserve"><value>Paskutinis</value></data>
+  <data name="empty" xml:space="preserve"><value>Vartotojų nerasta.</value></data>
+  <data name="open" xml:space="preserve"><value>Atidaryti</value></data>
+</root>

@@ -64,7 +64,7 @@ namespace Hamburgerz.Controllers
 
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("Username", user.Username);
-            HttpContext.Session.SetString("UserType", user.UserType);
+            HttpContext.Session.SetString("UserType", UserAccess.NormalizeUserType(user.UserType));
             HttpContext.Session.SetString("Email", user.Email);
 
             var claims = new List<Claim>
@@ -72,7 +72,7 @@ namespace Hamburgerz.Controllers
                 new(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new(ClaimTypes.Name, user.Username),
                 new(ClaimTypes.Email, user.Email),
-                new(ClaimTypes.Role, user.UserType)
+                new(ClaimTypes.Role, UserAccess.NormalizeUserType(user.UserType))
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

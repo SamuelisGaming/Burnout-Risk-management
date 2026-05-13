@@ -7,6 +7,25 @@
     var currentPage = ViewBag.CurrentPage != null ? (int)ViewBag.CurrentPage : 1;
     var totalPages = ViewBag.TotalPages != null ? (int)ViewBag.TotalPages : 1;
     var totalCount = ViewBag.TotalCount != null ? (int)ViewBag.TotalCount : (Model?.Count ?? 0);
+    var historyController = (ViewBag.HistoryController as string) ?? "Profile";
+    var resultAction = (ViewBag.ResultAction as string) ?? "Result";
+    var historyAction = (ViewBag.HistoryAction as string) ?? "History";
+    var historyUserId = ViewBag.HistoryUserId;
+    var readOnlyHistory = ViewBag.ReadOnlyHistory is bool readOnly && readOnly;
+    var hasPremiumFeatures = ViewBag.HasPremiumFeatures is bool premium && premium;
+    var measurementLimit = ViewBag.MeasurementLimit != null ? (int)ViewBag.MeasurementLimit : 7;
+    var showFreeLimit = !readOnlyHistory && !hasPremiumFeatures;
+    var remainingMeasurements = Math.Max(0, measurementLimit - totalCount);
+    var limitPercent = measurementLimit > 0
+        ? Math.Min(100, (int)Math.Round(totalCount * 100.0 / measurementLimit))
+        : 0;
+    string LocalizedRisk(Hamburgerz.Models.RiskMeasurement item) => item.RiskText switch
+    {
+        "High" => Localizer["riskHigh"].Value,
+        "Medium" => Localizer["riskMedium"].Value,
+        "Low" => Localizer["riskLow"].Value,
+        _ => item.RiskText
+    };
 }
 
 <div class="history-wrapper">
@@ -21,6 +40,30 @@
             <div class="history-count">@totalCount @Localizer["meas"]</div>
         }
     </div>
+
+    @if (showFreeLimit)
+    {
+        <button type="button"
+                class="history-limit-card"
+                data-bs-toggle="modal"
+                data-bs-target="#premiumModal">
+            <div class="history-limit-main">
+                <div>
+                    <div class="history-limit-kicker">@Localizer["freePlan"]</div>
+                    <h2>@Localizer["measurementLimit"] @totalCount/@measurementLimit</h2>
+                    <p>
+                        @(remainingMeasurements > 0
+                            ? string.Format(Localizer["remainingLimit"].Value, remainingMeasurements)
+                            : Localizer["limitReachedPremium"].Value)
+                    </p>
+                </div>
+                <span class="history-limit-upgrade">@Localizer["premium"]</span>
+            </div>
+            <span class="history-limit-track" aria-hidden="true">
+                <span class="history-limit-fill" style="width:@($"{limitPercent}%")"></span>
+            </span>
+        </button>
+    }
 
     @if (TempData["MeasurementSuccess"] is string successMessage && !string.IsNullOrWhiteSpace(successMessage))
     {
@@ -44,7 +87,10 @@
             </div>
             <h3 class="empty-state-title">@Localizer["measno"]</h3>
             <p class="empty-state-copy">@Localizer["measnodescr"]</p>
-            <a asp-controller="Data" asp-action="DataEntry" class="history-btn">@Localizer["addfirst"]</a>
+            @if (!readOnlyHistory)
+            {
+                <a asp-controller="Data" asp-action="DataEntry" class="history-btn">@Localizer["addfirst"]</a>
+            }
         </div>
     }
     else
@@ -66,9 +112,10 @@
                     metaParts.Add(workEnvironment);
                 }
 
-                <a asp-controller="Profile"
-                   asp-action="Result"
+                <a asp-controller="@historyController"
+                   asp-action="@resultAction"
                    asp-route-id="@item.ID"
+                   asp-route-userId="@historyUserId"
                    class="history-card-link">
                     <article class="history-card">
                             <div class="history-card-top">
@@ -78,7 +125,7 @@
                                 </div>
 
                                 <div class="history-risk @item.RiskClass">
-                                    @item.RiskText @Localizer["risk"]
+                                    @LocalizedRisk(item) @Localizer["risk"]
                                 </div>
                         </div>
 
@@ -100,8 +147,9 @@
                 <div class="history-page-controls">
                     @if (currentPage > 1)
                     {
-                        <a asp-controller="Profile"
-                           asp-action="History"
+                        <a asp-controller="@historyController"
+                           asp-action="@historyAction"
+                           asp-route-userId="@historyUserId"
                            asp-route-page="@(currentPage - 1)"
                            class="history-page-btn">
                             @Localizer["prev"]
@@ -120,8 +168,9 @@
                         }
                         else
                         {
-                            <a asp-controller="Profile"
-                               asp-action="History"
+                            <a asp-controller="@historyController"
+                               asp-action="@historyAction"
+                               asp-route-userId="@historyUserId"
                                asp-route-page="@pageNumber"
                                class="history-page-number">
                                 @pageNumber
@@ -131,8 +180,9 @@
 
                     @if (currentPage < totalPages)
                     {
-                        <a asp-controller="Profile"
-                           asp-action="History"
+                        <a asp-controller="@historyController"
+                           asp-action="@historyAction"
+                           asp-route-userId="@historyUserId"
                            asp-route-page="@(currentPage + 1)"
                            class="history-page-btn">
                             @Localizer["next"]
@@ -185,6 +235,86 @@
         color: var(--color-text-muted);
         font-size: 13px;
         font-weight: 700;
+    }
+
+    .history-limit-card {
+        width: 100%;
+        display: grid;
+        gap: 12px;
+        margin: -8px 0 18px;
+        padding: 16px 18px;
+        border: 1px solid rgba(245, 158, 11, 0.36);
+        border-radius: 18px;
+        background:
+            radial-gradient(circle at top right, rgba(251, 191, 36, 0.22), transparent 34%),
+            linear-gradient(135deg, var(--color-surface), var(--color-bg));
+        color: var(--color-text);
+        text-align: left;
+        box-shadow: 0 16px 32px rgba(217, 119, 6, 0.12);
+        cursor: pointer;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .history-limit-card:hover {
+        transform: translateY(-1px);
+        border-color: rgba(245, 158, 11, 0.58);
+        box-shadow: 0 20px 38px rgba(217, 119, 6, 0.18);
+    }
+
+    .history-limit-main {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+    .history-limit-kicker {
+        color: #b45309;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+    }
+
+    .history-limit-card h2 {
+        margin: 0 0 5px;
+        color: var(--color-text);
+        font-size: 20px;
+        font-weight: 900;
+    }
+
+    .history-limit-card p {
+        margin: 0;
+        color: var(--color-text-muted);
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .history-limit-upgrade {
+        flex-shrink: 0;
+        border-radius: 999px;
+        padding: 8px 12px;
+        background: linear-gradient(135deg, #fbbf24, #d97706);
+        color: #251604;
+        font-size: 12px;
+        font-weight: 900;
+        box-shadow: 0 10px 22px rgba(217, 119, 6, 0.22);
+    }
+
+    .history-limit-track {
+        display: block;
+        height: 9px;
+        border-radius: 999px;
+        overflow: hidden;
+        background: rgba(var(--color-border-rgb), 0.62);
+    }
+
+    .history-limit-fill {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #fbbf24, #d97706);
     }
 
     .history-list {
@@ -408,6 +538,10 @@
         .history-header {
             flex-direction: column;
             align-items: flex-start;
+        }
+
+        .history-limit-main {
+            flex-direction: column;
         }
 
         .history-card-top {

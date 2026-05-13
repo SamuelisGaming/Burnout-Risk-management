@@ -20,7 +20,14 @@ function getPreferredTheme() {
 }
 
 function getThemeLabel(theme) {
-    return theme === "dark" ? "Tamsus režimas" : "Šviesus režimas";
+    const body = document.body;
+    const darkLabel = body?.dataset.themeLabelDark || "Dark mode";
+    const lightLabel = body?.dataset.themeLabelLight || "Light mode";
+    return theme === "dark" ? darkLabel : lightLabel;
+}
+
+function getLocalizedMessage(key, fallback) {
+    return document.body?.dataset[key] || fallback;
 }
 
 function syncThemeControls(theme) {
@@ -200,7 +207,7 @@ function initJobRoleAutocomplete() {
 
                 const emptyState = document.createElement("div");
                 emptyState.className = "job-role-empty";
-                emptyState.textContent = "No matching job roles found.";
+                emptyState.textContent = getLocalizedMessage("jobRoleEmpty", "No matching job roles found.");
                 suggestionsRoot.appendChild(emptyState);
                 suggestionsRoot.hidden = false;
                 field.classList.add("is-open");
@@ -405,7 +412,7 @@ function initAvatar() {
             };
 
             reader.onerror = function () {
-                reject(new Error("Nepavyko nuskaityti paveikslelio failo."));
+                reject(new Error(getLocalizedMessage("avatarReadError", "Could not read the image file.")));
             };
 
             reader.readAsDataURL(file);
@@ -421,7 +428,7 @@ function initAvatar() {
             };
 
             image.onerror = function () {
-                reject(new Error("Nepavyko apdoroti paveikslelio."));
+                reject(new Error(getLocalizedMessage("avatarProcessError", "Could not process the image.")));
             };
 
             image.src = dataUrl;
@@ -434,7 +441,7 @@ function initAvatar() {
         const context = canvas.getContext("2d");
 
         if (!context) {
-            throw new Error("Nepavyko paruošti paveikslelio apdorojimo.");
+            throw new Error(getLocalizedMessage("avatarCanvasError", "Could not prepare image processing."));
         }
 
         canvas.width = size;
@@ -457,7 +464,7 @@ function initAvatar() {
         const parts = dataUrl.split(",");
 
         if (parts.length !== 2) {
-            throw new Error("Nepavyko paruošti paveikslelio įkėlimui.");
+            throw new Error(getLocalizedMessage("avatarDataError", "Could not prepare the image for upload."));
         }
 
         const mimeMatch = parts[0].match(/data:(.*?);base64/);
@@ -475,7 +482,7 @@ function initAvatar() {
 
     const handleAvatarFile = async function (file) {
         if (!file || !file.type.startsWith("image/")) {
-            throw new Error("Pasirinktas failas nėra paveikslėlis.");
+            throw new Error(getLocalizedMessage("avatarInvalidFile", "The selected file is not an image."));
         }
 
         const rawDataUrl = await readFileAsDataUrl(file);
@@ -489,7 +496,7 @@ function initAvatar() {
             : "";
 
         if (!uploadUrl) {
-            throw new Error("Nerastas avataro įkėlimo adresas.");
+            throw new Error(getLocalizedMessage("avatarUploadUrlError", "Avatar upload URL was not found."));
         }
 
         const formData = new FormData();
@@ -512,7 +519,7 @@ function initAvatar() {
         });
 
         if (!response.ok) {
-            throw new Error(payload && payload.message ? payload.message : "Nepavyko įkelti paveikslėlio.");
+            throw new Error(payload && payload.message ? payload.message : getLocalizedMessage("avatarUploadError", "Could not upload the image."));
         }
 
         return payload && payload.avatarUrl ? payload.avatarUrl : avatarUrl;
@@ -542,7 +549,7 @@ function initAvatar() {
                 console.error(error);
                 const message = error instanceof Error
                     ? error.message
-                    : "Nepavyko įkelti paveikslėlio. Pabandykite kitą nuotrauką.";
+                    : getLocalizedMessage("avatarUploadError", "Could not upload the image.");
 
                 window.alert(message);
             } finally {
@@ -564,7 +571,8 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener('DOMContentLoaded', function () {
     const langButtons = document.querySelectorAll('.settings-language-option');
     const urlParams = new URLSearchParams(window.location.search);
-    const currentCulture = urlParams.get('ui-culture') || 'lt-LT'; // Default to LT
+    const documentLanguage = document.documentElement.lang === 'en' ? 'en-US' : 'lt-LT';
+    const currentCulture = urlParams.get('ui-culture') || documentLanguage;
 
     // 1. Set active button on load based on URL
     langButtons.forEach(btn => {

@@ -6,10 +6,18 @@
     ViewData["Title"] = @Localizer["title1"];
     TempData.Remove("MeasurementSuccess");
     var errorMessage = TempData["MeasurementError"] as string;
+    var hasAiAccess = ViewBag.HasAiAccess is bool aiAccess && aiAccess;
+    var canDeleteMeasurement = ViewBag.CanDeleteMeasurement is bool canDelete && canDelete;
+    var isReadOnlyMeasurement = ViewBag.ReadOnlyMeasurement is bool readOnly && readOnly;
+    var backController = (ViewBag.BackController as string) ?? "Profile";
+    var backAction = (ViewBag.BackAction as string) ?? "History";
+    var backUserId = ViewBag.BackUserId;
+    var aiSuggestionUrl = (ViewBag.AiSuggestionUrl as string) ?? Url.Action("GetAiSuggestion", "Profile", new { id = Model.ID }) ?? string.Empty;
 
-    string DisplayText(string? value) => string.IsNullOrWhiteSpace(value) ? @Localizer["notset"].ToString() : value;
-    string DisplayNumber(int? value) => value?.ToString() ?? @Localizer["notset"].ToString();
-    string DisplayDate(DateTime? value) => value?.ToString("yyyy-MM-dd") ?? @Localizer["notset"].ToString();
+    var notSetText = Localizer["notset"].Value ?? "-";
+    string DisplayText(string? value) => string.IsNullOrWhiteSpace(value) ? notSetText : value!;
+    string DisplayNumber(int? value) => value?.ToString() ?? notSetText;
+    string DisplayDate(DateTime? value) => value?.ToString("yyyy-MM-dd") ?? notSetText;
 }
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
@@ -456,7 +464,7 @@
 
 <div class="result-page">
     <div class="back-row">
-        <a asp-controller="Profile" asp-action="History" class="back-link">
+        <a asp-controller="@backController" asp-action="@backAction" asp-route-userId="@backUserId" class="back-link">
             &larr; @Localizer["backhist"]
         </a>
     </div>
@@ -473,22 +481,34 @@
             }
 
             <div class="result-hero-top">
-                <form asp-controller="Profile"
-                      asp-action="UpdateTimestamp"
-                      method="post"
-                      class="date-edit-form result-date-form">
-                    <input type="hidden" name="id" value="@Model.ID" />
-                    <input type="hidden" name="originalTime" value="@Model.TimeStamp.ToString("HH:mm:ss")" />
-                    <input id="timeStamp"
-                           name="timeStamp"
-                           type="date"
-                           class="date-title-input"
-                           aria-label=@Localizer["measdate"]
-                           value="@Model.TimeStamp.ToString("yyyy-MM-dd")"
-                           onchange="this.form.submit()" />
-                    <p class="result-subtitle">@Localizer["datedescr"]</p>
-                </form>
+                @if (isReadOnlyMeasurement)
+                {
+                    <div class="date-edit-form result-date-form">
+                        <div class="date-title-input">@Model.TimeStamp.ToString("yyyy-MM-dd")</div>
+                        <p class="result-subtitle">@Localizer["datedescr"]</p>
+                    </div>
+                }
+                else
+                {
+                    <form asp-controller="Profile"
+                          asp-action="UpdateTimestamp"
+                          method="post"
+                          class="date-edit-form result-date-form">
+                        <input type="hidden" name="id" value="@Model.ID" />
+                        <input type="hidden" name="originalTime" value="@Model.TimeStamp.ToString("HH:mm:ss")" />
+                        <input id="timeStamp"
+                               name="timeStamp"
+                               type="date"
+                               class="date-title-input"
+                               aria-label=@Localizer["measdate"]
+                               value="@Model.TimeStamp.ToString("yyyy-MM-dd")"
+                               onchange="this.form.submit()" />
+                        <p class="result-subtitle">@Localizer["datedescr"]</p>
+                    </form>
+                }
 
+                @if (!isReadOnlyMeasurement && canDeleteMeasurement)
+                {
                 <div class="hero-actions">
                     <form asp-controller="Profile"
                           asp-action="DeleteMeasurement"
@@ -508,6 +528,7 @@
                         </button>
                     </form>
                 </div>
+                }
             </div>
         </div>
 
@@ -658,6 +679,14 @@
                     <h2 class="panel-title">@Localizer["title5descr"]</h2>
 
                     <div id="ai-container" class="ai-insight-card">
+                        @if (!hasAiAccess)
+                        {
+                            <div class="ai-error-text">
+                                @Localizer["premiumAiRequired"]
+                            </div>
+                        }
+                        else
+                        {
                         @if (string.IsNullOrEmpty(Model.AISummary))
                         {
                             <div id="ai-loading" class="ai-loading-card">
@@ -675,6 +704,7 @@
                                  class="markdown-body ai-markdown-body"
                                  data-markdown="@Model.AISummary">
                             </div>
+                        }
                         }
                     </div>
                 </section>
@@ -724,7 +754,7 @@
                         if (existingMarkdown) {
                             showInsight(existingMarkdown);
                         } else if (loadingElement) {
-                            fetch('@Url.Action("GetAiSuggestion", "Profile", new { id = Model.ID })')
+                            fetch(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(aiSuggestionUrl)))
                                 .then(response => response.json())
                                 .then(data => {
                                     showInsight(data.suggestion);

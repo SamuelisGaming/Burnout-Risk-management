@@ -1,4 +1,5 @@
 using Hamburgerz.Data;
+using Hamburgerz.Helpers;
 using Hamburgerz.Models;
 using Hamburgerz.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -71,6 +72,13 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("UserTypeSchema");
+    await UserTypeSchema.EnsureAsync(dbContext, logger);
+}
+
 var localizationOptions = app.Services.GetRequiredService<
     Microsoft.Extensions.Options.IOptions<RequestLocalizationOptions>>().Value;
 
@@ -94,28 +102,36 @@ app.UseSession();
 app.Use(async (context, next) =>
 {
     var isAuthenticated = context.User.Identity?.IsAuthenticated == true;
-    var hasSessionUser = context.Session.GetInt32("UserId") != null;
+    var sessionUserId = context.Session.GetInt32("UserId");
+    var hasSessionUser = sessionUserId != null;
 
-    if (!hasSessionUser && isAuthenticated)
+    if (hasSessionUser || isAuthenticated)
     {
         var userIdClaim = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userId = sessionUserId;
 
-        if (int.TryParse(userIdClaim, out var userId))
+        if (userId == null && int.TryParse(userIdClaim, out var parsedUserId))
+        {
+            userId = parsedUserId;
+        }
+
+        if (userId.HasValue)
         {
             var dbContext = context.RequestServices.GetRequiredService<AppDbContext>();
             var user = await dbContext.Users
                 .AsNoTracking()
-                .FirstOrDefaultAsync(currentUser => currentUser.Id == userId);
+                .FirstOrDefaultAsync(currentUser => currentUser.Id == userId.Value);
 
             if (user != null)
             {
                 context.Session.SetInt32("UserId", user.Id);
                 context.Session.SetString("Username", user.Username);
-                context.Session.SetString("UserType", user.UserType);
+                context.Session.SetString("UserType", UserAccess.NormalizeUserType(user.UserType));
                 context.Session.SetString("Email", user.Email);
             }
             else
             {
+                context.Session.Clear();
                 await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             }
         }

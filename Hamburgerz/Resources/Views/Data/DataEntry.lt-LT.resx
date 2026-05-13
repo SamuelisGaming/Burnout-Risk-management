@@ -228,4 +228,34 @@
 	<data name="time5" xml:space="preserve">
     <value>Labai mažai</value>
   </data>
+  <data name="limitReachedTitle" xml:space="preserve">
+    <value>Pasiektas nemokamo plano matavimų limitas</value>
+  </data>
+  <data name="limitReachedCopy" xml:space="preserve">
+    <value>Nemokamas planas leidžia išsaugoti iki {0} matavimų. Dabar turite {1}.</value>
+  </data>
+  <data name="premiumNoLimit" xml:space="preserve">
+    <value>Premium vartotojams matavimų limitas netaikomas.</value>
+  </data>
+  <data name="viewPremium" xml:space="preserve">
+    <value>Peržiūrėti Premium planą</value>
+  </data>
+  <data name="editingTodayTitle" xml:space="preserve">
+    <value>Redaguojamas šiandienos matavimas</value>
+  </data>
+  <data name="editingTodayCopy" xml:space="preserve">
+    <value>Šiandien jau turite matavimą, todėl išsaugojus bus atnaujintas esamas įrašas, o ne sukurtas naujas.</value>
+  </data>
+  <data name="lastSaved" xml:space="preserve">
+    <value>Paskutinis išsaugojimas: {0}.</value>
+  </data>
+  <data name="freePlan" xml:space="preserve">
+    <value>Nemokamas planas</value>
+  </data>
+  <data name="freeRemainingCopy" xml:space="preserve">
+    <value>Liko {0} iš {1} nemokamo plano matavimų. AI įžvalgos prieinamos Premium vartotojams.</value>
+  </data>
+  <data name="updateSave" xml:space="preserve">
+    <value>Atnaujinti matavimą</value>
+  </data>
 </root>

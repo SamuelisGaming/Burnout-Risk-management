@@ -47,6 +47,25 @@ namespace Hamburgerz.Models
         public int? DisconnectScore { get; set; }
         public int? FocusScore { get; set; }
 
+        public string UserType { get; set; } = "user";
+
+        public int MeasurementCount { get; set; }
+
+        public int? MeasurementLimit { get; set; }
+
+        public bool CanCreateMeasurement { get; set; } = true;
+
+        public int? ExistingMeasurementId { get; set; }
+
+        public bool IsEditingTodayMeasurement { get; set; }
+
+        public DateTime? ExistingMeasurementTimeStamp { get; set; }
+
+        public int RemainingMeasurements =>
+            MeasurementLimit.HasValue
+                ? Math.Max(0, MeasurementLimit.Value - MeasurementCount)
+                : int.MaxValue;
+
         public bool HasAnyProfileData =>
             BirthDate.HasValue
             || !string.IsNullOrWhiteSpace(Gender)

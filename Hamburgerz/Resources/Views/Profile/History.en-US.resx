@@ -42,4 +42,28 @@
   <data name="next" xml:space="preserve">
     <value>Next</value>
   </data>
+  <data name="freePlan" xml:space="preserve">
+    <value>Free plan</value>
+  </data>
+  <data name="measurementLimit" xml:space="preserve">
+    <value>Measurement limit</value>
+  </data>
+  <data name="remainingLimit" xml:space="preserve">
+    <value>{0} free-plan measurements left.</value>
+  </data>
+  <data name="limitReachedPremium" xml:space="preserve">
+    <value>Free-plan limit reached. Tap to see Premium benefits.</value>
+  </data>
+  <data name="premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="riskHigh" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="riskMedium" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="riskLow" xml:space="preserve">
+    <value>Low</value>
+  </data>
 </root>

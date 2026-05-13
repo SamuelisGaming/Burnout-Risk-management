@@ -1,0 +1,187 @@
+@model Hamburgerz.Models.AdminUserDetailsViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = $"{Localizer["titlePrefix"]} - {Model.Username}";
+    string Display(string? value) => string.IsNullOrWhiteSpace(value) ? "-" : value;
+}
+
+<div class="admin-user-page">
+    <div class="admin-back-row">
+        <a asp-controller="Admin" asp-action="Dashboard" class="admin-back-link">&larr; @Localizer["allUsers"]</a>
+    </div>
+
+    <section class="admin-user-hero">
+        <div>
+            <div class="admin-kicker">User #@Model.Id</div>
+            <h1>@Model.Username</h1>
+            <p>@Model.Email</p>
+        </div>
+        <span class="admin-user-type">@Model.UserType</span>
+    </section>
+
+    <div class="admin-actions">
+        <a asp-controller="Admin" asp-action="History" asp-route-userId="@Model.Id" class="admin-action-btn">@Localizer["measurements"]</a>
+        <a asp-controller="Admin" asp-action="Analysis" asp-route-userId="@Model.Id" class="admin-action-btn">@Localizer["analysis"]</a>
+    </div>
+
+    <div class="admin-summary-grid">
+        <div class="admin-summary-card">
+            <span>@Localizer["measurements"]</span>
+            <strong>@Model.MeasurementCount</strong>
+        </div>
+        <div class="admin-summary-card">
+            <span>@Localizer["latestMeasurement"]</span>
+            <strong>@(Model.LastMeasurementDate?.ToString("yyyy-MM-dd HH:mm") ?? "-")</strong>
+        </div>
+        <div class="admin-summary-card">
+            <span>@Localizer["planType"]</span>
+            <strong>@Model.UserType</strong>
+        </div>
+    </div>
+
+    <section class="admin-profile-card">
+        <div class="admin-kicker">@Localizer["profileData"]</div>
+        <div class="admin-details-grid">
+            <div class="admin-detail"><span>@Localizer["gender"]</span><strong>@Display(Model.Gender)</strong></div>
+            <div class="admin-detail"><span>@Localizer["birthDate"]</span><strong>@(Model.BirthDate?.ToString("yyyy-MM-dd") ?? "-")</strong></div>
+            <div class="admin-detail"><span>@Localizer["country"]</span><strong>@Display(Model.Country)</strong></div>
+            <div class="admin-detail"><span>@Localizer["jobRole"]</span><strong>@Display(Model.JobRole)</strong></div>
+            <div class="admin-detail"><span>@Localizer["experience"]</span><strong>@(Model.ExperienceYears?.ToString() ?? "-")</strong></div>
+            <div class="admin-detail"><span>@Localizer["companySize"]</span><strong>@Display(Model.CompanySize)</strong></div>
+            <div class="admin-detail"><span>@Localizer["workEnvironment"]</span><strong>@Display(Model.WorkEnvironment)</strong></div>
+        </div>
+    </section>
+</div>
+
+<style>
+    .admin-user-page {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 32px 20px 48px;
+    }
+
+    .admin-back-row {
+        margin-bottom: 18px;
+    }
+
+    .admin-back-link {
+        color: var(--color-link);
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .admin-user-hero {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 18px;
+        padding: 24px;
+        border-radius: 20px;
+        border: 1px solid var(--color-border);
+        background: var(--color-surface);
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 16px;
+    }
+
+    .admin-kicker {
+        color: var(--color-primary);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+
+    .admin-user-hero h1 {
+        margin: 0 0 6px;
+        color: var(--color-text);
+        font-size: 34px;
+        font-weight: 850;
+    }
+
+    .admin-user-hero p {
+        margin: 0;
+        color: var(--color-text-muted);
+    }
+
+    .admin-user-type {
+        border-radius: 999px;
+        border: 1px solid var(--color-border);
+        background: var(--color-bg);
+        color: var(--color-text);
+        padding: 7px 12px;
+        font-size: 12px;
+        font-weight: 850;
+    }
+
+    .admin-actions,
+    .admin-summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .admin-action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        border-radius: 12px;
+        background: var(--color-primary);
+        color: var(--color-button-primary-text);
+        text-decoration: none;
+        font-weight: 850;
+    }
+
+    .admin-summary-card,
+    .admin-profile-card {
+        border: 1px solid var(--color-border);
+        border-radius: 18px;
+        background: var(--color-surface);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .admin-summary-card {
+        padding: 18px;
+    }
+
+    .admin-summary-card span,
+    .admin-detail span {
+        display: block;
+        color: var(--color-text-muted);
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .admin-summary-card strong {
+        color: var(--color-text);
+        font-size: 22px;
+        font-weight: 850;
+    }
+
+    .admin-profile-card {
+        padding: 22px;
+    }
+
+    .admin-details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+    }
+
+    .admin-detail {
+        border: 1px solid var(--color-border);
+        border-radius: 14px;
+        background: var(--color-bg);
+        padding: 14px;
+    }
+
+    .admin-detail strong {
+        color: var(--color-text);
+        font-size: 15px;
+    }
+</style>

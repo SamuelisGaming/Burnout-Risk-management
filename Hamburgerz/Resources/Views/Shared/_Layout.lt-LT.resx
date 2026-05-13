@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="logoAlt" xml:space="preserve"><value>Hamburgerz logotipas</value></data>
+  <data name="home" xml:space="preserve"><value>Pagrindinis</value></data>
+  <data name="history" xml:space="preserve"><value>Istorija</value></data>
+  <data name="analysis" xml:space="preserve"><value>Analizė</value></data>
+  <data name="admin" xml:space="preserve"><value>Admin</value></data>
+  <data name="profileMenu" xml:space="preserve"><value>Profilio meniu</value></data>
+  <data name="profilePhoto" xml:space="preserve"><value>Profilio nuotrauka</value></data>
+  <data name="profile" xml:space="preserve"><value>Profilis</value></data>
+  <data name="settings" xml:space="preserve"><value>Nustatymai</value></data>
+  <data name="logout" xml:space="preserve"><value>Atsijungti</value></data>
+  <data name="privacy" xml:space="preserve"><value>Privatumas</value></data>
+  <data name="appearance" xml:space="preserve"><value>Išvaizda</value></data>
+  <data name="close" xml:space="preserve"><value>Uždaryti</value></data>
+  <data name="darkMode" xml:space="preserve"><value>Tamsus režimas</value></data>
+  <data name="darkModeCopy" xml:space="preserve"><value>Perjunk sistemos išvaizdą tarp šviesaus ir tamsaus režimo.</value></data>
+  <data name="darkModeToggle" xml:space="preserve"><value>Perjungti tamsų režimą</value></data>
+  <data name="themeLight" xml:space="preserve"><value>Šviesus režimas</value></data>
+  <data name="themeDark" xml:space="preserve"><value>Tamsus režimas</value></data>
+  <data name="themeSaved" xml:space="preserve"><value>Nustatymas išsaugomas šiame įrenginyje.</value></data>
+  <data name="languages" xml:space="preserve"><value>Kalbos</value></data>
+  <data name="languagesCopy" xml:space="preserve"><value>Pasirink sistemos kalbą.</value></data>
+  <data name="availableLanguages" xml:space="preserve"><value>Galimos kalbos</value></data>
+  <data name="premium" xml:space="preserve"><value>Premium</value></data>
+  <data name="premiumTitle" xml:space="preserve"><value>Atrakink pilną planą</value></data>
+  <data name="premiumCopy" xml:space="preserve"><value>Premium nuima nemokamo plano ribas ir leidžia toliau sekti perdegimo riziką be pertrūkių.</value></data>
+  <data name="premiumBenefitMeasurements" xml:space="preserve"><value>Neribotas matavimų kiekis</value></data>
+  <data name="premiumBenefitAi" xml:space="preserve"><value>AI įžvalgos kiekvienam matavimui ir laikotarpio analizei</value></data>
+  <data name="premiumBenefitHistory" xml:space="preserve"><value>Galimybė lanksčiau tvarkyti istoriją</value></data>
+  <data name="premiumBuy" xml:space="preserve"><value>Pirkti planą</value></data>
+  <data name="jobRoleEmpty" xml:space="preserve"><value>Atitinkančių darbo pozicijų nerasta.</value></data>
+  <data name="avatarReadError" xml:space="preserve"><value>Nepavyko nuskaityti paveikslėlio failo.</value></data>
+  <data name="avatarProcessError" xml:space="preserve"><value>Nepavyko apdoroti paveikslėlio.</value></data>
+  <data name="avatarCanvasError" xml:space="preserve"><value>Nepavyko paruošti paveikslėlio apdorojimo.</value></data>
+  <data name="avatarDataError" xml:space="preserve"><value>Nepavyko paruošti paveikslėlio įkėlimui.</value></data>
+  <data name="avatarInvalidFile" xml:space="preserve"><value>Pasirinktas failas nėra paveikslėlis.</value></data>
+  <data name="avatarUploadUrlError" xml:space="preserve"><value>Nerastas avataro įkėlimo adresas.</value></data>
+  <data name="avatarUploadError" xml:space="preserve"><value>Nepavyko įkelti paveikslėlio. Pabandykite kitą nuotrauką.</value></data>
+</root>

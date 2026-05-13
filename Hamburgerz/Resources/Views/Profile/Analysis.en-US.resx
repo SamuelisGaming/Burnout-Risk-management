@@ -186,4 +186,25 @@
   <data name="analno" xml:space="preserve">
     <value>Insights temporarily unavailable.</value>
   </data>
+  <data name="premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="lockedPreview1" xml:space="preserve">
+    <value>Your recent data shows changes in sleep, work hours, and stress rhythm.</value>
+  </data>
+  <data name="lockedPreview2" xml:space="preserve">
+    <value>Premium analysis compares periods, highlights the strongest signals, and suggests concrete actions.</value>
+  </data>
+  <data name="lockedAction" xml:space="preserve">
+    <value>Get personalized AI insights based on your measurement history.</value>
+  </data>
+  <data name="openPremium" xml:space="preserve">
+    <value>Open Premium plan</value>
+  </data>
+  <data name="premiumRequired" xml:space="preserve">
+    <value>Premium required</value>
+  </data>
+  <data name="premiumLockCopy" xml:space="preserve">
+    <value>Tap to see Premium benefits and unlock AI analysis.</value>
+  </data>
 </root>

@@ -228,4 +228,34 @@
 	<data name="title19descr1" xml:space="preserve">
     <value>Do you sometimes wonder how long you will be able to continue working with clients?</value>
   </data>
+  <data name="limitReachedTitle" xml:space="preserve">
+    <value>Free plan measurement limit reached</value>
+  </data>
+  <data name="limitReachedCopy" xml:space="preserve">
+    <value>The free plan allows up to {0} saved measurements. You currently have {1}.</value>
+  </data>
+  <data name="premiumNoLimit" xml:space="preserve">
+    <value>Premium users do not have this measurement limit.</value>
+  </data>
+  <data name="viewPremium" xml:space="preserve">
+    <value>View Premium plan</value>
+  </data>
+  <data name="editingTodayTitle" xml:space="preserve">
+    <value>Editing today's measurement</value>
+  </data>
+  <data name="editingTodayCopy" xml:space="preserve">
+    <value>You already have a measurement today, so saving will update the existing record instead of creating a new one.</value>
+  </data>
+  <data name="lastSaved" xml:space="preserve">
+    <value>Last saved: {0}.</value>
+  </data>
+  <data name="freePlan" xml:space="preserve">
+    <value>Free plan</value>
+  </data>
+  <data name="freeRemainingCopy" xml:space="preserve">
+    <value>{0} of {1} free-plan measurements left. AI insights are available for Premium users.</value>
+  </data>
+  <data name="updateSave" xml:space="preserve">
+    <value>Update measurement</value>
+  </data>
 </root>

@@ -1,4 +1,5 @@
 using Hamburgerz.Data;
+using Hamburgerz.Helpers;
 using Hamburgerz.Models;
 using Hamburgerz.Services;
 using Microsoft.AspNetCore.Identity;
@@ -47,21 +48,21 @@ namespace Hamburgerz.Controllers
             var countryExists = await _context.Countries.AnyAsync(country => country.Id == model.CountryID);
             if (!countryExists)
             {
-                ModelState.AddModelError(nameof(model.CountryID), "Pasirinkite tinkama sali");
+                ModelState.AddModelError(nameof(model.CountryID), IsEnglish() ? "Select a valid country." : "Pasirinkite tinkamą šalį.");
                 return View(model);
             }
 
             var emailExists = await _context.Users.AnyAsync(u => u.Email == model.Email);
             if (emailExists)
             {
-                ModelState.AddModelError("Email", "Toks el. pastas jau naudojamas");
+                ModelState.AddModelError("Email", IsEnglish() ? "This email is already in use." : "Toks el. paštas jau naudojamas.");
                 return View(model);
             }
 
             var usernameExists = await _context.Users.AnyAsync(u => u.Username == model.Username);
             if (usernameExists)
             {
-                ModelState.AddModelError("Username", "Toks slapyvardis jau naudojamas");
+                ModelState.AddModelError("Username", IsEnglish() ? "This username is already in use." : "Toks slapyvardis jau naudojamas.");
                 return View(model);
             }
 
@@ -75,14 +76,14 @@ namespace Hamburgerz.Controllers
 
             if (string.IsNullOrEmpty(normalizedGender))
             {
-                ModelState.AddModelError("Gender", "Pasirinkite tinkama lyti");
+                ModelState.AddModelError("Gender", IsEnglish() ? "Select a valid gender." : "Pasirinkite tinkamą lytį.");
                 return View(model);
             }
 
             var resolvedJobRole = _jobRoleCatalog.TryResolveCanonicalTitle(model.JobRole);
             if (resolvedJobRole == null)
             {
-                ModelState.AddModelError(nameof(model.JobRole), "Pasirinkite darbo pozicija is pasiulymu saraso.");
+                ModelState.AddModelError(nameof(model.JobRole), IsEnglish() ? "Choose a job role from the suggestions." : "Pasirinkite darbo poziciją iš pasiūlymų sąrašo.");
                 return View(model);
             }
 
@@ -98,7 +99,7 @@ namespace Hamburgerz.Controllers
                 CompanySize = NormalizeOptionalText(model.CompanySize),
                 WorkEnvironment = NormalizeOptionalText(model.WorkEnvironment),
                 IsEmailVerified = false,
-                UserType = "user"
+                UserType = UserAccess.User
             };
 
             user.PasswordHashed = _passwordHasher.HashPassword(user, model.Password);
@@ -106,7 +107,7 @@ namespace Hamburgerz.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Registracija sekminga. Dabar galite prisijungti.";
+            TempData["SuccessMessage"] = IsEnglish() ? "Registration successful. You can now log in." : "Registracija sėkminga. Dabar galite prisijungti.";
             return RedirectToAction("Index", "Login");
         }
 
@@ -132,5 +133,8 @@ namespace Hamburgerz.Controllers
 
             return value.Trim();
         }
+
+        private static bool IsEnglish() =>
+            System.Globalization.CultureInfo.CurrentUICulture.Name.Equals("en-US", StringComparison.OrdinalIgnoreCase);
     }
 }

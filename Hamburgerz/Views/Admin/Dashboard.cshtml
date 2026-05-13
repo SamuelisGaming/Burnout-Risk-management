@@ -1,7 +1,201 @@
-﻿
+@model List<Hamburgerz.Models.AdminUserListItemViewModel>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = Localizer["title"];
+    var searchQuery = ViewBag.SearchQuery as string ?? string.Empty;
 }
 
-<h1>Dashboard</h1>
+<div class="admin-page">
+    <div class="admin-header">
+        <div>
+            <div class="admin-kicker">@Localizer["kicker"]</div>
+            <h1>@Localizer["heading"]</h1>
+            <p>@Localizer["description"]</p>
+        </div>
+    </div>
 
+    <form method="get" asp-controller="Admin" asp-action="Dashboard" class="admin-search">
+        <input name="q" value="@searchQuery" class="admin-search-input" placeholder="@Localizer["searchPlaceholder"].Value" />
+        <button type="submit" class="admin-btn">@Localizer["search"]</button>
+        @if (!string.IsNullOrWhiteSpace(searchQuery))
+        {
+            <a asp-controller="Admin" asp-action="Dashboard" class="admin-btn admin-btn-secondary">@Localizer["clear"]</a>
+        }
+    </form>
+
+    <div class="admin-table-card">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>@Localizer["username"]</th>
+                    <th>@Localizer["email"]</th>
+                    <th>@Localizer["type"]</th>
+                    <th>@Localizer["measurements"]</th>
+                    <th>@Localizer["latest"]</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model == null || !Model.Any())
+                {
+                    <tr>
+                        <td colspan="7" class="admin-empty">@Localizer["empty"]</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td>@user.Username</td>
+                            <td>@user.Email</td>
+                            <td><span class="admin-badge">@user.UserType</span></td>
+                            <td>@user.MeasurementCount</td>
+                            <td>@(user.LastMeasurementDate?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
+                            <td>
+                                <a asp-controller="Admin" asp-action="Details" asp-route-id="@user.Id" class="admin-link">@Localizer["open"]</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .admin-page {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 32px 20px 48px;
+    }
+
+    .admin-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 20px;
+    }
+
+    .admin-kicker {
+        color: var(--color-primary);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+
+    .admin-header h1 {
+        margin: 0 0 8px;
+        color: var(--color-text);
+        font-size: 34px;
+        font-weight: 850;
+    }
+
+    .admin-header p {
+        margin: 0;
+        color: var(--color-text-muted);
+    }
+
+    .admin-search {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    .admin-search-input {
+        flex: 1;
+        min-height: 46px;
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        background: var(--color-surface);
+        color: var(--color-text);
+        padding: 0 14px;
+    }
+
+    .admin-btn {
+        min-height: 46px;
+        border: 0;
+        border-radius: 12px;
+        padding: 0 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-primary);
+        color: var(--color-button-primary-text);
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .admin-btn-secondary {
+        border: 1px solid var(--color-border);
+        background: var(--color-surface);
+        color: var(--color-text);
+    }
+
+    .admin-table-card {
+        overflow-x: auto;
+        border: 1px solid var(--color-border);
+        border-radius: 18px;
+        background: var(--color-surface);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 780px;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--color-border);
+        color: var(--color-text);
+        vertical-align: middle;
+    }
+
+    .admin-table th {
+        color: var(--color-text-muted);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        font-weight: 800;
+    }
+
+    .admin-table tr:last-child td {
+        border-bottom: 0;
+    }
+
+    .admin-badge {
+        display: inline-flex;
+        border-radius: 999px;
+        border: 1px solid var(--color-border);
+        background: var(--color-bg);
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .admin-link {
+        color: var(--color-link);
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .admin-empty {
+        color: var(--color-text-muted);
+        text-align: center;
+    }
+
+    @@media (max-width: 768px) {
+        .admin-search {
+            flex-direction: column;
+        }
+    }
+</style>

@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Hamburgerz.Models
 {
     public class HomePageViewModel
@@ -9,6 +11,9 @@ namespace Hamburgerz.Models
         public int MeasurementCount { get; set; }
         public int MeasurementsThisWeek { get; set; }
         public int MeasurementsThisMonth { get; set; }
+        public int? MeasurementLimit { get; set; }
+        public bool CanCreateMeasurement { get; set; } = true;
+        public bool HasPremiumFeatures { get; set; }
 
         public DateTime? LastMeasurementDate { get; set; }
         public bool HasMeasurementToday { get; set; }
@@ -23,11 +28,18 @@ namespace Hamburgerz.Models
         public string FactTitle { get; set; } = string.Empty;
         public string FactText { get; set; } = string.Empty;
 
-        public string DisplayName => string.IsNullOrWhiteSpace(Username) ? "vartotojau" : Username;
+        public string DisplayName => string.IsNullOrWhiteSpace(Username)
+            ? IsEnglish ? "user" : "vartotojau"
+            : Username;
 
-        public string LastMeasurementDateLabel => LastMeasurementDate?.ToString("yyyy-MM-dd") ?? "Dar nėra";
+        public int RemainingMeasurements =>
+            MeasurementLimit.HasValue
+                ? Math.Max(0, MeasurementLimit.Value - MeasurementCount)
+                : int.MaxValue;
 
-        public string LastMeasurementDateTimeLabel => LastMeasurementDate?.ToString("yyyy-MM-dd HH:mm") ?? "Dar nėra";
+        public string LastMeasurementDateLabel => LastMeasurementDate?.ToString("yyyy-MM-dd") ?? (IsEnglish ? "Not yet" : "Dar nėra");
+
+        public string LastMeasurementDateTimeLabel => LastMeasurementDate?.ToString("yyyy-MM-dd HH:mm") ?? (IsEnglish ? "Not yet" : "Dar nėra");
 
         public string LastMeasurementRelativeLabel
         {
@@ -35,21 +47,26 @@ namespace Hamburgerz.Models
             {
                 if (!LastMeasurementDate.HasValue)
                 {
-                    return "Dar nėra išsaugotų matavimų";
+                    return IsEnglish ? "No saved measurements yet" : "Dar nėra išsaugotų matavimų";
                 }
 
                 if (HasMeasurementToday)
                 {
-                    return "Atliktas šiandien";
+                    return IsEnglish ? "Completed today" : "Atliktas šiandien";
                 }
 
                 if (DaysSinceLastMeasurement == 1)
                 {
-                    return "Paskutinis matavimas buvo vakar";
+                    return IsEnglish ? "Last measurement was yesterday" : "Paskutinis matavimas buvo vakar";
                 }
 
-                return $"Paskutinis matavimas buvo prieš {DaysSinceLastMeasurement} dienas";
+                return IsEnglish
+                    ? $"Last measurement was {DaysSinceLastMeasurement} days ago"
+                    : $"Paskutinis matavimas buvo prieš {DaysSinceLastMeasurement} dienas";
             }
         }
+
+        private static bool IsEnglish =>
+            CultureInfo.CurrentUICulture.Name.Equals("en-US", StringComparison.OrdinalIgnoreCase);
     }
 }

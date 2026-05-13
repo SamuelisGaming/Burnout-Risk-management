@@ -80,4 +80,10 @@
   <data name="measurementdo" xml:space="preserve">
     <value>Complete an assessment</value>
   </data>
+  <data name="freeLimit" xml:space="preserve">
+    <value>Free limit</value>
+  </data>
+  <data name="limitReached" xml:space="preserve">
+    <value>7 measurement limit reached</value>
+  </data>
 </root>
