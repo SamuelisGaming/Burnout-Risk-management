@@ -978,32 +978,15 @@ action: It is recommended that they see a doctor.");
 
         private async Task PopulateCountriesAsync(ProfilePageViewModel model)
         {
-            if (System.Globalization.CultureInfo.CurrentUICulture.Name == "lt-LT")
-            {
-                model.Countries = await _context.Countries
-                    .AsNoTracking()
-                    .OrderBy(country => country.Name)
-                    .Select(country => new SelectListItem
-                    {
-                        Value = country.Id.ToString(),
-                        Text = country.Name
-                    })
-                    .ToListAsync();
-            }
-            else if (System.Globalization.CultureInfo.CurrentUICulture.Name == "en-US")
-            {
-                model.Countries = await _context.CountriesEN
-                    .AsNoTracking()
-                    .OrderBy(country => country.Name)
-                    .Select(country => new SelectListItem
-                    {
-                        Value = country.Id.ToString(),
-                        Text = country.Name
-                    })
-                    .ToListAsync();
-            }
-
-                
+            model.Countries = await _context.Countries
+                .AsNoTracking()
+                .OrderBy(country => country.Name)
+                .Select(country => new SelectListItem
+                {
+                    Value = country.Id.ToString(),
+                    Text = country.Name
+                })
+                .ToListAsync();
         }
 
         private static RiskMeasurement MapToMeasurement(RiskData measurement, DateTime? birthDate = null)

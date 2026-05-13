@@ -60,6 +60,15 @@
   <data name="gender" xml:space="preserve">
     <value>Lytis</value>
   </data>
+  <data name="gender_male" xml:space="preserve">
+    <value>Vyras</value>
+  </data>
+  <data name="gender_female" xml:space="preserve">
+    <value>Moteris</value>
+  </data>
+  <data name="gender_other" xml:space="preserve">
+    <value>Kita</value>
+  </data>
   <data name="birth" xml:space="preserve">
     <value>Gimimo data</value>
   </data>	

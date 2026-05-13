@@ -259,12 +259,12 @@
     @if (!measurements.Any())
     {
         <div class="empty-state-card">
-            <div class="empty-state-icon">+</div>
-            <div>
-                <h3>@Localizer["measno"]</h3>
-                <p>@Localizer["measnodesc"]</p>
-                <a asp-controller="Data" asp-action="DataEntry" class="primary-btn">@Localizer["measfirst"]</a>
+            <div class="empty-state-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="28" height="28"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
             </div>
+            <h3 class="empty-state-title">@Localizer["measno"]</h3>
+            <p class="empty-state-desc">@Localizer["measnodesc"]</p>
+            <a asp-controller="Data" asp-action="DataEntry" class="primary-btn">@Localizer["measfirst"]</a>
         </div>
     }
     else
@@ -1167,27 +1167,39 @@
 
     .empty-state-card {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 18px;
+        text-align: center;
+        gap: 12px;
         background: var(--color-surface);
         border: 1px solid var(--color-border);
         border-radius: 22px;
-        padding: 28px;
+        padding: 48px 32px;
         box-shadow: var(--shadow-sm);
     }
 
     .empty-state-icon {
-        width: 60px;
-        height: 60px;
+        width: 64px;
+        height: 64px;
         border-radius: 18px;
         background: var(--color-primary);
         color: var(--color-button-primary-text);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 32px;
+        margin-bottom: 4px;
+    }
+
+    .empty-state-title {
+        margin: 0;
+        font-size: 1.2rem;
         font-weight: 700;
-        flex-shrink: 0;
+    }
+
+    .empty-state-desc {
+        margin: 0;
+        color: var(--color-text-muted);
+        max-width: 420px;
     }
 
     .primary-btn {

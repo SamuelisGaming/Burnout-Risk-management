@@ -103,6 +103,23 @@
             color: var(--color-text);
             border-radius: var(--radius-sm);
             padding: 0.6rem 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .profile-dropdown .dropdown-item svg {
+            flex-shrink: 0;
+            opacity: 0.6;
+        }
+
+        .profile-dropdown .dropdown-item:hover svg,
+        .profile-dropdown .dropdown-item:focus svg {
+            opacity: 1;
+        }
+
+        .profile-dropdown .dropdown-item.text-danger svg {
+            opacity: 0.7;
         }
 
         .profile-dropdown .dropdown-item:hover,
@@ -123,6 +140,62 @@
         .profile-dropdown .dropdown-item.text-danger:focus {
             background: var(--color-surface-2);
             color: var(--color-danger) !important;
+        }
+
+        .bug-topic-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .bug-topic-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 8px;
+            border: 1.5px solid var(--color-border);
+            border-radius: 12px;
+            background: var(--color-surface);
+            color: var(--color-text-muted);
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: border-color 0.15s, color 0.15s, background 0.15s;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .bug-topic-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            background: var(--color-surface-raised);
+        }
+
+        .bug-topic-btn.is-selected {
+            border-color: var(--color-primary);
+            background: rgba(var(--color-primary-rgb, 14,165,233), 0.1);
+            color: var(--color-primary);
+        }
+
+        .bug-report-textarea {
+            background: var(--color-surface);
+            border: 1.5px solid var(--color-border);
+            color: var(--color-text);
+            border-radius: 10px;
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .bug-report-textarea:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(14,165,233,0.12);
+        }
+
+        .bug-report-footer {
+            border-top: 1px solid var(--color-border);
+            gap: 8px;
         }
 
         .premium-modal-kicker {
@@ -287,6 +360,11 @@
             <nav class="navbar navbar-expand-lg border-bottom box-shadow mb-3 app-navbar">
                 <div class="container-fluid">
 
+                    @{
+                        var currentLang = CultureInfo.CurrentUICulture.Name;
+                        var isLt = currentLang == "lt-LT";
+                    }
+
                     @if (!isLoggedIn)
                     {
                         <a class="navbar-brand app-brand" asp-area="" asp-controller="Home" asp-action="Index">
@@ -296,6 +374,26 @@
                                  class="app-brand-mark" />
                             <span class="app-brand-text">Hamburgerz</span>
                         </a>
+
+                        <div class="dropdown ms-auto">
+                            <button class="btn nav-lang-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="nav-lang-flag settings-language-flag @(isLt ? "settings-language-flag--lt" : "settings-language-flag--en")"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end nav-lang-dropdown">
+                                <li>
+                                    <button type="button" class="dropdown-item nav-lang-item settings-language-option @(isLt ? "is-active" : "")" data-lang="lt-LT">
+                                        <span class="settings-language-flag settings-language-flag--lt nav-lang-flag-sm"></span>
+                                        <span>Lietuvių</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item nav-lang-item settings-language-option @(!isLt ? "is-active" : "")" data-lang="en-US">
+                                        <span class="settings-language-flag settings-language-flag--en nav-lang-flag-sm"></span>
+                                        <span>English</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
                     }
                     else
                     {
@@ -331,7 +429,7 @@
                                 </ul>
                             </div>
 
-                            <div class="d-flex justify-content-end" style="min-width: 180px;">
+                            <div class="d-flex justify-content-end align-items-center" style="min-width: 180px;">
                                 <div class="dropdown">
                                     <button class="btn profile-avatar-btn"
                                             type="button"
@@ -347,6 +445,7 @@
                                      <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
                                          <li>
                                              <a class="dropdown-item" asp-area="" asp-controller="Profile" asp-action="Index">
+                                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
                                                  @LayoutLocalizer["profile"]
                                              </a>
                                          </li>
@@ -356,12 +455,20 @@
                                                      data-settings-open
                                                      data-settings-modal-target="#settingsModal"
                                                      aria-controls="settingsModal">
+                                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                                                  @LayoutLocalizer["settings"]
+                                             </button>
+                                         </li>
+                                         <li>
+                                             <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#bugReportModal">
+                                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h8M8 10h8M8 14h4"/><path d="M4 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16l-4-2-4 2-4-2-4 2V4z"/></svg>
+                                                 @LayoutLocalizer["reportBug"]
                                              </button>
                                          </li>
                                          <li><hr class="dropdown-divider" /></li>
                                          <li>
                                              <a class="dropdown-item text-danger" asp-area="" asp-controller="Login" asp-action="Logout">
+                                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
                                                  @LayoutLocalizer["logout"]
                                              </a>
                                         </li>
@@ -488,6 +595,62 @@
         </div>
     }
 
+    @if (isLoggedIn)
+    {
+        <div class="modal fade app-modal" id="bugReportModal" tabindex="-1" aria-labelledby="bugReportModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                            <div class="app-modal-kicker">@LayoutLocalizer["reportBugKicker"]</div>
+                            <h2 class="modal-title fs-5" id="bugReportModalLabel">@LayoutLocalizer["reportBug"]</h2>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@LayoutLocalizer["close"].Value"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">@LayoutLocalizer["reportTopic"]</label>
+                            <div class="bug-topic-grid" id="bugTopicGrid">
+                                <button type="button" class="bug-topic-btn" data-topic="ui">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                                    @LayoutLocalizer["reportTopicUI"]
+                                </button>
+                                <button type="button" class="bug-topic-btn" data-topic="data">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/></svg>
+                                    @LayoutLocalizer["reportTopicData"]
+                                </button>
+                                <button type="button" class="bug-topic-btn" data-topic="analysis">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                                    @LayoutLocalizer["reportTopicAnalysis"]
+                                </button>
+                                <button type="button" class="bug-topic-btn" data-topic="account">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                                    @LayoutLocalizer["reportTopicAccount"]
+                                </button>
+                                <button type="button" class="bug-topic-btn" data-topic="performance">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                                    @LayoutLocalizer["reportTopicPerformance"]
+                                </button>
+                                <button type="button" class="bug-topic-btn" data-topic="other">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                    @LayoutLocalizer["reportTopicOther"]
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <label for="bugReportText" class="form-label fw-semibold">@LayoutLocalizer["reportDescription"]</label>
+                            <textarea id="bugReportText" class="form-control bug-report-textarea" rows="4" placeholder="@LayoutLocalizer["reportPlaceholder"].Value"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer bug-report-footer">
+                        <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">@LayoutLocalizer["cancel"]</button>
+                        <button type="button" class="btn btn-primary" id="bugReportSend">@LayoutLocalizer["reportSend"]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
     @if (isLoggedIn && !hasPremiumFeatures)
     {
         <div class="modal fade app-modal" id="premiumModal" tabindex="-1" aria-labelledby="premiumModalLabel" aria-hidden="true">
@@ -539,6 +702,71 @@
 
             setTimeout(dismiss, 4000);
             toast.querySelector(".app-toast-close").addEventListener("click", dismiss);
+        })();
+    </script>
+    <script>
+        (function () {
+            var grid = document.getElementById('bugTopicGrid');
+            var sendBtn = document.getElementById('bugReportSend');
+            if (!grid || !sendBtn) return;
+
+            grid.addEventListener('click', function (e) {
+                var btn = e.target.closest('.bug-topic-btn');
+                if (!btn) return;
+                grid.querySelectorAll('.bug-topic-btn').forEach(function (b) { b.classList.remove('is-selected'); });
+                btn.classList.add('is-selected');
+            });
+
+            sendBtn.addEventListener('click', function () {
+                var selectedBtn = grid ? grid.querySelector('.bug-topic-btn.is-selected') : null;
+                var topic = selectedBtn ? (selectedBtn.textContent || '').trim() : 'Other';
+                var description = (document.getElementById('bugReportText').value || '').trim();
+
+                var deviceInfo = [
+                    'Browser: ' + navigator.userAgent,
+                    'Language: ' + navigator.language,
+                    'Screen: ' + screen.width + 'x' + screen.height,
+                    'Viewport: ' + window.innerWidth + 'x' + window.innerHeight,
+                    'URL: ' + window.location.href,
+                    'Time: ' + new Date().toISOString()
+                ].join('\n');
+
+                var modal = bootstrap.Modal.getInstance(document.getElementById('bugReportModal'));
+                if (modal) modal.hide();
+
+                document.getElementById('bugReportText').value = '';
+                if (grid) grid.querySelectorAll('.bug-topic-btn').forEach(function (b) { b.classList.remove('is-selected'); });
+
+                var token = document.querySelector('meta[name="csrf-token"]') || document.querySelector('input[name="__RequestVerificationToken"]');
+                var tokenValue = token ? (token.getAttribute('content') || token.value) : '';
+
+                var form = new FormData();
+                form.append('topic', topic);
+                form.append('description', description);
+                form.append('deviceInfo', deviceInfo);
+                form.append('__RequestVerificationToken', tokenValue);
+
+                fetch('/BugReport/Submit', { method: 'POST', body: form }).catch(function () {});
+
+                var old = document.getElementById('bugSentToast');
+                if (old) old.remove();
+
+                var toast = document.createElement('div');
+                toast.id = 'bugSentToast';
+                toast.className = 'app-toast app-toast-success';
+                toast.setAttribute('role', 'status');
+                toast.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="app-toast-icon"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>'
+                    + '<span>@LayoutLocalizer["reportSentToast"].Value</span>'
+                    + '<button type="button" class="app-toast-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m18 6-12 12M6 6l12 12"/></svg></button>';
+                document.body.appendChild(toast);
+
+                function dismiss() {
+                    toast.classList.add('is-hiding');
+                    toast.addEventListener('animationend', function () { toast.remove(); }, { once: true });
+                }
+                setTimeout(dismiss, 4000);
+                toast.querySelector('.app-toast-close').addEventListener('click', dismiss);
+            });
         })();
     </script>
     @await RenderSectionAsync("Scripts", required: false)

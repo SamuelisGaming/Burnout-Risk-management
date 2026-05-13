@@ -37,4 +37,18 @@
   <data name="avatarInvalidFile" xml:space="preserve"><value>Pasirinktas failas nėra paveikslėlis.</value></data>
   <data name="avatarUploadUrlError" xml:space="preserve"><value>Nerastas avataro įkėlimo adresas.</value></data>
   <data name="avatarUploadError" xml:space="preserve"><value>Nepavyko įkelti paveikslėlio. Pabandykite kitą nuotrauką.</value></data>
+  <data name="reportBug" xml:space="preserve"><value>Pranešti apie klaidą</value></data>
+  <data name="reportBugKicker" xml:space="preserve"><value>Grįžtamasis ryšys</value></data>
+  <data name="reportTopic" xml:space="preserve"><value>Tema</value></data>
+  <data name="reportTopicUI" xml:space="preserve"><value>Sąsaja</value></data>
+  <data name="reportTopicData" xml:space="preserve"><value>Duomenys</value></data>
+  <data name="reportTopicAnalysis" xml:space="preserve"><value>Analizė</value></data>
+  <data name="reportTopicAccount" xml:space="preserve"><value>Paskyra</value></data>
+  <data name="reportTopicPerformance" xml:space="preserve"><value>Greitis</value></data>
+  <data name="reportTopicOther" xml:space="preserve"><value>Kita</value></data>
+  <data name="reportDescription" xml:space="preserve"><value>Aprašymas</value></data>
+  <data name="reportPlaceholder" xml:space="preserve"><value>Aprašykite problemą kuo aiškiau…</value></data>
+  <data name="reportSend" xml:space="preserve"><value>Siųsti pranešimą</value></data>
+  <data name="reportSentToast" xml:space="preserve"><value>Pranešimas išsiųstas. Ačiū!</value></data>
+  <data name="cancel" xml:space="preserve"><value>Atšaukti</value></data>
 </root>

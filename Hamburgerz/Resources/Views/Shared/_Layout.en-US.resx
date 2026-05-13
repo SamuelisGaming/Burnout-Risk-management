@@ -37,4 +37,18 @@
   <data name="avatarInvalidFile" xml:space="preserve"><value>The selected file is not an image.</value></data>
   <data name="avatarUploadUrlError" xml:space="preserve"><value>Avatar upload URL was not found.</value></data>
   <data name="avatarUploadError" xml:space="preserve"><value>Could not upload the image. Try another photo.</value></data>
+  <data name="reportBug" xml:space="preserve"><value>Report a bug</value></data>
+  <data name="reportBugKicker" xml:space="preserve"><value>Feedback</value></data>
+  <data name="reportTopic" xml:space="preserve"><value>Topic</value></data>
+  <data name="reportTopicUI" xml:space="preserve"><value>Interface</value></data>
+  <data name="reportTopicData" xml:space="preserve"><value>Data</value></data>
+  <data name="reportTopicAnalysis" xml:space="preserve"><value>Analysis</value></data>
+  <data name="reportTopicAccount" xml:space="preserve"><value>Account</value></data>
+  <data name="reportTopicPerformance" xml:space="preserve"><value>Performance</value></data>
+  <data name="reportTopicOther" xml:space="preserve"><value>Other</value></data>
+  <data name="reportDescription" xml:space="preserve"><value>Description</value></data>
+  <data name="reportPlaceholder" xml:space="preserve"><value>Describe the issue as clearly as possible…</value></data>
+  <data name="reportSend" xml:space="preserve"><value>Send report</value></data>
+  <data name="reportSentToast" xml:space="preserve"><value>Report sent. Thank you!</value></data>
+  <data name="cancel" xml:space="preserve"><value>Cancel</value></data>
 </root>

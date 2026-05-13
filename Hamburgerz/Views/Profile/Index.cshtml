@@ -78,7 +78,7 @@
 
                 <div class="profile-info-row">
                     <span class="profile-info-label">@Localizer["gender"]</span>
-                    <span class="profile-info-value">@(string.IsNullOrWhiteSpace(Model.Gender) ? @Localizer["notset"] : Model.Gender)</span>
+                    <span class="profile-info-value">@(string.IsNullOrWhiteSpace(Model.Gender) ? Localizer["notset"].Value : Model.Gender switch { "male" or "Vyras" or "Man" => Localizer["gender_male"].Value, "female" or "Moteris" or "Woman" => Localizer["gender_female"].Value, "other" or "Kita" or "Other" => Localizer["gender_other"].Value, _ => Model.Gender })</span>
                 </div>
 
                 <div class="profile-info-row">
@@ -88,7 +88,7 @@
 
                 <div class="profile-info-row">
                     <span class="profile-info-label">@Localizer["lastmeas"]</span>
-                    <span class="profile-info-value">@(Model.LastMeasurementDate?.ToString("yyyy-MM-dd HH:mm") ?? @Localizer["notexist"].ToString())</span>
+                    <span class="profile-info-value">@(Model.LastMeasurementDate?.ToString("yyyy-MM-dd HH:mm") ?? Localizer["notexist"].Value)</span>
                 </div>
             </div>
         </section>
@@ -140,9 +140,9 @@
                     <span class="profile-field-label">@Localizer["size"]</span>
                     <select asp-for="CompanySize" class="form-select">
                         <option value="">@Localizer["choose"]</option>
-                        <option value="@smallCompany">@smallCompany (1-50)</option>
-                        <option value="@mediumCompany">@mediumCompany (51-250)</option>
-                        <option value="@largeCompany">@largeCompany (250+)</option>
+                        <option value="Maža">@Localizer["size1"] (1-50)</option>
+                        <option value="Vidutinė">@Localizer["size2"] (51-250)</option>
+                        <option value="Didelė">@Localizer["size3"] (250+)</option>
                     </select>
                     <span asp-validation-for="CompanySize" class="text-danger small"></span>
                 </label>
@@ -151,9 +151,9 @@
                     <span class="profile-field-label">@Localizer["work"]</span>
                     <select asp-for="WorkEnvironment" class="form-select">
                         <option value="">@Localizer["choose"]</option>
-                        <option value="@remoteEnvironment">@remoteEnvironment</option>
-                        <option value="@officeEnvironment">@officeEnvironment</option>
-                        <option value="@hybridEnvironment">@hybridEnvironment</option>
+                        <option value="Nuotolinis">@Localizer["env1"]</option>
+                        <option value="Ofisinis">@Localizer["env2"]</option>
+                        <option value="Hibridinis">@Localizer["env3"]</option>
                     </select>
                     <span asp-validation-for="WorkEnvironment" class="text-danger small"></span>
                 </label>

@@ -16,6 +16,13 @@
 
     var notSetText = Localizer["notset"].Value ?? "-";
     string DisplayText(string? value) => string.IsNullOrWhiteSpace(value) ? notSetText : value!;
+    string DisplayGender(string? value) => value switch
+    {
+        "male" or "Vyras" or "Man" => Localizer["gender_male"].Value,
+        "female" or "Moteris" or "Woman" => Localizer["gender_female"].Value,
+        "other" or "Kita" or "Other" => Localizer["gender_other"].Value,
+        _ => DisplayText(value)
+    };
     string DisplayNumber(int? value) => value?.ToString() ?? notSetText;
     string DisplayDate(DateTime? value) => value?.ToString("yyyy-MM-dd") ?? notSetText;
 }
@@ -597,7 +604,7 @@
 
                         <div class="detail-row">
                             <span class="detail-label">@Localizer["gender"]</span>
-                            <span class="detail-value">@DisplayText(Model.Gender)</span>
+                            <span class="detail-value">@DisplayGender(Model.Gender)</span>
                         </div>
 
                         <div class="detail-row">
