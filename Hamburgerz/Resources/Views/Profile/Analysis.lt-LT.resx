@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <data name="maintitle" xml:space="preserve">
+    <value>Profesinio perdegimo rizikos valdymas</value>
+  </data>
   <data name="title1" xml:space="preserve">
     <value>Analizė</value>
   </data>
@@ -205,6 +208,6 @@
     <value>Reikalingas Premium</value>
   </data>
   <data name="premiumLockCopy" xml:space="preserve">
-    <value>Paspausk, kad pamatytum Premium pliusus ir atrakintum AI analizę.</value>
+    <value>Paspausk, kad pamatytum Premium pliusus ir atrakintum DI analizę.</value>
   </data>
 </root>

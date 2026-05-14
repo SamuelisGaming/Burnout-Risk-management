@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+    <data name="maintitle" xml:space="preserve">
+    <value>Burnout Risk Management</value>
+  </data>
   <data name="title" xml:space="preserve">
     <value>New measurement</value>
   </data>
@@ -163,7 +166,7 @@
     <value>Last step</value>
   </data>
   <data name="title6descr1" xml:space="preserve">
-    <value>	How often do you feel weak and susceptible to illness?</value>
+    <value>How often do you feel weak and susceptible to illness?</value>
   </data>
   <data name="title6descr2" xml:space="preserve">
     <value>Choose the level that best describes how you felt throughout the day.</value>
@@ -211,22 +214,22 @@
     <value>Do you feel burnt out because of your work?</value>
   </data>
 	<data name="title14descr1" xml:space="preserve">
-    <value>Do you find it hard to work with clients?</value>
+    <value>Do you find it hard to work with clients or coworkers?</value>
   </data>
 	<data name="title15descr1" xml:space="preserve">
-    <value>Does it drain your energy to work with clients?</value>
+    <value>Does it drain your energy to work with clients or coworkers?</value>
   </data>
 	<data name="title16descr1" xml:space="preserve">
-    <value>Do you find it frustrating to work with clients?</value>
+    <value>Do you find it frustrating to work with clients or coworkers?</value>
   </data>
 	<data name="title17descr1" xml:space="preserve">
-    <value>Do you feel that you give more than you get back when you work with clients?</value>
+    <value>Do you feel that you give more than you get back when you work with clients or coworkers?</value>
   </data>
 	<data name="title18descr1" xml:space="preserve">
-    <value>Are you tired of working with clients?</value>
+    <value>Are you tired of working with clients or coworkers?</value>
   </data>
 	<data name="title19descr1" xml:space="preserve">
-    <value>Do you sometimes wonder how long you will be able to continue working with clients?</value>
+    <value>Do you sometimes wonder how long you will be able to continue working with clients or coworkers?</value>
   </data>
   <data name="limitReachedTitle" xml:space="preserve">
     <value>Free plan measurement limit reached</value>

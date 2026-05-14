@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="maintitle" xml:space="preserve">
+    <value>Burnout Risk Management</value>
+  </data>
+  <data name="titleshort" xml:space="preserve">
+    <value>About us</value>
+  </data>
+  <data name="title1" xml:space="preserve">
+    <value>About us</value>
+  </data>
+  <data name="title1par1" xml:space="preserve">
+    <value>“Burnout Risk Assessment” is an occupational burnout risk assessment website that helps users assess their burnout risk and provides recommendations for reducing it. Burnout score calculation, statistics and personalized recommendations use user-entered lifestyle data (sleep, work quantity and quality, screentime hours etc.). Both recorded daily data and general statistical history can be viewed.</value>
+  </data>
+  <data name="title1par2" xml:space="preserve">
+    <value>Our goal is to improve the quality of life of users by combating existing or developing burnout. Burnout affects not only the quality of work, but also promotes fatigue, stress, detachment from duties, which can negatively affect both leisure time and health. We hope that identifying burnout risks and recommending changes will help users improve their work-life balance.</value>
+  </data>
+  <data name="title2" xml:space="preserve">
+    <value>The team</value>
+  </data>
+  <data name="title2par1" xml:space="preserve">
+    <value>This product was prepared for Kaunas University of Technology ‘s module “Product Development Project”.</value>
+  </data>
+  <data name="title2par2" xml:space="preserve">
+    <value>Team – K606 „Hamburgerz“. Members:</value>
+  </data>
+  <data name="memb1" xml:space="preserve">
+    <value>Emilis Janšauskas – Software Systems</value>
+  </data>
+  <data name="memb2" xml:space="preserve">
+    <value>Aistė Lukošiūtė – Software Systems</value>
+  </data>
+  <data name="memb3" xml:space="preserve">
+    <value>Matas Samuolis – Software Systems</value>
+  </data>
+  <data name="memb4" xml:space="preserve">
+    <value>Karolis Rameikis – Finance</value>
+  </data>
+  <data name="title2par3" xml:space="preserve">
+    <value>Team mentor:</value>
+  </data>
+  <data name="mentor" xml:space="preserve">
+    <value>Lect. Tomas Danikauskas</value>
+  </data>
+  <data name="mentorlink" xml:space="preserve">
+    <value>https://ktu.edu/scientist/tomas.danikauskas/</value>
+  </data>
+  <data name="title3" xml:space="preserve">
+    <value>Burnout Risk Calculation</value>
+  </data>
+  <data name="title3par1" xml:space="preserve">
+    <value>This website calculates burnout risk using an algorithm based on the Copenhagen Burnout Inventory (CBI), which calculates burnout by averaging exhaustion scores across 3 domains: personal, work-related, and customer-related. This tool was developed for the Project on Burnout, Motivation and Job Satisfaction (PUMA) project by the National Research Centre for the Working Environment Denmark in 1999. The answers to the questions are distributed on a scale: 0, 25, 50, 75, 100. The higher the score, the more symptoms of burnout appear. The CBI questions and score scales are freely accessible and quite convenient, which is why they have become widespread in studies, articles, and other uses.</value>
+  </data>
+  <data name="title3par2" xml:space="preserve">
+    <value>The CBI is intended for occasional assessment of burnout, so it is a relatively long questionnaire. We kept the idea behind CBI but shortened and adapted the questionnaire for more convenient daily self-assessments, adding the saving of hours of sleep, work, and physical activity for more effective, clearer observations, analysis, and recommendations.</value>
+  </data>
+  <data name="title3link" xml:space="preserve">
+    <value>https://www.tandfonline.com/doi/full/10.1080/02678370500297720</value>
+  </data>
+  <data name="cbi" xml:space="preserve">
+    <value>Copenhagen burnout inventory</value>
+  </data>
+  <data name="title4" xml:space="preserve">
+    <value>Artificial intelligence</value>
+  </data>
+  <data name="title4par1" xml:space="preserve">
+    <value>The Google Gemini AI model is connected to generate personalized, detailed insights. Free users can try up to 7 AI analyses for specific records or time periods, while premium users can use AI analyses, observations and advice without limit. Both user levels see the calculated burnout score, measurement and lifestyle signals in the measurements, the distribution of stress, rest, sleep and work, and averages of measurements in the selected time periods.</value>
+  </data>
+  <data name="title4link" xml:space="preserve">
+    <value>https://gemini.google/about/</value>
+  </data>
+  <data name="gemini" xml:space="preserve">
+    <value>Gemini AI</value>
+  </data>
+</root>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <data name="title" xml:space="preserve"><value>Admin</value></data>
+  <data name="maintitle" xml:space="preserve"><value>Profesinio perdegimo rizikos valdymas</value></data>
+  <data name="title" xml:space="preserve"><value>Administracijos puslapis</value></data>
   <data name="kicker" xml:space="preserve"><value>Admin</value></data>
   <data name="heading" xml:space="preserve"><value>Vartotojai</value></data>
   <data name="description" xml:space="preserve"><value>Peržiūrėkite visus vartotojus arba raskite konkretų pagal ID, el. paštą ar vartotojo vardą.</value></data>

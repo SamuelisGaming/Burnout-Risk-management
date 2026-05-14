@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <data name="maintitle" xml:space="preserve">
+    <value>Burnout Risk Management</value>
+  </data>
   <data name="titleshort" xml:space="preserve">
     <value>Home</value>
   </data>

@@ -10,6 +10,7 @@
   <data name="profile" xml:space="preserve"><value>Profilis</value></data>
   <data name="settings" xml:space="preserve"><value>Nustatymai</value></data>
   <data name="logout" xml:space="preserve"><value>Atsijungti</value></data>
+  <data name="about" xml:space="preserve"><value>Apie mus</value></data>
   <data name="privacy" xml:space="preserve"><value>Privatumas</value></data>
   <data name="appearance" xml:space="preserve"><value>Išvaizda</value></data>
   <data name="close" xml:space="preserve"><value>Uždaryti</value></data>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="maintitle" xml:space="preserve">
+    <value>Profesinio perdegimo rizikos valdymas</value>
+  </data>
+  <data name="titleshort" xml:space="preserve">
+    <value>Apie mus</value>
+  </data>
+  <data name="title1" xml:space="preserve">
+    <value>Apie mus</value>
+  </data>
+  <data name="title1par1" xml:space="preserve">
+    <value>„Profesinio perdegimo rizikos nustatymas“ yra svetainė, padedanti vartotojams įvertinti savo perdegimo riziką, bei duodanti rekomendacijas jos mažinimui. Perdegimo balo skaičiavimas, statistika bei suasmenintos rekomendacijos naudoja vartotojo įvestus gyvenimo būdo duomenis (miego, darbo kiekiu ir kokybe, praleistomis valandomis prie ekranų ir kt.). Galima peržiūrėti tiek įrašytus dienos duomenis, tiek bendrą statistikos istoriją.</value>
+  </data>
+  <data name="title1par2" xml:space="preserve">
+    <value>Mūsų tikslas – gerinti vartotojų gyvenimo kokybę, kovojant su esamu arba besivystančiu perdegimu. Perdegimas paveikia ne tik darbo kokybę, bet ir skatina nuovargį, stresą, atsiribojimą nuo pareigų, kas gali negatyviai paveikti ir laisvalaikį, ir sveikatą. Tikimės, jog perdegimo rizikos pastebėjimas bei pokyčių rekomendacijos padės vartotojams pagerinti darbo ir asmeninio gyvenimo pusiausvyrą.</value>
+  </data>
+  <data name="title2" xml:space="preserve">
+    <value>Komanda</value>
+  </data>
+  <data name="title2par1" xml:space="preserve">
+    <value>Produktas ruošiamas „Produkto vystymo projekto“ moduliui, Kauno technologijų universitetui.</value>
+  </data>
+  <data name="title2par2" xml:space="preserve">
+    <value>Komanda – K606 „Hamburgerz“. Nariai:</value>
+  </data>
+  <data name="memb1" xml:space="preserve">
+    <value>Emilis Janšauskas – Programų sistemos</value>
+  </data>
+  <data name="memb2" xml:space="preserve">
+    <value>Aistė Lukošiūtė – Programų sistemos</value>
+  </data>
+  <data name="memb3" xml:space="preserve">
+    <value>Matas Samuolis – Programų sistemos</value>
+  </data>
+  <data name="memb4" xml:space="preserve">
+    <value>Karolis Rameikis – Finansai</value>
+  </data>
+  <data name="title2par3" xml:space="preserve">
+    <value>Komandos mentorius:</value>
+  </data>
+  <data name="mentor" xml:space="preserve">
+    <value>Lekt. Tomas Danikauskas</value>
+  </data>
+  <data name="mentorlink" xml:space="preserve">
+    <value>https://ktu.edu/scientist/tomas.danikauskas/</value>
+  </data>
+  <data name="title3" xml:space="preserve">
+    <value>Perdegimo rizikos skaičiavimas</value>
+  </data>
+  <data name="title3par1" xml:space="preserve">
+    <value>Ši svetainė apskaičiuoja perdegimo riziką algoritmu, besiremiančiu Kopenhagos perdegimo inventoriumi (angl. CBI), kuris apskaičiuoja perdegimą imdamas perdegimo balų vidurkį iš 3 sričių: asmeninės, susijusios su darbu bei susijusios su klientais. Šis įrankis buvo sukurtas Perdegimo, motyvacijos ir pasitenkinimo darbu projektui (PUMA), kurį 1999 m. atliko Danijos Nacionalinis darbo aplinkos tyrimų centras. Atsakymai į klausimus yra paskirstyti į skalę: 0, 25, 50, 75, 100. Kuo didesnis balas, tuo labiau pasirodo perdegimo požymiai. CBI klausimai bei rezultatų skalės laisvai prieinami bei yra gan patogūs, todėl paplito tyrimuose, straipsniuose, ir kitokiame naudojime.</value>
+  </data>
+  <data name="title3par2" xml:space="preserve">
+    <value>CBI skirtas perdegimo vertinimui retkarčiais, todėl yra gan ilgokas klausimynas. Mes stengėmės išlaikyti CBI idėją, tačiau sutrumpinti ir pritaikyti klausimyną patogesniems kasdieniams įsivertinimams, pridedant miego, darbo, fizinio aktyvumo valandų saugojimą dėl efektyvesnių, aiškesnių stebėjimų, analizės bei rekomendacijų.</value>
+  </data>
+  <data name="title3link" xml:space="preserve">
+    <value>https://www.tandfonline.com/doi/full/10.1080/02678370500297720</value>
+  </data>
+  <data name="cbi" xml:space="preserve">
+    <value>Kopenhagos perdegimo inventorius (anglų kalba)</value>
+  </data>
+  <data name="title4" xml:space="preserve">
+    <value>Dirbtinis intelektas</value>
+  </data>
+  <data name="title4par1" xml:space="preserve">
+    <value> Personalizuotoms, išsamioms įžvalgoms generuoti yra prijungtas Google Gemini DI modelis. Nemokami vartotojai gali išbandyti iki 7 DI analizes konkretiems įrašams ar laikotarpiams, o premium vartotojai gali naudotis DI analize, stebėjimais bei patarimais neribotai. Abu vartotojų lygiai mato apskaičiuotą perdegimo balą, matavimo bei gyvensenos rodiklius matavimuose, streso, poilsio, miego bei darbo pasiskirstymą, matavimų vidurkius pasirinktuose laikotarpiuose.</value>
+  </data>
+  <data name="title4link" xml:space="preserve">
+    <value>https://gemini.google/about/</value>
+  </data>
+  <data name="gemini" xml:space="preserve">
+    <value>Gemini DI</value>
+  </data>
+</root>
