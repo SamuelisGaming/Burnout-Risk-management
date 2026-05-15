@@ -52,10 +52,13 @@
     <value>Atgal</value>
   </data>
   <data name="mail" xml:space="preserve">
-    <value>Elektroninis paštas</value>
-  </data>  
+    <value>Elektroninis paštas arba slapyvardis</value>
+  </data>
+  <data name="mailtemp" xml:space="preserve">
+    <value>vardas@pastas.lt / vardas</value>
+  </data> 
   <data name="maildescr" xml:space="preserve">
-    <value>Naudok tą patį adresą, su kuriuo registravaisi.</value>
+    <value>Naudok tą patį adresą arba slapyvardį, su kuriuo registravaisi.</value>
   </data>
   <data name="pass" xml:space="preserve">
     <value>Slaptažodis</value>

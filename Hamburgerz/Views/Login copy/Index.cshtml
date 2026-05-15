@@ -73,13 +73,13 @@
 
                         <label class="login-field">
                             <span class="login-field-label">@Localizer["mail"]</span>
-                            <input asp-for="Email"
+                            <input asp-for="Login"
                                    class="form-control form-control-lg login-input"
                                    placeholder="vardas@pastas.lt"
                                    autocomplete="email"
                                    required />
                             <span class="login-field-hint">@Localizer["maildescr"]</span>
-                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <span asp-validation-for="Login" class="text-danger"></span>
                         </label>
 
                         <div class="login-field">
