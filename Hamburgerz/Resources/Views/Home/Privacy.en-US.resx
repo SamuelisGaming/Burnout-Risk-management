@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="maintitle" xml:space="preserve">
+    <value>Burnout Risk Assessment </value>
+  </data>
+  <data name="titleshort" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="title1" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="update" xml:space="preserve">
+    <value>Last updated: 2026-05-25</value>
+  </data>
+  <data name="title1par1" xml:space="preserve">
+    <value>Welcome to the “Burnout Risk Assessment” website (“Website”). We respect your privacy and are committed to protecting your personal data in accordance with the General Data Protection Regulation (GDPR) and other applicable laws.</value>
+  </data>
+  <data name="title1par2" xml:space="preserve">
+    <value>By using this Website, you agree to the terms described in this Privacy Policy.</value>
+  </data>
+  <data name="title2" xml:space="preserve">
+    <value>1. Who We Are</value>
+  </data>
+  <data name="title2par1" xml:space="preserve">
+    <value>Website owner: Team „Hamburgerz“</value>
+  </data>
+  <data name="title2par2" xml:space="preserve">
+    <value>Email: hamburgerzinc@gmail.com</value>
+  </data>
+  <data name="title2par3" xml:space="preserve">
+    <value>Website:</value>
+  </data>
+  <data name="sitelink" xml:space="preserve">
+    <value>https://burnoutriskmanager-d7dchkbxate5g7bx.polandcentral-01.azurewebsites.net/</value>
+  </data>
+  <data name="title2par4" xml:space="preserve">
+    <value>If you have any questions regarding privacy or data protection, please contact us using the email above.</value>
+  </data>
+  <data name="title3" xml:space="preserve">
+    <value>2. What Data We Collect</value>
+  </data>
+  <data name="title3par1" xml:space="preserve">
+    <value>While using the Website, the following data may be collected:</value>
+  </data>
+  <data name="title3one" xml:space="preserve">
+    <value>2.1. Information You Provide Voluntarily</value>
+  </data>
+  <data name="data1" xml:space="preserve">
+    <value>•	Name </value>
+  </data>
+  <data name="data2" xml:space="preserve">
+    <value>•	Email address </value>
+  </data>
+  <data name="data3" xml:space="preserve">
+    <value>•	Company name </value>
+  </data>
+  <data name="data4" xml:space="preserve">
+    <value>•	Content of inquiries or forms </value>
+  </data>
+  <data name="data5" xml:space="preserve">
+    <value>•	Any other information voluntarily provided by you </value>
+  </data>
+  <data name="title3two" xml:space="preserve">
+    <value>2.2. Automatically Collected Information</value>
+  </data>
+  <data name="data6" xml:space="preserve">
+    <value>•	IP address </value>
+  </data>
+  <data name="data7" xml:space="preserve">
+    <value>•	Browser type </value>
+  </data>
+  <data name="data8" xml:space="preserve">
+    <value>•	Device information </value>
+  </data>
+  <data name="data9" xml:space="preserve">
+    <value>•	Visit time </value>
+  </data>
+  <data name="data10" xml:space="preserve">
+    <value>•	Website usage statistics </value>
+  </data>
+  <data name="data11" xml:space="preserve">
+    <value>•	Cookie information  </value>
+  </data>
+  <data name="title4" xml:space="preserve">
+    <value>3. How We Use Your Data</value>
+  </data>
+  <data name="title4par1" xml:space="preserve">
+    <value>Your data may be used for the following purposes:</value>
+  </data>
+  <data name="goal1" xml:space="preserve">
+    <value>•	Providing services </value>
+  </data>
+  <data name="goal2" xml:space="preserve">
+    <value>•	Ensuring the functionality of burnout risk assessment tools  </value>
+  </data>
+  <data name="goal3" xml:space="preserve">
+    <value>•	Customer support  </value>
+  </data>
+  <data name="goal4" xml:space="preserve">
+    <value>•	Website security  </value>
+  </data>
+  <data name="goal5" xml:space="preserve">
+    <value>•	System analysis and improvement  </value>
+  </data>
+  <data name="goal6" xml:space="preserve">
+    <value>•	Communication with You </value>
+  </data>
+  <data name="goal7" xml:space="preserve">
+    <value>•	Compliance with legal obligations </value>
+  </data>
+  <data name="title5" xml:space="preserve">
+    <value>4. Legal Basis for Processing</value>
+  </data>
+  <data name="title5par1" xml:space="preserve">
+    <value>We process your personal data based on:</value>
+  </data>
+  <data name="basis1" xml:space="preserve">
+    <value>•	Your consent </value>
+  </data>
+  <data name="basis2" xml:space="preserve">
+    <value>•	Performance of a contract </value>
+  </data>
+  <data name="basis3" xml:space="preserve">
+    <value>•	Legal obligations </value>
+  </data>
+  <data name="basis4" xml:space="preserve">
+    <value>•	Our legitimate interest in ensuring system security and service quality </value>
+  </data>
+  <data name="title6" xml:space="preserve">
+    <value>5. Cookies</value>
+  </data>
+  <data name="title6par1" xml:space="preserve">
+    <value>The Website may use cookies to:</value>
+  </data>
+  <data name="cookies1" xml:space="preserve">
+    <value>•	Ensure proper website functionality </value>
+  </data>
+  <data name="cookies2" xml:space="preserve">
+    <value>•	Analyze traffic and usage </value>
+  </data>
+  <data name="cookies3" xml:space="preserve">
+    <value>•	Improve user experience </value>
+  </data>
+  <data name="title6par2" xml:space="preserve">
+    <value>You can manage cookie settings through your browser.</value>
+  </data>
+  <data name="title7" xml:space="preserve">
+    <value>6. Data Retention</value>
+  </data>
+  <data name="title7par1" xml:space="preserve">
+    <value>Your personal data is stored only for as long as necessary for:</value>
+  </data>
+  <data name="retention1" xml:space="preserve">
+    <value>•	Service provision </value>
+  </data>
+  <data name="retention2" xml:space="preserve">
+    <value>•	Legal compliance </value>
+  </data>
+  <data name="retention3" xml:space="preserve">
+    <value>•	Dispute resolution </value>
+  </data>
+  <data name="retention4" xml:space="preserve">
+    <value>•	Security purposes </value>
+  </data>
+  <data name="title8" xml:space="preserve">
+    <value>7. Sharing Data with Third Parties</value>
+  </data>
+  <data name="title8par1" xml:space="preserve">
+    <value>We do not sell your personal data.</value>
+  </data>
+  <data name="title8par2" xml:space="preserve">
+    <value>Your data may be shared with:</value>
+  </data>
+  <data name="share1" xml:space="preserve">
+    <value>•	IT service providers </value>
+  </data>
+  <data name="share2" xml:space="preserve">
+    <value>•	Hosting and cloud service providers </value>
+  </data>
+  <data name="share3" xml:space="preserve">
+    <value>•	Analytics providers </value>
+  </data>
+  <data name="share4" xml:space="preserve">
+    <value>•	Government authorities when required by law </value>
+  </data>
+  <data name="title8par3" xml:space="preserve">
+    <value>If data is transferred outside the European Economic Area (EEA), we ensure appropriate safeguards in accordance with GDPR requirements.</value>
+  </data>
+  <data name="title9" xml:space="preserve">
+    <value>8. Data Security</value>
+  </data>
+  <data name="title9par1" xml:space="preserve">
+    <value>We implement technical and organizational security measures to protect your data against:</value>
+  </data>
+  <data name="security1" xml:space="preserve">
+    <value>•	Loss </value>
+  </data>
+  <data name="security2" xml:space="preserve">
+    <value>•	Unauthorized access </value>
+  </data>
+  <data name="security3" xml:space="preserve">
+    <value>•	Alteration </value>
+  </data>
+  <data name="security4" xml:space="preserve">
+    <value>•	Disclosure </value>
+  </data>
+  <data name="title10" xml:space="preserve">
+    <value>9. Your Rights</value>
+  </data>
+  <data name="title10par1" xml:space="preserve">
+    <value>You have the right to:</value>
+  </data>
+  <data name="right1" xml:space="preserve">
+    <value>•	Receive information about the processing of your data </value>
+  </data>
+  <data name="right2" xml:space="preserve">
+    <value>•	Access your personal data </value>
+  </data>
+  <data name="right3" xml:space="preserve">
+    <value>•	Request correction of inaccurate data </value>
+  </data>
+  <data name="right4" xml:space="preserve">
+    <value>•	Request deletion of your data (“right to be forgotten”) </value>
+  </data>
+  <data name="right5" xml:space="preserve">
+    <value>•	Restrict data processing </value>
+  </data>
+  <data name="right6" xml:space="preserve">
+    <value>•	Object to data processing </value>
+  </data>
+  <data name="right7" xml:space="preserve">
+    <value>•	Request data portability </value>
+  </data>
+  <data name="right8" xml:space="preserve">
+    <value>•	File a complaint with your local data protection authority </value>
+  </data>
+  <data name="title11" xml:space="preserve">
+    <value>10. Third-Party Services</value>
+  </data>
+  <data name="title11par1" xml:space="preserve">
+    <value>The Website may use third-party services such as:</value>
+  </data>
+  <data name="service1" xml:space="preserve">
+    <value>•	Microsoft Azure </value>
+  </data>
+  <data name="service2" xml:space="preserve">
+    <value>•	Google Analytics </value>
+  </data>
+  <data name="service3" xml:space="preserve">
+    <value>•	Microsoft Clarity </value>
+  </data>
+  <data name="service4" xml:space="preserve">
+    <value>•	Other analytics or infrastructure services </value>
+  </data>
+  <data name="title11par2" xml:space="preserve">
+    <value>These third parties may process technical user data according to their own privacy policies.</value>
+  </data>
+  <data name="title12" xml:space="preserve">
+    <value>11. Children’s Privacy</value>
+  </data>
+  <data name="title12par1" xml:space="preserve">
+    <value>The Website is not intended for individuals under the age of 16. We do not knowingly collect personal data from minors.</value>
+  </data>
+  <data name="title13" xml:space="preserve">
+    <value>12. Disclaimer</value>
+  </data>
+  <data name="title13par1" xml:space="preserve">
+    <value>The information provided by “Burnout Risk Manager” is for informational purposes only and does not constitute medical, psychological, or psychiatric diagnosis.</value>
+  </data>
+  <data name="title13par2" xml:space="preserve">
+    <value>Any tests, assessments, or recommendations provided on the Website cannot replace professional consultation with a doctor, psychologist, or other qualified specialist.</value>
+  </data>
+  <data name="title13par3" xml:space="preserve">
+    <value>If you are experiencing emotional distress, burnout symptoms, or psychological difficulties, we recommend seeking help from a qualified professional.</value>
+  </data>
+  <data name="title14" xml:space="preserve">
+    <value>13. Changes to This Privacy Policy</value>
+  </data>
+  <data name="title14par1" xml:space="preserve">
+    <value>We may update this Privacy Policy periodically. The latest version will always be published on the Website.</value>
+  </data>
+  <data name="title15" xml:space="preserve">
+    <value>14. Contact Information</value>
+  </data>
+  <data name="title15par1" xml:space="preserve">
+    <value>If you have any questions regarding this Privacy Policy or data protection:</value>
+  </data>
+  <data name="title15par2" xml:space="preserve">
+    <value>Email: hamburgerzinc@gmail.com</value>
+  </data>
+</root>

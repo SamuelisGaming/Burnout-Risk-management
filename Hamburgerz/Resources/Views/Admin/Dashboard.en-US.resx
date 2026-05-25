@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <data name="maintitle" xml:space="preserve"><value>Burnout Risk Management</value></data>
+  <data name="maintitle" xml:space="preserve"><value>Burnout Risk Assessment</value></data>
   <data name="title" xml:space="preserve"><value>Admin</value></data>
   <data name="kicker" xml:space="preserve"><value>Admin</value></data>
   <data name="heading" xml:space="preserve"><value>Users</value></data>

@@ -1,6 +1,476 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = @Localizer["titleshort"];
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="home-page">
+    <section class="guest-hero panel-card panel-card-dark animate-in">
+        <h1 class="guest-title">@Localizer["title1"]</h1>
+        <p class="guest-copy"> @Localizer["update"]</p>
+        <p class="guest-copy"> @Localizer["title1par1"]</p>
+        <p class="guest-copy"> @Localizer["title1par2"]</p>
+    </section>
+
+    <section class="guest-hero panel-card panel-card-dark animate-in">
+        <h1 class="guest-title">@Localizer["title2"]</h1>
+        <p class="guest-copy"> @Localizer["title2par1"]</p>
+        <p class="guest-copy"> @Localizer["title2par2"]</p>
+        <p class="guest-copy"> @Localizer["title2par3"]</p>
+        <div class="guest-copy">
+            <a asp-action="Index" class="guest-copy href=@Localizer["sitelink"]">@Localizer["sitelink"]</a>
+        </div>
+        <p class="guest-copy"> @Localizer["title2par4"]</p>
+    </section>
+
+    <section class="guest-hero panel-card panel-card-dark animate-in">
+        <h1 class="guest-title">@Localizer["title3"]</h1>
+        <p class="guest-copy"> @Localizer["title3par1"]</p>
+        <p class="hero-kicker"> @Localizer["title3one"]</p>
+        <p class="guest-copy"> @Localizer["data1"]</p>
+        <p class="guest-copy"> @Localizer["data2"]</p>
+        <p class="guest-copy"> @Localizer["data3"]</p>
+        <p class="guest-copy"> @Localizer["data4"]</p>
+        <p class="guest-copy"> @Localizer["data5"]</p>
+        <p class="hero-kicker"> @Localizer["title3two"]</p>
+        <p class="guest-copy"> @Localizer["data6"]</p>
+        <p class="guest-copy"> @Localizer["data7"]</p>
+        <p class="guest-copy"> @Localizer["data8"]</p>
+        <p class="guest-copy"> @Localizer["data9"]</p>
+        <p class="guest-copy"> @Localizer["data10"]</p>
+        <p class="guest-copy"> @Localizer["data11"]</p>
+    </section>
+
+    <section class="guest-hero panel-card panel-card-dark animate-in">
+        <h1 class="guest-title">@Localizer["title4"]</h1>
+        <p class="guest-copy"> @Localizer["title4par1"]</p>
+        <p class="guest-copy"> @Localizer["goal1"]</p>
+        <p class="guest-copy"> @Localizer["goal2"]</p>
+        <p class="guest-copy"> @Localizer["goal3"]</p>
+        <p class="guest-copy"> @Localizer["goal4"]</p>
+        <p class="guest-copy"> @Localizer["goal5"]</p>
+        <p class="guest-copy"> @Localizer["goal6"]</p>
+        <p class="guest-copy"> @Localizer["goal7"]</p>
+    </section>
+
+    <section class="guest-hero panel-card panel-card-dark animate-in">
+        <h1 class="guest-title">@Localizer["title5"]</h1>
+        <p class="guest-copy"> @Localizer["title5par1"]</p>
+        <p class="guest-copy"> @Localizer["basis1"]</p>
+        <p class="guest-copy"> @Localizer["basis2"]</p>
+        <p class="guest-copy"> @Localizer["basis3"]</p>
+        <p class="guest-copy"> @Localizer["basis4"]</p>
+    </section>
+
+    <section class="guest-hero panel-card panel-card-dark animate-in">
+        <h1 class="guest-title">@Localizer["title6"]</h1>
+        <p class="guest-copy"> @Localizer["title6par1"]</p>
+        <p class="guest-copy"> @Localizer["cookies1"]</p>
+        <p class="guest-copy"> @Localizer["cookies2"]</p>
+        <p class="guest-copy"> @Localizer["cookies3"]</p>
+        <p class="guest-copy"> @Localizer["title6par2"]</p>
+    </section>
+
+    <section class="guest-hero panel-card panel-card-dark animate-in">
+        <h1 class="guest-title">@Localizer["title7"]</h1>
+        <p class="guest-copy"> @Localizer["title7par1"]</p>
+        <p class="guest-copy"> @Localizer["retention1"]</p>
+        <p class="guest-copy"> @Localizer["retention2"]</p>
+        <p class="guest-copy"> @Localizer["retention3"]</p>
+        <p class="guest-copy"> @Localizer["retention4"]</p>
+    </section>
+
+    <section class="guest-hero panel-card panel-card-dark animate-in">
+        <h1 class="guest-title">@Localizer["title8"]</h1>
+        <p class="guest-copy"> @Localizer["title8par1"]</p>
+        <p class="guest-copy"> @Localizer["title8par2"]</p>
+        <p class="guest-copy"> @Localizer["share1"]</p>
+        <p class="guest-copy"> @Localizer["share2"]</p>
+        <p class="guest-copy"> @Localizer["share3"]</p>
+        <p class="guest-copy"> @Localizer["share4"]</p>
+        <p class="guest-copy"> @Localizer["title8par3"]</p>
+    </section>
+
+    <section class="guest-hero panel-card panel-card-dark animate-in">
+        <h1 class="guest-title">@Localizer["title9"]</h1>
+        <p class="guest-copy"> @Localizer["title9par1"]</p>
+        <p class="guest-copy"> @Localizer["security1"]</p>
+        <p class="guest-copy"> @Localizer["security2"]</p>
+        <p class="guest-copy"> @Localizer["security3"]</p>
+        <p class="guest-copy"> @Localizer["security4"]</p>
+    </section>
+
+    <section class="guest-hero panel-card panel-card-dark animate-in">
+        <h1 class="guest-title">@Localizer["title10"]</h1>
+        <p class="guest-copy"> @Localizer["title10par1"]</p>
+        <p class="guest-copy"> @Localizer["right1"]</p>
+        <p class="guest-copy"> @Localizer["right2"]</p>
+        <p class="guest-copy"> @Localizer["right3"]</p>
+        <p class="guest-copy"> @Localizer["right4"]</p>
+        <p class="guest-copy"> @Localizer["right5"]</p>
+        <p class="guest-copy"> @Localizer["right6"]</p>
+        <p class="guest-copy"> @Localizer["right7"]</p>
+        <p class="guest-copy"> @Localizer["right8"]</p>
+    </section>
+
+    <section class="guest-hero panel-card panel-card-dark animate-in">
+        <h1 class="guest-title">@Localizer["title11"]</h1>
+        <p class="guest-copy"> @Localizer["title11par1"]</p>
+        <p class="guest-copy"> @Localizer["service1"]</p>
+        <p class="guest-copy"> @Localizer["service2"]</p>
+        <p class="guest-copy"> @Localizer["service3"]</p>
+        <p class="guest-copy"> @Localizer["service4"]</p>
+        <p class="guest-copy"> @Localizer["title11par2"]</p>
+    </section>
+
+    <section class="guest-hero panel-card panel-card-dark animate-in">
+        <h1 class="guest-title">@Localizer["title12"]</h1>
+        <p class="guest-copy"> @Localizer["title12par1"]</p>
+    </section>
+
+    <section class="guest-hero panel-card panel-card-dark animate-in">
+        <h1 class="guest-title">@Localizer["title13"]</h1>
+        <p class="guest-copy"> @Localizer["title13par1"]</p>
+        <p class="guest-copy"> @Localizer["title13par2"]</p>
+        <p class="guest-copy"> @Localizer["title13par3"]</p>
+    </section>
+
+    <section class="guest-hero panel-card panel-card-dark animate-in">
+        <h1 class="guest-title">@Localizer["title14"]</h1>
+        <p class="guest-copy"> @Localizer["title14par1"]</p>
+    </section>
+
+    <section class="guest-hero panel-card panel-card-dark animate-in">
+        <h1 class="guest-title">@Localizer["title15"]</h1>
+        <p class="guest-copy"> @Localizer["title15par1"]</p>
+        <p class="guest-copy"> @Localizer["title15par2"]</p>
+    </section>
+
+</div>
+
+
+<style>
+    .home-page {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 36px 0 44px;
+    }
+
+    .guest-hero,
+    .hero-main {
+        padding: 34px;
+        margin-bottom: 20px;
+    }
+
+    .hero-kicker,
+    .card-kicker {
+        font-size: 34px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 800;
+        color: var(--color-primary);
+        margin-bottom: 10px;
+    }
+
+    .panel-card-dark .hero-kicker {
+        color: rgba(255, 255, 255, 0.72);
+    }
+
+    .guest-title,
+    .hero-title {
+        margin: 0;
+        font-size: clamp(34px, 5vw, 52px);
+        font-weight: 900;
+        line-height: 1.02;
+        color: var(--color-text);
+        max-width: 720px;
+    }
+
+    .panel-card-dark .guest-title,
+    .panel-card-dark .hero-title {
+        color: #f8fbff;
+    }
+
+    .guest-copy,
+    .hero-copy {
+        margin: 18px 0 0 0;
+        max-width: 760px;
+        font-size: 16px;
+        line-height: 1.7;
+        color: var(--color-text-muted);
+    }
+
+    .panel-card-dark .guest-copy,
+    .panel-card-dark .hero-copy {
+        color: rgba(248, 251, 255, 0.80);
+    }
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 28px;
+    }
+
+    .panel-card-dark .btn-outline-primary {
+        --bs-btn-color: #f8fbff;
+        --bs-btn-border-color: rgba(255, 255, 255, 0.36);
+        --bs-btn-hover-color: #0f172a;
+        --bs-btn-hover-bg: #ffffff;
+        --bs-btn-hover-border-color: #ffffff;
+        --bs-btn-active-color: #0f172a;
+        --bs-btn-active-bg: #ffffff;
+        --bs-btn-active-border-color: #ffffff;
+    }
+
+    .guest-grid {
+        margin-top: 18px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .hero-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.9fr);
+        gap: 18px;
+        align-items: stretch;
+    }
+
+    .hero-main,
+    .status-card {
+        min-height: 370px;
+    }
+
+    .hero-main {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hero-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: auto;
+        padding-top: 28px;
+    }
+
+    .hero-badge {
+        padding: 9px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(var(--color-primary-rgb), 0.14);
+        background: rgba(var(--color-primary-rgb), 0.08);
+        color: var(--color-text);
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .panel-card-dark .hero-badge {
+        border-color: rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.10);
+        color: #ffffff;
+    }
+
+    .status-card {
+        padding: 28px;
+        color: var(--color-text);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        box-shadow: 0 18px 44px rgba(15, 23, 42, 0.08);
+    }
+
+    .status-card h2 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 900;
+        line-height: 1.1;
+    }
+
+    .status-card p {
+        margin: 0;
+        color: var(--color-text-muted);
+        line-height: 1.7;
+    }
+
+    .status-pill {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+    }
+
+    .status-fresh {
+        background:
+            radial-gradient(circle at 108% -4%, rgba(34, 197, 94, 0.12), transparent 34%),
+            radial-gradient(circle at 94% 16%, rgba(var(--color-secondary-rgb), 0.12), transparent 40%),
+            linear-gradient(160deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.88) 100%);
+    }
+
+    .status-stale {
+        background:
+            radial-gradient(circle at 108% -4%, rgba(var(--color-secondary-rgb), 0.18), transparent 34%),
+            radial-gradient(circle at 94% 16%, rgba(var(--color-secondary-rgb), 0.10), transparent 40%),
+            linear-gradient(160deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.88) 100%);
+    }
+
+    .status-empty {
+        background:
+            radial-gradient(circle at 108% -4%, rgba(var(--color-secondary-rgb), 0.16), transparent 34%),
+            radial-gradient(circle at bottom left, rgba(var(--color-primary-rgb), 0.10), transparent 28%),
+            linear-gradient(160deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.88) 100%);
+    }
+
+    .status-meta-list {
+        display: grid;
+        gap: 12px;
+        margin-top: 4px;
+    }
+
+    .status-meta {
+        display: grid;
+        gap: 4px;
+        padding: 14px 16px;
+        border-radius: 18px;
+        background: rgba(var(--color-surface-rgb), 0.78);
+        border: 1px solid rgba(var(--color-border-rgb), 0.82);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
+    .status-meta span {
+        font-size: 12px;
+        color: var(--color-text-muted);
+        font-weight: 700;
+    }
+
+    .status-meta strong {
+        font-size: 16px;
+        color: var(--color-text);
+        font-weight: 800;
+    }
+
+    .status-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 18px;
+        border-radius: 16px;
+        background: var(--color-primary);
+        color: var(--color-button-primary-text);
+        text-decoration: none;
+        font-weight: 800;
+        margin-top: auto;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .status-btn:hover {
+        background: var(--color-button-primary-hover);
+        color: var(--color-button-primary-text);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .premium-limit-btn,
+    .premium-limit-btn:hover {
+        border: 0;
+        background: linear-gradient(135deg, #fbbf24, #d97706);
+        color: #251604;
+        box-shadow: 0 14px 28px rgba(217, 119, 6, 0.22);
+        cursor: pointer;
+    }
+
+    .premium-limit-btn:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.03);
+    }
+
+    [data-theme="dark"] .panel-card {
+        background:
+            linear-gradient(180deg, rgba(var(--color-surface-rgb), 0.96), rgba(var(--color-surface-2-rgb), 0.92));
+        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+    }
+
+    [data-theme="dark"] .status-card {
+        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.26);
+    }
+
+    [data-theme="dark"] .status-fresh {
+        background:
+            radial-gradient(circle at 108% -4%, rgba(34, 197, 94, 0.16), transparent 34%),
+            radial-gradient(circle at 94% 16%, rgba(var(--color-secondary-rgb), 0.14), transparent 40%),
+            linear-gradient(160deg, rgba(var(--color-surface-rgb), 0.98) 0%, rgba(var(--color-surface-2-rgb), 0.94) 100%);
+    }
+
+    [data-theme="dark"] .status-stale {
+        background:
+            radial-gradient(circle at 108% -4%, rgba(var(--color-secondary-rgb), 0.18), transparent 34%),
+            radial-gradient(circle at 94% 16%, rgba(var(--color-secondary-rgb), 0.12), transparent 40%),
+            linear-gradient(160deg, rgba(var(--color-surface-rgb), 0.98) 0%, rgba(var(--color-surface-2-rgb), 0.94) 100%);
+    }
+
+    [data-theme="dark"] .status-empty {
+        background:
+            radial-gradient(circle at 108% -4%, rgba(var(--color-secondary-rgb), 0.16), transparent 34%),
+            radial-gradient(circle at bottom left, rgba(var(--color-primary-rgb), 0.14), transparent 28%),
+            linear-gradient(160deg, rgba(var(--color-surface-rgb), 0.98) 0%, rgba(var(--color-surface-2-rgb), 0.94) 100%);
+    }
+
+    [data-theme="dark"] .status-meta {
+        background: rgba(var(--color-surface-rgb), 0.88);
+        border-color: rgba(var(--color-border-rgb), 0.9);
+    }
+
+    @@keyframes homeFadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@media (max-width: 1100px) {
+        .guest-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .hero-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .hero-main,
+        .status-card {
+            min-height: 0;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .home-page {
+            padding: 12px 0 36px;
+        }
+
+        .guest-hero,
+        .hero-main,
+        .status-card {
+            padding: 20px;
+        }
+
+        .guest-title,
+        .hero-title {
+            font-size: 32px;
+        }
+
+        .guest-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

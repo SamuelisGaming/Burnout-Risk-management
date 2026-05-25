@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <data name="maintitle" xml:space="preserve"><value>Profesinio perdegimo rizikos valdymas</value></data>
+  <data name="maintitle" xml:space="preserve"><value>Profesinio perdegimo rizikos vertinimas</value></data>
   <data name="titlePrefix" xml:space="preserve"><value>Admin</value></data>
   <data name="allUsers" xml:space="preserve"><value>Visi vartotojai</value></data>
   <data name="measurements" xml:space="preserve"><value>Matavimai</value></data>
