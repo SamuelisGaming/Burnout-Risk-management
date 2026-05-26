@@ -117,27 +117,36 @@ namespace Hamburgerz.Controllers
                 ModelState.AddModelError(nameof(model.BirthDate), "Choose a valid birth date.");
             }
 
+            /*            string? resolvedJobRole = null;
+                        if (!string.IsNullOrWhiteSpace(model.JobRole))
+                        {
+                            resolvedJobRole = _jobRoleCatalog.TryResolveCanonicalTitle(model.JobRole);
+                            var isKeepingLegacyJobRole =
+                                resolvedJobRole == null
+                                && string.Equals(
+                                    model.JobRole.Trim(),
+                                    user.JobRole?.Trim(),
+                                    StringComparison.OrdinalIgnoreCase);
+
+                            if (resolvedJobRole == null && !isKeepingLegacyJobRole)
+                            {
+                                resolvedJobRole = user.JobRole?.Trim();
+                                //ModelState.AddModelError(nameof(model.JobRole), "Select a job role from the suggestion list.");
+                            }
+
+                            if (isKeepingLegacyJobRole)
+                            {
+                                resolvedJobRole = user.JobRole?.Trim();
+                            }
+                        }*/
+
             string? resolvedJobRole = null;
             if (!string.IsNullOrWhiteSpace(model.JobRole))
             {
-                resolvedJobRole = _jobRoleCatalog.TryResolveCanonicalTitle(model.JobRole);
-                var isKeepingLegacyJobRole =
-                    resolvedJobRole == null
-                    && string.Equals(
-                        model.JobRole.Trim(),
-                        user.JobRole?.Trim(),
-                        StringComparison.OrdinalIgnoreCase);
-
-                if (resolvedJobRole == null && !isKeepingLegacyJobRole)
-                {
-                    ModelState.AddModelError(nameof(model.JobRole), "Select a job role from the suggestion list.");
-                }
-
-                if (isKeepingLegacyJobRole)
-                {
-                    resolvedJobRole = user.JobRole?.Trim();
-                }
+                // Accept any job role, but if it matches a catalog entry, use the canonical title
+                resolvedJobRole = _jobRoleCatalog.TryResolveCanonicalTitle(model.JobRole) ?? model.JobRole.Trim();
             }
+
 
             if (!ModelState.IsValid)
             {

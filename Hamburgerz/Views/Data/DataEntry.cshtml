@@ -976,11 +976,11 @@
                 </div>
                 <div class="mq-card mq-choice-card">
                     <div class="mq-choice-grid mq-choice-grid-3">
-                        <input asp-for="StressLevel" type="radio" value="Low" id="StressLevelLow" required />
+                        <input asp-for="StressLevel" type="radio" value="Žemas" id="StressLevelLow" required />
                         <label class="mq-choice" for="StressLevelLow">@FaceIcon("happy")<span class="mq-choice-text">@Localizer["stress1"]</span></label>
-                        <input asp-for="StressLevel" type="radio" value="Medium" id="StressLevelMedium" required />
+                        <input asp-for="StressLevel" type="radio" value="Vidutinis" id="StressLevelMedium" required />
                         <label class="mq-choice" for="StressLevelMedium">@FaceIcon("neutral")<span class="mq-choice-text">@Localizer["stress2"]</span></label>
-                        <input asp-for="StressLevel" type="radio" value="High" id="StressLevelHigh" required />
+                        <input asp-for="StressLevel" type="radio" value="Aukštas" id="StressLevelHigh" required />
                         <label class="mq-choice" for="StressLevelHigh">@FaceIcon("sad")<span class="mq-choice-text">@Localizer["stress3"]</span></label>
                     </div>
                     <span asp-validation-for="StressLevel" class="text-danger mq-error"></span>

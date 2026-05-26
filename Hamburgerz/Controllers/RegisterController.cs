@@ -89,12 +89,16 @@ namespace Hamburgerz.Controllers
                 return View(model);
             }
 
-            var resolvedJobRole = _jobRoleCatalog.TryResolveCanonicalTitle(model.JobRole);
+            /*var resolvedJobRole = _jobRoleCatalog.TryResolveCanonicalTitle(model.JobRole);
             if (resolvedJobRole == null)
             {
                 ModelState.AddModelError(nameof(model.JobRole), IsEnglish() ? "Choose a job role from the suggestions." : "Pasirinkite darbo poziciją iš pasiūlymų sąrašo.");
                 return View(model);
-            }
+            }*/
+
+            // Accept any job role, but if it matches a catalog entry, use the canonical title
+            var resolvedJobRole = _jobRoleCatalog.TryResolveCanonicalTitle(model.JobRole);
+            var jobRoleToSave = resolvedJobRole ?? model.JobRole?.Trim();
 
             var user = new User
             {
@@ -103,7 +107,7 @@ namespace Hamburgerz.Controllers
                 Gender = normalizedGender,
                 BirthDate = model.BirthDate?.Date,
                 CountryID = model.CountryID,
-                JobRole = resolvedJobRole,
+                JobRole = jobRoleToSave, //resolvedJobRole,
                 ExperienceYears = model.ExperienceYears,
                 CompanySize = NormalizeOptionalText(model.CompanySize),
                 WorkEnvironment = NormalizeOptionalText(model.WorkEnvironment),
