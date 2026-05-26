@@ -77,7 +77,7 @@
                                    class="form-control form-control-lg login-input"
                                    placeholder=@Localizer["tempmail"]
                                    autocomplete="username"
-                                   required />
+                                   @* required *@ />
                             <span class="login-field-hint">@Localizer["maildescr"]</span>
                             <span asp-validation-for="Login" class="text-danger"></span>
                         </label>
@@ -90,7 +90,7 @@
                                        class="form-control form-control-lg login-input"
                                        placeholder=@Localizer["passtemp"]
                                        autocomplete="current-password"
-                                       required />
+                                       @* required *@ />
 
                                 <button type="button"
                                         class="password-toggle"

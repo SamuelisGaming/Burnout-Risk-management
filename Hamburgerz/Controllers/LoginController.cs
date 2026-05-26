@@ -47,7 +47,7 @@ namespace Hamburgerz.Controllers
             }
 
             //var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
-            var user = await _context.Users
+            /*var user = await _context.Users
               .FirstOrDefaultAsync(u =>
                   u.Email == model.Login || u.Username == model.Login);
 
@@ -70,6 +70,17 @@ namespace Hamburgerz.Controllers
             {
                 await SignInUserAsync(user);
                 return RedirectToAction("Pending", "VerifyEmail");
+            }
+
+            await SignInUserAsync(user);
+            return RedirectToAction("Index", "Home");*/
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == 10);
+
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Demo user not found.");
+                return View(model);
             }
 
             await SignInUserAsync(user);
