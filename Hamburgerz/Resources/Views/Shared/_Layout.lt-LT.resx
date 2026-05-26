@@ -10,6 +10,7 @@
   <data name="profile" xml:space="preserve"><value>Profilis</value></data>
   <data name="settings" xml:space="preserve"><value>Nustatymai</value></data>
   <data name="logout" xml:space="preserve"><value>Atsijungti</value></data>
+  <data name="about" xml:space="preserve"><value>Apie mus</value></data>
   <data name="privacy" xml:space="preserve"><value>Privatumas</value></data>
   <data name="appearance" xml:space="preserve"><value>Išvaizda</value></data>
   <data name="close" xml:space="preserve"><value>Uždaryti</value></data>
@@ -26,7 +27,7 @@
   <data name="premiumTitle" xml:space="preserve"><value>Atrakink pilną planą</value></data>
   <data name="premiumCopy" xml:space="preserve"><value>Premium nuima nemokamo plano ribas ir leidžia toliau sekti perdegimo riziką be pertrūkių.</value></data>
   <data name="premiumBenefitMeasurements" xml:space="preserve"><value>Neribotas matavimų kiekis</value></data>
-  <data name="premiumBenefitAi" xml:space="preserve"><value>AI įžvalgos kiekvienam matavimui ir laikotarpio analizei</value></data>
+  <data name="premiumBenefitAi" xml:space="preserve"><value>DI įžvalgos kiekvienam matavimui ir laikotarpio analizei</value></data>
   <data name="premiumBenefitHistory" xml:space="preserve"><value>Galimybė lanksčiau tvarkyti istoriją</value></data>
   <data name="premiumBuy" xml:space="preserve"><value>Pirkti planą</value></data>
   <data name="jobRoleEmpty" xml:space="preserve"><value>Atitinkančių darbo pozicijų nerasta.</value></data>

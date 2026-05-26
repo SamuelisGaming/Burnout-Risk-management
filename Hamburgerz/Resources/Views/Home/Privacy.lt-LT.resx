@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="maintitle" xml:space="preserve">
+    <value>Profesinio perdegimo rizikos vertinimas</value>
+  </data>
+  <data name="titleshort" xml:space="preserve">
+    <value>Privatumas</value>
+  </data>
+  <data name="title1" xml:space="preserve">
+    <value>Privatumo politika</value>
+  </data>
+  <data name="update" xml:space="preserve">
+    <value>Paskutinį kartą atnaujinta: 2026-05-25</value>
+  </data>
+  <data name="title1par1" xml:space="preserve">
+    <value>Sveiki atvykę į „Profesinio perdegimo rizikos vertinimo“ svetainę („Svetainė“). Mes gerbiame Jūsų privatumą ir įsipareigojame saugoti Jūsų asmens duomenis laikantis Bendrojo duomenų apsaugos reglamento (BDAR / GDPR) ir kitų taikomų teisės aktų.</value>
+  </data>
+  <data name="title1par2" xml:space="preserve">
+    <value>Naudodamiesi šia svetaine, Jūs sutinkate su šioje Privatumo politikoje aprašytomis sąlygomis.</value>
+  </data>
+  <data name="title2" xml:space="preserve">
+    <value>1. Kas mes esame</value>
+  </data>
+  <data name="title2par1" xml:space="preserve">
+    <value>Svetainės valdytojas: komanda „Hamburgerz“</value>
+  </data>
+  <data name="title2par2" xml:space="preserve">
+    <value>El. paštas: hamburgerzinc@gmail.com</value>
+  </data>
+  <data name="title2par3" xml:space="preserve">
+    <value>Svetainė:</value>
+  </data>
+  <data name="sitelink" xml:space="preserve">
+    <value>https://burnoutriskmanager-d7dchkbxate5g7bx.polandcentral-01.azurewebsites.net/</value>
+  </data>
+  <data name="title2par4" xml:space="preserve">
+    <value>Jeigu turite klausimų dėl privatumo ar duomenų apsaugos, susisiekite aukščiau nurodytu el. paštu.</value>
+  </data>
+  <data name="title3" xml:space="preserve">
+    <value>2. Kokius duomenis renkame</value>
+  </data>
+  <data name="title3par1" xml:space="preserve">
+    <value>Naudojantis svetaine gali būti renkami šie duomenys:</value>
+  </data>
+  <data name="title3one" xml:space="preserve">
+    <value>2.1. Informacija, kurią pateikiate patys</value>
+  </data>
+  <data name="data1" xml:space="preserve">
+    <value>•	Vardas </value>
+  </data>
+  <data name="data2" xml:space="preserve">
+    <value>•	El. pašto adresas </value>
+  </data>
+  <data name="data3" xml:space="preserve">
+    <value>•	Įmonės pavadinimas </value>
+  </data>
+  <data name="data4" xml:space="preserve">
+    <value>•	Užklausų ar formų turinys </value>
+  </data>
+  <data name="data5" xml:space="preserve">
+    <value>•	Kita savanoriškai pateikta informacija </value>
+  </data>
+  <data name="title3two" xml:space="preserve">
+    <value>2.2. Automatiškai renkami duomenys</value>
+  </data>
+  <data name="data6" xml:space="preserve">
+    <value>•	IP adresas </value>
+  </data>
+  <data name="data7" xml:space="preserve">
+    <value>•	Naršyklės tipas </value>
+  </data>
+  <data name="data8" xml:space="preserve">
+    <value>•	Įrenginio informacija </value>
+  </data>
+  <data name="data9" xml:space="preserve">
+    <value>•	Apsilankymo laikas </value>
+  </data>
+  <data name="data10" xml:space="preserve">
+    <value>•	Naudojimosi svetaine statistika </value>
+  </data>
+  <data name="data11" xml:space="preserve">
+    <value>•	Slapukų (cookies) informacija </value>
+  </data>
+  <data name="title4" xml:space="preserve">
+    <value>3. Kokiais tikslais naudojame duomenis</value>
+  </data>
+  <data name="title4par1" xml:space="preserve">
+    <value>Jūsų duomenys gali būti naudojami šiais tikslais:</value>
+  </data>
+  <data name="goal1" xml:space="preserve">
+    <value>•	Paslaugų teikimui </value>
+  </data>
+  <data name="goal2" xml:space="preserve">
+    <value>•	Rizikos perdegimo vertinimo funkcionalumo užtikrinimui </value>
+  </data>
+  <data name="goal3" xml:space="preserve">
+    <value>•	Klientų aptarnavimui </value>
+  </data>
+  <data name="goal4" xml:space="preserve">
+    <value>•	Svetainės saugumo užtikrinimui </value>
+  </data>
+  <data name="goal5" xml:space="preserve">
+    <value>•	Sistemos veikimo analizei ir tobulinimui </value>
+  </data>
+  <data name="goal6" xml:space="preserve">
+    <value>•	Komunikacijai su Jumis </value>
+  </data>
+  <data name="goal7" xml:space="preserve">
+    <value>•	Teisinių įsipareigojimų vykdymui </value>
+  </data>
+  <data name="title5" xml:space="preserve">
+    <value>4. Duomenų tvarkymo teisinis pagrindas</value>
+  </data>
+  <data name="title5par1" xml:space="preserve">
+    <value>Jūsų duomenis tvarkome remdamiesi:</value>
+  </data>
+  <data name="basis1" xml:space="preserve">
+    <value>•	Jūsų sutikimu </value>
+  </data>
+  <data name="basis2" xml:space="preserve">
+    <value>•	Sutarties vykdymu </value>
+  </data>
+  <data name="basis3" xml:space="preserve">
+    <value>•	Teisiniu įsipareigojimu </value>
+  </data>
+  <data name="basis4" xml:space="preserve">
+    <value>•	Mūsų teisėtu interesu užtikrinti sistemos saugumą ir veikimo kokybę </value>
+  </data>
+  <data name="title6" xml:space="preserve">
+    <value>5. Slapukai (Cookies)</value>
+  </data>
+  <data name="title6par1" xml:space="preserve">
+    <value>Svetainėje gali būti naudojami slapukai, kurie padeda:</value>
+  </data>
+  <data name="cookies1" xml:space="preserve">
+    <value>•	Užtikrinti tinkamą svetainės veikimą </value>
+  </data>
+  <data name="cookies2" xml:space="preserve">
+    <value>•	Analizuoti lankomumą </value>
+  </data>
+  <data name="cookies3" xml:space="preserve">
+    <value>•	Gerinti naudotojo patirtį </value>
+  </data>
+  <data name="title6par2" xml:space="preserve">
+    <value>Jūs galite valdyti slapukų nustatymus savo naršyklėje.</value>
+  </data>
+  <data name="title7" xml:space="preserve">
+    <value>6. Duomenų saugojimas</value>
+  </data>
+  <data name="title7par1" xml:space="preserve">
+    <value>Jūsų asmens duomenys saugomi tik tiek laiko, kiek būtina:</value>
+  </data>
+  <data name="retention1" xml:space="preserve">
+    <value>•	Paslaugų teikimui </value>
+  </data>
+  <data name="retention2" xml:space="preserve">
+    <value>•	Teisiniams įsipareigojimams vykdyti </value>
+  </data>
+  <data name="retention3" xml:space="preserve">
+    <value>•	Ginčų sprendimui </value>
+  </data>
+  <data name="retention4" xml:space="preserve">
+    <value>•	Saugumo užtikrinimui </value>
+  </data>
+  <data name="title8" xml:space="preserve">
+    <value>7. Duomenų perdavimas tretiesiems asmenims</value>
+  </data>
+  <data name="title8par1" xml:space="preserve">
+    <value>Mes neparduodame Jūsų asmens duomenų.</value>
+  </data>
+  <data name="title8par2" xml:space="preserve">
+    <value>Duomenys gali būti perduodami:</value>
+  </data>
+  <data name="share1" xml:space="preserve">
+    <value>•	IT paslaugų tiekėjams </value>
+  </data>
+  <data name="share2" xml:space="preserve">
+    <value>•	Hostingų ir debesijos paslaugų tiekėjams </value>
+  </data>
+  <data name="share3" xml:space="preserve">
+    <value>•	Analitikos paslaugų teikėjams </value>
+  </data>
+  <data name="share4" xml:space="preserve">
+    <value>•	Valstybinėms institucijoms, kai to reikalauja įstatymai </value>
+  </data>
+  <data name="title8par3" xml:space="preserve">
+    <value>Jeigu duomenys perduodami už Europos ekonominės erdvės ribų, užtikriname tinkamas apsaugos priemones pagal BDAR reikalavimus.</value>
+  </data>
+  <data name="title9" xml:space="preserve">
+    <value>8. Duomenų saugumas</value>
+  </data>
+  <data name="title9par1" xml:space="preserve">
+    <value>Taikome technines ir organizacines saugumo priemones siekdami apsaugoti Jūsų duomenis nuo:</value>
+  </data>
+  <data name="security1" xml:space="preserve">
+    <value>•	Praradimo </value>
+  </data>
+  <data name="security2" xml:space="preserve">
+    <value>•	Neteisėtos prieigos </value>
+  </data>
+  <data name="security3" xml:space="preserve">
+    <value>•	Pakeitimo </value>
+  </data>
+  <data name="security4" xml:space="preserve">
+    <value>•	Atskleidimo </value>
+  </data>
+  <data name="title10" xml:space="preserve">
+    <value>9. Jūsų teisės</value>
+  </data>
+  <data name="title10par1" xml:space="preserve">
+    <value>Jūs turite teisę:</value>
+  </data>
+  <data name="right1" xml:space="preserve">
+    <value>•	Gauti informaciją apie savo duomenų tvarkymą </value>
+  </data>
+  <data name="right2" xml:space="preserve">
+    <value>•	Prašyti susipažinti su savo duomenimis </value>
+  </data>
+  <data name="right3" xml:space="preserve">
+    <value>•	Prašyti ištaisyti netikslius duomenis </value>
+  </data>
+  <data name="right4" xml:space="preserve">
+    <value>•	Prašyti ištrinti duomenis („teisė būti pamirštam“) </value>
+  </data>
+  <data name="right5" xml:space="preserve">
+    <value>•	Apriboti duomenų tvarkymą </value>
+  </data>
+  <data name="right6" xml:space="preserve">
+    <value>•	Nesutikti su duomenų tvarkymu </value>
+  </data>
+  <data name="right7" xml:space="preserve">
+    <value>•	Perkelti duomenis </value>
+  </data>
+  <data name="right8" xml:space="preserve">
+    <value>•	Pateikti skundą Valstybinei duomenų apsaugos inspekcijai </value>
+  </data>
+  <data name="title11" xml:space="preserve">
+    <value>10. Trečiųjų šalių paslaugos</value>
+  </data>
+  <data name="title11par1" xml:space="preserve">
+    <value>Svetainėje gali būti naudojamos trečiųjų šalių paslaugos, pavyzdžiui:</value>
+  </data>
+  <data name="service1" xml:space="preserve">
+    <value>•	Microsoft Azure </value>
+  </data>
+  <data name="service2" xml:space="preserve">
+    <value>•	Google Analytics </value>
+  </data>
+  <data name="service3" xml:space="preserve">
+    <value>•	Microsoft Clarity </value>
+  </data>
+  <data name="service4" xml:space="preserve">
+    <value>•	Kitos analitikos ar infrastruktūros paslaugos </value>
+  </data>
+  <data name="title11par2" xml:space="preserve">
+    <value>Šios šalys gali tvarkyti techninius naudotojų duomenis pagal savo privatumo politikas.</value>
+  </data>
+  <data name="title12" xml:space="preserve">
+    <value>11. Nepilnamečių duomenys</value>
+  </data>
+  <data name="title12par1" xml:space="preserve">
+    <value>Svetainė nėra skirta jaunesniems nei 16 metų asmenims. Sąmoningai neprašome ir nerenkame nepilnamečių duomenų.</value>
+  </data>
+  <data name="title13" xml:space="preserve">
+    <value>12. Atsakomybės ribojimas</value>
+  </data>
+  <data name="title13par1" xml:space="preserve">
+    <value>„Burnout Risk Manager“ pateikiama informacija yra informacinio pobūdžio ir nėra medicininė, psichologinė ar psichiatrinė diagnozė.</value>
+  </data>
+  <data name="title13par2" xml:space="preserve">
+    <value>Svetainėje pateikiami testai, vertinimai ar rekomendacijos negali pakeisti profesionalios gydytojo, psichologo ar kito kvalifikuoto specialisto konsultacijos.</value>
+  </data>
+  <data name="title13par3" xml:space="preserve">
+    <value>Jeigu jaučiate emocinius sunkumus, perdegimo simptomus ar psichologinę įtampą, rekomenduojame kreiptis į kvalifikuotą specialistą.</value>
+  </data>
+  <data name="title14" xml:space="preserve">
+    <value>13. Privatumo politikos pakeitimai</value>
+  </data>
+  <data name="title14par1" xml:space="preserve">
+    <value>Mes galime periodiškai atnaujinti šią Privatumo politiką. Naujausia versija visada bus paskelbta svetainėje.</value>
+  </data>
+  <data name="title15" xml:space="preserve">
+    <value>14. Kontaktai</value>
+  </data>
+  <data name="title15par1" xml:space="preserve">
+    <value>Jeigu turite klausimų dėl Privatumo politikos ar duomenų apsaugos:</value>
+  </data>
+  <data name="title15par2" xml:space="preserve">
+    <value>El. paštas: hamburgerzinc@gmail.com</value>
+  </data>
+</root>

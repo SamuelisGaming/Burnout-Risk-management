@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <data name="maintitle" xml:space="preserve">
+    <value>Burnout Risk Assessment</value>
+  </data>
   <data name="titleshort" xml:space="preserve">
     <value>Login</value>
   </data>
@@ -49,11 +52,14 @@
     <value>Back</value>
   </data>
   <data name="mail" xml:space="preserve">
-    <value>Email</value>
-  </data>  
-  <data name="maildescr" xml:space="preserve">
-    <value>Use the same email used in registration.</value>
+    <value>Email or username</value>
+  </data> 
+  <data name="mailtemp" xml:space="preserve">
+    <value>vardas@pastas.lt / vardas</value>
   </data>
+  <data name="maildescr" xml:space="preserve">
+    <value>Use the same email or username used in registration.</value>
+  </data> 
   <data name="pass" xml:space="preserve">
     <value>Password</value>
   </data>

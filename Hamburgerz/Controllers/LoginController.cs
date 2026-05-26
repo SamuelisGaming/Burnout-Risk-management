@@ -46,11 +46,15 @@ namespace Hamburgerz.Controllers
                 return View(model);
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+            //var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+            var user = await _context.Users
+              .FirstOrDefaultAsync(u =>
+                  u.Email == model.Login || u.Username == model.Login);
+
 
             if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "Neteisingas el. paštas arba slaptažodis");
+                ModelState.AddModelError(string.Empty, "Neteisingas el. paštas, slapyvardis arba slaptažodis");
                 return View(model);
             }
 
@@ -58,7 +62,7 @@ namespace Hamburgerz.Controllers
 
             if (result == PasswordVerificationResult.Failed)
             {
-                ModelState.AddModelError(string.Empty, "Neteisingas el. paštas arba slaptažodis");
+                ModelState.AddModelError(string.Empty, "Neteisingas el. paštas, slapyvardis arba slaptažodis");
                 return View(model);
             }
 

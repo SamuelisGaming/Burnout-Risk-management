@@ -4,9 +4,9 @@ namespace Hamburgerz.Models
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Įveskite el. paštą")]
-        [EmailAddress(ErrorMessage = "Neteisingas el. pašto formatas")]
-        public string Email { get; set; } = string.Empty;
+        [Required(ErrorMessage = "Įveskite el. paštą arba slapyvardį")]
+        //[EmailAddress(ErrorMessage = "Neteisingas el. pašto formatas arba slapyvardis")]
+        public string Login { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Įveskite slaptažodį")]
         [DataType(DataType.Password)]

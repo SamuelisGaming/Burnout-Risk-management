@@ -75,8 +75,8 @@
                             <span class="login-field-label">@Localizer["mail"]</span>
                             <input asp-for="Login"
                                    class="form-control form-control-lg login-input"
-                                   placeholder=@Localizer["tempmail"]
-                                   autocomplete="username"
+                                   placeholder="vardas@pastas.lt"
+                                   autocomplete="email"
                                    required />
                             <span class="login-field-hint">@Localizer["maildescr"]</span>
                             <span asp-validation-for="Login" class="text-danger"></span>

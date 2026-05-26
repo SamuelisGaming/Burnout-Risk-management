@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <data name="maintitle" xml:space="preserve">
+    <value>Profesinio perdegimo rizikos vertinimas</value>
+  </data>
   <data name="title" xml:space="preserve">
     <value>Naujas matavimas</value>
   </data>
@@ -10,7 +13,7 @@
     <value>Pradžia</value>
   </data>
   <data name="title1descr1" xml:space="preserve">
-    <value>Kaip dažnai jaučiates pavarge?</value>
+    <value>Kaip dažnai jaučiatės pavargę?</value>
   </data>
   <data name="title1descr2" xml:space="preserve">
     <value>Pasirinkite, kuri nuotaika geriausiai apibūdina jūsų dieną.</value>
@@ -55,7 +58,7 @@
     <value>Darbas</value>
   </data>
   <data name="title2descr1" xml:space="preserve">
-    <value>Kaip dažnai jaučiates fiziškai išsekę?</value>
+    <value>Kaip dažnai jaučiatės fiziškai išsekę?</value>
   </data>
   <data name="title2descr2" xml:space="preserve">
     <value>Apytikslis skaičius visiškai tinka.</value>
@@ -70,7 +73,7 @@
     <value>Poilsis</value>
   </data>
   <data name="title3descr1" xml:space="preserve">
-    <value>Kaip dažnai jaučiates psichologiškai išsekę?</value>
+    <value>Kaip dažnai jaučiatės psichologiškai išsekę?</value>
   </data>
   <data name="title3descr2" xml:space="preserve">
     <value>Apytikslės reikšmės pilnai tinka.</value>
@@ -91,7 +94,7 @@
     <value>Energija</value>
   </data>
   <data name="title4descr1" xml:space="preserve">
-    <value>Ar jaučiatės, kad nebegalite tęsti tokio tempo darbe?</value>
+    <value>Du greiti klausimai apie jūsų energijos lygį</value>
   </data>
   <data name="title4descr2" xml:space="preserve">
     <value>Nėra teisingo atsakymo - tiesiog pasirinkite, kas artimiausiai atitinka šiandieną.</value>
@@ -124,7 +127,7 @@
     <value>Skaitmeninė aplinka</value>
   </data>
   <data name="title5descr1" xml:space="preserve">
-    <value>Kaip dažnai jaučiatės nuvargęs ir išsekęs?</value>
+    <value>Kiek laiko praleidote prie ekranų ir susirinkimų?</value>
   </data>
   <data name="title5descr2" xml:space="preserve">
     <value>Apytikslis laikas visiškai tinka.</value>
@@ -151,9 +154,6 @@
     <value>Paskutinis žingsnis</value>
   </data>
   <data name="title6descr1" xml:space="preserve">
-    <value>Ar dažnai jaučiatės fiziškai silpnas ar pajuntate pirmuosius ligos simptomus?</value>
-  </data>
-  <data name="stressQuestion" xml:space="preserve">
     <value>Kaip vertinate šiandieninį streso lygį?</value>
   </data>
   <data name="title6descr2" xml:space="preserve">
@@ -196,28 +196,28 @@
 		<value>Ar jūsų darbas yra emociškai išsekantis?</value>
 	</data>
 	<data name="title12descr1" xml:space="preserve">
-		<value>Ar jūsų darbas jus frustruoja?</value>
+		<value>Ar jūsų darbas jus vargina?</value>
 	</data>
 	<data name="title13descr1" xml:space="preserve">
-		<value>Ar jaučiatės išsekęs dėl savo darbo?</value>
+		<value>Ar jaučiatės perdegę dėl savo darbo?</value>
 	</data>
 	<data name="title14descr1" xml:space="preserve">
-		<value>Ar bendravimas darbe jums atrodo sunkus?</value>
+		<value>Ar jums sunku dirbti su klientais?</value>
 	</data>
 	<data name="title15descr1" xml:space="preserve">
-		<value>Ar bendravimas darbe atima iš jūsų energiją?</value>
+		<value>Ar darbas su klientais atima iš jūsų energiją?</value>
 	</data>
 	<data name="title16descr1" xml:space="preserve">
-		<value>Ar bendravimas darbe jums kelia nusivylimą?</value>
+		<value>Ar darbas su klientais jums kelia nusivylimą?</value>
 	</data>
 	<data name="title17descr1" xml:space="preserve">
-		<value>Ar jaučiate, kad darbe kitiems atiduodate daugiau energijos, nei gaunate atgal?</value>
+		<value>Ar jaučiate, kad dirbdami su klientais duodate daugiau, nei gaunate?</value>
 	</data>
 	<data name="title18descr1" xml:space="preserve">
-    <value>Ar esate pavargę nuo bendravimo darbe?</value>
+    <value>Ar esate pavargę dirbti su klientais?</value>
   </data>
 	<data name="title19descr1" xml:space="preserve">
-    <value>Ar kartais susimąstote, kiek ilgai dar galėsite išlaikyti tokį bendravimo krūvį darbe?</value>
+    <value>Ar kartais susimąstote, kiek laiko dar galėsite dirbti su klientais?</value>
   </data>
 	<data name="time1" xml:space="preserve">
     <value>Visiškai taip</value>
@@ -259,7 +259,7 @@
     <value>Nemokamas planas</value>
   </data>
   <data name="freeRemainingCopy" xml:space="preserve">
-    <value>Liko {0} iš {1} nemokamo plano matavimų. AI įžvalgos prieinamos Premium vartotojams.</value>
+    <value>Liko {0} iš {1} nemokamo plano matavimų. DI įžvalgos prieinamos Premium vartotojams.</value>
   </data>
   <data name="updateSave" xml:space="preserve">
     <value>Atnaujinti matavimą</value>
