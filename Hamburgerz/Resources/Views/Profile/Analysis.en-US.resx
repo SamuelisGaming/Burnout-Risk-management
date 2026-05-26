@@ -207,4 +207,58 @@
   <data name="premiumLockCopy" xml:space="preserve">
     <value>Tap to see Premium benefits and unlock AI analysis.</value>
   </data>
+  <data name="burnoutTrendTitle" xml:space="preserve">
+    <value>Burnout risk over time</value>
+  </data>
+  <data name="wellbeingKicker" xml:space="preserve">
+    <value>Wellbeing</value>
+  </data>
+  <data name="wellbeingTitle" xml:space="preserve">
+    <value>Energy, focus &amp; recovery</value>
+  </data>
+  <data name="wbMood" xml:space="preserve">
+    <value>Energy level</value>
+  </data>
+  <data name="wbFocus" xml:space="preserve">
+    <value>Focus</value>
+  </data>
+  <data name="wbDisconnect" xml:space="preserve">
+    <value>Recovery after work</value>
+  </data>
+  <data name="burnoutDistKicker" xml:space="preserve">
+    <value>Burnout</value>
+  </data>
+  <data name="burnoutDistTitle" xml:space="preserve">
+    <value>Risk distribution</value>
+  </data>
+  <data name="riskLow" xml:space="preserve">
+    <value>Low risk</value>
+  </data>
+  <data name="riskMedium" xml:space="preserve">
+    <value>Medium risk</value>
+  </data>
+  <data name="riskHigh" xml:space="preserve">
+    <value>High risk</value>
+  </data>
+  <data name="digitalKicker" xml:space="preserve">
+    <value>Digital load</value>
+  </data>
+  <data name="digitalTitle" xml:space="preserve">
+    <value>Screen, meetings &amp; exercise</value>
+  </data>
+  <data name="avgScreen" xml:space="preserve">
+    <value>Avg. screen time</value>
+  </data>
+  <data name="avgMeetings" xml:space="preserve">
+    <value>Avg. meetings/day</value>
+  </data>
+  <data name="avgExercise" xml:space="preserve">
+    <value>Avg. exercise</value>
+  </data>
+  <data name="highScreenDays" xml:space="preserve">
+    <value>Days with 8h+ screen</value>
+  </data>
+  <data name="noExerciseDays" xml:space="preserve">
+    <value>Days without exercise</value>
+  </data>
 </root>

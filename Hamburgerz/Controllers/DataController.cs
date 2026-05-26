@@ -1,6 +1,7 @@
 using Hamburgerz.Data;
 using Hamburgerz.Helpers;
 using Hamburgerz.Models;
+using Hamburgerz.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,15 +9,20 @@ namespace Hamburgerz.Controllers
 {
     public class DataController : Controller
     {
-        private const int RequiredQuestionCount = 19;
+        private const int DailyQuestionCount = 9;
 
         private readonly AppDbContext _context;
-        
+        private readonly MeasurementQuestionCatalog _questionCatalog;
+        private readonly MeasurementScoringService _scoringService;
 
-    public DataController(AppDbContext context)
+        public DataController(
+            AppDbContext context,
+            MeasurementQuestionCatalog questionCatalog,
+            MeasurementScoringService scoringService)
         {
             _context = context;
-
+            _questionCatalog = questionCatalog;
+            _scoringService = scoringService;
         }
 
         [HttpGet]
@@ -40,8 +46,16 @@ namespace Hamburgerz.Controllers
             var todayMeasurement = await GetTodayMeasurementQuery(user.Id)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
+            var exactQuestionKeys = todayMeasurement == null
+                ? null
+                : await GetMeasurementQuestionKeysAsync(todayMeasurement.ID);
+
             var measurementCount = await _context.RiskData.CountAsync(r => r.UserId == user.Id);
-            var model = await BuildMeasurementEntryViewModelAsync(user, existingMeasurement: todayMeasurement);
+            var model = await BuildMeasurementEntryViewModelAsync(
+                user,
+                existingMeasurement: todayMeasurement,
+                exactQuestionKeys: exactQuestionKeys);
+
             ApplyMeasurementAccess(model, user.UserType, measurementCount, todayMeasurement != null);
             return View(model);
         }
@@ -68,41 +82,43 @@ namespace Hamburgerz.Controllers
                 .FirstOrDefaultAsync();
             var measurementCount = await _context.RiskData.CountAsync(r => r.UserId == user.Id);
             var isEditingTodayMeasurement = todayMeasurement != null;
+            var postedQuestionKeys = NormalizePostedQuestionKeys(model.QuestionKeys);
 
             if (!UserAccess.HasPremiumFeatures(user.UserType)
                 && !isEditingTodayMeasurement
                 && measurementCount >= UserAccess.FreeMeasurementLimit)
             {
-                var limitedModel = await BuildMeasurementEntryViewModelAsync(user, model);
+                var limitedModel = await BuildMeasurementEntryViewModelAsync(
+                    user,
+                    model,
+                    todayMeasurement,
+                    postedQuestionKeys);
                 ApplyMeasurementAccess(limitedModel, user.UserType, measurementCount, false);
                 TempData["MeasurementLimitMessage"] = IsEnglish()
                     ? $"The free plan allows up to {UserAccess.FreeMeasurementLimit} saved measurements. Premium users do not have this limit."
-                    : $"Nemokamas planas leidžia išsaugoti iki {UserAccess.FreeMeasurementLimit} matavimų. Premium vartotojams šis limitas netaikomas.";
+                    : $"Nemokamas planas leidzia issaugoti iki {UserAccess.FreeMeasurementLimit} matavimu. Premium vartotojams sis limitas netaikomas.";
                 return View(limitedModel);
             }
 
-            if (model.Q == null || model.Q.Count < RequiredQuestionCount)
-            {
-                ModelState.AddModelError(nameof(model.Q), IsEnglish()
-                    ? "Answer all questionnaire questions."
-                    : "Atsakykite į visus klausimyno klausimus.");
-            }
+            var validQuestionKeys = ValidateQuestionAnswers(user, postedQuestionKeys, model.QuestionScores);
+            ValidateDailyAnswers(model);
 
             if (!ModelState.IsValid)
             {
-                var invalidModel = await BuildMeasurementEntryViewModelAsync(user, model, todayMeasurement);
+                var invalidModel = await BuildMeasurementEntryViewModelAsync(
+                    user,
+                    model,
+                    todayMeasurement,
+                    validQuestionKeys.Count > 0 ? validQuestionKeys : postedQuestionKeys);
                 ApplyMeasurementAccess(invalidModel, user.UserType, measurementCount, isEditingTodayMeasurement);
                 return View(invalidModel);
             }
 
-            var answers = model.Q!;
-            int burnoutScore = (int)(answers.Average() * 25);
-            float productivityScore = 100;
-
-            for(int i = 6; i<13; i++)
-            {
-                productivityScore -= (float)answers[i] / 7 * 25;
-            }
+            var submittedScores = validQuestionKeys.ToDictionary(
+                key => key,
+                key => model.QuestionScores[key]!.Value);
+            var latestAnswers = await GetLatestQuestionAnswersAsync(user.Id, todayMeasurement?.ID);
+            var score = _scoringService.CalculateScore(user, model, submittedScores, latestAnswers, DateTime.Today);
 
             var riskData = todayMeasurement ?? new RiskData
             {
@@ -116,16 +132,18 @@ namespace Hamburgerz.Controllers
             riskData.WorkEnvironment = NormalizeOptionalText(user.WorkEnvironment);
             riskData.WorkHours = model.WorkHours!.Value;
             riskData.MeetingsPerDay = model.MeetingsPerDay!.Value;
-            //riskData.InternetSpeed = model.InternetSpeed!.Value;
+            riskData.InternetSpeed = model.InternetSpeed ?? todayMeasurement?.InternetSpeed ?? 0;
             riskData.SleepHours = model.SleepHours!.Value;
             riskData.ExerciseHours = model.ExerciseHours!.Value;
             riskData.ScreenTime = model.ScreenTime!.Value;
             riskData.StressLevel = model.StressLevel;
             riskData.MoodScore = model.MoodScore;
-            riskData.BurnoutRisk = burnoutScore;
-            riskData.ProductivityScore = (int)productivityScore;
+            riskData.BurnoutRisk = score.BurnoutScore;
+            riskData.ProductivityScore = score.ProductivityScore;
             riskData.DisconnectScore = model.DisconnectScore;
             riskData.FocusScore = model.FocusScore;
+            riskData.ScoreVersion = 2;
+            riskData.BurnoutCoverage = score.Coverage;
             riskData.TimeStamp = DateTime.Now;
             riskData.Suggestion = null;
 
@@ -139,6 +157,7 @@ namespace Hamburgerz.Controllers
             }
 
             await _context.SaveChangesAsync();
+            await ReplaceMeasurementAnswersAsync(riskData, submittedScores);
 
             return RedirectToAction("Result", "Profile", new { id = riskData.ID });
         }
@@ -146,7 +165,8 @@ namespace Hamburgerz.Controllers
         private async Task<MeasurementEntryViewModel> BuildMeasurementEntryViewModelAsync(
             User user,
             MeasurementEntryViewModel? submittedModel = null,
-            RiskData? existingMeasurement = null)
+            RiskData? existingMeasurement = null,
+            IReadOnlyCollection<string>? exactQuestionKeys = null)
         {
             var country = user.CountryID.HasValue
                 ? await _context.Countries
@@ -155,6 +175,27 @@ namespace Hamburgerz.Controllers
                     .Select(c => c.Name)
                     .FirstOrDefaultAsync()
                 : null;
+
+            var latestAnswers = await GetLatestQuestionAnswersAsync(user.Id);
+            var selection = _scoringService.SelectQuestions(
+                user,
+                latestAnswers,
+                DateTime.Today,
+                exactQuestionKeys);
+            var submittedScores = submittedModel?.QuestionScores ?? new Dictionary<string, int?>();
+            var questions = selection.Questions
+                .Select(question =>
+                {
+                    var selectedScore = submittedScores.TryGetValue(question.Key, out var submittedScore)
+                        ? submittedScore
+                        : existingMeasurement != null && latestAnswers.TryGetValue(question.Key, out var answer)
+                            ? answer.Score
+                            : null;
+
+                    latestAnswers.TryGetValue(question.Key, out var latestAnswer);
+                    return _questionCatalog.ToViewModel(question, selectedScore, DateTime.Today, latestAnswer);
+                })
+                .ToList();
 
             return new MeasurementEntryViewModel
             {
@@ -171,16 +212,157 @@ namespace Hamburgerz.Controllers
                 SleepHours = submittedModel?.SleepHours ?? existingMeasurement?.SleepHours,
                 ExerciseHours = submittedModel?.ExerciseHours ?? existingMeasurement?.ExerciseHours,
                 ScreenTime = submittedModel?.ScreenTime ?? existingMeasurement?.ScreenTime,
-                StressLevel = submittedModel?.StressLevel ?? existingMeasurement?.StressLevel ?? string.Empty,
+                StressLevel = submittedModel?.StressLevel ?? NormalizeStressForForm(existingMeasurement?.StressLevel),
                 Q = submittedModel?.Q ?? new List<int>(),
+                Questions = questions,
+                QuestionKeys = questions.Select(question => question.Key).ToList(),
+                QuestionScores = questions.ToDictionary(
+                    question => question.Key,
+                    question => question.SelectedScore),
+                IsFirstQuestionnaire = selection.IsFirstQuestionnaire,
+                DailyQuestionCount = DailyQuestionCount,
+                QuestionOrderSeed = $"{user.Id}:{DateTime.Today:yyyyMMdd}:{string.Join('|', questions.Select(question => question.Key))}",
                 MoodScore = submittedModel?.MoodScore ?? existingMeasurement?.MoodScore,
                 DisconnectScore = submittedModel?.DisconnectScore ?? existingMeasurement?.DisconnectScore,
                 FocusScore = submittedModel?.FocusScore ?? existingMeasurement?.FocusScore,
                 ExistingMeasurementId = existingMeasurement?.ID,
                 IsEditingTodayMeasurement = existingMeasurement != null,
                 ExistingMeasurementTimeStamp = existingMeasurement?.TimeStamp
-                
             };
+        }
+
+        private List<string> ValidateQuestionAnswers(
+            User user,
+            IReadOnlyCollection<string> postedQuestionKeys,
+            IDictionary<string, int?> submittedScores)
+        {
+            var applicableKeys = _questionCatalog
+                .GetApplicableQuestions(user)
+                .Select(question => question.Key)
+                .ToHashSet(StringComparer.Ordinal);
+            var validQuestionKeys = postedQuestionKeys
+                .Where(applicableKeys.Contains)
+                .Distinct(StringComparer.Ordinal)
+                .ToList();
+
+            if (validQuestionKeys.Count == 0)
+            {
+                ModelState.AddModelError(nameof(MeasurementEntryViewModel.QuestionScores), IsEnglish()
+                    ? "Answer the burnout questions shown today."
+                    : "Atsakykite i siandien rodomus perdegimo klausimus.");
+                return validQuestionKeys;
+            }
+
+            foreach (var key in validQuestionKeys)
+            {
+                if (!submittedScores.TryGetValue(key, out var score) || !score.HasValue || score.Value < 0 || score.Value > 4)
+                {
+                    ModelState.AddModelError($"QuestionScores[{key}]", IsEnglish()
+                        ? "Choose one answer."
+                        : "Pasirinkite viena atsakyma.");
+                }
+            }
+
+            return validQuestionKeys;
+        }
+
+        private void ValidateDailyAnswers(MeasurementEntryViewModel model)
+        {
+            if (string.IsNullOrEmpty(model.StressLevel))
+            {
+                ModelState.AddModelError(nameof(model.StressLevel), IsEnglish()
+                    ? "Choose today's stress level."
+                    : "Pasirinkite siandienos streso lygi.");
+            }
+
+            if (!model.MoodScore.HasValue)
+            {
+                ModelState.AddModelError(nameof(model.MoodScore), IsEnglish()
+                    ? "Choose today's energy level."
+                    : "Pasirinkite siandienos energijos lygi.");
+            }
+
+            if (!model.DisconnectScore.HasValue)
+            {
+                ModelState.AddModelError(nameof(model.DisconnectScore), IsEnglish()
+                    ? "Choose how well you disconnected after work."
+                    : "Pasirinkite, kaip pavyko atsiriboti po darbo.");
+            }
+
+            if (!model.FocusScore.HasValue)
+            {
+                ModelState.AddModelError(nameof(model.FocusScore), IsEnglish()
+                    ? "Choose today's focus level."
+                    : "Pasirinkite siandienos susikaupimo lygi.");
+            }
+        }
+
+        private async Task<Dictionary<string, MeasurementAnswer>> GetLatestQuestionAnswersAsync(
+            int userId,
+            int? excludeRiskDataId = null)
+        {
+            var query = _context.MeasurementAnswers
+                .AsNoTracking()
+                .Where(answer => answer.UserId == userId);
+
+            if (excludeRiskDataId.HasValue)
+            {
+                query = query.Where(answer => answer.RiskDataId != excludeRiskDataId.Value);
+            }
+
+            var answers = await query
+                .OrderByDescending(answer => answer.AnsweredAt)
+                .ThenByDescending(answer => answer.Id)
+                .ToListAsync();
+
+            return answers
+                .GroupBy(answer => answer.QuestionKey)
+                .ToDictionary(group => group.Key, group => group.First(), StringComparer.Ordinal);
+        }
+
+        private async Task<List<string>> GetMeasurementQuestionKeysAsync(int riskDataId)
+        {
+            return await _context.MeasurementAnswers
+                .AsNoTracking()
+                .Where(answer => answer.RiskDataId == riskDataId)
+                .OrderBy(answer => answer.Id)
+                .Select(answer => answer.QuestionKey)
+                .ToListAsync();
+        }
+
+        private async Task ReplaceMeasurementAnswersAsync(RiskData riskData, IReadOnlyDictionary<string, int> submittedScores)
+        {
+            var existingAnswers = await _context.MeasurementAnswers
+                .Where(answer => answer.RiskDataId == riskData.ID)
+                .ToListAsync();
+
+            if (existingAnswers.Count > 0)
+            {
+                _context.MeasurementAnswers.RemoveRange(existingAnswers);
+            }
+
+            foreach (var (questionKey, score) in submittedScores)
+            {
+                _context.MeasurementAnswers.Add(new MeasurementAnswer
+                {
+                    RiskDataId = riskData.ID,
+                    UserId = riskData.UserId,
+                    QuestionKey = questionKey,
+                    Score = score,
+                    AnsweredAt = riskData.TimeStamp
+                });
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        private static List<string> NormalizePostedQuestionKeys(IEnumerable<string>? keys)
+        {
+            return (keys ?? Array.Empty<string>())
+                .Where(key => !string.IsNullOrWhiteSpace(key))
+                .Select(key => key.Trim())
+                .Distinct(StringComparer.Ordinal)
+                .ToList();
         }
 
         private static void ApplyMeasurementAccess(
@@ -229,6 +411,27 @@ namespace Hamburgerz.Controllers
             }
 
             return value.Trim();
+        }
+
+        private static string NormalizeStressForForm(string? value)
+        {
+            var normalized = (value ?? string.Empty).Trim().ToLowerInvariant();
+            if (normalized.Contains("auk") || normalized.Contains("high"))
+            {
+                return "High";
+            }
+
+            if (normalized.Contains("vid") || normalized.Contains("med"))
+            {
+                return "Medium";
+            }
+
+            if (normalized.Contains("\u017eem") || normalized.Contains("zem") || normalized.Contains("low"))
+            {
+                return "Low";
+            }
+
+            return value ?? string.Empty;
         }
 
         private static bool IsEnglish() =>

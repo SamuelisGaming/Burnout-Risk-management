@@ -15,6 +15,9 @@
   <data name="title1descr2" xml:space="preserve">
     <value>Pasirinkite, kuri nuotaika geriausiai apibūdina jūsų dieną.</value>
   </data>
+  <data name="scaleSubcopy" xml:space="preserve">
+    <value>Pasirinkite atsakymą, kuris geriausiai atitinka šiandieną.</value>
+  </data>
   <data name="back" xml:space="preserve">
     <value>Atgal</value>
   </data>
@@ -58,7 +61,7 @@
     <value>Apytikslis skaičius visiškai tinka.</value>
   </data>  
   <data name="workhours" xml:space="preserve">
-    <value>Darbo valandos</value>
+    <value>Kiek valandų šiandien dirbote?</value>
   </data>
   <data name="worktemp" xml:space="preserve">
     <value>Pvz. 8</value>
@@ -73,13 +76,13 @@
     <value>Apytikslės reikšmės pilnai tinka.</value>
   </data>  
   <data name="sleeph" xml:space="preserve">
-    <value>Miego valandos</value>
+    <value>Kiek valandų miegojote praeitą naktį?</value>
   </data>
   <data name="sleeptemp" xml:space="preserve">
     <value>Pvz. 7.5</value>
   </data>
   <data name="exer" xml:space="preserve">
-    <value>Aktyvumo laikas</value>  
+    <value>Kiek laiko šiandien buvote fiziškai aktyvūs?</value>
   </data>  
   <data name="exertemp" xml:space="preserve">
     <value>Pvz. 1</value>
@@ -88,7 +91,7 @@
     <value>Energija</value>
   </data>
   <data name="title4descr1" xml:space="preserve">
-    <value>Du greiti klausimai apie jūsų energijos lygį</value>
+    <value>Ar jaučiatės, kad nebegalite tęsti tokio tempo darbe?</value>
   </data>
   <data name="title4descr2" xml:space="preserve">
     <value>Nėra teisingo atsakymo - tiesiog pasirinkite, kas artimiausiai atitinka šiandieną.</value>
@@ -121,19 +124,19 @@
     <value>Skaitmeninė aplinka</value>
   </data>
   <data name="title5descr1" xml:space="preserve">
-    <value>Kiek laiko praleidote prie ekranų ir susirinkimų?</value>
+    <value>Kaip dažnai jaučiatės nuvargęs ir išsekęs?</value>
   </data>
   <data name="title5descr2" xml:space="preserve">
-    <value>Jei tikslaus interneto greičio nežinote, apytikslė reikšmė tinka.</value>
+    <value>Apytikslis laikas visiškai tinka.</value>
   </data>
   <data name="screen" xml:space="preserve">
-    <value>Ekrano laikas</value>
+    <value>Kiek valandų praleidote prie ekrano?</value>
   </data>
   <data name="screentemp" xml:space="preserve">
     <value>Pvz. 6</value>
   </data> 
   <data name="meet" xml:space="preserve">
-    <value>Susirinkimai per dieną</value>
+    <value>Kiek susirinkimų turėjote šiandien?</value>
   </data>
   <data name="meettemp" xml:space="preserve">
     <value>Pvz. 2</value>
@@ -148,6 +151,9 @@
     <value>Paskutinis žingsnis</value>
   </data>
   <data name="title6descr1" xml:space="preserve">
+    <value>Ar dažnai jaučiatės fiziškai silpnas ar pajuntate pirmuosius ligos simptomus?</value>
+  </data>
+  <data name="stressQuestion" xml:space="preserve">
     <value>Kaip vertinate šiandieninį streso lygį?</value>
   </data>
   <data name="title6descr2" xml:space="preserve">
@@ -196,37 +202,37 @@
 		<value>Ar jaučiatės išsekęs dėl savo darbo?</value>
 	</data>
 	<data name="title14descr1" xml:space="preserve">
-		<value>Ar jums sunku dirbti su klientais?</value>
+		<value>Ar bendravimas darbe jums atrodo sunkus?</value>
 	</data>
 	<data name="title15descr1" xml:space="preserve">
-		<value>Ar darbas su klientais atima iš jūsų energiją?</value>
+		<value>Ar bendravimas darbe atima iš jūsų energiją?</value>
 	</data>
 	<data name="title16descr1" xml:space="preserve">
-		<value>Ar darbas su klientais jums kelia nusivylimą?</value>
+		<value>Ar bendravimas darbe jums kelia nusivylimą?</value>
 	</data>
 	<data name="title17descr1" xml:space="preserve">
-		<value>Ar jaučiate, kad dirbdami su klientais duodate daugiau, nei gaunate?</value>
+		<value>Ar jaučiate, kad darbe kitiems atiduodate daugiau energijos, nei gaunate atgal?</value>
 	</data>
 	<data name="title18descr1" xml:space="preserve">
-    <value>Ar esate pavargę dirbti su klientais?</value>
+    <value>Ar esate pavargę nuo bendravimo darbe?</value>
   </data>
 	<data name="title19descr1" xml:space="preserve">
-    <value>Ar kartais susimąstote, kiek laiko dar galėsite dirbti su klientais?</value>
+    <value>Ar kartais susimąstote, kiek ilgai dar galėsite išlaikyti tokį bendravimo krūvį darbe?</value>
   </data>
 	<data name="time1" xml:space="preserve">
-    <value>Labai dideliu mastu</value>
+    <value>Visiškai taip</value>
   </data>
 	<data name="time2" xml:space="preserve">
-    <value>dideliu mastu</value>
+    <value>Labiau taip</value>
   </data>
 	<data name="time3" xml:space="preserve">
-    <value>Šiek tiek</value>
+    <value>Iš dalies</value>
   </data>
 	<data name="time4" xml:space="preserve">
-    <value>Mažai</value>
+    <value>Labiau ne</value>
   </data>
 	<data name="time5" xml:space="preserve">
-    <value>Labai mažai</value>
+    <value>Visiškai ne</value>
   </data>
   <data name="limitReachedTitle" xml:space="preserve">
     <value>Pasiektas nemokamo plano matavimų limitas</value>
@@ -257,5 +263,137 @@
   </data>
   <data name="updateSave" xml:space="preserve">
     <value>Atnaujinti matavimą</value>
+  </data>
+  <data name="firstQuestionnaireTitle" xml:space="preserve">
+    <value>Pirmas matavimas</value>
+  </data>
+  <data name="normalQuestionnaireTitle" xml:space="preserve">
+    <value>Šiandienos matavimas</value>
+  </data>
+  <data name="questionCountCopy" xml:space="preserve">
+    <value>Šiandien {0} klausimų</value>
+  </data>
+  <data name="dailyCountCopy" xml:space="preserve">
+    <value>{0} trumpi klausimai</value>
+  </data>
+  <data name="rotatingCountCopy" xml:space="preserve">
+    <value>{0} papildomi klausimai</value>
+  </data>
+  <data name="dailySectionTitle" xml:space="preserve">
+    <value>Šiandiena</value>
+  </data>
+  <data name="dailySectionCopy" xml:space="preserve">
+    <value>Trumpai apie tai, kaip praėjo diena.</value>
+  </data>
+  <data name="rotationSectionTitle" xml:space="preserve">
+    <value>Keli papildomi klausimai</value>
+  </data>
+  <data name="rotationSectionCopy" xml:space="preserve">
+    <value>Pasirinkite, kas geriausiai atitinka paskutinių dienų savijautą darbe.</value>
+  </data>
+  <data name="dailyEnergyQuestion" xml:space="preserve">
+    <value>Kiek šiandien turėjai energijos?</value>
+  </data>
+  <data name="dailyEnergyGreat" xml:space="preserve">
+    <value>Puikiai</value>
+  </data>
+  <data name="dailyEnergyOk" xml:space="preserve">
+    <value>Normaliai</value>
+  </data>
+  <data name="dailyEnergyTired" xml:space="preserve">
+    <value>Pavargęs</value>
+  </data>
+  <data name="dailyEnergyRough" xml:space="preserve">
+    <value>Sunkiai</value>
+  </data>
+  <data name="carouselAcuteWork" xml:space="preserve">
+    <value>Darbas</value>
+  </data>
+  <data name="carouselFatigue" xml:space="preserve">
+    <value>Nuovargis</value>
+  </data>
+  <data name="carouselRecovery" xml:space="preserve">
+    <value>Atsigavimas</value>
+  </data>
+  <data name="carouselClient" xml:space="preserve">
+    <value>Žmonės</value>
+  </data>
+  <data name="freshnessNew" xml:space="preserve">
+    <value>Nauja</value>
+  </data>
+  <data name="freshnessFresh" xml:space="preserve">
+    <value>Šiandien</value>
+  </data>
+  <data name="freshnessDue" xml:space="preserve">
+    <value>Šiandien</value>
+  </data>
+  <data name="freshnessUnreliable" xml:space="preserve">
+    <value>Šiandien</value>
+  </data>
+  <data name="q_cant_take_more" xml:space="preserve">
+    <value>Ar jaučiatės, kad jau nebegalite tęsti tokio darbo tempo?</value>
+  </data>
+  <data name="q_worn_out" xml:space="preserve">
+    <value>Kaip dažnai jaučiatės nuvargęs ir visiškai išsekęs?</value>
+  </data>
+  <data name="q_weak_or_ill" xml:space="preserve">
+    <value>Ar dažnai jaučiatės fiziškai silpnas arba pajuntate pirmuosius ligos požymius?</value>
+  </data>
+  <data name="sub_tired_general" xml:space="preserve">
+    <value>Pagalvokite apie paskutines 2–3 dienas, ne tik šiandien.</value>
+  </data>
+  <data name="sub_physical_exhausted" xml:space="preserve">
+    <value>Kalbame apie kūno nuovargį nuo darbo, ne nuo sporto.</value>
+  </data>
+  <data name="sub_psych_exhausted" xml:space="preserve">
+    <value>Kai smegenys tiesiog atsisako apdoroti dar daugiau informacijos.</value>
+  </data>
+  <data name="sub_cant_take_more" xml:space="preserve">
+    <value>Atsakykite sąžiningai - tai normalus ir dažnas jausmas.</value>
+  </data>
+  <data name="sub_worn_out" xml:space="preserve">
+    <value>Tas jausmas, kai net poilsis nepadeda atsistatyti.</value>
+  </data>
+  <data name="sub_weak_or_ill" xml:space="preserve">
+    <value>Stresas dažnai pirmiausia pasireiškia per kūno simptomus.</value>
+  </data>
+  <data name="sub_end_day_exhausted" xml:space="preserve">
+    <value>Net jei diena atrodė rami ir neintensyvi.</value>
+  </data>
+  <data name="sub_morning_exhausted" xml:space="preserve">
+    <value>Tas jausmas dar prieš pradedant naują darbo dieną.</value>
+  </data>
+  <data name="sub_every_hour_tiring" xml:space="preserve">
+    <value>Palyginkite su tuo, kaip buvo prieš kelis mėnesius.</value>
+  </data>
+  <data name="sub_energy_for_close_people" xml:space="preserve">
+    <value>Ne darbui, o šeimai ir draugams.</value>
+  </data>
+  <data name="sub_work_emotionally_exhausting" xml:space="preserve">
+    <value>Emocinė, ne fizinė darbo našta.</value>
+  </data>
+  <data name="sub_work_frustrating" xml:space="preserve">
+    <value>Net kai dedatės visas pastangas ir stengiatės.</value>
+  </data>
+  <data name="sub_burned_out_by_work" xml:space="preserve">
+    <value>Žiūrint iš visos savo darbo patirties perspektyvos.</value>
+  </data>
+  <data name="sub_clients_hard" xml:space="preserve">
+    <value>Kolegos, klientai, vadovai - bet kas, su kuo bendraujate darbe.</value>
+  </data>
+  <data name="sub_clients_drain_energy" xml:space="preserve">
+    <value>Po pokalbio jaučiatės tušti, o ne pilni energijos.</value>
+  </data>
+  <data name="sub_clients_frustrating" xml:space="preserve">
+    <value>Net kai žmonės elgiasi geranoriškai ir be blogų ketinimų.</value>
+  </data>
+  <data name="sub_clients_give_more" xml:space="preserve">
+    <value>Energetinis disbalansas darbo santykiuose.</value>
+  </data>
+  <data name="sub_clients_tired" xml:space="preserve">
+    <value>Tas jausmas, kai nenori atsakinėti į dar vieną žinutę ar skambutį.</value>
+  </data>
+  <data name="sub_clients_continue" xml:space="preserve">
+    <value>Atsakykite sąžiningai - tai visiškai normalus klausimas.</value>
   </data>
 </root>

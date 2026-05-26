@@ -42,6 +42,22 @@ namespace Hamburgerz.Models
 
         public List<int> Q { get; set; } = new();
 
+        public List<MeasurementQuestionViewModel> Questions { get; set; } = new();
+
+        public List<string> QuestionKeys { get; set; } = new();
+
+        public Dictionary<string, int?> QuestionScores { get; set; } = new();
+
+        public bool IsFirstQuestionnaire { get; set; }
+
+        public int DailyQuestionCount { get; set; }
+
+        public int RotatingQuestionCount => Questions.Count;
+
+        public int TotalVisibleQuestionCount => DailyQuestionCount + RotatingQuestionCount;
+
+        public string QuestionOrderSeed { get; set; } = string.Empty;
+
 
         public int? MoodScore { get; set; }
         public int? DisconnectScore { get; set; }
@@ -75,5 +91,29 @@ namespace Hamburgerz.Models
             || !string.IsNullOrWhiteSpace(CompanySize)
             || !string.IsNullOrWhiteSpace(WorkEnvironment);
 
+    }
+
+    public class MeasurementQuestionViewModel
+    {
+        public string Key { get; set; } = string.Empty;
+
+        public string PromptKey { get; set; } = string.Empty;
+
+        public string SubcopyKey { get; set; } = string.Empty;
+
+        public string GroupKey { get; set; } = string.Empty;
+
+        public string FreshnessKey { get; set; } = string.Empty;
+
+        public int? SelectedScore { get; set; }
+
+        public List<MeasurementQuestionOptionViewModel> Options { get; set; } = new();
+    }
+
+    public class MeasurementQuestionOptionViewModel
+    {
+        public int Score { get; set; }
+
+        public string LabelKey { get; set; } = string.Empty;
     }
 }

@@ -28,6 +28,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddSingleton<JobRoleCatalogService>();
+builder.Services.AddSingleton<MeasurementQuestionCatalog>();
+builder.Services.AddScoped<MeasurementScoringService>();
 
 var emailSettings = new Hamburgerz.Services.EmailSettings();
 builder.Configuration.GetSection("Email").Bind(emailSettings);

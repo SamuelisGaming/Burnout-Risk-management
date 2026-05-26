@@ -15,6 +15,8 @@ namespace Hamburgerz.Data
 
         public DbSet<RiskData> RiskData { get; set; }
 
+        public DbSet<MeasurementAnswer> MeasurementAnswers { get; set; }
+
         public DbSet<AnalysisCache> AnalysisCache { get; set; }
 
         public DbSet<EmailVerificationToken> EmailVerificationTokens { get; set; }
@@ -40,6 +42,14 @@ namespace Hamburgerz.Data
                 .HasOne<User>()
                 .WithMany()
                 .HasForeignKey(r => r.UserId);
+
+            modelBuilder.Entity<MeasurementAnswer>()
+                .HasOne<RiskData>()
+                .WithMany()
+                .HasForeignKey(a => a.RiskDataId);
+
+            modelBuilder.Entity<MeasurementAnswer>()
+                .HasIndex(a => new { a.UserId, a.QuestionKey, a.AnsweredAt });
 
             modelBuilder.Entity<AnalysisCache>()
                 .HasIndex(c => c.UserId)

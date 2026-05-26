@@ -632,10 +632,13 @@
                             <span class="detail-value">@Model.MeetingsPerDay</span>
                         </div>
 
-                        <div class="detail-row">
-                            <span class="detail-label">@Localizer["intspeed"]</span>
-                            <span class="detail-value">@Model.InternetSpeed</span>
-                        </div>
+                        @if (Model.InternetSpeed > 0)
+                        {
+                            <div class="detail-row">
+                                <span class="detail-label">@Localizer["intspeed"]</span>
+                                <span class="detail-value">@Model.InternetSpeed</span>
+                            </div>
+                        }
                     </div>
                 </section>
 

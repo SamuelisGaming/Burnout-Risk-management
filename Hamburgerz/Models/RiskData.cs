@@ -76,5 +76,11 @@ namespace Hamburgerz.Models
 
         [Column("focus_score")]
         public int? FocusScore { get; set; }
+
+        [Column("score_version")]
+        public int ScoreVersion { get; set; } = 2;
+
+        [Column("burnout_coverage")]
+        public float BurnoutCoverage { get; set; } = 1f;
     }
 }

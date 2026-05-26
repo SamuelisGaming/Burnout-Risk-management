@@ -220,6 +220,43 @@
             //: $"{periodLabel} shows {stressedShare}% stressed entries, with an average of {windowAvgSleep:0.0}h sleep and {window
             // AvgWork:0.0}h workdays.";
             : $"{periodLabel} {@Localizer["over1"].Value} {stressedShare} {@Localizer["over2"].Value} {windowAvgSleep:0.0} {@Localizer["over3"].Value} {windowAvgWork:0.0} {@Localizer["over4"].Value}";
+
+    // Burnout risk distribution
+    var lowBurnoutCount = filteredMeasurements.Count(x => x.BurnoutPercent < 40);
+    var medBurnoutCount = filteredMeasurements.Count(x => x.BurnoutPercent >= 40 && x.BurnoutPercent < 70);
+    var highBurnoutCount = filteredMeasurements.Count(x => x.BurnoutPercent >= 70);
+    var lowBurnoutShare = filteredCount > 0 ? (int)Math.Round(lowBurnoutCount * 100.0 / filteredCount) : 0;
+    var medBurnoutShare = filteredCount > 0 ? (int)Math.Round(medBurnoutCount * 100.0 / filteredCount) : 0;
+    var highBurnoutShare = filteredCount > 0 ? (int)Math.Round(highBurnoutCount * 100.0 / filteredCount) : 0;
+
+    // Wellbeing averages (MoodScore 1-4, FocusScore 1-3, DisconnectScore 1-3)
+    // These are daily questions asked on every measurement, so older records may be null (pre-feature).
+    // Show as long as ≥1 sample exists — single-measurement averages are fine for daily fields.
+    var moodSamples      = filteredMeasurements.Where(x => x.MoodScore.HasValue).ToList();
+    var focusSamples     = filteredMeasurements.Where(x => x.FocusScore.HasValue).ToList();
+    var discSamples      = filteredMeasurements.Where(x => x.DisconnectScore.HasValue).ToList();
+    var hasMoodData       = moodSamples.Count >= 1;
+    var hasFocusData      = focusSamples.Count >= 1;
+    var hasDisconnectData = discSamples.Count >= 1;
+    var avgMood       = hasMoodData       ? moodSamples.Average(x => (double)x.MoodScore!.Value)        : 0.0;
+    var avgFocus      = hasFocusData      ? focusSamples.Average(x => (double)x.FocusScore!.Value)      : 0.0;
+    var avgDisconnect = hasDisconnectData ? discSamples.Average(x => (double)x.DisconnectScore!.Value)   : 0.0;
+    // Map to 0-100% for progress bar: score 1 = 0%, max = 100%
+    var moodPct       = hasMoodData       ? (int)Math.Round((avgMood - 1) / 3.0 * 100)  : 0;
+    var focusPct      = hasFocusData      ? (int)Math.Round((avgFocus - 1) / 2.0 * 100) : 0;
+    var disconnectPct = hasDisconnectData ? (int)Math.Round((avgDisconnect - 1) / 2.0 * 100) : 0;
+
+    // Digital load
+    var avgScreenTime = filteredCount > 0 ? filteredMeasurements.Average(x => (double)x.ScreenTime) : 0.0;
+    var avgMeetings = filteredCount > 0 ? filteredMeasurements.Average(x => (double)x.MeetingsPerDay) : 0.0;
+    var avgExercise = filteredCount > 0 ? filteredMeasurements.Average(x => (double)x.ExerciseHours) : 0.0;
+    var highScreenShare = filteredCount > 0 ? (int)Math.Round(filteredMeasurements.Count(x => x.ScreenTime >= 8) * 100.0 / filteredCount) : 0;
+    var noExerciseShare = filteredCount > 0 ? (int)Math.Round(filteredMeasurements.Count(x => x.ExerciseHours <= 0) * 100.0 / filteredCount) : 0;
+
+    // Burnout trend (last 10 measurements in period)
+    var burnoutTrend = filteredMeasurements.Skip(Math.Max(0, filteredCount - 10)).ToList();
+    // Normalize bars to tallest bar = 100% (like the sleep/work chart)
+    var maxBurnoutTrendPct = burnoutTrend.Any() ? Math.Max(10, burnoutTrend.Max(x => x.BurnoutPercent)) : 10;
 }
 
 <div class="analysis-page">
@@ -313,6 +350,14 @@
             </div>
         </div>
 
+        @if (filteredCount == 0)
+        {
+            <div class="period-empty-banner">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" width="18" height="18"><circle cx="10" cy="10" r="8"/><path d="M10 6v4.5"/><circle cx="10" cy="14" r=".75" fill="currentColor" stroke="none"/></svg>
+                @Localizer["notenoughperiod"]
+            </div>
+        }
+
         <div class="analysis-grid">
             <section class="panel panel-wide">
                 <div class="panel-header">
@@ -360,6 +405,12 @@
                     <div class="panel-note">@periodLabel</div>
                 </div>
 
+                @if (filteredCount == 0)
+                {
+                    <p class="panel-empty-note">@Localizer["notenoughperiod"]</p>
+                }
+                else
+                {
                 <div class="mix-list">
                     <div class="mix-row">
                         <div class="mix-meta">
@@ -391,8 +442,10 @@
                         </div>
                     </div>
                 </div>
+                }
             </section>
 
+            @* Row 2 : Habit Signals (4) | Burnout Trend (8)  — narrow LEFT, wide RIGHT *@
             <section class="panel">
                 <div class="panel-header">
                     <div>
@@ -436,6 +489,41 @@
                 </div>
             </section>
 
+            <section class="panel panel-wide">
+                <div class="panel-header">
+                    <div>
+                        <div class="section-kicker">@Localizer["burnoutDistKicker"]</div>
+                        <h3 class="panel-title">@Localizer["burnoutTrendTitle"]</h3>
+                    </div>
+                    <div class="panel-note">@Localizer["last"] @burnoutTrend.Count @Localizer["savedmeas"]</div>
+                </div>
+
+                @if (burnoutTrend.Any())
+                {
+                    <div class="burnout-zone-legend">
+                        <span class="bzone-dot bzone-low"></span><span>@Localizer["riskLow"] (&lt;40%)</span>
+                        <span class="bzone-dot bzone-medium"></span><span>@Localizer["riskMedium"] (40–69%)</span>
+                        <span class="bzone-dot bzone-high"></span><span>@Localizer["riskHigh"] (70%+)</span>
+                    </div>
+                    <div class="burnout-trend-chart">
+                        @foreach (var point in burnoutTrend)
+                        {
+                            var bh = point.BurnoutPercent;
+                            var barCls = bh >= 70 ? "bbar-high" : bh >= 40 ? "bbar-medium" : "bbar-low";
+                            var barH  = Math.Max(4, (int)Math.Round((double)bh / maxBurnoutTrendPct * 100));
+                            <div class="burnout-trend-group">
+                                <div class="burnout-trend-bar-wrap">
+                                    <div class="burnout-trend-bar @barCls" style="height:@($"{barH}%")"></div>
+                                </div>
+                                <div class="burnout-trend-pct @(bh >= 70 ? "bpct-high" : bh >= 40 ? "bpct-medium" : "bpct-low")">@bh%</div>
+                                <div class="trend-label">@point.TimeStamp.ToString("MM-dd")</div>
+                            </div>
+                        }
+                    </div>
+                }
+            </section>
+
+            @* Row 3 : AI insights (8) | Burnout Distribution (4)  — wide LEFT, narrow RIGHT *@
             @if (hasAiAccess)
             {
             <section class="panel panel-wide" id="aiInsightsPanel">
@@ -493,6 +581,138 @@
                 </button>
             </section>
             }
+
+            <section class="panel">
+                <div class="panel-header">
+                    <div>
+                        <div class="section-kicker">@Localizer["burnoutDistKicker"]</div>
+                        <h3 class="panel-title">@Localizer["burnoutDistTitle"]</h3>
+                    </div>
+                    <div class="panel-note">@periodLabel</div>
+                </div>
+
+                @if (filteredCount == 0)
+                {
+                    <p class="panel-empty-note">@Localizer["notenoughperiod"]</p>
+                }
+                else
+                {
+                <div class="mix-list">
+                    <div class="mix-row">
+                        <div class="mix-meta">
+                            <span>@Localizer["riskLow"]</span>
+                            <strong>@lowBurnoutShare%</strong>
+                        </div>
+                        <div class="mix-track">
+                            <div class="mix-fill low" style="width:@($"{lowBurnoutShare}%")"></div>
+                        </div>
+                    </div>
+
+                    <div class="mix-row">
+                        <div class="mix-meta">
+                            <span>@Localizer["riskMedium"]</span>
+                            <strong>@medBurnoutShare%</strong>
+                        </div>
+                        <div class="mix-track">
+                            <div class="mix-fill medium" style="width:@($"{medBurnoutShare}%")"></div>
+                        </div>
+                    </div>
+
+                    <div class="mix-row">
+                        <div class="mix-meta">
+                            <span>@Localizer["riskHigh"]</span>
+                            <strong>@highBurnoutShare%</strong>
+                        </div>
+                        <div class="mix-track">
+                            <div class="mix-fill high" style="width:@($"{highBurnoutShare}%")"></div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </section>
+
+            @* Row 4 : Wellbeing (6) | Digital Load (6)  — equal halves *@
+            <section class="panel panel-half">
+                <div class="panel-header">
+                    <div>
+                        <div class="section-kicker">@Localizer["wellbeingKicker"]</div>
+                        <h3 class="panel-title">@Localizer["wellbeingTitle"]</h3>
+                    </div>
+                    <div class="panel-note">@periodLabel</div>
+                </div>
+
+                <div class="wb-list">
+                    <div class="wb-row">
+                        <div class="wb-meta">
+                            <span>@Localizer["wbMood"]</span>
+                            <strong>@(hasMoodData ? $"{avgMood:0.0} / 4" : @Localizer["notenough"].Value)</strong>
+                        </div>
+                        @if (hasMoodData)
+                        {
+                            <div class="mix-track"><div class="mix-fill @(moodPct >= 67 ? "low" : moodPct >= 34 ? "medium" : "high")" style="width:@($"{moodPct}%")"></div></div>
+                        }
+                    </div>
+
+                    <div class="wb-row">
+                        <div class="wb-meta">
+                            <span>@Localizer["wbFocus"]</span>
+                            <strong>@(hasFocusData ? $"{avgFocus:0.0} / 3" : @Localizer["notenough"].Value)</strong>
+                        </div>
+                        @if (hasFocusData)
+                        {
+                            <div class="mix-track"><div class="mix-fill @(focusPct >= 67 ? "low" : focusPct >= 34 ? "medium" : "high")" style="width:@($"{focusPct}%")"></div></div>
+                        }
+                    </div>
+
+                    <div class="wb-row">
+                        <div class="wb-meta">
+                            <span>@Localizer["wbDisconnect"]</span>
+                            <strong>@(hasDisconnectData ? $"{avgDisconnect:0.0} / 3" : @Localizer["notenough"].Value)</strong>
+                        </div>
+                        @if (hasDisconnectData)
+                        {
+                            <div class="mix-track"><div class="mix-fill @(disconnectPct >= 67 ? "low" : disconnectPct >= 34 ? "medium" : "high")" style="width:@($"{disconnectPct}%")"></div></div>
+                        }
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel panel-half">
+                <div class="panel-header">
+                    <div>
+                        <div class="section-kicker">@Localizer["digitalKicker"]</div>
+                        <h3 class="panel-title">@Localizer["digitalTitle"]</h3>
+                    </div>
+                    <div class="panel-note">@periodLabel</div>
+                </div>
+
+                <div class="signal-list signal-list-digital">
+                    <div class="signal-card">
+                        <div class="signal-label">@Localizer["avgScreen"]</div>
+                        <div class="signal-value">@avgScreenTime.ToString("0.0")h</div>
+                    </div>
+
+                    <div class="signal-card">
+                        <div class="signal-label">@Localizer["avgMeetings"]</div>
+                        <div class="signal-value">@avgMeetings.ToString("0.0")</div>
+                    </div>
+
+                    <div class="signal-card">
+                        <div class="signal-label">@Localizer["avgExercise"]</div>
+                        <div class="signal-value">@avgExercise.ToString("0.0")h</div>
+                    </div>
+
+                    <div class="signal-card">
+                        <div class="signal-label">@Localizer["highScreenDays"]</div>
+                        <div class="signal-value">@highScreenShare%</div>
+                    </div>
+
+                    <div class="signal-card">
+                        <div class="signal-label">@Localizer["noExerciseDays"]</div>
+                        <div class="signal-value">@noExerciseShare%</div>
+                    </div>
+                </div>
+            </section>
 
             <section class="panel panel-full">
                 <div class="panel-header">
@@ -774,6 +994,10 @@
         grid-column: span 8;
     }
 
+    .panel-half {
+        grid-column: span 6;
+    }
+
     .panel-full {
         grid-column: 1 / -1;
     }
@@ -872,6 +1096,27 @@
         font-size: 12px;
         color: var(--color-text-muted);
         white-space: nowrap;
+    }
+
+    .period-empty-banner {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 10px;
+        padding: 14px 18px;
+        margin-bottom: 16px;
+        font-size: 14px;
+        color: var(--color-text-muted);
+    }
+
+    .panel-empty-note {
+        margin: auto 0;
+        padding: 24px 0 8px;
+        font-size: 13px;
+        color: var(--color-text-muted);
+        font-style: italic;
     }
 
     .legend {
@@ -1232,7 +1477,8 @@
 
     @@media (max-width: 1080px) {
         .panel,
-        .panel-wide {
+        .panel-wide,
+        .panel-half {
             grid-column: span 12;
         }
 
@@ -1242,6 +1488,16 @@
 
         .insight-badges {
             min-width: 0;
+        }
+
+        .signal-list-digital {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    @@media (max-width: 600px) {
+        .signal-list-digital {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
         }
     }
 
@@ -1330,6 +1586,94 @@
         }
     }
 
+    /* ── Burnout trend chart ─────────────────────────────── */
+    .burnout-trend-chart {
+        height: 220px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(56px, 1fr));
+        gap: 10px;
+        align-items: end;
+        margin-bottom: 12px;
+    }
+
+    .burnout-trend-group {
+        min-width: 0;
+    }
+
+    .burnout-trend-bar-wrap {
+        height: 160px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        border-bottom: 1px solid var(--color-border);
+        margin-bottom: 8px;
+    }
+
+    .burnout-trend-bar {
+        width: 26px;
+        border-radius: 999px 999px 4px 4px;
+        min-height: 4px;
+        transition: height 0.4s ease;
+    }
+
+    .bbar-low    { background: #22c55e; }
+    .bbar-medium { background: #f59e0b; }
+    .bbar-high   { background: #ef4444; }
+
+    .burnout-trend-pct {
+        font-size: 11px;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 3px;
+    }
+
+    .bpct-low    { color: #16a34a; }
+    .bpct-medium { color: #d97706; }
+    .bpct-high   { color: #dc2626; }
+
+    .burnout-zone-legend {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        align-items: center;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--color-text-muted);
+    }
+
+    .bzone-dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .bzone-low    { background: #22c55e; }
+    .bzone-medium { background: #f59e0b; }
+    .bzone-high   { background: #ef4444; }
+
+    /* ── Wellbeing score bars ────────────────────────────── */
+    .wb-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .wb-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 7px;
+        font-size: 13px;
+        color: var(--color-text);
+    }
+
+    /* ── Digital load signal grid (5 cols inside panel-wide) ── */
+    .signal-list-digital {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
     @@media (max-width: 768px) {
         .analysis-page {
             padding: 20px 14px 40px;
@@ -1348,6 +1692,7 @@
         }
 
         .signal-list,
+        .signal-list-5,
         .insight-badges,
         .month-row,
         .month-metric,

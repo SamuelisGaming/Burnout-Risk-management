@@ -15,6 +15,9 @@
   <data name="title1descr2" xml:space="preserve">
     <value>Select how often do you feel this way.</value>
   </data>
+  <data name="scaleSubcopy" xml:space="preserve">
+    <value>Choose the answer that best matches today.</value>
+  </data>
   <data name="back" xml:space="preserve">
     <value>Back</value>
   </data>
@@ -46,19 +49,19 @@
     <value>Never</value>
   </data>
 	<data name="time1" xml:space="preserve">
-    <value>To a very high degree</value>
+    <value>Definitely yes</value>
   </data>
 	<data name="time2" xml:space="preserve">
-    <value>To a high degree</value>
+    <value>Mostly yes</value>
   </data>
 	<data name="time3" xml:space="preserve">
-    <value>Somewhat</value>
+    <value>Partly</value>
   </data>
 	<data name="time4" xml:space="preserve">
-    <value>To a low degree</value>
+    <value>Mostly no</value>
   </data>
 	<data name="time5" xml:space="preserve">
-    <value>To a very low degree</value>
+    <value>Definitely no</value>
   </data>
   <data name="mood4descr" xml:space="preserve">
     <value>The day was difficult both physically and emotionally</value>
@@ -73,7 +76,7 @@
     <value>An approximate number is fine.</value>
   </data>  
   <data name="workhours" xml:space="preserve">
-    <value>Work hours</value>
+    <value>How many hours did you work today?</value>
   </data>
   <data name="worktemp" xml:space="preserve">
     <value>E.g. 8</value>
@@ -88,13 +91,13 @@
     <value>Approximate values are valid/</value>
   </data>  
   <data name="sleeph" xml:space="preserve">
-    <value>Sleep hours</value>
+    <value>How many hours did you sleep last night?</value>
   </data>
   <data name="sleeptemp" xml:space="preserve">
     <value>E.g. 7.5</value>
   </data>
   <data name="exer" xml:space="preserve">
-    <value>Exercise</value>  
+    <value>How long were you physically active today?</value>
   </data>  
   <data name="exertemp" xml:space="preserve">
     <value>E.g. 1</value>
@@ -139,16 +142,16 @@
     <value>How often do you feel worn out?</value>
   </data>
   <data name="title5descr2" xml:space="preserve">
-    <value>If you don't know your exact internet speed, an approximate value is fine.</value>
+    <value>An approximate time is completely fine.</value>
   </data>
   <data name="screen" xml:space="preserve">
-    <value>Screentime</value>
+    <value>How many hours did you spend on screens?</value>
   </data>
   <data name="screentemp" xml:space="preserve">
     <value>E.g. 6</value>
   </data> 
   <data name="meet" xml:space="preserve">
-    <value>Meetings per day</value>
+    <value>How many meetings did you have today?</value>
   </data>
   <data name="meettemp" xml:space="preserve">
     <value>E.g. 2</value>
@@ -163,7 +166,10 @@
     <value>Last step</value>
   </data>
   <data name="title6descr1" xml:space="preserve">
-    <value>	How often do you feel weak and susceptible to illness?</value>
+    <value>How often do you feel weak and susceptible to illness?</value>
+  </data>
+  <data name="stressQuestion" xml:space="preserve">
+    <value>How would you rate your stress level today?</value>
   </data>
   <data name="title6descr2" xml:space="preserve">
     <value>Choose the level that best describes how you felt throughout the day.</value>
@@ -211,22 +217,22 @@
     <value>Do you feel burnt out because of your work?</value>
   </data>
 	<data name="title14descr1" xml:space="preserve">
-    <value>Do you find it hard to work with clients?</value>
+    <value>Do interactions at work feel hard to handle?</value>
   </data>
 	<data name="title15descr1" xml:space="preserve">
-    <value>Does it drain your energy to work with clients?</value>
+    <value>Do work interactions drain your energy?</value>
   </data>
 	<data name="title16descr1" xml:space="preserve">
-    <value>Do you find it frustrating to work with clients?</value>
+    <value>Do work interactions feel frustrating?</value>
   </data>
 	<data name="title17descr1" xml:space="preserve">
-    <value>Do you feel that you give more than you get back when you work with clients?</value>
+    <value>Do you feel you give more energy to others at work than you get back?</value>
   </data>
 	<data name="title18descr1" xml:space="preserve">
-    <value>Are you tired of working with clients?</value>
+    <value>Are you tired of dealing with people at work?</value>
   </data>
 	<data name="title19descr1" xml:space="preserve">
-    <value>Do you sometimes wonder how long you will be able to continue working with clients?</value>
+    <value>Do you sometimes wonder how long you can keep handling this level of interaction at work?</value>
   </data>
   <data name="limitReachedTitle" xml:space="preserve">
     <value>Free plan measurement limit reached</value>
@@ -257,5 +263,137 @@
   </data>
   <data name="updateSave" xml:space="preserve">
     <value>Update measurement</value>
+  </data>
+  <data name="firstQuestionnaireTitle" xml:space="preserve">
+    <value>First check-in</value>
+  </data>
+  <data name="normalQuestionnaireTitle" xml:space="preserve">
+    <value>Today's check-in</value>
+  </data>
+  <data name="questionCountCopy" xml:space="preserve">
+    <value>{0} questions today</value>
+  </data>
+  <data name="dailyCountCopy" xml:space="preserve">
+    <value>{0} quick questions</value>
+  </data>
+  <data name="rotatingCountCopy" xml:space="preserve">
+    <value>{0} extra questions</value>
+  </data>
+  <data name="dailySectionTitle" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="dailySectionCopy" xml:space="preserve">
+    <value>A quick read on how today went.</value>
+  </data>
+  <data name="rotationSectionTitle" xml:space="preserve">
+    <value>A few more questions</value>
+  </data>
+  <data name="rotationSectionCopy" xml:space="preserve">
+    <value>Answer what best matches how work has felt lately.</value>
+  </data>
+  <data name="dailyEnergyQuestion" xml:space="preserve">
+    <value>How was your energy today?</value>
+  </data>
+  <data name="dailyEnergyGreat" xml:space="preserve">
+    <value>Great</value>
+  </data>
+  <data name="dailyEnergyOk" xml:space="preserve">
+    <value>Okay</value>
+  </data>
+  <data name="dailyEnergyTired" xml:space="preserve">
+    <value>Tired</value>
+  </data>
+  <data name="dailyEnergyRough" xml:space="preserve">
+    <value>Rough</value>
+  </data>
+  <data name="carouselAcuteWork" xml:space="preserve">
+    <value>Work</value>
+  </data>
+  <data name="carouselFatigue" xml:space="preserve">
+    <value>Fatigue</value>
+  </data>
+  <data name="carouselRecovery" xml:space="preserve">
+    <value>Recovery</value>
+  </data>
+  <data name="carouselClient" xml:space="preserve">
+    <value>People</value>
+  </data>
+  <data name="freshnessNew" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="freshnessFresh" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="freshnessDue" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="freshnessUnreliable" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="q_cant_take_more" xml:space="preserve">
+    <value>Do you feel like you can't keep going at this work pace?</value>
+  </data>
+  <data name="q_worn_out" xml:space="preserve">
+    <value>How often do you feel completely worn out and drained?</value>
+  </data>
+  <data name="q_weak_or_ill" xml:space="preserve">
+    <value>How often do you feel physically weak or notice early signs of illness?</value>
+  </data>
+  <data name="sub_tired_general" xml:space="preserve">
+    <value>Think about the past 2–3 days, not just today.</value>
+  </data>
+  <data name="sub_physical_exhausted" xml:space="preserve">
+    <value>This is about body fatigue from work, not from exercise.</value>
+  </data>
+  <data name="sub_psych_exhausted" xml:space="preserve">
+    <value>When your brain just refuses to take in any more.</value>
+  </data>
+  <data name="sub_cant_take_more" xml:space="preserve">
+    <value>Be honest — it's a common and completely valid feeling.</value>
+  </data>
+  <data name="sub_worn_out" xml:space="preserve">
+    <value>That feeling when even rest doesn't seem to help you recover.</value>
+  </data>
+  <data name="sub_weak_or_ill" xml:space="preserve">
+    <value>Stress often shows up first as physical symptoms.</value>
+  </data>
+  <data name="sub_end_day_exhausted" xml:space="preserve">
+    <value>Even if the day felt uneventful or low-intensity.</value>
+  </data>
+  <data name="sub_morning_exhausted" xml:space="preserve">
+    <value>That feeling before the day has even started.</value>
+  </data>
+  <data name="sub_every_hour_tiring" xml:space="preserve">
+    <value>Compare to how things felt a few months ago.</value>
+  </data>
+  <data name="sub_energy_for_close_people" xml:space="preserve">
+    <value>For family and friends — not for work.</value>
+  </data>
+  <data name="sub_work_emotionally_exhausting" xml:space="preserve">
+    <value>Emotional weight, not physical effort.</value>
+  </data>
+  <data name="sub_work_frustrating" xml:space="preserve">
+    <value>Even when you put in the effort and try your best.</value>
+  </data>
+  <data name="sub_burned_out_by_work" xml:space="preserve">
+    <value>Looking at the full picture of your work experience.</value>
+  </data>
+  <data name="sub_clients_hard" xml:space="preserve">
+    <value>Colleagues, clients, managers — anyone you interact with at work.</value>
+  </data>
+  <data name="sub_clients_drain_energy" xml:space="preserve">
+    <value>Feeling empty after conversations, not energised.</value>
+  </data>
+  <data name="sub_clients_frustrating" xml:space="preserve">
+    <value>Even when people mean well and have good intentions.</value>
+  </data>
+  <data name="sub_clients_give_more" xml:space="preserve">
+    <value>An energy imbalance in your work relationships.</value>
+  </data>
+  <data name="sub_clients_tired" xml:space="preserve">
+    <value>That feeling when you don't want to answer one more message.</value>
+  </data>
+  <data name="sub_clients_continue" xml:space="preserve">
+    <value>Be honest — it's a perfectly normal question to ask yourself.</value>
   </data>
 </root>

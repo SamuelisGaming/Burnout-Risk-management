@@ -1,65 +1,155 @@
 @model Hamburgerz.Models.MeasurementEntryViewModel
+@using Microsoft.AspNetCore.Html
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = @Localizer["title1"];
+    ViewData["Title"] = Localizer["title"];
+    var totalSteps = Math.Max(1, Model.TotalVisibleQuestionCount);
+    var stepKeys = new List<string>
+    {
+        "sleep-hours",
+        "work-hours",
+        "exercise-hours",
+        "screen-time",
+        "meetings",
+        "daily-energy",
+        "stress-level",
+        "focus",
+        "disconnect"
+    };
+
+    stepKeys.AddRange(Model.Questions.Select(question => $"question-{question.Key}"));
+
+    var stepRanks = stepKeys
+        .Select((key, index) => new
+        {
+            Key = key,
+            OriginalIndex = index,
+            Order = StableStepOrder(Model.QuestionOrderSeed, key)
+        })
+        .OrderBy(step => step.Order)
+        .ThenBy(step => step.OriginalIndex)
+        .Select((step, rank) => new { step.Key, Rank = rank })
+        .ToDictionary(step => step.Key, step => step.Rank);
+
+    int StepIndex(string key) => stepRanks.TryGetValue(key, out var rank) ? rank : 0;
+    string PanelClass(string key) => StepIndex(key) == 0 ? "mq-panel is-active" : "mq-panel";
+}
+
+@functions {
+    private static uint StableStepOrder(string seed, string key)
+    {
+        unchecked
+        {
+            var value = $"{seed}::{key}";
+            uint hash = 2166136261;
+            foreach (var character in value)
+            {
+                hash ^= character;
+                hash *= 16777619;
+            }
+
+            return hash;
+        }
+    }
+
+    private IHtmlContent FaceIcon(string variant)
+    {
+        var features = variant switch
+        {
+            "great" => @"<path d=""M15.5 20.5c1.4-1.8 4-1.8 5.4 0"" stroke=""currentColor"" stroke-width=""2.7"" stroke-linecap=""round""/><path d=""M27.1 20.5c1.4-1.8 4-1.8 5.4 0"" stroke=""currentColor"" stroke-width=""2.7"" stroke-linecap=""round""/><path d=""M16.5 28.7c4.3 5 10.7 5 15 0"" stroke=""currentColor"" stroke-width=""2.9"" stroke-linecap=""round""/>",
+            "happy" => @"<circle cx=""18"" cy=""20.3"" r=""2.2"" fill=""currentColor""/><circle cx=""30"" cy=""20.3"" r=""2.2"" fill=""currentColor""/><path d=""M17 29.4c4.1 4.1 9.9 4.1 14 0"" stroke=""currentColor"" stroke-width=""2.9"" stroke-linecap=""round""/>",
+            "neutral" => @"<circle cx=""18"" cy=""20.5"" r=""2.1"" fill=""currentColor""/><circle cx=""30"" cy=""20.5"" r=""2.1"" fill=""currentColor""/><path d=""M17.5 30.5h13"" stroke=""currentColor"" stroke-width=""2.9"" stroke-linecap=""round""/>",
+            "sad" => @"<circle cx=""18"" cy=""20.5"" r=""2.1"" fill=""currentColor""/><circle cx=""30"" cy=""20.5"" r=""2.1"" fill=""currentColor""/><path d=""M17 32.2c4.1-4 9.9-4 14 0"" stroke=""currentColor"" stroke-width=""2.9"" stroke-linecap=""round""/>",
+            "rough" => @"<path d=""M16.1 19.4l4.5 1.5"" stroke=""currentColor"" stroke-width=""2.7"" stroke-linecap=""round""/><path d=""M31.9 19.4l-4.5 1.5"" stroke=""currentColor"" stroke-width=""2.7"" stroke-linecap=""round""/><circle cx=""18"" cy=""23.4"" r=""1.9"" fill=""currentColor""/><circle cx=""30"" cy=""23.4"" r=""1.9"" fill=""currentColor""/><path d=""M17 33.4c4.1-4.4 9.9-4.4 14 0"" stroke=""currentColor"" stroke-width=""2.9"" stroke-linecap=""round""/><path d=""M13.6 25.5c-2 2.7-2 5.1 0 7.1 2-2 2-4.4 0-7.1z"" fill=""currentColor"" opacity="".82""/><path d=""M34.4 25.5c2 2.7 2 5.1 0 7.1-2-2-2-4.4 0-7.1z"" fill=""currentColor"" opacity="".82""/>",
+            _ => @"<circle cx=""18"" cy=""20.5"" r=""2.1"" fill=""currentColor""/><circle cx=""30"" cy=""20.5"" r=""2.1"" fill=""currentColor""/><path d=""M17.5 30.5h13"" stroke=""currentColor"" stroke-width=""2.9"" stroke-linecap=""round""/>"
+        };
+
+        return new HtmlString($@"<span class=""mq-face"" aria-hidden=""true""><svg class=""mq-smiley"" viewBox=""0 0 48 48"" fill=""none"" xmlns=""http://www.w3.org/2000/svg""><circle cx=""24"" cy=""24"" r=""18.2"" stroke=""currentColor"" stroke-width=""3""/>{features}</svg></span>");
+    }
+
 }
 
 <style>
-    .mq-shell { padding: 1.25rem 0 3rem; }
+    .mq-shell {
+        padding: 1.5rem 0 3.5rem;
+    }
 
     .mq-form {
         position: relative;
         overflow: hidden;
-        max-width: 680px;
+        isolation: isolate;
+        display: flex;
+        flex-direction: column;
+        width: min(100%, 920px);
+        max-width: 920px;
         margin: 0 auto;
-        padding: 1.75rem;
-        border-radius: 28px;
+        padding: 2rem 2.25rem 2.25rem;
+        border-radius: 24px;
         border: 1px solid rgba(var(--color-border-rgb), .78);
         background: linear-gradient(180deg, rgba(var(--color-surface-rgb), .95), rgba(255,255,255,.88));
-        box-shadow: 0 28px 64px rgba(15,23,42,.12);
+        box-shadow: 0 24px 56px rgba(15,23,42,.11);
         backdrop-filter: blur(18px) saturate(145%);
         -webkit-backdrop-filter: blur(18px) saturate(145%);
     }
+
     .mq-form::before {
         content: "";
         position: absolute;
-        right: -6rem;
-        bottom: -6rem;
-        width: 14rem;
-        height: 14rem;
-        border-radius: 999px;
-        background: radial-gradient(circle, rgba(var(--color-secondary-rgb), .18), transparent 72%);
+        inset: 0 0 auto;
+        height: 5px;
+        background: linear-gradient(90deg, var(--color-primary), var(--color-tertiary), var(--color-secondary));
+        opacity: .9;
         pointer-events: none;
-        animation: mqFloat 9s ease-in-out infinite;
     }
-    .mq-form::after {
-        content: "";
-        position: absolute;
-        left: -5rem;
-        top: -5rem;
-        width: 11rem;
-        height: 11rem;
+
+    .mq-head {
+        margin-bottom: 1.05rem;
+    }
+
+    .mq-indicator {
+        color: var(--color-primary);
+        font-size: .82rem;
+        font-weight: 800;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+    }
+
+    .mq-head h2 {
+        margin: .4rem 0 .35rem;
+        font-size: clamp(1.8rem, 3.2vw, 2.35rem);
+        line-height: 1.12;
+        letter-spacing: 0;
+    }
+
+    .mq-head p {
+        margin: 0;
+        color: var(--color-text-muted);
+        line-height: 1.55;
+    }
+
+    .mq-progress {
+        height: 9px;
         border-radius: 999px;
-        background: radial-gradient(circle, rgba(var(--color-primary-rgb), .12), transparent 72%);
-        pointer-events: none;
-        animation: mqFloat 11s ease-in-out infinite reverse;
+        background: rgba(var(--color-border-rgb), .7);
+        overflow: hidden;
+        margin: 1.1rem 0 1.55rem;
+        flex: 0 0 auto;
     }
-    .mq-form > * { position: relative; }
 
-    .mq-head { margin-bottom: 1rem; }
-    .mq-head h2 { margin: .3rem 0 0; font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.1; }
-    .mq-head p { margin: .4rem 0 0; color: var(--color-text-muted); line-height: 1.6; }
-    .mq-indicator { color: var(--color-primary); font-size: .82rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
-
-    .mq-summary { margin-bottom: 1rem; padding: .9rem 1rem; border-radius: 18px; background: rgba(220,53,69,.08); border: 1px solid rgba(220,53,69,.16); }
+    .mq-progress-fill {
+        height: 100%;
+        width: calc(100% / @totalSteps);
+        background: linear-gradient(90deg, var(--color-primary), var(--color-tertiary), var(--color-secondary));
+        transition: width .5s cubic-bezier(.18, .9, .25, 1.15);
+    }
 
     .mq-limit-card {
-        max-width: 680px;
+        max-width: 920px;
         margin: 0 auto 1rem;
         padding: 1.1rem 1.25rem;
-        border-radius: 20px;
+        border-radius: 18px;
         border: 1px solid rgba(var(--color-primary-rgb), .18);
         background: var(--color-surface);
         box-shadow: var(--shadow-sm);
@@ -79,255 +169,576 @@
     }
 
     .mq-premium-button {
-        margin-top: 0.9rem;
+        margin-top: .9rem;
         border: 0;
-        border-radius: 14px;
-        padding: 0.8rem 1rem;
+        border-radius: 12px;
+        padding: .8rem 1rem;
         background: linear-gradient(135deg, #fbbf24, #d97706);
         color: #251604;
         font-weight: 900;
-        box-shadow: 0 12px 24px rgba(217, 119, 6, 0.20);
     }
 
-    .mq-progress { height: 8px; border-radius: 999px; background: rgba(var(--color-border-rgb), .7); overflow: hidden; margin-bottom: 0; }
-    .mq-progress-fill {
-        height: 100%;
-        width: calc(100% / 6);
-        background: linear-gradient(90deg, var(--color-primary), var(--color-tertiary), var(--color-secondary));
-        transition: width .45s cubic-bezier(.4, 0, .2, 1);
+    .mq-summary {
+        margin-bottom: 1rem;
+        padding: .85rem 1rem;
+        border-radius: 14px;
+        background: rgba(220,53,69,.08);
+        border: 1px solid rgba(220,53,69,.16);
     }
 
-    .mq-markers { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .45rem; margin: .9rem 0 1.35rem; }
-    .mq-marker {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 36px;
-        padding: .35rem;
-        border-radius: 999px;
-        background: rgba(var(--color-border-rgb), .34);
-        color: var(--color-text-muted);
-        font-size: .82rem;
-        font-weight: 700;
-        transition: background .25s ease, color .25s ease, transform .25s ease, box-shadow .25s ease;
-    }
-    .mq-marker.is-done {
-        color: var(--color-primary);
-        background: rgba(var(--color-primary-rgb), .12);
-    }
-    .mq-marker.is-active {
-        color: var(--color-primary);
-        background: linear-gradient(135deg, rgba(var(--color-primary-rgb), .18), rgba(var(--color-tertiary-rgb), .16));
-        box-shadow: 0 6px 20px rgba(var(--color-primary-rgb), .2);
-        transform: translateY(-2px);
-        animation: mqMarkerPulse 2.2s ease-in-out infinite;
+    .mq-panel {
+        display: none;
+        flex: 1 1 auto;
     }
 
-    .mq-panel { display: none; }
-    .mq-panel.is-active { display: block; animation: mqReveal .38s cubic-bezier(.2, .8, .2, 1); }
-    .mq-panel.is-back { display: block; animation: mqRevealBack .34s cubic-bezier(.2, .8, .2, 1); }
-
-    .mq-step-kicker {
-        display: inline-flex;
-        align-items: center;
-        gap: .4rem;
-        padding: .42rem .82rem;
-        border-radius: 999px;
-        font-size: .78rem;
-        font-weight: 700;
-        letter-spacing: .06em;
-        text-transform: uppercase;
-        background: rgba(var(--color-primary-rgb), .08);
-        color: var(--color-primary);
-        margin-bottom: .75rem;
+    .mq-panel.is-active {
+        display: block;
+        animation: mqReveal .42s cubic-bezier(.18, 1.1, .32, 1);
     }
 
-    .mq-question { margin: 0 0 .5rem; font-size: clamp(1.45rem, 3.5vw, 2rem); line-height: 1.1; }
-    .mq-subcopy { margin: 0 0 .25rem; color: var(--color-text-muted); line-height: 1.65; font-size: .95rem; }
-
-    .mq-card {
-        margin-top: 1.2rem;
-        padding: 1.25rem;
-        border-radius: 24px;
-        background: rgba(255,255,255,.68);
-        border: 1px solid rgba(var(--color-border-rgb), .78);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
+    .mq-panel.is-back {
+        display: block;
+        animation: mqRevealBack .36s cubic-bezier(.2, 1, .32, 1);
     }
 
-    .mq-label { display: block; margin-bottom: .65rem; font-size: .93rem; font-weight: 700; color: var(--color-text); }
-
-    .mq-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-    .mq-field { display: flex; flex-direction: column; }
-
-    .mq-input-wrap { position: relative; }
-    .mq-input { min-height: 60px; padding-right: 5rem !important; border-radius: 18px !important; font-size: clamp(1.15rem, 2.5vw, 1.7rem) !important; font-weight: 700 !important; }
-    .mq-suffix {
-        position: absolute;
-        top: 50%;
-        right: 1rem;
-        transform: translateY(-50%);
-        padding: .28rem .6rem;
-        border-radius: 999px;
-        background: rgba(var(--color-primary-rgb), .08);
-        color: var(--color-primary);
-        font-size: .8rem;
-        font-weight: 700;
+    .mq-panel.is-exiting,
+    .mq-panel.is-exiting-back {
+        display: block;
         pointer-events: none;
     }
 
-    .mq-chips { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: .85rem; }
+    .mq-panel.is-exiting {
+        animation: mqLeave .18s ease-in forwards;
+    }
+
+    .mq-panel.is-exiting-back {
+        animation: mqLeaveBack .18s ease-in forwards;
+    }
+
+    .mq-question-row {
+        max-width: 760px;
+        margin: .5rem auto 2rem;
+        text-align: center;
+    }
+
+    .mq-question-copy {
+        min-width: 0;
+    }
+
+    .mq-question {
+        margin: 0 0 .65rem;
+        font-size: clamp(1.75rem, 3.8vw, 2.7rem);
+        line-height: 1.1;
+        letter-spacing: 0;
+    }
+
+    .mq-subcopy {
+        margin: 0;
+        color: var(--color-text-muted);
+        line-height: 1.6;
+        font-size: .97rem;
+    }
+
+    .mq-card {
+        margin-top: 0;
+        padding: 1.5rem;
+        border-radius: 18px;
+        background: rgba(255,255,255,.68);
+        border: 1px solid rgba(var(--color-border-rgb), .78);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 16px 34px rgba(15,23,42,.06);
+    }
+
+    .mq-number-card {
+        padding: clamp(1.35rem, 3vw, 2rem);
+    }
+
+    .mq-choice-card {
+        padding: clamp(1.15rem, 2.4vw, 1.55rem);
+    }
+
+    .mq-scale-card {
+        max-width: 820px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .mq-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+    }
+
+    .mq-input-wrap {
+        position: relative;
+    }
+
+    .mq-input {
+        min-height: 104px;
+        padding-right: 5.8rem !important;
+        border-radius: 16px !important;
+        font-size: clamp(2.15rem, 5vw, 4rem) !important;
+        font-weight: 900 !important;
+        text-align: center;
+        letter-spacing: 0;
+    }
+
+    .mq-suffix {
+        position: absolute;
+        top: 50%;
+        right: 1.25rem;
+        transform: translateY(-50%);
+        padding: .35rem .7rem;
+        border-radius: 999px;
+        background: rgba(var(--color-primary-rgb), .08);
+        color: var(--color-primary);
+        font-size: .9rem;
+        font-weight: 800;
+        pointer-events: none;
+    }
+
+    .mq-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .75rem;
+        margin-top: 1.15rem;
+    }
+
     .mq-chip {
-        border: 1px solid rgba(var(--color-primary-rgb), .16);
+        border: 1px solid rgba(var(--color-primary-rgb), .18);
         background: rgba(var(--color-primary-rgb), .06);
         color: var(--color-text);
         border-radius: 999px;
-        padding: .55rem .88rem;
-        font-size: .88rem;
-        font-weight: 600;
+        padding: .72rem 1.05rem;
+        font-size: .96rem;
+        font-weight: 750;
         cursor: pointer;
-        transition: transform .14s ease, background .14s ease, color .14s ease, box-shadow .14s ease;
+        transition: transform .16s cubic-bezier(.18, 1.25, .32, 1), background .16s ease, color .16s ease, box-shadow .16s ease;
         user-select: none;
         -webkit-user-select: none;
     }
-    .mq-chip:hover, .mq-chip:focus-visible {
-        transform: translateY(-1px);
-        background: rgba(var(--color-primary-rgb), .12);
+
+    .mq-chip:hover,
+    .mq-chip:focus-visible,
+    .mq-chip.is-active {
+        transform: translateY(-3px);
+        background: rgba(var(--color-primary-rgb), .13);
         color: var(--color-primary);
         box-shadow: 0 6px 16px rgba(var(--color-primary-rgb), .1);
         outline: none;
     }
-    .mq-chip:active { transform: scale(.95); }
-    .mq-chip.is-active {
-        background: linear-gradient(135deg, rgba(var(--color-primary-rgb), .18), rgba(var(--color-tertiary-rgb), .12));
-        color: var(--color-primary);
-        border-color: rgba(var(--color-primary-rgb), .32);
-        box-shadow: 0 8px 20px rgba(var(--color-primary-rgb), .14);
-        transform: translateY(-1px);
+
+    .mq-chip.is-chip-pending {
+        animation: mqChipPop .3s cubic-bezier(.18, 1.45, .32, 1);
     }
 
-    .mq-note { margin-top: .75rem; color: var(--color-text-muted); font-size: .86rem; }
-    .mq-error { display: block; margin-top: .55rem; font-size: .86rem; }
-
-    .mq-mood { display: grid; gap: .8rem; }
-    .mq-mood-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .mq-mood-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-    .mq-mood-5 {
-        display: flex;
-        flex-direction: row;
+    .mq-choice-grid {
+        display: grid;
         gap: 1rem;
-        align-items: flex-start;
     }
 
-    .mq-mood-5 label {
+    .mq-choice-grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mq-choice-grid-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .mq-choice-grid-5 {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .mq-choice-grid input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+        width: 0;
+        height: 0;
+    }
+
+    .mq-choice {
+        position: relative;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         align-items: center;
-        text-align: center;
-        min-width: 0;
-        flex: 1 1 0;
-    }
-
-    .mq-mood input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
-    .mq-mood label {
-        display: flex;
-        flex-direction: column;
-        gap: .45rem;
-        padding: 1rem;
-        border-radius: 20px;
+        justify-content: center;
+        min-height: 136px;
+        gap: .72rem;
+        padding: 1.1rem .8rem;
+        border-radius: 16px;
         border: 2px solid rgba(var(--color-border-rgb), .9);
-        background: rgba(255,255,255,.84);
+        background: rgba(255,255,255,.82);
+        color: var(--color-text);
+        text-align: center;
+        font-size: 1.02rem;
+        font-weight: 800;
+        line-height: 1.18;
         cursor: pointer;
-        transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+        transition: transform .2s cubic-bezier(.18, 1.25, .32, 1), box-shadow .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
         user-select: none;
         -webkit-user-select: none;
     }
-    .mq-mood label:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 28px rgba(15,23,42,.08);
-        border-color: rgba(var(--color-primary-rgb), .3);
+
+    .mq-choice:hover {
+        transform: scale(1.025);
+        box-shadow: 0 8px 24px rgba(15,23,42,.09);
+        border-color: rgba(var(--color-primary-rgb), .34);
     }
-    .mq-mood input[type="radio"]:checked + label {
-        transform: translateY(-2px);
-        background: linear-gradient(160deg, rgba(var(--color-primary-rgb), .07), rgba(var(--color-tertiary-rgb), .08));
-        border-color: rgba(var(--color-primary-rgb), .52);
-        box-shadow: 0 16px 34px rgba(var(--color-primary-rgb), .14);
+
+    .mq-choice::after {
+        content: "";
+        position: absolute;
+        inset: auto 18% -34% 18%;
+        height: 60%;
+        border-radius: 999px;
+        background: rgba(var(--color-primary-rgb), .12);
+        filter: blur(20px);
+        opacity: 0;
+        transition: opacity .18s ease, transform .18s ease;
+        pointer-events: none;
     }
-    .mq-smiley {
-        width: 44px;
-        height: 44px;
-        color: var(--color-text-muted);
-        transition: color .22s ease, transform .22s ease;
-        flex-shrink: 0;
-    }
-    .mq-mood label:hover .mq-smiley { color: var(--color-primary); }
-    .mq-mood input[type="radio"]:checked + label .mq-smiley {
+
+    .mq-choice-grid input[type="radio"]:checked + .mq-choice {
+        transform: scale(1.03);
+        background: linear-gradient(160deg, rgba(var(--color-primary-rgb), .08), rgba(var(--color-tertiary-rgb), .08));
+        border-color: rgba(var(--color-primary-rgb), .58);
         color: var(--color-primary);
-        animation: mqSmileyPop .42s cubic-bezier(.34, 1.56, .64, 1) forwards;
+        box-shadow: 0 8px 24px rgba(var(--color-primary-rgb), .13);
     }
-    .mq-mood-title { font-size: .98rem; font-weight: 700; line-height: 1.2; }
-    .mq-mood-copy { color: var(--color-text-muted); font-size: .83rem; line-height: 1.5; }
 
-    .mq-double { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 1.2rem; }
-    .mq-double-label { font-size: .9rem; font-weight: 700; color: var(--color-text); margin-bottom: .65rem; line-height: 1.4; }
-    .mq-double .mq-mood { gap: .6rem; }
-    .mq-double .mq-mood label { padding: .75rem .8rem; border-radius: 16px; }
-    .mq-double .mq-smiley { width: 36px; height: 36px; }
-    .mq-double .mq-mood-title { font-size: .88rem; }
-
-    .mq-actions { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1.4rem; }
-    .mq-actions-end { justify-content: flex-end; }
-
-    @@keyframes mqSmileyPop {
-        0%   { transform: scale(1); }
-        40%  { transform: scale(1.28) rotate(-6deg); }
-        70%  { transform: scale(0.97) rotate(3deg); }
-        100% { transform: scale(1.1); }
+    .mq-choice-grid input[type="radio"]:checked + .mq-choice::after {
+        opacity: 1;
+        transform: translateY(-8px);
     }
+
+    .mq-choice-grid input[type="radio"]:focus-visible + .mq-choice {
+        outline: 3px solid rgba(var(--color-primary-rgb), .24);
+        outline-offset: 3px;
+    }
+
+    .mq-face {
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 58px;
+        height: 58px;
+        color: currentColor;
+    }
+
+    .mq-smiley {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .mq-smiley * {
+        vector-effect: non-scaling-stroke;
+    }
+
+    .mq-choice-text {
+        position: relative;
+        z-index: 1;
+        display: block;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .mq-scale-choice {
+        min-height: 96px;
+        padding: 1.35rem 1rem;
+        font-size: 1rem;
+        font-weight: 700;
+        border-width: 1px;
+    }
+
+    .mq-choice.is-choice-pending {
+        animation: mqSelect .28s cubic-bezier(.18, 1.3, .32, 1);
+    }
+
+    .mq-error {
+        display: block;
+        margin-top: .55rem;
+        font-size: .86rem;
+    }
+
+    .mq-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .mq-panel.is-active .mq-question-row,
+    .mq-panel.is-back .mq-question-row {
+        animation: mqQuestionIn .5s cubic-bezier(.18, 1.2, .32, 1) both;
+    }
+
+    .mq-panel.is-active .mq-card,
+    .mq-panel.is-back .mq-card {
+        animation: mqCardIn .5s cubic-bezier(.18, 1.18, .32, 1) .05s both;
+    }
+
+    .mq-panel.is-active .mq-actions,
+    .mq-panel.is-back .mq-actions {
+        animation: mqActionsIn .38s ease .18s both;
+    }
+
+    .mq-panel.is-active .mq-choice,
+    .mq-panel.is-back .mq-choice {
+        animation: mqChoiceIn .44s cubic-bezier(.18, 1.35, .32, 1) both;
+    }
+
+    .mq-panel.is-active .mq-choice-grid input:nth-of-type(1) + .mq-choice,
+    .mq-panel.is-back .mq-choice-grid input:nth-of-type(1) + .mq-choice { animation-delay: .05s; }
+    .mq-panel.is-active .mq-choice-grid input:nth-of-type(2) + .mq-choice,
+    .mq-panel.is-back .mq-choice-grid input:nth-of-type(2) + .mq-choice { animation-delay: .1s; }
+    .mq-panel.is-active .mq-choice-grid input:nth-of-type(3) + .mq-choice,
+    .mq-panel.is-back .mq-choice-grid input:nth-of-type(3) + .mq-choice { animation-delay: .15s; }
+    .mq-panel.is-active .mq-choice-grid input:nth-of-type(4) + .mq-choice,
+    .mq-panel.is-back .mq-choice-grid input:nth-of-type(4) + .mq-choice { animation-delay: .2s; }
+    .mq-panel.is-active .mq-choice-grid input:nth-of-type(5) + .mq-choice,
+    .mq-panel.is-back .mq-choice-grid input:nth-of-type(5) + .mq-choice { animation-delay: .25s; }
+
+    .mq-panel.is-active .mq-chip,
+    .mq-panel.is-back .mq-chip {
+        animation: mqChipIn .36s cubic-bezier(.18, 1.25, .32, 1) both;
+    }
+
+    .mq-panel.is-active .mq-chip:nth-child(1),
+    .mq-panel.is-back .mq-chip:nth-child(1) { animation-delay: .12s; }
+    .mq-panel.is-active .mq-chip:nth-child(2),
+    .mq-panel.is-back .mq-chip:nth-child(2) { animation-delay: .16s; }
+    .mq-panel.is-active .mq-chip:nth-child(3),
+    .mq-panel.is-back .mq-chip:nth-child(3) { animation-delay: .2s; }
+    .mq-panel.is-active .mq-chip:nth-child(4),
+    .mq-panel.is-back .mq-chip:nth-child(4) { animation-delay: .24s; }
+
+    .mq-actions-end {
+        justify-content: flex-end;
+    }
+
+    [data-next-template],
+    [data-submit-template],
+    .mq-panel button[type="submit"]:not(.mq-final-submit) {
+        display: none !important;
+    }
+
+    .mq-submit-action {
+        justify-content: center;
+    }
+
     @@keyframes mqReveal {
-        from { opacity: 0; transform: translateY(18px) scale(.984); }
-        to { opacity: 1; transform: translateY(0) scale(1); }
+        from {
+            opacity: 0;
+            transform: translateY(22px) scale(.97);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
     }
+
     @@keyframes mqRevealBack {
-        from { opacity: 0; transform: translateY(-14px) scale(.984); }
-        to { opacity: 1; transform: translateY(0) scale(1); }
+        from {
+            opacity: 0;
+            transform: translateY(-18px) scale(.97);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
     }
-    @@keyframes mqFloat {
-        0%, 100% { transform: translate3d(0, 0, 0); }
-        50% { transform: translate3d(0, 14px, 0); }
+
+    @@keyframes mqLeave {
+        from {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(-16px) scale(.985);
+        }
     }
-    @@keyframes mqMarkerPulse {
-        0%, 100% { box-shadow: 0 6px 20px rgba(var(--color-primary-rgb), .2); }
-        50% { box-shadow: 0 6px 28px rgba(var(--color-primary-rgb), .38), 0 0 0 5px rgba(var(--color-primary-rgb), .07); }
+
+    @@keyframes mqLeaveBack {
+        from {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(14px) scale(.985);
+        }
+    }
+
+    @@keyframes mqQuestionIn {
+        from {
+            opacity: 0;
+            transform: translateY(18px) scale(.98);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @@keyframes mqCardIn {
+        from {
+            opacity: 0;
+            transform: translateY(18px) scale(.97);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @@keyframes mqActionsIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes mqChoiceIn {
+        from {
+            opacity: 0;
+            transform: translateY(16px) scale(.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @@keyframes mqChipIn {
+        from {
+            opacity: 0;
+            transform: translateY(12px) scale(.92);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @@keyframes mqChipPop {
+        0% {
+            transform: translateY(-3px) scale(1);
+        }
+        55% {
+            transform: translateY(-5px) scale(1.08);
+        }
+        100% {
+            transform: translateY(-3px) scale(1);
+        }
+    }
+
+    @@keyframes mqSelect {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+        100% {
+            transform: scale(1.03);
+        }
     }
 
     [data-theme="dark"] .mq-form {
         background: linear-gradient(180deg, rgba(var(--color-surface-rgb), .96), rgba(var(--color-surface-2-rgb), .92));
-        box-shadow: 0 28px 64px rgba(0, 0, 0, .28);
+        box-shadow: 0 24px 56px rgba(0,0,0,.28);
     }
 
-    [data-theme="dark"] .mq-card {
-        background: rgba(var(--color-surface-rgb), .76);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
+    [data-theme="dark"] .mq-card,
+    [data-theme="dark"] .mq-choice {
+        background: rgba(var(--color-surface-rgb), .82);
     }
 
-    [data-theme="dark"] .mq-mood label {
-        background: rgba(var(--color-surface-rgb), .88);
-        box-shadow: none;
+    @@media (max-width: 991.98px) {
+        .mq-form {
+            width: min(100%, 760px);
+        }
+
+        .mq-choice-grid-4,
+        .mq-choice-grid-5 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
     }
 
     @@media (max-width: 767.98px) {
-        .mq-shell { padding-top: .75rem; }
-        .mq-form { padding: 1.15rem; border-radius: 22px; }
-        .mq-markers { gap: .32rem; }
-        .mq-marker { min-height: 30px; font-size: .72rem; }
-        .mq-grid, .mq-mood-3, .mq-double { grid-template-columns: 1fr; }
-        .mq-mood-4 { grid-template-columns: 1fr 1fr; }
-        .mq-actions { flex-direction: column-reverse; align-items: stretch; }
-        .mq-actions .btn { width: 100%; }
-        .mq-submit { align-items: stretch; }
-        .mq-question { font-size: 1.35rem; }
-        .mq-double .mq-mood { grid-template-columns: 1fr 1fr 1fr; }
+        .mq-shell {
+            padding-top: .75rem;
+        }
+
+        .mq-form {
+            padding: 1.1rem;
+            border-radius: 20px;
+            min-height: auto;
+        }
+
+        .mq-question-row {
+            margin-bottom: 1rem;
+        }
+
+        .mq-question {
+            font-size: clamp(1.55rem, 7.5vw, 2rem);
+        }
+
+        .mq-card {
+            padding: 1rem;
+            border-radius: 20px;
+        }
+
+        .mq-input {
+            min-height: 82px;
+            font-size: clamp(1.85rem, 12vw, 3rem) !important;
+        }
+
+        .mq-choice-grid-3,
+        .mq-choice-grid-4,
+        .mq-choice-grid-5 {
+            grid-template-columns: 1fr;
+        }
+
+        .mq-choice {
+            min-height: 72px;
+            flex-direction: row;
+            justify-content: flex-start;
+            text-align: left;
+            padding: .75rem .85rem;
+            border-radius: 18px;
+        }
+
+        .mq-scale-choice {
+            min-height: 72px;
+        }
+
+        .mq-face {
+            width: 42px;
+            height: 42px;
+        }
+
+        .mq-actions {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+        .mq-actions .btn {
+            width: 100%;
+        }
     }
 </style>
 
@@ -377,1463 +788,304 @@
 
     @if (Model.CanCreateMeasurement)
     {
-    <form asp-controller="Data" asp-action="DataEntry" method="post" class="mq-form" data-measurement-wizard>
-        @Html.AntiForgeryToken()
-        <input type="hidden" asp-for="MoodScore" id="hidden-MoodScore" />
-        <input type="hidden" asp-for="DisconnectScore" id="hidden-DisconnectScore" />
-        <input type="hidden" asp-for="FocusScore" id="hidden-FocusScore" />
-        <input type="hidden" asp-for="ExistingMeasurementId" />
+        <form asp-controller="Data" asp-action="DataEntry" method="post" class="mq-form" data-measurement-wizard data-total-steps="@totalSteps" data-question-order-seed="@Model.QuestionOrderSeed">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ExistingMeasurementId" />
 
-        <div class="mq-head">
-            <div class="mq-indicator" data-step-caption>1 / 6</div>
-            <h2>@Localizer["title"]</h2>
-            <p>@Localizer["titledescr"]</p>
-        </div>
-
-        <div asp-validation-summary="ModelOnly" class="text-danger mq-summary"></div>
-
-        <div class="mq-progress">
-            <div class="mq-progress-fill" data-progress-fill></div>
-        </div>
-
-        @* <div class="mq-markers" aria-hidden="true">
-            <div class="mq-marker is-active" data-step-marker="0">1</div>
-            <div class="mq-marker" data-step-marker="1">2</div>
-            <div class="mq-marker" data-step-marker="2">3</div>
-            <div class="mq-marker" data-step-marker="3">4</div>
-            <div class="mq-marker" data-step-marker="4">5</div>
-            <div class="mq-marker" data-step-marker="5">6</div>
-            <div class="mq-marker" data-step-marker="6">7</div>
-            <div class="mq-marker" data-step-marker="7">8</div>
-            <div class="mq-marker" data-step-marker="8">9</div>
-            <div class="mq-marker" data-step-marker="9">10</div>
-            <div class="mq-marker" data-step-marker="10">11</div>
-            <div class="mq-marker" data-step-marker="11">12</div>
-            <div class="mq-marker" data-step-marker="12">13</div>
-            <div class="mq-marker" data-step-marker="13">14</div>
-            <div class="mq-marker" data-step-marker="14">15</div>
-            <div class="mq-marker" data-step-marker="15">16</div>
-            <div class="mq-marker" data-step-marker="16">17</div>
-            <div class="mq-marker" data-step-marker="17">18</div>
-            <div class="mq-marker" data-step-marker="18">19</div>
-        </div> *@
-        
-        <!-- Questions 1-3 -->
-        <section class="mq-panel is-active" data-step-panel="0" data-ui-only>
-            <div class="mq-step-kicker">@Localizer["title1"]</div>
-            <h3 class="mq-question">@Localizer["title1descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[0]" id="q0-great" value="0" />
-                <label for="q0-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood5"]</span>
-                </label>
-
-                <input type="radio" name="Q[0]" id="q0-ok" value="1" />
-                <label for="q0-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood4"]</span>
-                </label>
-
-                <input type="radio" name="Q[0]" id="q0-tired" value="2" />
-                <label for="q0-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood3"]</span>
-                </label>
-
-                <input type="radio" name="Q[0]" id="q0-rough" value="3" />
-                <label for="q0-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood2"]</span>
-                </label>
-
-                <input type="radio" name="Q[0]" id="q0-terrible" value="4" />
-                <label for="q0-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood1"]</span>
-                </label>
-            </div>
-            <h3 class="mq-question">@Localizer["title2descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[1]" id="q1-great" value="0" />
-                <label for="q1-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood5"]</span>
-                </label>
-
-                <input type="radio" name="Q[1]" id="q1-ok" value="1" />
-                <label for="q1-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood4"]</span>
-                </label>
-
-                <input type="radio" name="Q[1]" id="q1-tired" value="2" />
-                <label for="q1-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood3"]</span>
-                </label>
-
-                <input type="radio" name="Q[1]" id="q1-rough" value="3" />
-                <label for="q1-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood2"]</span>
-                </label>
-
-                <input type="radio" name="Q[1]" id="q1-terrible" value="4" />
-                <label for="q1-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood1"]</span>
-                </label>
-            </div>
-            <h3 class="mq-question">@Localizer["title3descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[2]" id="q2-great" value="0" />
-                <label for="q2-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood5"]</span>
-                </label>
-
-                <input type="radio" name="Q[2]" id="q2-ok" value="1" />
-                <label for="q2-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood4"]</span>
-                </label>
-
-                <input type="radio" name="Q[2]" id="q2-tired" value="2" />
-                <label for="q2-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood3"]</span>
-                </label>
-
-                <input type="radio" name="Q[2]" id="q2-rough" value="3" />
-                <label for="q2-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood2"]</span>
-                </label>
-
-                <input type="radio" name="Q[2]" id="q2-terrible" value="4" />
-                <label for="q2-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood1"]</span>
-                </label>
+            <div class="mq-head">
+                <div class="mq-indicator" data-step-caption>1 / @totalSteps</div>
+                <h2>@Localizer["title"]</h2>
+                <p>@Localizer["titledescr"]</p>
             </div>
 
-            <div class="mq-actions mq-actions-end">
-                <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
-            </div>
-        </section>
-
-        <!-- Questions 4-6 -->
-        <section class="mq-panel is-active" data-step-panel="0" data-ui-only>
-            <div class="mq-step-kicker">@Localizer["title1"]</div>
-            <h3 class="mq-question">@Localizer["title4descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[3]" id="q3-great" value="0" required/>
-                <label for="q3-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood5"]</span>
-                </label>
-
-                <input type="radio" name="Q[3]" id="q3-ok" value="1" />
-                <label for="q3-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood4"]</span>
-                </label>
-
-                <input type="radio" name="Q[3]" id="q3-tired" value="2" />
-                <label for="q3-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood3"]</span>
-                </label>
-
-                <input type="radio" name="Q[3]" id="q3-rough" value="3" />
-                <label for="q3-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood2"]</span>
-                </label>
-
-                <input type="radio" name="Q[3]" id="q3-terrible" value="4" />
-                <label for="q3-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood1"]</span>
-                </label>
-            </div>
-            <h3 class="mq-question">@Localizer["title5descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[4]" id="q4-great" value="0" />
-                <label for="q4-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood5"]</span>
-                </label>
-
-                <input type="radio" name="Q[4]" id="q4-ok" value="1" />
-                <label for="q4-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood4"]</span>
-                </label>
-
-                <input type="radio" name="Q[4]" id="q4-tired" value="2" />
-                <label for="q4-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood3"]</span>
-                </label>
-
-                <input type="radio" name="Q[4]" id="q4-rough" value="3" />
-                <label for="q4-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood2"]</span>
-                </label>
-
-                <input type="radio" name="Q[4]" id="q4-terrible" value="4" />
-                <label for="q4-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood1"]</span>
-                </label>
-            </div>
-            <h3 class="mq-question">@Localizer["title6descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[5]" id="q5-great" value="0" />
-                <label for="q5-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood5"]</span>
-                </label>
-
-                <input type="radio" name="Q[5]" id="q5-ok" value="1" />
-                <label for="q5-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood4"]</span>
-                </label>
-
-                <input type="radio" name="Q[5]" id="q5-tired" value="2" />
-                <label for="q5-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood3"]</span>
-                </label>
-
-                <input type="radio" name="Q[5]" id="q5-rough" value="3" />
-                <label for="q5-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood2"]</span>
-                </label>
-
-                <input type="radio" name="Q[5]" id="q5-terrible" value="4" />
-                <label for="q5-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood1"]</span>
-                </label>
+            <div class="mq-progress">
+                <div class="mq-progress-fill" data-progress-fill></div>
             </div>
 
-            <div class="mq-actions">
-                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
-                <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
-            </div>
-        </section>
-
-        <!-- Questions 7-9 -->
-        <section class="mq-panel is-active" data-step-panel="0" data-ui-only>
-            <div class="mq-step-kicker">@Localizer["title1"]</div>
-            <h3 class="mq-question">@Localizer["title7descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[6]" id="q6-great" value="0" />
-                <label for="q6-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time5"]</span>
-                </label>
-
-                <input type="radio" name="Q[6]" id="q6-ok" value="1" />
-                <label for="q6-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time4"]</span>
-                </label>
-
-                <input type="radio" name="Q[6]" id="q6-tired" value="2" />
-                <label for="q6-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time3"]</span>
-                </label>
-
-                <input type="radio" name="Q[6]" id="q6-rough" value="3" />
-                <label for="q6-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time2"]</span>
-                </label>
-
-                <input type="radio" name="Q[6]" id="q6-terrible" value="4" />
-                <label for="q6-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time1"]</span>
-                </label>
-            </div>
-            <h3 class="mq-question">@Localizer["title8descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[7]" id="q7-great" value="0" />
-                <label for="q7-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time5"]</span>
-                </label>
-
-                <input type="radio" name="Q[7]" id="q7-ok" value="1" />
-                <label for="q7-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time4"]</span>
-                </label>
-
-                <input type="radio" name="Q[7]" id="q7-tired" value="2" />
-                <label for="q7-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time3"]</span>
-                </label>
-
-                <input type="radio" name="Q[7]" id="q7-rough" value="3" />
-                <label for="q7-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time2"]</span>
-                </label>
-
-                <input type="radio" name="Q[7]" id="q7-terrible" value="4" />
-                <label for="q7-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time1"]</span>
-                </label>
-            </div>
-            <h3 class="mq-question">@Localizer["title9descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[8]" id="q8-great" value="0" />
-                <label for="q8-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time5"]</span>
-                </label>
-
-                <input type="radio" name="Q[8]" id="q8-ok" value="1" />
-                <label for="q8-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time4"]</span>
-                </label>
-
-                <input type="radio" name="Q[8]" id="q8-tired" value="2" />
-                <label for="q8-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time3"]</span>
-                </label>
-
-                <input type="radio" name="Q[8]" id="q8-rough" value="3" />
-                <label for="q8-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time2"]</span>
-                </label>
-
-                <input type="radio" name="Q[8]" id="q8-terrible" value="4" />
-                <label for="q8-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time1"]</span>
-                </label>
-            </div>
-
-            <div class="mq-actions">
-                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
-                <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
-            </div>
-        </section>
-
-        <!-- Questions 10-13  ## 4 QUESTION DON FORGBEt-->
-        <section class="mq-panel is-active" data-step-panel="0" data-ui-only>
-            <div class="mq-step-kicker">@Localizer["title1"]</div>
-            <h3 class="mq-question">@Localizer["title10descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[9]" id="q9-great" value="0" />
-                <label for="q9-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood5"]</span>
-                </label>
-
-                <input type="radio" name="Q[9]" id="q9-ok" value="1" />
-                <label for="q9-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood4"]</span>
-                </label>
-
-                <input type="radio" name="Q[9]" id="q9-tired" value="2" />
-                <label for="q9-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood3"]</span>
-                </label>
-
-                <input type="radio" name="Q[9]" id="q9-rough" value="3" />
-                <label for="q9-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood2"]</span>
-                </label>
-
-                <input type="radio" name="Q[9]" id="q9-terrible" value="4" />
-                <label for="q9-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood1"]</span>
-                </label>
-            </div>
-            <h3 class="mq-question">@Localizer["title11descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[10]" id="q10-great" value="0" />
-                <label for="q10-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood5"]</span>
-                </label>
-
-                <input type="radio" name="Q[10]" id="q10-ok" value="1" />
-                <label for="q10-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood4"]</span>
-                </label>
-
-                <input type="radio" name="Q[10]" id="q10-tired" value="2" />
-                <label for="q10-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood3"]</span>
-                </label>
-
-                <input type="radio" name="Q[10]" id="q10-rough" value="3" />
-                <label for="q10-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood2"]</span>
-                </label>
-
-                <input type="radio" name="Q[10]" id="q10-terrible" value="4" />
-                <label for="q10-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood1"]</span>
-                </label>
-            </div>
-            <h3 class="mq-question">@Localizer["title12descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[11]" id="q11-great" value="0" />
-                <label for="q11-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood5"]</span>
-                </label>
-
-                <input type="radio" name="Q[11]" id="q11-ok" value="1" />
-                <label for="q11-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood4"]</span>
-                </label>
-
-                <input type="radio" name="Q[11]" id="q11-tired" value="2" />
-                <label for="q11-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood3"]</span>
-                </label>
-
-                <input type="radio" name="Q[11]" id="q11-rough" value="3" />
-                <label for="q11-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood2"]</span>
-                </label>
-
-                <input type="radio" name="Q[11]" id="q11-terrible" value="4" />
-                <label for="q11-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood1"]</span>
-                </label>
-            </div>
-            <h3 class="mq-question">@Localizer["title13descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[12]" id="q12-great" value="0" />
-                <label for="q12-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood5"]</span>
-                </label>
-
-                <input type="radio" name="Q[12]" id="q12-ok" value="1" />
-                <label for="q12-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood4"]</span>
-                </label>
-
-                <input type="radio" name="Q[12]" id="q12-tired" value="2" />
-                <label for="q12-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood3"]</span>
-                </label>
-
-                <input type="radio" name="Q[12]" id="q12-rough" value="3" />
-                <label for="q12-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood2"]</span>
-                </label>
-
-                <input type="radio" name="Q[12]" id="q12-terrible" value="4" />
-                <label for="q12-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood1"]</span>
-                </label>
-            </div>
-
-            <div class="mq-actions">
-                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
-                <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
-            </div>
-        </section>
-
-        <!-- Questions 14-17 -->
-        <section class="mq-panel is-active" data-step-panel="0" data-ui-only>
-            <div class="mq-step-kicker">@Localizer["title1"]</div>
-            <h3 class="mq-question">@Localizer["title14descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[13]" id="q13-great" value="0" />
-                <label for="q13-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time5"]</span>
-                </label>
-
-                <input type="radio" name="Q[13]" id="q13-ok" value="1" />
-                <label for="q13-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time4"]</span>
-                </label>
-
-                <input type="radio" name="Q[13]" id="q13-tired" value="2" />
-                <label for="q13-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time3"]</span>
-                </label>
-
-                <input type="radio" name="Q[13]" id="q13-rough" value="3" />
-                <label for="q13-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time2"]</span>
-                </label>
-
-                <input type="radio" name="Q[13]" id="q13-terrible" value="4" />
-                <label for="q13-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time1"]</span>
-                </label>
-            </div>
-            <h3 class="mq-question">@Localizer["title15descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[14]" id="q14-great" value="0" />
-                <label for="q14-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time5"]</span>
-                </label>
-
-                <input type="radio" name="Q[14]" id="q14-ok" value="1" />
-                <label for="q14-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time4"]</span>
-                </label>
-
-                <input type="radio" name="Q[14]" id="q14-tired" value="2" />
-                <label for="q14-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time3"]</span>
-                </label>
-
-                <input type="radio" name="Q[14]" id="q14-rough" value="3" />
-                <label for="q14-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time2"]</span>
-                </label>
-
-                <input type="radio" name="Q[14]" id="q14-terrible" value="4" />
-                <label for="q14-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time1"]</span>
-                </label>
-            </div>
-            <h3 class="mq-question">@Localizer["title16descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[15]" id="q15-great" value="0" />
-                <label for="q15-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time5"]</span>
-                </label>
-
-                <input type="radio" name="Q[15]" id="q15-ok" value="1" />
-                <label for="q15-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time4"]</span>
-                </label>
-
-                <input type="radio" name="Q[15]" id="q15-tired" value="2" />
-                <label for="q15-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time3"]</span>
-                </label>
-
-                <input type="radio" name="Q[15]" id="q15-rough" value="3" />
-                <label for="q15-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time2"]</span>
-                </label>
-
-                <input type="radio" name="Q[15]" id="q15-terrible" value="4" />
-                <label for="q15-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time1"]</span>
-                </label>
-            </div>
-
-            <h3 class="mq-question">@Localizer["title17descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[16]" id="q16-great" value="0" />
-                <label for="q16-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time5"]</span>
-                </label>
-
-                <input type="radio" name="Q[16]" id="q16-ok" value="1" />
-                <label for="q16-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time4"]</span>
-                </label>
-
-                <input type="radio" name="Q[16]" id="q16-tired" value="2" />
-                <label for="q16-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time3"]</span>
-                </label>
-
-                <input type="radio" name="Q[16]" id="q16-rough" value="3" />
-                <label for="q16-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time2"]</span>
-                </label>
-
-                <input type="radio" name="Q[16]" id="q16-terrible" value="4" />
-                <label for="q16-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["time1"]</span>
-                </label>
-            </div>
-
-            <div class="mq-actions">
-                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
-                <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
-            </div>
-        </section>
-
-        <!-- Questions 18-19 -->
-        <section class="mq-panel is-active" data-step-panel="0" data-ui-only>
-            <div class="mq-step-kicker">@Localizer["title1"]</div>
-            <h3 class="mq-question">@Localizer["title18descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[17]" id="q17-great" value="0" />
-                <label for="q17-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood5"]</span>
-                </label>
-
-                <input type="radio" name="Q[17]" id="q17-ok" value="1" />
-                <label for="q17-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood4"]</span>
-                </label>
-
-                <input type="radio" name="Q[17]" id="q17-tired" value="2" />
-                <label for="q17-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood3"]</span>
-                </label>
-
-                <input type="radio" name="Q[17]" id="q17-rough" value="3" />
-                <label for="q17-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood2"]</span>
-                </label>
-
-                <input type="radio" name="Q[17]" id="q17-terrible" value="4" />
-                <label for="q17-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood1"]</span>
-                </label>
-            </div>
-            <h3 class="mq-question">@Localizer["title19descr1"]</h3>
-            <div class="mq-mood mq-mood-5" style="margin-top:1.2rem;">
-
-                <input type="radio" name="Q[18]" id="q18-great" value="0" />
-                <label for="q18-great">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M14.5 19 Q17 15.5 19.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M28.5 19 Q31 15.5 33.5 19" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" />
-                        <path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood5"]</span>
-                </label>
-
-                <input type="radio" name="Q[18]" id="q18-ok" value="1" />
-                <label for="q18-ok">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood4"]</span>
-                </label>
-
-                <input type="radio" name="Q[18]" id="q18-tired" value="2" />
-                <label for="q18-tired">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood3"]</span>
-                </label>
-
-                <input type="radio" name="Q[18]" id="q18-rough" value="3" />
-                <label for="q18-rough">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <circle cx="17" cy="21" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="21" r="2.8" fill="currentColor" />
-                        <path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood2"]</span>
-                </label>
-
-                <input type="radio" name="Q[18]" id="q18-terrible" value="4" />
-                <label for="q18-terrible">
-                    <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" />
-                        <path d="M13 20.5 Q17 18 19.5 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M28.5 20 Q31 18 35 20.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="17" cy="23" r="2.8" fill="currentColor" />
-                        <circle cx="31" cy="23" r="2.8" fill="currentColor" />
-                        <path d="M14 36 Q24 26 34 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-                    <span class="mq-mood-title">@Localizer["mood1"]</span>
-                </label>
-            </div>
-
-            <div class="mq-actions">
-                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
-                <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
-            </div>
-        </section>
-
-        <!-- Step 2: Darbo valandos (DB) -->
-        <section class="mq-panel" data-step-panel="1">
-            <div class="mq-step-kicker">@Localizer["title2"]</div>
-            <h3 class="mq-question">@Localizer["title2descr1"]</h3>
-            <p class="mq-subcopy">@Localizer["title2descr2"]</p>
-
-            <div class="mq-card">
-                <label asp-for="WorkHours" class="mq-label">@Localizer["workhours"]</label>
-                <div class="mq-input-wrap">
-                    <input asp-for="WorkHours" class="form-control mq-input" type="number" min="0" max="24" step="0.5" inputmode="decimal" placeholder=@Localizer["worktemp"] required />
-                    <span class="mq-suffix">h.</span>
-                </div>
-                <span asp-validation-for="WorkHours" class="text-danger mq-error"></span>
-                <div class="mq-chips">
-                    <button type="button" class="mq-chip" data-chip-target="WorkHours" data-chip-value="4">4 h.</button>
-                    <button type="button" class="mq-chip" data-chip-target="WorkHours" data-chip-value="6">6 h.</button>
-                    <button type="button" class="mq-chip" data-chip-target="WorkHours" data-chip-value="8">8 h.</button>
-                    <button type="button" class="mq-chip" data-chip-target="WorkHours" data-chip-value="10">10 h.</button>
-                    <button type="button" class="mq-chip" data-chip-target="WorkHours" data-chip-value="12">12 h.</button>
-                </div>
-            </div>
-
-            <div class="mq-actions">
-                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
-                <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
-            </div>
-        </section>
-
-        <!-- Step 3: Miegas + judėjimas (DB) -->
-        <section class="mq-panel" data-step-panel="2">
-            <div class="mq-step-kicker">@Localizer["title3"]</div>
-            <h3 class="mq-question">@Localizer["title3descr1"]</h3>
-            <p class="mq-subcopy">@Localizer["title3descr2"]</p>
-
-            <div class="mq-card">
-                <div class="mq-grid">
-                    <div class="mq-field">
-                        <label asp-for="SleepHours" class="mq-label">@Localizer["sleeph"]</label>
-                        <div class="mq-input-wrap">
-                            <input asp-for="SleepHours" class="form-control mq-input" type="number" min="0" max="24" step="0.5" inputmode="decimal" placeholder=@Localizer["sleeptemp"] required />
-                            <span class="mq-suffix">h.</span>
-                        </div>
-                        <span asp-validation-for="SleepHours" class="text-danger mq-error"></span>
-                        <div class="mq-chips">
-                            <button type="button" class="mq-chip" data-chip-target="SleepHours" data-chip-value="5">5 h.</button>
-                            <button type="button" class="mq-chip" data-chip-target="SleepHours" data-chip-value="6.5">6.5 h.</button>
-                            <button type="button" class="mq-chip" data-chip-target="SleepHours" data-chip-value="8">8 h.</button>
-                            <button type="button" class="mq-chip" data-chip-target="SleepHours" data-chip-value="9">9 h.</button>
-                        </div>
-                    </div>
-
-                    <div class="mq-field">
-                        <label asp-for="ExerciseHours" class="mq-label">@Localizer["exer"]</label>
-                        <div class="mq-input-wrap">
-                            <input asp-for="ExerciseHours" class="form-control mq-input" type="number" min="0" max="12" step="0.5" inputmode="decimal" placeholder=@Localizer["exertemp"] required />
-                            <span class="mq-suffix">h.</span>
-                        </div>
-                        <span asp-validation-for="ExerciseHours" class="text-danger mq-error"></span>
-                        <div class="mq-chips">
-                            <button type="button" class="mq-chip" data-chip-target="ExerciseHours" data-chip-value="0">0</button>
-                            <button type="button" class="mq-chip" data-chip-target="ExerciseHours" data-chip-value="0.5">0.5 h.</button>
-                            <button type="button" class="mq-chip" data-chip-target="ExerciseHours" data-chip-value="1">1 h.</button>
-                            <button type="button" class="mq-chip" data-chip-target="ExerciseHours" data-chip-value="2">2 h.</button>
-                        </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger mq-summary"></div>
+            <button type="button" class="btn btn-primary btn-lg mq-next-action" data-next-template hidden>@Localizer["next"]</button>
+            <button type="submit" class="btn btn-primary btn-lg mq-submit-action" data-submit-template hidden>@(Model.IsEditingTodayMeasurement ? Localizer["updateSave"] : Localizer["save"])</button>
+
+            <section class="@PanelClass("sleep-hours")" data-step-panel="@StepIndex("sleep-hours")" data-step-key="sleep-hours">
+                <div class="mq-question-row">
+                    <div class="mq-question-copy">
+                        <h3 class="mq-question">@Localizer["sleeph"]</h3>
+                        <p class="mq-subcopy">@Localizer["title3descr2"]</p>
                     </div>
                 </div>
-            </div>
-
-            <div class="mq-actions">
-                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
-                <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
-            </div>
-        </section>
-
-        <section class="mq-panel" data-step-panel="3" data-ui-only>
-            <div class="mq-step-kicker">@Localizer["title4"]</div>
-            <h3 class="mq-question">@Localizer["title4descr1"]</h3>
-            <p class="mq-subcopy">@Localizer["title4descr2"]</p>
-
-            <div class="mq-double">
-                <div>
-                    <p class="mq-double-label">@Localizer["discquestion"]</p>
-                    <div class="mq-mood" style="grid-template-columns:1fr; gap:.55rem;">
-                        <input type="radio" name="disconnect" id="disc-yes" value="yes" />
-                        <label for="disc-yes">
-                            <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><path d="M14.5 21 Q17 17.5 19.5 21" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/><path d="M28.5 21 Q31 17.5 33.5 21" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/><path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-                            <span class="mq-mood-title">@Localizer["disc1"]</span>
-                        </label>
-                        <input type="radio" name="disconnect" id="disc-partial" value="partial" />
-                        <label for="disc-partial">
-                            <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-                            <span class="mq-mood-title">@Localizer["disc2"]</span>
-                        </label>
-                        <input type="radio" name="disconnect" id="disc-no" value="no" />
-                        <label for="disc-no">
-                            <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 33 Q24 27 31 33" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-                            <span class="mq-mood-title">@Localizer["disc3"]</span>
-                        </label>
+                <div class="mq-card mq-number-card">
+                    <label asp-for="SleepHours" class="mq-label">@Localizer["sleeph"]</label>
+                    <div class="mq-input-wrap">
+                        <input asp-for="SleepHours" class="form-control mq-input" type="number" min="0" max="24" step="0.5" inputmode="decimal" placeholder="@Localizer["sleeptemp"]" required />
+                        <span class="mq-suffix">h</span>
+                    </div>
+                    <span asp-validation-for="SleepHours" class="text-danger mq-error"></span>
+                    <div class="mq-chips">
+                        <button type="button" class="mq-chip" data-chip-target="SleepHours" data-chip-value="6">6 h</button>
+                        <button type="button" class="mq-chip" data-chip-target="SleepHours" data-chip-value="7">7 h</button>
+                        <button type="button" class="mq-chip" data-chip-target="SleepHours" data-chip-value="8">8 h</button>
+                        <button type="button" class="mq-chip" data-chip-target="SleepHours" data-chip-value="9">9 h</button>
                     </div>
                 </div>
+                <div class="mq-actions">
+                    <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
+                    <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
+                </div>
+            </section>
 
-                <div>
-                    <p class="mq-double-label">@Localizer["focusquestion"]</p>
-                    <div class="mq-mood" style="grid-template-columns:1fr; gap:.55rem;">
-                        <input type="radio" name="focus" id="focus-easy" value="easy" />
-                        <label for="focus-easy">
-                            <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><path d="M14.5 21 Q17 17.5 19.5 21" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/><path d="M28.5 21 Q31 17.5 33.5 21" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/><path d="M14 28.5 Q24 37.5 34 28.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-                            <span class="mq-mood-title">@Localizer["focus1"]</span>
-                        </label>
-                        <input type="radio" name="focus" id="focus-ok" value="1" />
-                        <label for="focus-ok">
-                            <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-                            <span class="mq-mood-title">@Localizer["focus2"]</span>
-                        </label>
-                        <input type="radio" name="focus" id="focus-hard" value="hard" />
-                        <label for="focus-hard">
-                            <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 33 Q24 27 31 33" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-                            <span class="mq-mood-title">@Localizer["focus3"]</span>
-                        </label>
+            <section class="@PanelClass("work-hours")" data-step-panel="@StepIndex("work-hours")" data-step-key="work-hours">
+                <div class="mq-question-row">
+                    <div class="mq-question-copy">
+                        <h3 class="mq-question">@Localizer["workhours"]</h3>
+                        <p class="mq-subcopy">@Localizer["title2descr2"]</p>
                     </div>
                 </div>
-            </div>
-
-            <div class="mq-actions">
-                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
-                <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
-            </div>
-        </section>
-
-        <!-- Step 5: Ekranas + susitikimai + internetas (DB) -->
-        <section class="mq-panel" data-step-panel="4">
-            <div class="mq-step-kicker">@Localizer["title5"]</div>
-            <h3 class="mq-question">@Localizer["title5descr1"]</h3>
-            <p class="mq-subcopy">@Localizer["title5descr2"]</p>
-
-            <div class="mq-card">
-                <div class="mq-grid">
-                    <div class="mq-field">
-                        <label asp-for="ScreenTime" class="mq-label">@Localizer["screen"]</label>
-                        <div class="mq-input-wrap">
-                            <input asp-for="ScreenTime" class="form-control mq-input" type="number" min="0" max="24" step="0.5" inputmode="decimal" placeholder=@Localizer["screentemp"] required />
-                            <span class="mq-suffix">h.</span>
-                        </div>
-                        <span asp-validation-for="ScreenTime" class="text-danger mq-error"></span>
-                        <div class="mq-chips">
-                            <button type="button" class="mq-chip" data-chip-target="ScreenTime" data-chip-value="4">4 h.</button>
-                            <button type="button" class="mq-chip" data-chip-target="ScreenTime" data-chip-value="6">6 h.</button>
-                            <button type="button" class="mq-chip" data-chip-target="ScreenTime" data-chip-value="8">8 h.</button>
-                            <button type="button" class="mq-chip" data-chip-target="ScreenTime" data-chip-value="10">10 h.</button>
-                        </div>
+                <div class="mq-card mq-number-card">
+                    <label asp-for="WorkHours" class="mq-label">@Localizer["workhours"]</label>
+                    <div class="mq-input-wrap">
+                        <input asp-for="WorkHours" class="form-control mq-input" type="number" min="0" max="24" step="0.5" inputmode="decimal" placeholder="@Localizer["worktemp"]" required />
+                        <span class="mq-suffix">h</span>
                     </div>
-
-                    <div class="mq-field">
-                        <label asp-for="MeetingsPerDay" class="mq-label">@Localizer["meet"]</label>
-                        <div class="mq-input-wrap">
-                            <input asp-for="MeetingsPerDay" class="form-control mq-input" type="number" min="0" max="30" step="1" inputmode="numeric" placeholder=@Localizer["meettemp"] required />
-                            <span class="mq-suffix"></span>
-                        </div>
-                        <span asp-validation-for="MeetingsPerDay" class="text-danger mq-error"></span>
-                        <div class="mq-chips">
-                            <button type="button" class="mq-chip" data-chip-target="MeetingsPerDay" data-chip-value="0">0</button>
-                            <button type="button" class="mq-chip" data-chip-target="MeetingsPerDay" data-chip-value="2">2</button>
-                            <button type="button" class="mq-chip" data-chip-target="MeetingsPerDay" data-chip-value="4">4</button>
-                            <button type="button" class="mq-chip" data-chip-target="MeetingsPerDay" data-chip-value="6">6</button>
-                        </div>
+                    <span asp-validation-for="WorkHours" class="text-danger mq-error"></span>
+                    <div class="mq-chips">
+                        <button type="button" class="mq-chip" data-chip-target="WorkHours" data-chip-value="6">6 h</button>
+                        <button type="button" class="mq-chip" data-chip-target="WorkHours" data-chip-value="8">8 h</button>
+                        <button type="button" class="mq-chip" data-chip-target="WorkHours" data-chip-value="9">9 h</button>
+                        <button type="button" class="mq-chip" data-chip-target="WorkHours" data-chip-value="10">10 h</button>
                     </div>
                 </div>
-
-                
-            </div>
-
-            <div class="mq-actions">
-                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
-                <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
-            </div>
-        </section>
-
-        <section class="mq-panel" data-step-panel="5">
-            <div class="mq-step-kicker">@Localizer["title6"]</div>
-            <h3 class="mq-question">@Localizer["title6descr1"]</h3>
-            <p class="mq-subcopy">@Localizer["title6descr2"]</p>
-
-            <div class="mq-card">
-                <div class="mq-mood mq-mood-3">
-                    <input asp-for="StressLevel" type="radio" value="Žemas" id="StressLevelLow" required />
-                    <label for="StressLevelLow">
-                        <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 29.5 Q24 36 31 29.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-                        <span class="mq-mood-title">@Localizer["stress1"]</span>
-                        <span class="mq-mood-copy">@Localizer["stress1descr"]</span>
-                    </label>
-
-                    <input asp-for="StressLevel" type="radio" value="Vidutinis" id="StressLevelMedium" required />
-                    <label for="StressLevelMedium">
-                        <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M17 31 L31 31" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-                        <span class="mq-mood-title">@Localizer["stress2"]</span>
-                        <span class="mq-mood-copy">@Localizer["stress2descr"]</span>
-                    </label>
-
-                    <input asp-for="StressLevel" type="radio" value="Aukštas" id="StressLevelHigh" required />
-                    <label for="StressLevelHigh">
-                        <svg class="mq-smiley" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3"/><circle cx="17" cy="21" r="2.8" fill="currentColor"/><circle cx="31" cy="21" r="2.8" fill="currentColor"/><path d="M15 35 Q24 26 33 35" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-                        <span class="mq-mood-title">@Localizer["stress3"]</span>
-                        <span class="mq-mood-copy">@Localizer["stress3descr"]</span>
-                    </label>
+                <div class="mq-actions">
+                    <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
+                    <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
                 </div>
+            </section>
 
-                <span asp-validation-for="StressLevel" class="text-danger mq-error"></span>
-            </div>
+            <section class="@PanelClass("exercise-hours")" data-step-panel="@StepIndex("exercise-hours")" data-step-key="exercise-hours">
+                <div class="mq-question-row">
+                    <div class="mq-question-copy">
+                        <h3 class="mq-question">@Localizer["exer"]</h3>
+                        <p class="mq-subcopy">@Localizer["title3descr2"]</p>
+                    </div>
+                </div>
+                <div class="mq-card mq-number-card">
+                    <label asp-for="ExerciseHours" class="mq-label">@Localizer["exer"]</label>
+                    <div class="mq-input-wrap">
+                        <input asp-for="ExerciseHours" class="form-control mq-input" type="number" min="0" max="12" step="0.5" inputmode="decimal" placeholder="@Localizer["exertemp"]" required />
+                        <span class="mq-suffix">h</span>
+                    </div>
+                    <span asp-validation-for="ExerciseHours" class="text-danger mq-error"></span>
+                    <div class="mq-chips">
+                        <button type="button" class="mq-chip" data-chip-target="ExerciseHours" data-chip-value="0">0</button>
+                        <button type="button" class="mq-chip" data-chip-target="ExerciseHours" data-chip-value="0.5">0.5 h</button>
+                        <button type="button" class="mq-chip" data-chip-target="ExerciseHours" data-chip-value="1">1 h</button>
+                        <button type="button" class="mq-chip" data-chip-target="ExerciseHours" data-chip-value="2">2 h</button>
+                    </div>
+                </div>
+                <div class="mq-actions">
+                    <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
+                    <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
+                </div>
+            </section>
 
-            <div class="mq-actions">
-                <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
-                <button type="submit" class="btn btn-primary btn-lg">@(Model.IsEditingTodayMeasurement ? Localizer["updateSave"] : Localizer["save"])</button>
-            </div>
-        </section>
+            <section class="@PanelClass("screen-time")" data-step-panel="@StepIndex("screen-time")" data-step-key="screen-time">
+                <div class="mq-question-row">
+                    <div class="mq-question-copy">
+                        <h3 class="mq-question">@Localizer["screen"]</h3>
+                        <p class="mq-subcopy">@Localizer["title5descr2"]</p>
+                    </div>
+                </div>
+                <div class="mq-card mq-number-card">
+                    <label asp-for="ScreenTime" class="mq-label">@Localizer["screen"]</label>
+                    <div class="mq-input-wrap">
+                        <input asp-for="ScreenTime" class="form-control mq-input" type="number" min="0" max="24" step="0.5" inputmode="decimal" placeholder="@Localizer["screentemp"]" required />
+                        <span class="mq-suffix">h</span>
+                    </div>
+                    <span asp-validation-for="ScreenTime" class="text-danger mq-error"></span>
+                    <div class="mq-chips">
+                        <button type="button" class="mq-chip" data-chip-target="ScreenTime" data-chip-value="4">4 h</button>
+                        <button type="button" class="mq-chip" data-chip-target="ScreenTime" data-chip-value="6">6 h</button>
+                        <button type="button" class="mq-chip" data-chip-target="ScreenTime" data-chip-value="8">8 h</button>
+                        <button type="button" class="mq-chip" data-chip-target="ScreenTime" data-chip-value="10">10 h</button>
+                    </div>
+                </div>
+                <div class="mq-actions">
+                    <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
+                    <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
+                </div>
+            </section>
 
-    </form>
+            <section class="@PanelClass("meetings")" data-step-panel="@StepIndex("meetings")" data-step-key="meetings">
+                <div class="mq-question-row">
+                    <div class="mq-question-copy">
+                        <h3 class="mq-question">@Localizer["meet"]</h3>
+                        <p class="mq-subcopy">@Localizer["title2descr2"]</p>
+                    </div>
+                </div>
+                <div class="mq-card mq-number-card">
+                    <label asp-for="MeetingsPerDay" class="mq-label">@Localizer["meet"]</label>
+                    <div class="mq-input-wrap">
+                        <input asp-for="MeetingsPerDay" class="form-control mq-input" type="number" min="0" max="30" step="1" inputmode="numeric" placeholder="@Localizer["meettemp"]" required />
+                        <span class="mq-suffix"></span>
+                    </div>
+                    <span asp-validation-for="MeetingsPerDay" class="text-danger mq-error"></span>
+                    <div class="mq-chips">
+                        <button type="button" class="mq-chip" data-chip-target="MeetingsPerDay" data-chip-value="0">0</button>
+                        <button type="button" class="mq-chip" data-chip-target="MeetingsPerDay" data-chip-value="2">2</button>
+                        <button type="button" class="mq-chip" data-chip-target="MeetingsPerDay" data-chip-value="4">4</button>
+                        <button type="button" class="mq-chip" data-chip-target="MeetingsPerDay" data-chip-value="6">6</button>
+                    </div>
+                </div>
+                <div class="mq-actions">
+                    <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
+                    <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
+                </div>
+            </section>
+
+            <section class="@PanelClass("daily-energy")" data-step-panel="@StepIndex("daily-energy")" data-step-key="daily-energy">
+                <div class="mq-question-row">
+                    <div class="mq-question-copy">
+                        <h3 class="mq-question">@Localizer["dailyEnergyQuestion"]</h3>
+                        <p class="mq-subcopy">@Localizer["title1descr2"]</p>
+                    </div>
+                </div>
+                <div class="mq-card mq-choice-card">
+                    <div class="mq-choice-grid mq-choice-grid-4">
+                        <input asp-for="MoodScore" type="radio" value="4" id="MoodGreat" required />
+                        <label class="mq-choice" for="MoodGreat">@FaceIcon("great")<span class="mq-choice-text">@Localizer["dailyEnergyGreat"]</span></label>
+                        <input asp-for="MoodScore" type="radio" value="3" id="MoodOk" required />
+                        <label class="mq-choice" for="MoodOk">@FaceIcon("happy")<span class="mq-choice-text">@Localizer["dailyEnergyOk"]</span></label>
+                        <input asp-for="MoodScore" type="radio" value="2" id="MoodTired" required />
+                        <label class="mq-choice" for="MoodTired">@FaceIcon("neutral")<span class="mq-choice-text">@Localizer["dailyEnergyTired"]</span></label>
+                        <input asp-for="MoodScore" type="radio" value="1" id="MoodRough" required />
+                        <label class="mq-choice" for="MoodRough">@FaceIcon("rough")<span class="mq-choice-text">@Localizer["dailyEnergyRough"]</span></label>
+                    </div>
+                    <span asp-validation-for="MoodScore" class="text-danger mq-error"></span>
+                </div>
+                <div class="mq-actions">
+                    <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
+                    <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
+                </div>
+            </section>
+
+            <section class="@PanelClass("stress-level")" data-step-panel="@StepIndex("stress-level")" data-step-key="stress-level">
+                <div class="mq-question-row">
+                    <div class="mq-question-copy">
+                        <h3 class="mq-question">@Localizer["stressQuestion"]</h3>
+                        <p class="mq-subcopy">@Localizer["title6descr2"]</p>
+                    </div>
+                </div>
+                <div class="mq-card mq-choice-card">
+                    <div class="mq-choice-grid mq-choice-grid-3">
+                        <input asp-for="StressLevel" type="radio" value="Low" id="StressLevelLow" required />
+                        <label class="mq-choice" for="StressLevelLow">@FaceIcon("happy")<span class="mq-choice-text">@Localizer["stress1"]</span></label>
+                        <input asp-for="StressLevel" type="radio" value="Medium" id="StressLevelMedium" required />
+                        <label class="mq-choice" for="StressLevelMedium">@FaceIcon("neutral")<span class="mq-choice-text">@Localizer["stress2"]</span></label>
+                        <input asp-for="StressLevel" type="radio" value="High" id="StressLevelHigh" required />
+                        <label class="mq-choice" for="StressLevelHigh">@FaceIcon("sad")<span class="mq-choice-text">@Localizer["stress3"]</span></label>
+                    </div>
+                    <span asp-validation-for="StressLevel" class="text-danger mq-error"></span>
+                </div>
+                <div class="mq-actions">
+                    <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
+                    <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
+                </div>
+            </section>
+
+            <section class="@PanelClass("focus")" data-step-panel="@StepIndex("focus")" data-step-key="focus">
+                <div class="mq-question-row">
+                    <div class="mq-question-copy">
+                        <h3 class="mq-question">@Localizer["focusquestion"]</h3>
+                        <p class="mq-subcopy">@Localizer["title4descr2"]</p>
+                    </div>
+                </div>
+                <div class="mq-card mq-choice-card">
+                    <div class="mq-choice-grid mq-choice-grid-3">
+                        <input asp-for="FocusScore" type="radio" value="3" id="FocusEasy" required />
+                        <label class="mq-choice" for="FocusEasy">@FaceIcon("great")<span class="mq-choice-text">@Localizer["focus1"]</span></label>
+                        <input asp-for="FocusScore" type="radio" value="2" id="FocusOk" required />
+                        <label class="mq-choice" for="FocusOk">@FaceIcon("neutral")<span class="mq-choice-text">@Localizer["focus2"]</span></label>
+                        <input asp-for="FocusScore" type="radio" value="1" id="FocusHard" required />
+                        <label class="mq-choice" for="FocusHard">@FaceIcon("sad")<span class="mq-choice-text">@Localizer["focus3"]</span></label>
+                    </div>
+                    <span asp-validation-for="FocusScore" class="text-danger mq-error"></span>
+                </div>
+                <div class="mq-actions">
+                    <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
+                    <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
+                </div>
+            </section>
+
+            <section class="@PanelClass("disconnect")" data-step-panel="@StepIndex("disconnect")" data-step-key="disconnect">
+                <div class="mq-question-row">
+                    <div class="mq-question-copy">
+                        <h3 class="mq-question">@Localizer["discquestion"]</h3>
+                        <p class="mq-subcopy">@Localizer["title4descr2"]</p>
+                    </div>
+                </div>
+                <div class="mq-card mq-choice-card">
+                    <div class="mq-choice-grid mq-choice-grid-3">
+                        <input asp-for="DisconnectScore" type="radio" value="3" id="DisconnectYes" required />
+                        <label class="mq-choice" for="DisconnectYes">@FaceIcon("great")<span class="mq-choice-text">@Localizer["disc1"]</span></label>
+                        <input asp-for="DisconnectScore" type="radio" value="2" id="DisconnectPartial" required />
+                        <label class="mq-choice" for="DisconnectPartial">@FaceIcon("neutral")<span class="mq-choice-text">@Localizer["disc2"]</span></label>
+                        <input asp-for="DisconnectScore" type="radio" value="1" id="DisconnectNo" required />
+                        <label class="mq-choice" for="DisconnectNo">@FaceIcon("rough")<span class="mq-choice-text">@Localizer["disc3"]</span></label>
+                    </div>
+                    <span asp-validation-for="DisconnectScore" class="text-danger mq-error"></span>
+                </div>
+                <div class="mq-actions">
+                    <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
+                    <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
+                </div>
+            </section>
+
+            @foreach (var question in Model.Questions)
+            {
+                var panelKey = $"question-{question.Key}";
+                var currentPanel = StepIndex(panelKey);
+                var isLastPanel = currentPanel == totalSteps - 1;
+
+                <section class="@PanelClass(panelKey)" data-step-panel="@currentPanel" data-step-key="@panelKey">
+                    <input type="hidden" name="QuestionKeys" value="@question.Key" />
+                    <div class="mq-question-row">
+                        <div class="mq-question-copy">
+                            <h3 class="mq-question">@Localizer[question.PromptKey]</h3>
+                            <p class="mq-subcopy">@Localizer[string.IsNullOrEmpty(question.SubcopyKey) ? "scaleSubcopy" : question.SubcopyKey]</p>
+                        </div>
+                    </div>
+                    <div class="mq-card mq-choice-card mq-scale-card">
+                        <div class="mq-choice-grid mq-choice-grid-5">
+                            @foreach (var option in question.Options)
+                            {
+                                var optionId = $"q-{question.Key}-{option.Score}";
+                                <input type="radio"
+                                       name="QuestionScores[@question.Key]"
+                                       id="@optionId"
+                                       value="@option.Score"
+                                       required
+                                       checked="@(question.SelectedScore == option.Score ? "checked" : null)" />
+                                <label class="mq-choice mq-scale-choice" for="@optionId">
+                                    <span class="mq-choice-text">@Localizer[option.LabelKey]</span>
+                                </label>
+                            }
+                        </div>
+                        @Html.ValidationMessage($"QuestionScores[{question.Key}]", "", new { @class = "text-danger mq-error" })
+                    </div>
+                    <div class="mq-actions">
+                        <button type="button" class="btn btn-outline-primary btn-lg" data-step-prev>@Localizer["back"]</button>
+                        @if (isLastPanel)
+                        {
+                            <button type="submit" class="btn btn-primary btn-lg">@(Model.IsEditingTodayMeasurement ? Localizer["updateSave"] : Localizer["save"])</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-primary btn-lg" data-step-next>@Localizer["next"]</button>
+                        }
+                    </div>
+                </section>
+
+            }
+        </form>
     }
 </div>
 
@@ -1847,12 +1099,54 @@
             const form = document.querySelector("[data-measurement-wizard]");
             if (!form) return;
 
-            const panels = Array.from(form.querySelectorAll("[data-step-panel]"));
-            const markers = Array.from(form.querySelectorAll("[data-step-marker]"));
+            const collectPanels = function () {
+                const panelNodes = Array.from(form.querySelectorAll("[data-step-panel]"));
+                if (panelNodes.length < 2) return panelNodes;
+
+                return panelNodes
+                    .map(function (panel) {
+                        return {
+                            panel: panel,
+                            index: Number.parseInt(panel.getAttribute("data-step-panel") || "0", 10) || 0
+                        };
+                    })
+                    .sort(function (left, right) {
+                        return left.index - right.index;
+                    })
+                    .map(function (item) { return item.panel; });
+            };
+
+            const panels = collectPanels();
             const progressFill = form.querySelector("[data-progress-fill]");
             const stepCaption = form.querySelector("[data-step-caption]");
-            const chipTargets = ["WorkHours", "MeetingsPerDay", "InternetSpeed", "SleepHours", "ExerciseHours", "ScreenTime"];
+            const nextTemplate = form.querySelector("[data-next-template]");
+            const submitTemplate = form.querySelector("[data-submit-template]");
+            const chipTargets = ["WorkHours", "MeetingsPerDay", "SleepHours", "ExerciseHours", "ScreenTime"];
             let currentStep = 0;
+            let autoAdvanceTimer = 0;
+            let transitionTimer = 0;
+            let finalSubmitButton = null;
+
+            const ensurePanelActions = function () {
+                if (!nextTemplate) return;
+
+                panels.forEach(function (panel) {
+                    const actions = panel.querySelector(".mq-actions");
+                    if (!actions || actions.querySelector("[data-step-next]")) return;
+
+                    const nextButton = nextTemplate.cloneNode(true);
+                    nextButton.hidden = false;
+                    nextButton.removeAttribute("data-next-template");
+                    nextButton.setAttribute("data-step-next", "");
+                    actions.appendChild(nextButton);
+                });
+
+                form.querySelectorAll("[data-step-next]").forEach(function (button) {
+                    button.classList.add("mq-next-action");
+                });
+            };
+
+            ensurePanelActions();
 
             const updateChips = function (fieldId) {
                 const input = document.getElementById(fieldId);
@@ -1863,18 +1157,37 @@
                 });
             };
 
-            const isUiOnly = function (index) {
-                const panel = panels[index];
-                return panel ? panel.hasAttribute("data-ui-only") : false;
-            };
-
             const validateStep = function (index, report) {
-                if (isUiOnly(index)) return true;
                 const panel = panels[index];
                 if (!panel) return true;
                 const fields = Array.from(panel.querySelectorAll("input, select, textarea"));
+
+                // Validate required radio groups explicitly — checkValidity() is inconsistent
+                // across browsers for radio inputs when no option in the group is selected.
+                const checkedGroups = new Set();
+                const requiredGroups = new Set();
+                for (const field of fields) {
+                    if (!(field instanceof HTMLElement) || field.getAttribute("type") !== "radio") continue;
+                    if (!field.name) continue;
+                    if (field.hasAttribute("required")) requiredGroups.add(field.name);
+                    if (field.checked) checkedGroups.add(field.name);
+                }
+                for (const groupName of requiredGroups) {
+                    if (!checkedGroups.has(groupName)) {
+                        if (report) {
+                            const firstUnchecked = panel.querySelector('input[type="radio"][name="' + groupName + '"]');
+                            if (firstUnchecked instanceof HTMLElement && typeof firstUnchecked.reportValidity === "function") {
+                                firstUnchecked.reportValidity();
+                            }
+                        }
+                        return false;
+                    }
+                }
+
+                // Validate all other fields
                 for (const field of fields) {
                     if (!(field instanceof HTMLElement)) continue;
+                    if (field.getAttribute("type") === "radio") continue;
                     if (field.hasAttribute("disabled") || field.getAttribute("type") === "hidden") continue;
                     if (!field.name) continue;
                     if (typeof field.checkValidity === "function" && !field.checkValidity()) {
@@ -1882,6 +1195,7 @@
                         return false;
                     }
                 }
+
                 return true;
             };
 
@@ -1890,31 +1204,132 @@
                 if (!invalidField) return -1;
                 const panel = invalidField.closest("[data-step-panel]");
                 if (!(panel instanceof HTMLElement)) return -1;
-                return parseInt(panel.dataset.stepPanel || "-1", 10);
+                return panels.indexOf(panel);
             };
 
-            const goToStep = function (index, dir) {
-                const prev = currentStep;
-                currentStep = Math.max(0, Math.min(index, panels.length - 1));
-                const goingBack = dir === "back" || (dir === undefined && index < prev);
+            const updateProgress = function () {
+                if (stepCaption) stepCaption.textContent = (currentStep + 1) + " / " + panels.length;
+                if (progressFill) progressFill.style.width = (((currentStep + 1) / panels.length) * 100) + "%";
+            };
 
+            const focusStepInput = function (panel) {
+                if (!window.matchMedia || !window.matchMedia("(min-width: 768px)").matches) return;
+                const input = panel.querySelector('input:not([type="hidden"]):not([type="radio"]), textarea, select');
+                if (input instanceof HTMLElement) {
+                    window.setTimeout(function () { input.focus({ preventScroll: true }); }, 180);
+                }
+            };
+
+            const syncFinalAction = function () {
+                const activePanel = panels[currentStep];
+                const isFinalStep = currentStep === panels.length - 1;
+
+                form.querySelectorAll("[data-step-next]").forEach(function (button) {
+                    button.hidden = false;
+                });
+
+                if (!submitTemplate) return;
+
+                if (!finalSubmitButton) {
+                    finalSubmitButton = submitTemplate.cloneNode(true);
+                    finalSubmitButton.hidden = false;
+                    finalSubmitButton.removeAttribute("data-submit-template");
+                    finalSubmitButton.classList.add("mq-final-submit");
+                }
+
+                finalSubmitButton.hidden = !isFinalStep;
+
+                if (!isFinalStep || !activePanel) return;
+
+                const actions = activePanel.querySelector(".mq-actions");
+                if (!actions) return;
+
+                activePanel.querySelectorAll("[data-step-next]").forEach(function (button) {
+                    button.hidden = true;
+                });
+
+                if (!actions.contains(finalSubmitButton)) {
+                    actions.appendChild(finalSubmitButton);
+                }
+            };
+
+            const renderStep = function (index, goingBack) {
                 panels.forEach(function (panel, i) {
-                    panel.classList.remove("is-active", "is-back");
-                    if (i === currentStep) {
+                    panel.classList.remove("is-active", "is-back", "is-exiting", "is-exiting-back");
+                    if (i === index) {
                         panel.classList.add(goingBack ? "is-back" : "is-active");
+                        focusStepInput(panel);
                     }
                 });
 
-                markers.forEach(function (marker, i) {
-                    marker.classList.remove("is-active", "is-done");
-                    if (i === currentStep) marker.classList.add("is-active");
-                    else if (i < currentStep) marker.classList.add("is-done");
+                updateProgress();
+                syncFinalAction();
+                form.scrollIntoView({ behavior: "smooth", block: "start" });
+            };
+
+            const goToStep = function (index, dir) {
+                window.clearTimeout(autoAdvanceTimer);
+                window.clearTimeout(transitionTimer);
+
+                const targetStep = Math.max(0, Math.min(index, panels.length - 1));
+                const previousStep = currentStep;
+                const goingBack = dir === "back" || (dir === undefined && targetStep < previousStep);
+
+                if (targetStep === currentStep) {
+                    renderStep(targetStep, goingBack);
+                    return;
+                }
+
+                const previousPanel = panels[previousStep];
+                currentStep = targetStep;
+                updateProgress();
+
+                if (previousPanel) {
+                    previousPanel.classList.remove("is-active", "is-back", "is-exiting", "is-exiting-back");
+                    previousPanel.classList.add(goingBack ? "is-exiting-back" : "is-exiting");
+                }
+
+                transitionTimer = window.setTimeout(function () {
+                    renderStep(currentStep, goingBack);
+                }, 150);
+            };
+
+            const pulseChoice = function (radio) {
+                const panel = radio.closest("[data-step-panel]");
+                if (!panel) return;
+
+                panel.querySelectorAll(".mq-choice").forEach(function (choice) {
+                    choice.classList.remove("is-choice-pending");
                 });
 
-                if (stepCaption) stepCaption.textContent = (currentStep + 1) + " / " + panels.length;
-                if (progressFill) progressFill.style.width = (((currentStep + 1) / panels.length) * 100) + "%";
+                const label = radio.nextElementSibling;
+                if (label instanceof HTMLElement && label.classList.contains("mq-choice")) {
+                    label.classList.add("is-choice-pending");
+                    window.setTimeout(function () {
+                        label.classList.remove("is-choice-pending");
+                    }, 280);
+                }
+            };
 
-                form.scrollIntoView({ behavior: "smooth", block: "start" });
+            const pulseChip = function (chip) {
+                chip.classList.remove("is-chip-pending");
+                void chip.offsetWidth;
+                chip.classList.add("is-chip-pending");
+                window.setTimeout(function () {
+                    chip.classList.remove("is-chip-pending");
+                }, 320);
+            };
+
+            const scheduleAutoAdvance = function (source, delay) {
+                window.clearTimeout(autoAdvanceTimer);
+
+                if (currentStep >= panels.length - 1) return;
+
+                autoAdvanceTimer = window.setTimeout(function () {
+                    const panel = panels[currentStep];
+                    if (!panel || !panel.contains(source)) return;
+                    if (validateStep(currentStep, false)) goToStep(currentStep + 1, "forward");
+                }, delay);
             };
 
             form.querySelectorAll("[data-step-next]").forEach(function (btn) {
@@ -1929,6 +1344,13 @@
                 });
             });
 
+            form.querySelectorAll('.mq-choice-grid input[type="radio"]').forEach(function (radio) {
+                radio.addEventListener("change", function () {
+                    pulseChoice(radio);
+                    scheduleAutoAdvance(radio, 330);
+                });
+            });
+
             form.querySelectorAll("[data-chip-target]").forEach(function (btn) {
                 btn.addEventListener("click", function () {
                     const fieldId = btn.getAttribute("data-chip-target");
@@ -1939,6 +1361,8 @@
                     input.dispatchEvent(new Event("input", { bubbles: true }));
                     input.dispatchEvent(new Event("change", { bubbles: true }));
                     updateChips(fieldId);
+                    pulseChip(btn);
+                    scheduleAutoAdvance(btn, 360);
                 });
             });
 
@@ -1960,18 +1384,7 @@
                 }
             });
 
-            var moodScoreMap = { great: 4, ok: 3, tired: 2, rough: 1 };
-            var disconnectScoreMap = { yes: 3, partial: 2, no: 1 };
-            var focusScoreMap = { easy: 3, ok: 2, hard: 1 };
-
             form.addEventListener("submit", function (event) {
-                var moodRadio = form.querySelector('input[name="Q[]"]:checked');
-                if (moodRadio) document.getElementById("hidden-MoodScore").value = moodScoreMap[moodRadio.value] || "";
-                var disconnectRadio = form.querySelector('input[name="disconnect"]:checked');
-                if (disconnectRadio) document.getElementById("hidden-DisconnectScore").value = disconnectScoreMap[disconnectRadio.value] || "";
-                var focusRadio = form.querySelector('input[name="focus"]:checked');
-                if (focusRadio) document.getElementById("hidden-FocusScore").value = focusScoreMap[focusRadio.value] || "";
-
                 for (let i = 0; i < panels.length; i++) {
                     if (!validateStep(i, false)) {
                         event.preventDefault();
@@ -1983,7 +1396,14 @@
             });
 
             const serverErrorStep = getServerErrorStep();
-            goToStep(serverErrorStep >= 0 ? serverErrorStep : 0, "forward");
+            currentStep = Math.max(0, Math.min(serverErrorStep >= 0 ? serverErrorStep : 0, panels.length - 1));
+            if (currentStep === 0) {
+                updateProgress();
+                syncFinalAction();
+                if (panels[currentStep]) focusStepInput(panels[currentStep]);
+            } else {
+                renderStep(currentStep, false);
+            }
         });
     </script>
 }

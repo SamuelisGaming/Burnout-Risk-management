@@ -207,4 +207,58 @@
   <data name="premiumLockCopy" xml:space="preserve">
     <value>Paspausk, kad pamatytum Premium pliusus ir atrakintum AI analizę.</value>
   </data>
+  <data name="burnoutTrendTitle" xml:space="preserve">
+    <value>Perdegimo rizika laike</value>
+  </data>
+  <data name="wellbeingKicker" xml:space="preserve">
+    <value>Savijauta</value>
+  </data>
+  <data name="wellbeingTitle" xml:space="preserve">
+    <value>Energija, susikaupimas ir atsigavimas</value>
+  </data>
+  <data name="wbMood" xml:space="preserve">
+    <value>Energijos lygis</value>
+  </data>
+  <data name="wbFocus" xml:space="preserve">
+    <value>Susikaupimas</value>
+  </data>
+  <data name="wbDisconnect" xml:space="preserve">
+    <value>Atsijungimas po darbo</value>
+  </data>
+  <data name="burnoutDistKicker" xml:space="preserve">
+    <value>Perdegimas</value>
+  </data>
+  <data name="burnoutDistTitle" xml:space="preserve">
+    <value>Rizikos pasiskirstymas</value>
+  </data>
+  <data name="riskLow" xml:space="preserve">
+    <value>Žema rizika</value>
+  </data>
+  <data name="riskMedium" xml:space="preserve">
+    <value>Vidutinė rizika</value>
+  </data>
+  <data name="riskHigh" xml:space="preserve">
+    <value>Aukšta rizika</value>
+  </data>
+  <data name="digitalKicker" xml:space="preserve">
+    <value>Skaitmeninė apkrova</value>
+  </data>
+  <data name="digitalTitle" xml:space="preserve">
+    <value>Ekranas, susitikimai ir judėjimas</value>
+  </data>
+  <data name="avgScreen" xml:space="preserve">
+    <value>Ekrano laiko vidurkis</value>
+  </data>
+  <data name="avgMeetings" xml:space="preserve">
+    <value>Susitikimų per dieną vidurkis</value>
+  </data>
+  <data name="avgExercise" xml:space="preserve">
+    <value>Fizinio aktyvumo vidurkis</value>
+  </data>
+  <data name="highScreenDays" xml:space="preserve">
+    <value>Dienų su 8h+ ekranu</value>
+  </data>
+  <data name="noExerciseDays" xml:space="preserve">
+    <value>Dienų be judėjimo</value>
+  </data>
 </root>
