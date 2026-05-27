@@ -269,8 +269,8 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.14);
             font-size: 14px;
             font-weight: 700;
-            max-width: 420px;
-            width: max-content;
+            max-width: min(420px, calc(100vw - 24px));
+            width: auto;
             opacity: 0;
             animation: toastIn 0.35s ease forwards;
         }
@@ -327,6 +327,15 @@
     var hasPremiumFeatures = userType == "premium" || userType == "admin";
     var isLoggedIn = userId != null;
     var currentReturnUrl = $"{Context.Request.PathBase}{Context.Request.Path}{Context.Request.QueryString}";
+    var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
+    var currentActionName = ViewContext.RouteData.Values["Action"]?.ToString();
+    var isHomeNavActive = string.Equals(currentController, "Home", StringComparison.OrdinalIgnoreCase)
+        && string.Equals(currentActionName, "Index", StringComparison.OrdinalIgnoreCase);
+    var isHistoryNavActive = string.Equals(currentController, "Profile", StringComparison.OrdinalIgnoreCase)
+        && string.Equals(currentActionName, "History", StringComparison.OrdinalIgnoreCase);
+    var isAnalysisNavActive = string.Equals(currentController, "Profile", StringComparison.OrdinalIgnoreCase)
+        && string.Equals(currentActionName, "Analysis", StringComparison.OrdinalIgnoreCase);
+    var isAdminNavActive = string.Equals(currentController, "Admin", StringComparison.OrdinalIgnoreCase);
 
     var userInitial = !string.IsNullOrWhiteSpace(username)
         ? username.Substring(0, 1).ToUpper()
@@ -334,7 +343,7 @@
 
     var avatarUrl = isLoggedIn ? Url.Action("Avatar", "Profile") ?? string.Empty : string.Empty;
 }
-<body class="app-body"
+<body class="app-body @(isLoggedIn ? "has-mobile-bottom-nav" : "")"
       data-avatar-url="@avatarUrl"
       data-theme-label-light="@LayoutLocalizer["themeLight"].Value"
       data-theme-label-dark="@LayoutLocalizer["themeDark"].Value"
@@ -397,20 +406,18 @@
                     }
                     else
                     {
-                        <div class="w-100 d-flex align-items-center justify-content-between">
+                        <div class="app-navbar-auth">
 
-                            <div style="min-width: 180px;">
-                                <a class="navbar-brand app-brand mb-0" asp-area="" asp-controller="Home" asp-action="Index">
-                                    <img src="~/assets/hamburgerz_logo.png"
-                                         asp-append-version="true"
-                                         alt="@LayoutLocalizer["logoAlt"].Value"
-                                         class="app-brand-mark" />
-                                    <span class="app-brand-text">Hamburgerz</span>
-                                </a>
-                            </div>
+                            <a class="navbar-brand app-brand mb-0 app-navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                                <img src="~/assets/hamburgerz_logo.png"
+                                     asp-append-version="true"
+                                     alt="@LayoutLocalizer["logoAlt"].Value"
+                                     class="app-brand-mark" />
+                                <span class="app-brand-text">Hamburgerz</span>
+                            </a>
 
-                            <div class="d-flex justify-content-center flex-grow-1">
-                                <ul class="navbar-nav d-flex flex-row gap-4">
+                            <div class="collapse navbar-collapse app-navbar-collapse" id="appNavbarContent">
+                                <ul class="navbar-nav app-navbar-nav">
                                     <li class="nav-item">
                                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">@LayoutLocalizer["home"]</a>
                                     </li>
@@ -429,8 +436,8 @@
                                 </ul>
                             </div>
 
-                            <div class="d-flex justify-content-end align-items-center" style="min-width: 180px;">
-                                <div class="dropdown">
+                            <div class="app-navbar-actions">
+                                <div class="dropdown app-profile-menu">
                                     <button class="btn profile-avatar-btn"
                                             type="button"
                                             data-bs-toggle="dropdown"
@@ -440,9 +447,10 @@
                                             <img class="profile-avatar-image" data-avatar-image alt="@LayoutLocalizer["profilePhoto"].Value" hidden />
                                             <span class="profile-avatar-fallback" data-avatar-fallback>@userInitial</span>
                                         </div>
+                                        <span class="profile-menu-label">@LayoutLocalizer["profileMenu"]</span>
                                     </button>
 
-                                     <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                                    <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
                                          <li>
                                              <a class="dropdown-item" asp-area="" asp-controller="Profile" asp-action="Index">
                                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
@@ -481,6 +489,31 @@
                 </div>
             </nav>
         </header>
+
+        @if (isLoggedIn)
+        {
+            <nav class="mobile-bottom-nav" aria-label="Primary navigation">
+                <a class="mobile-bottom-nav__item @(isHomeNavActive ? "is-active" : "")" asp-area="" asp-controller="Home" asp-action="Index">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5.5v-6h-5v6H4a1 1 0 0 1-1-1V10.5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                    <span>@LayoutLocalizer["home"]</span>
+                </a>
+                <a class="mobile-bottom-nav__item @(isHistoryNavActive ? "is-active" : "")" asp-area="" asp-controller="Profile" asp-action="History">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>@LayoutLocalizer["history"]</span>
+                </a>
+                <a class="mobile-bottom-nav__item @(isAnalysisNavActive ? "is-active" : "")" asp-area="" asp-controller="Profile" asp-action="Analysis">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M3 20h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    <span>@LayoutLocalizer["analysis"]</span>
+                </a>
+                @if (isAdmin)
+                {
+                    <a class="mobile-bottom-nav__item @(isAdminNavActive ? "is-active" : "")" asp-area="" asp-controller="Admin" asp-action="Dashboard">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 4 6v6c0 4.8 3.4 8.2 8 9 4.6-.8 8-4.2 8-9V6l-8-3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12h6M12 9v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                        <span>@LayoutLocalizer["admin"]</span>
+                    </a>
+                }
+            </nav>
+        }
 
         @if (TempData["ToastSuccess"] != null)
         {

@@ -247,7 +247,7 @@ namespace Hamburgerz.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> History(int page = 1)
+        public async Task<IActionResult> History(int page = 1, string? risk = null, string? stress = null, string? period = null)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             const int pageSize = 8;
@@ -260,8 +260,15 @@ namespace Hamburgerz.Controllers
             var measurementsQuery = _context.RiskData
                 .Where(r => r.UserId == userId.Value);
 
-            var totalCount = await measurementsQuery.CountAsync();
-            var totalPages = Math.Max(1, (int)Math.Ceiling(totalCount / (double)pageSize));
+            var totalMeasurementCount = await measurementsQuery.CountAsync();
+            var riskFilter = NormalizeHistoryFilter(risk, "low", "medium", "high");
+            var stressFilter = NormalizeHistoryFilter(stress, "low", "medium", "high");
+            var periodFilter = NormalizeHistoryFilter(period, "7d", "30d", "3m", "1y");
+
+            measurementsQuery = ApplyHistoryFilters(measurementsQuery, riskFilter, stressFilter, periodFilter);
+
+            var filteredCount = await measurementsQuery.CountAsync();
+            var totalPages = Math.Max(1, (int)Math.Ceiling(filteredCount / (double)pageSize));
             var currentPage = Math.Min(Math.Max(page, 1), totalPages);
 
             var measurements = await measurementsQuery
@@ -273,8 +280,13 @@ namespace Hamburgerz.Controllers
 
             ViewBag.CurrentPage = currentPage;
             ViewBag.TotalPages = totalPages;
-            ViewBag.TotalCount = totalCount;
+            ViewBag.TotalCount = filteredCount;
+            ViewBag.TotalMeasurementCount = totalMeasurementCount;
             ViewBag.PageSize = pageSize;
+            ViewBag.RiskFilter = riskFilter;
+            ViewBag.StressFilter = stressFilter;
+            ViewBag.PeriodFilter = periodFilter;
+            ViewBag.HasActiveHistoryFilters = riskFilter != "all" || stressFilter != "all" || periodFilter != "all";
             ViewBag.HasPremiumFeatures = HttpContext.Session.HasPremiumFeatures();
             ViewBag.MeasurementLimit = UserAccess.FreeMeasurementLimit;
 
@@ -1070,5 +1082,56 @@ action: It is recommended that they see a doctor.");
 
         private static bool IsEnglishCulture(string cultureName) =>
             cultureName.Equals("en-US", StringComparison.OrdinalIgnoreCase);
+
+        private static string NormalizeHistoryFilter(string? value, params string[] allowedValues)
+        {
+            var normalized = (value ?? string.Empty).Trim().ToLowerInvariant();
+            return allowedValues.Contains(normalized) ? normalized : "all";
+        }
+
+        private static IQueryable<RiskData> ApplyHistoryFilters(
+            IQueryable<RiskData> query,
+            string riskFilter,
+            string stressFilter,
+            string periodFilter)
+        {
+            query = riskFilter switch
+            {
+                "low" => query.Where(r =>
+                    (r.BurnoutRisk <= 1f && r.BurnoutRisk < 0.4f)
+                    || (r.BurnoutRisk > 1f && r.BurnoutRisk < 40f)),
+                "medium" => query.Where(r =>
+                    (r.BurnoutRisk <= 1f && r.BurnoutRisk >= 0.4f && r.BurnoutRisk < 0.7f)
+                    || (r.BurnoutRisk > 1f && r.BurnoutRisk >= 40f && r.BurnoutRisk < 70f)),
+                "high" => query.Where(r =>
+                    (r.BurnoutRisk <= 1f && r.BurnoutRisk >= 0.7f)
+                    || (r.BurnoutRisk > 1f && r.BurnoutRisk >= 70f)),
+                _ => query
+            };
+
+            query = stressFilter switch
+            {
+                "low" => query.Where(r => r.StressLevel.Contains("Žem") || r.StressLevel.Contains("Zem") || r.StressLevel.Contains("Low")),
+                "medium" => query.Where(r => r.StressLevel.Contains("Vid") || r.StressLevel.Contains("Med")),
+                "high" => query.Where(r => r.StressLevel.Contains("Auk") || r.StressLevel.Contains("High")),
+                _ => query
+            };
+
+            var periodStart = periodFilter switch
+            {
+                "7d" => DateTime.Now.AddDays(-7),
+                "30d" => DateTime.Now.AddDays(-30),
+                "3m" => DateTime.Now.AddMonths(-3),
+                "1y" => DateTime.Now.AddYears(-1),
+                _ => (DateTime?)null
+            };
+
+            if (periodStart.HasValue)
+            {
+                query = query.Where(r => r.TimeStamp >= periodStart.Value);
+            }
+
+            return query;
+        }
     }
 }

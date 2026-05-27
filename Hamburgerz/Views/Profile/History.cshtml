@@ -7,6 +7,7 @@
     var currentPage = ViewBag.CurrentPage != null ? (int)ViewBag.CurrentPage : 1;
     var totalPages = ViewBag.TotalPages != null ? (int)ViewBag.TotalPages : 1;
     var totalCount = ViewBag.TotalCount != null ? (int)ViewBag.TotalCount : (Model?.Count ?? 0);
+    var totalMeasurementCount = ViewBag.TotalMeasurementCount != null ? (int)ViewBag.TotalMeasurementCount : totalCount;
     var historyController = (ViewBag.HistoryController as string) ?? "Profile";
     var resultAction = (ViewBag.ResultAction as string) ?? "Result";
     var historyAction = (ViewBag.HistoryAction as string) ?? "History";
@@ -14,11 +15,18 @@
     var readOnlyHistory = ViewBag.ReadOnlyHistory is bool readOnly && readOnly;
     var hasPremiumFeatures = ViewBag.HasPremiumFeatures is bool premium && premium;
     var measurementLimit = ViewBag.MeasurementLimit != null ? (int)ViewBag.MeasurementLimit : 7;
+    var selectedRiskFilter = (ViewBag.RiskFilter as string) ?? "all";
+    var selectedStressFilter = (ViewBag.StressFilter as string) ?? "all";
+    var selectedPeriodFilter = (ViewBag.PeriodFilter as string) ?? "all";
+    var hasActiveHistoryFilters = ViewBag.HasActiveHistoryFilters is bool filtersActive && filtersActive;
     var showFreeLimit = !readOnlyHistory && !hasPremiumFeatures;
-    var remainingMeasurements = Math.Max(0, measurementLimit - totalCount);
+    var remainingMeasurements = Math.Max(0, measurementLimit - totalMeasurementCount);
     var limitPercent = measurementLimit > 0
-        ? Math.Min(100, (int)Math.Round(totalCount * 100.0 / measurementLimit))
+        ? Math.Min(100, (int)Math.Round(totalMeasurementCount * 100.0 / measurementLimit))
         : 0;
+    var countLabel = hasActiveHistoryFilters
+        ? $"{totalCount} / {totalMeasurementCount}"
+        : totalMeasurementCount.ToString();
     string LocalizedRisk(Hamburgerz.Models.RiskMeasurement item) => item.RiskText switch
     {
         "High" => Localizer["riskHigh"].Value,
@@ -35,11 +43,66 @@
             <p class="history-subtitle">@Localizer["title1descr"]</p>
         </div>
 
-        @if (totalCount > 0)
+        @if (totalMeasurementCount > 0)
         {
-            <div class="history-count">@totalCount @Localizer["meas"]</div>
+            <div class="history-count">@countLabel @Localizer["meas"]</div>
         }
     </div>
+
+    @if (totalMeasurementCount > 0)
+    {
+        <form method="get" asp-controller="@historyController" asp-action="@historyAction" class="history-filter-panel">
+            @if (historyUserId != null)
+            {
+                <input type="hidden" name="userId" value="@historyUserId" />
+            }
+            <input type="hidden" name="page" value="1" />
+
+            <div class="history-filter-grid">
+                <label class="history-filter-field">
+                    <span>@Localizer["riskFilter"]</span>
+                    <select name="risk" class="history-filter-select">
+                        <option value="all" selected="@(selectedRiskFilter == "all")">@Localizer["allRisks"]</option>
+                        <option value="low" selected="@(selectedRiskFilter == "low")">@Localizer["riskLow"]</option>
+                        <option value="medium" selected="@(selectedRiskFilter == "medium")">@Localizer["riskMedium"]</option>
+                        <option value="high" selected="@(selectedRiskFilter == "high")">@Localizer["riskHigh"]</option>
+                    </select>
+                </label>
+
+                <label class="history-filter-field">
+                    <span>@Localizer["stressFilter"]</span>
+                    <select name="stress" class="history-filter-select">
+                        <option value="all" selected="@(selectedStressFilter == "all")">@Localizer["allStress"]</option>
+                        <option value="low" selected="@(selectedStressFilter == "low")">@Localizer["stressLow"]</option>
+                        <option value="medium" selected="@(selectedStressFilter == "medium")">@Localizer["stressMedium"]</option>
+                        <option value="high" selected="@(selectedStressFilter == "high")">@Localizer["stressHigh"]</option>
+                    </select>
+                </label>
+
+                <label class="history-filter-field">
+                    <span>@Localizer["periodFilter"]</span>
+                    <select name="period" class="history-filter-select">
+                        <option value="all" selected="@(selectedPeriodFilter == "all")">@Localizer["allPeriods"]</option>
+                        <option value="7d" selected="@(selectedPeriodFilter == "7d")">@Localizer["last7d"]</option>
+                        <option value="30d" selected="@(selectedPeriodFilter == "30d")">@Localizer["last30d"]</option>
+                        <option value="3m" selected="@(selectedPeriodFilter == "3m")">@Localizer["last3m"]</option>
+                        <option value="1y" selected="@(selectedPeriodFilter == "1y")">@Localizer["last1y"]</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="history-filter-actions">
+                <button type="submit" class="history-filter-apply">@Localizer["applyFilters"]</button>
+                @if (hasActiveHistoryFilters)
+                {
+                    <a asp-controller="@historyController"
+                       asp-action="@historyAction"
+                       asp-route-userId="@historyUserId"
+                       class="history-filter-clear">@Localizer["clearFilters"]</a>
+                }
+            </div>
+        </form>
+    }
 
     @if (showFreeLimit)
     {
@@ -50,7 +113,7 @@
             <div class="history-limit-main">
                 <div>
                     <div class="history-limit-kicker">@Localizer["freePlan"]</div>
-                    <h2>@Localizer["measurementLimit"] @totalCount/@measurementLimit</h2>
+                    <h2>@Localizer["measurementLimit"] @totalMeasurementCount/@measurementLimit</h2>
                     <p>
                         @(remainingMeasurements > 0
                             ? string.Format(Localizer["remainingLimit"].Value, remainingMeasurements)
@@ -85,11 +148,23 @@
                     <path d="M24 29.5v2.5l1.5 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
-            <h3 class="empty-state-title">@Localizer["measno"]</h3>
-            <p class="empty-state-copy">@Localizer["measnodescr"]</p>
-            @if (!readOnlyHistory)
+            @if (totalMeasurementCount > 0 && hasActiveHistoryFilters)
             {
-                <a asp-controller="Data" asp-action="DataEntry" class="history-btn">@Localizer["addfirst"]</a>
+                <h3 class="empty-state-title">@Localizer["noMatches"]</h3>
+                <p class="empty-state-copy">@Localizer["noMatchesCopy"]</p>
+                <a asp-controller="@historyController"
+                   asp-action="@historyAction"
+                   asp-route-userId="@historyUserId"
+                   class="history-btn">@Localizer["clearFilters"]</a>
+            }
+            else
+            {
+                <h3 class="empty-state-title">@Localizer["measno"]</h3>
+                <p class="empty-state-copy">@Localizer["measnodescr"]</p>
+                @if (!readOnlyHistory)
+                {
+                    <a asp-controller="Data" asp-action="DataEntry" class="history-btn">@Localizer["addfirst"]</a>
+                }
             }
         </div>
     }
@@ -150,6 +225,9 @@
                         <a asp-controller="@historyController"
                            asp-action="@historyAction"
                            asp-route-userId="@historyUserId"
+                           asp-route-risk="@selectedRiskFilter"
+                           asp-route-stress="@selectedStressFilter"
+                           asp-route-period="@selectedPeriodFilter"
                            asp-route-page="@(currentPage - 1)"
                            class="history-page-btn">
                             @Localizer["prev"]
@@ -171,6 +249,9 @@
                             <a asp-controller="@historyController"
                                asp-action="@historyAction"
                                asp-route-userId="@historyUserId"
+                               asp-route-risk="@selectedRiskFilter"
+                               asp-route-stress="@selectedStressFilter"
+                               asp-route-period="@selectedPeriodFilter"
                                asp-route-page="@pageNumber"
                                class="history-page-number">
                                 @pageNumber
@@ -183,6 +264,9 @@
                         <a asp-controller="@historyController"
                            asp-action="@historyAction"
                            asp-route-userId="@historyUserId"
+                           asp-route-risk="@selectedRiskFilter"
+                           asp-route-stress="@selectedStressFilter"
+                           asp-route-period="@selectedPeriodFilter"
                            asp-route-page="@(currentPage + 1)"
                            class="history-page-btn">
                             @Localizer["next"]
@@ -235,6 +319,90 @@
         color: var(--color-text-muted);
         font-size: 13px;
         font-weight: 700;
+    }
+
+    .history-filter-panel {
+        display: grid;
+        gap: 14px;
+        margin: -6px 0 22px;
+        padding: 16px;
+        border-radius: 20px;
+        border: 1px solid var(--color-border);
+        background: var(--color-surface);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .history-filter-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .history-filter-field {
+        min-width: 0;
+        display: grid;
+        gap: 7px;
+    }
+
+    .history-filter-field span {
+        color: var(--color-text-muted);
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .history-filter-select {
+        width: 100%;
+        min-height: 42px;
+        padding: 9px 12px;
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        background: var(--color-bg);
+        color: var(--color-text);
+        font-size: 13px;
+        font-weight: 750;
+    }
+
+    .history-filter-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .history-filter-apply,
+    .history-filter-clear {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        padding: 9px 14px;
+        font-size: 13px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .history-filter-apply {
+        border: 1px solid var(--color-primary);
+        background: var(--color-primary);
+        color: var(--color-button-primary-text);
+    }
+
+    .history-filter-apply:hover {
+        background: var(--color-button-primary-hover);
+        border-color: var(--color-button-primary-hover);
+    }
+
+    .history-filter-clear {
+        border: 1px solid var(--color-border);
+        background: var(--color-bg);
+        color: var(--color-text-muted);
+    }
+
+    .history-filter-clear:hover {
+        color: var(--color-primary);
+        border-color: rgba(var(--color-primary-rgb), 0.32);
     }
 
     .history-limit-card {
@@ -538,6 +706,19 @@
         .history-header {
             flex-direction: column;
             align-items: flex-start;
+        }
+
+        .history-filter-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .history-filter-actions {
+            justify-content: stretch;
+        }
+
+        .history-filter-apply,
+        .history-filter-clear {
+            flex: 1 1 140px;
         }
 
         .history-limit-main {
