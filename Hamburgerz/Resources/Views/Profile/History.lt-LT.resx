@@ -69,4 +69,55 @@
   <data name="riskLow" xml:space="preserve">
     <value>Žema</value>
   </data>
+  <data name="riskFilter" xml:space="preserve">
+    <value>Rizikos lygis</value>
+  </data>
+  <data name="stressFilter" xml:space="preserve">
+    <value>Streso lygis</value>
+  </data>
+  <data name="periodFilter" xml:space="preserve">
+    <value>Laikotarpis</value>
+  </data>
+  <data name="allRisks" xml:space="preserve">
+    <value>Visos rizikos</value>
+  </data>
+  <data name="allStress" xml:space="preserve">
+    <value>Visi streso lygiai</value>
+  </data>
+  <data name="allPeriods" xml:space="preserve">
+    <value>Visas laikas</value>
+  </data>
+  <data name="stressLow" xml:space="preserve">
+    <value>Žemas</value>
+  </data>
+  <data name="stressMedium" xml:space="preserve">
+    <value>Vidutinis</value>
+  </data>
+  <data name="stressHigh" xml:space="preserve">
+    <value>Aukštas</value>
+  </data>
+  <data name="last7d" xml:space="preserve">
+    <value>Paskutinės 7 dienos</value>
+  </data>
+  <data name="last30d" xml:space="preserve">
+    <value>Paskutinės 30 dienų</value>
+  </data>
+  <data name="last3m" xml:space="preserve">
+    <value>Paskutiniai 3 mėnesiai</value>
+  </data>
+  <data name="last1y" xml:space="preserve">
+    <value>Paskutiniai metai</value>
+  </data>
+  <data name="applyFilters" xml:space="preserve">
+    <value>Taikyti filtrus</value>
+  </data>
+  <data name="clearFilters" xml:space="preserve">
+    <value>Išvalyti filtrus</value>
+  </data>
+  <data name="noMatches" xml:space="preserve">
+    <value>Atitinkančių matavimų nėra</value>
+  </data>
+  <data name="noMatchesCopy" xml:space="preserve">
+    <value>Pabandykite pakeisti rizikos, streso arba laikotarpio filtrus.</value>
+  </data>
 </root>

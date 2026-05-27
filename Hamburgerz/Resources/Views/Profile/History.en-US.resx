@@ -69,4 +69,55 @@
   <data name="riskLow" xml:space="preserve">
     <value>Low</value>
   </data>
+  <data name="riskFilter" xml:space="preserve">
+    <value>Risk level</value>
+  </data>
+  <data name="stressFilter" xml:space="preserve">
+    <value>Stress level</value>
+  </data>
+  <data name="periodFilter" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="allRisks" xml:space="preserve">
+    <value>All risks</value>
+  </data>
+  <data name="allStress" xml:space="preserve">
+    <value>All stress levels</value>
+  </data>
+  <data name="allPeriods" xml:space="preserve">
+    <value>All time</value>
+  </data>
+  <data name="stressLow" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="stressMedium" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="stressHigh" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="last7d" xml:space="preserve">
+    <value>Last 7 days</value>
+  </data>
+  <data name="last30d" xml:space="preserve">
+    <value>Last 30 days</value>
+  </data>
+  <data name="last3m" xml:space="preserve">
+    <value>Last 3 months</value>
+  </data>
+  <data name="last1y" xml:space="preserve">
+    <value>Last year</value>
+  </data>
+  <data name="applyFilters" xml:space="preserve">
+    <value>Apply filters</value>
+  </data>
+  <data name="clearFilters" xml:space="preserve">
+    <value>Clear filters</value>
+  </data>
+  <data name="noMatches" xml:space="preserve">
+    <value>No matching measurements</value>
+  </data>
+  <data name="noMatchesCopy" xml:space="preserve">
+    <value>Try changing the risk, stress, or period filters.</value>
+  </data>
 </root>

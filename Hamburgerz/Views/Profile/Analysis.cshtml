@@ -561,6 +561,8 @@
 
 <style>
     .analysis-page {
+        width: 100%;
+        min-width: 0;
         max-width: 1280px;
         margin: 0 auto;
         padding: 32px 20px 48px;
@@ -571,7 +573,12 @@
         justify-content: space-between;
         align-items: flex-start;
         gap: 18px;
+        min-width: 0;
         margin-bottom: 28px;
+    }
+
+    .analysis-hero > div:first-child {
+        min-width: 0;
     }
 
     .analysis-title {
@@ -586,6 +593,7 @@
         color: var(--color-text-muted);
         font-size: 15px;
         max-width: 680px;
+        overflow-wrap: anywhere;
     }
 
     .hero-pills {
@@ -593,6 +601,8 @@
         flex-wrap: wrap;
         justify-content: flex-end;
         gap: 8px;
+        min-width: 0;
+        max-width: 100%;
     }
 
     .hero-pill,
@@ -607,10 +617,12 @@
         color: var(--color-text-muted);
         white-space: nowrap;
         box-shadow: var(--shadow-sm);
+        max-width: 100%;
     }
 
     .period-selector-form {
         margin: 0;
+        min-width: 0;
     }
 
     .period-select-wrap {
@@ -659,12 +671,13 @@
 
     .summary-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
         gap: 16px;
         margin-bottom: 18px;
     }
 
     .summary-card {
+        min-width: 0;
         background: var(--color-surface);
         border: 1px solid var(--color-border);
         border-radius: 18px;
@@ -695,6 +708,7 @@
         justify-content: space-between;
         align-items: stretch;
         gap: 18px;
+        min-width: 0;
         padding: 22px;
         margin-bottom: 20px;
         border-radius: 24px;
@@ -717,6 +731,8 @@
         margin: 0;
         color: var(--color-text);
         font-weight: 800;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
     }
 
     .section-copy {
@@ -734,6 +750,7 @@
     }
 
     .insight-badge {
+        min-width: 0;
         padding: 16px;
         border-radius: 18px;
         background: var(--color-bg);
@@ -759,10 +776,12 @@
         display: grid;
         grid-template-columns: repeat(12, minmax(0, 1fr));
         gap: 18px;
+        min-width: 0;
     }
 
     .panel {
         grid-column: span 4;
+        min-width: 0;
         background: var(--color-surface);
         border: 1px solid var(--color-border);
         border-radius: 22px;
@@ -864,14 +883,21 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
+        flex-wrap: wrap;
         gap: 14px;
         margin-bottom: 16px;
+        min-width: 0;
+    }
+
+    .panel-header > div {
+        min-width: 0;
     }
 
     .panel-note {
         font-size: 12px;
         color: var(--color-text-muted);
         white-space: nowrap;
+        max-width: 100%;
     }
 
     .legend {
@@ -918,15 +944,19 @@
     }
 
     .trend-chart {
-        height: 260px;
+        min-height: 260px;
+        height: auto;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(min(70px, 100%), 1fr));
         gap: 12px;
         align-items: end;
     }
 
     .trend-group {
         min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
     }
 
     .trend-bars {
@@ -952,6 +982,8 @@
         text-align: center;
         font-weight: 700;
         margin-bottom: 4px;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
     }
 
     .trend-label {
@@ -970,9 +1002,15 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 10px;
         margin-bottom: 6px;
         font-size: 13px;
         color: var(--color-text);
+    }
+
+    .mix-meta span {
+        min-width: 0;
+        overflow-wrap: anywhere;
     }
 
     .mix-track,
@@ -1013,6 +1051,7 @@
     }
 
     .signal-card {
+        min-width: 0;
         background: var(--color-bg);
         border: 1px solid var(--color-border);
         border-radius: 16px;
@@ -1033,6 +1072,7 @@
     }
 
     .allocation-card {
+        min-width: 0;
         background: var(--color-bg);
         border: 1px solid var(--color-border);
         border-radius: 18px;
@@ -1088,6 +1128,8 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
+        min-width: 0;
+        max-width: 100%;
         padding: 8px 10px;
         border-radius: 999px;
         background: var(--color-bg);
@@ -1120,8 +1162,14 @@
         display: grid;
         grid-template-columns: 180px 1fr;
         gap: 18px;
+        min-width: 0;
         padding: 14px 0;
         border-top: 1px solid var(--color-border);
+    }
+
+    .month-label-block,
+    .month-allocation {
+        min-width: 0;
     }
 
         .month-row:first-child {
@@ -1332,11 +1380,12 @@
 
     @@media (max-width: 768px) {
         .analysis-page {
-            padding: 20px 14px 40px;
+            padding: 20px 0 40px;
         }
 
         .analysis-hero {
             flex-direction: column;
+            gap: 14px;
         }
 
         .analysis-title {
@@ -1344,7 +1393,32 @@
         }
 
         .hero-pills {
-            justify-content: flex-start;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            justify-content: stretch;
+        }
+
+        .hero-pill,
+        .period-selector-form,
+        .period-select-wrap,
+        .period-select {
+            width: 100%;
+        }
+
+        .panel {
+            padding: 16px;
+            border-radius: 18px;
+        }
+
+        .panel-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+        }
+
+        .panel-note {
+            white-space: normal;
         }
 
         .signal-list,
@@ -1356,11 +1430,25 @@
         }
 
         .trend-chart {
-            grid-template-columns: repeat(auto-fit, minmax(56px, 1fr));
+            min-height: 220px;
+            grid-template-columns: repeat(auto-fit, minmax(34px, 1fr));
+            gap: 6px;
+        }
+
+        .trend-bars {
+            height: 150px;
+            gap: 4px;
+            padding: 0 2px;
+            margin-bottom: 8px;
         }
 
         .trend-bar {
-            width: 16px;
+            width: 12px;
+        }
+
+        .trend-values,
+        .trend-label {
+            font-size: 10px;
         }
 
         .month-metric strong {
