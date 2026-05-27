@@ -248,8 +248,14 @@ a:hover {
   flex-direction: column;
 }
 
+.app-chrome > header {
+  position: relative;
+  z-index: 1045;
+}
+
 .app-main-shell {
   position: relative;
+  z-index: 1;
   flex: 1 0 auto;
   width: 100%;
   min-width: 0;
@@ -265,6 +271,9 @@ a:hover {
 }
 
 .app-navbar {
+  position: relative;
+  z-index: 1045;
+  overflow: visible;
   background: linear-gradient(180deg, rgba(var(--color-surface-rgb), 0.82), rgba(var(--color-surface-rgb), 0.68));
   border-color: rgba(var(--color-border-rgb), 0.75) !important;
   backdrop-filter: blur(18px) saturate(140%);
@@ -272,7 +281,22 @@ a:hover {
 }
 
 .app-navbar .container-fluid {
+  position: relative;
+  z-index: 1045;
+  overflow: visible;
   min-width: 0;
+}
+
+.app-navbar .dropdown,
+.app-navbar-auth,
+.app-navbar-actions,
+.app-profile-menu {
+  position: relative;
+  z-index: 1046;
+}
+
+.app-navbar .dropdown-menu {
+  z-index: 1047;
 }
 
 .app-navbar-auth {
